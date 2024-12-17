@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
-    "update": "npx prisma migrate dev"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:push": "npx prisma db push"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +15,8 @@
     "prisma": "^6.0.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.1"
   }
 }
