@@ -1,7 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { TabBar } from "./utils/enums";
-
+import Entypo from '@expo/vector-icons/Entypo';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
+import { theme } from "./utils/theme";
 // Views 
 import HomeView from "./src/views/HomeView";
 import AddView from "./src/views/AddView";
@@ -13,12 +17,68 @@ const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
     return(
-        <Tab.Navigator>
-            <Tab.Screen name={TabBar.Home} component={HomeView} />
-            <Tab.Screen name={TabBar.Add} component={AddView} />
-            <Tab.Screen name={TabBar.Search} component={SearchView} />
-            <Tab.Screen name={TabBar.Notifications} component={NotificationsView} />
-            <Tab.Screen name={TabBar.Profile} component={ProfileView} />
+        <Tab.Navigator
+            screenOptions={{
+                tabBarActiveTintColor: theme.colors.primary,
+                tabBarStyle:{
+                    padding: 10
+                }
+            }}
+        >
+            <Tab.Screen 
+                name={TabBar.Home} 
+                component={HomeView} 
+                options={{
+                    tabBarIcon: ({ color, size }) => {
+                        return <Entypo name="home" size={size} color={color} />
+                    },
+                    tabBarLabel: () => null,
+                }}
+            />
+            <Tab.Screen 
+                name={TabBar.Search} 
+                component={SearchView} 
+                options={{
+                    tabBarIcon: ({ color, size }) => {
+                        return <AntDesign name="search1" size={size} color={color} />
+                    },
+                    tabBarLabel: () => null,
+                }}
+            />
+            <Tab.Screen 
+                name={TabBar.Add} 
+                component={AddView} 
+                options={{
+                    tabBarIcon: ({ color, size, focused }) => {                        
+                        return <AntDesign name="plus" size={size} color={color} />
+                    },
+                    tabBarLabel: () => null,
+                }}
+            />
+            
+            <Tab.Screen 
+                name={TabBar.Notifications} 
+                component={NotificationsView} 
+                options={{
+                    tabBarIcon: ({ color, size, focused }) => {
+                        if(focused) {
+                            return <Ionicons name="notifications" size={size} color={color} />
+                        }
+                        return <Ionicons name="notifications-outline" size={size} color={color} />
+                    },
+                    tabBarLabel: () => null,
+                }}
+            />
+            <Tab.Screen 
+                name={TabBar.Profile} 
+                component={ProfileView} 
+                options={{
+                    tabBarIcon: ({ color, size }) => {
+                        return <AntDesign name="user" size={size} color={color} />
+                    },
+                    tabBarLabel: () => null,
+                }}
+            />
         </Tab.Navigator>
     )
 }
