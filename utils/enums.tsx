@@ -1,7 +1,7 @@
 export enum TabBar {
-    Home = "Home",
-    Add = "Add",
-    Search = "Search",
-    Notifications = "Notifications",
-    Profile = "Profile"
+    Home = "HomeTab",
+    Add = "AddTab",
+    Search = "SearchTab",
+    Notifications = "NotificationsTab",
+    Profile = "ProfileTab"
 }

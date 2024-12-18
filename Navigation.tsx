@@ -4,16 +4,20 @@ import { TabBar } from "./utils/enums";
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { theme } from "./utils/theme";
-// Views 
-import HomeView from "./src/views/HomeView";
-import AddView from "./src/views/AddView";
-import SearchView from "./src/views/SearchView";
-import NotificationsView from "./src/views/NotificationsView";
-import ProfileView from "./src/views/ProfileView";
 
+
+// Views 
+import { HomeView } from "./src/views/HomeView";
+import { AddView } from "./src/views/AddView";
+import { SearchView } from "./src/views/SearchView";
+import { NotificationsView } from "./src/views/NotificationsView";
+import { ProfileView } from "./src/views/ProfileView";
+
+import { HomeStack } from "./src/navigators/HomeStack";
 const Tab = createBottomTabNavigator();
+
+
 
 function BottomTabNavigator() {
     return(
@@ -27,7 +31,7 @@ function BottomTabNavigator() {
         >
             <Tab.Screen 
                 name={TabBar.Home} 
-                component={HomeView} 
+                component={HomeStack} 
                 options={{
                     tabBarIcon: ({ color, size }) => {
                         return <Entypo name="home" size={size} color={color} />

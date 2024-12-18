@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-export default function SearchView() {
+export function SearchView() {
     return(
         <View>
             <Text>SearchView</Text>

@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export function ProfileView() {
+export function ProfileDetailsView() {
     return(
         <View>
-            <Text>ProfileView</Text>
+            <Text>ProfileDetailsView</Text>
         </View>
     )
-}   
+}

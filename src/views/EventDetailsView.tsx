@@ -1,9 +1,10 @@
 import { View, Text } from "react-native";
 
-export function ProfileView() {
+
+export function EventDetailsView() {
     return(
         <View>
-            <Text>ProfileView</Text>
+            <Text>EventDetailsView</Text>
         </View>
     )
-}   
+}
