@@ -8,13 +8,13 @@ import { theme } from "./utils/theme";
 
 
 // Views 
-import { HomeView } from "./src/views/HomeView";
 import { AddView } from "./src/views/AddView";
-import { SearchView } from "./src/views/SearchView";
 import { NotificationsView } from "./src/views/NotificationsView";
 import { ProfileView } from "./src/views/ProfileView";
 
+// Stacks Navigators
 import { HomeStack } from "./src/navigators/HomeStack";
+import { SearchStack } from "./src/navigators/SearchStack";
 const Tab = createBottomTabNavigator();
 
 
@@ -41,7 +41,7 @@ function BottomTabNavigator() {
             />
             <Tab.Screen 
                 name={TabBar.Search} 
-                component={SearchView} 
+                component={SearchStack} 
                 options={{
                     tabBarIcon: ({ color, size }) => {
                         return <AntDesign name="search1" size={size} color={color} />
