@@ -1,9 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { BottomTabNavigator } from "./src/navigators/BottomTabNavigator";
 import { AuthStack } from "./src/navigators/AuthStackNavigator";
+import { useAuth } from "./src/contexts/AuthContext";
 
 export function Navigation() {
-    const user = true; // TODO: crear contexto con la autenticacion
+    const { user } = useAuth();
     return(
         <NavigationContainer>
             {   user 
