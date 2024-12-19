@@ -1,21 +1,20 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { TabBar } from "./utils/enums";
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { theme } from "./utils/theme";
+import { TabBar } from "../../utils/enums";
+import { theme } from "../../utils/theme";
 
 // Stacks Navigators
-import { HomeStack } from "./src/navigators/HomeStack";
-import { SearchStack } from "./src/navigators/SearchStack";
-import { AddStack } from "./src/navigators/AddStack";
-import { NotificationsStack } from "./src/navigators/NotificationsStack";
-import { ProfileStack } from "./src/navigators/ProfileStack";
+import { HomeStack } from "./HomeStack";
+import { SearchStack } from "./SearchStack";
+import { AddStack } from "./AddStack";
+import { NotificationsStack } from "./NotificationsStack";
+import { ProfileStack } from "./ProfileStack";
 
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator() {
+export function BottomTabNavigator() {
     return(
         <Tab.Navigator
             screenOptions={{
@@ -83,10 +82,4 @@ function BottomTabNavigator() {
     )
 }
 
-export default function Navigation() {
-    return(
-        <NavigationContainer>
-            <BottomTabNavigator />
-        </NavigationContainer>
-    )
-}
+
