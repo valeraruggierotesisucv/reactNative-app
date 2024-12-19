@@ -8,13 +8,13 @@ import { theme } from "./utils/theme";
 
 
 // Views 
-import { AddView } from "./src/views/AddView";
-import { NotificationsView } from "./src/views/NotificationsView";
 import { ProfileView } from "./src/views/ProfileView";
 
 // Stacks Navigators
 import { HomeStack } from "./src/navigators/HomeStack";
 import { SearchStack } from "./src/navigators/SearchStack";
+import { AddStack } from "./src/navigators/AddStack";
+import { NotificationsStack } from "./src/navigators/NotificationsStack";
 const Tab = createBottomTabNavigator();
 
 
@@ -51,7 +51,7 @@ function BottomTabNavigator() {
             />
             <Tab.Screen 
                 name={TabBar.Add} 
-                component={AddView} 
+                component={AddStack} 
                 options={{
                     tabBarIcon: ({ color, size, focused }) => {                        
                         return <AntDesign name="plus" size={size} color={color} />
@@ -62,7 +62,7 @@ function BottomTabNavigator() {
             
             <Tab.Screen 
                 name={TabBar.Notifications} 
-                component={NotificationsView} 
+                component={NotificationsStack} 
                 options={{
                     tabBarIcon: ({ color, size, focused }) => {
                         if(focused) {
