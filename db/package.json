@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "prisma": {
+    "seed": "ts-node ./seeder.ts"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "db:push": "npx prisma db push"
+    "build": "",
+    "db:push": "npx prisma db push",
+    "db:generate": "prisma db generate",
+    "db:migrate": "prisma migrate dev --name db --",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio --port 1800"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +20,12 @@
   "devDependencies": {
     "@types/node": "^22.10.2",
     "prisma": "^6.0.1",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.3.0",
     "@prisma/client": "^6.0.1"
   }
 }

@@ -11,8 +11,118 @@ enum crdb_internal_region {
   aws_us_east_1 @map("aws-us-east-1")
 }
 
+enum Language {
+  ENGLISH
+  SPANISH
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+}
+
 model User {
-  id    Int     @id @default(sequence())
-  email String  @unique
-  name  String?
+  userId            Int              @id @default(sequence())
+  username          String
+  fullName          String
+  email             String           @unique
+  profileImage      String?
+  birthDate         DateTime
+  biography         String?
+  language          Language         @default(ENGLISH)
+  followers_counter Int              @default(0)
+  following_counter Int              @default(0)
+
+  events            Event[]
+  followers         FollowUser[]     @relation("Followers")
+  following         FollowUser[]     @relation("Following")
+  notificationsSent Notification[]   @relation("NotificationsFromUser")
+  notificationsReceived Notification[] @relation("NotificationsToUser")
+  socialInteractions SocialInteraction[]
+  comments          Comment[]
+  likedCategories   Category[] @relation("UserLikedCategories")
+}
+
+model FollowUser {
+  userIdFollows     Int
+  userIdFollowedBy  Int
+  createdAt         DateTime         @default(now())
+
+  userFollows       User             @relation("Following", fields: [userIdFollows], references: [userId])
+  userFollowedBy    User             @relation("Followers", fields: [userIdFollowedBy], references: [userId])
+
+  @@id([userIdFollows, userIdFollowedBy])
+}
+
+model Notification {
+  notificationId    Int              @id @default(sequence())
+  fromUserId        Int
+  toUserId          Int
+  type              NotificationType
+  message           String
+  createdAt         DateTime         @default(now())
+
+  fromUser          User             @relation("NotificationsFromUser", fields: [fromUserId], references: [userId])
+  toUser            User             @relation("NotificationsToUser", fields: [toUserId], references: [userId])
+}
+
+model Event {
+  eventId           Int              @id @default(sequence())
+  userId            Int
+  categoryId        Int
+  locationId        Int
+  title             String
+  description       String
+  date              DateTime
+  time              String
+  likesCounter      Int              @default(0)
+  commentsCounter   Int              @default(0)
+  createdAt         DateTime         @default(now())
+
+  user              User             @relation(fields: [userId], references: [userId])
+  category          Category         @relation(fields: [categoryId], references: [categoryId])
+  location          Location         @relation(fields: [locationId], references: [locationId])
+  comments          Comment[]
+  socialInteractions SocialInteraction[]
+}
+
+model Comment {
+  commentId         Int              @id @default(sequence())
+  userId            Int
+  eventId           Int
+  text              String
+  createdAt         DateTime         @default(now())
+
+  user              User             @relation(fields: [userId], references: [userId])
+  event             Event            @relation(fields: [eventId], references: [eventId])
+}
+
+
+model SocialInteraction {
+  userId            Int
+  eventId           Int
+  createdAt         DateTime         @default(now())
+
+  user              User             @relation(fields: [userId], references: [userId])
+  event             Event            @relation(fields: [eventId], references: [eventId])
+  
+  @@id([userId, eventId])
+}
+
+model Category {
+  categoryId        Int              @id @default(sequence())
+  name              String
+  description       String?
+  
+  events            Event[]
+  usersWhoLike User[] @relation("UserLikedCategories")
+}
+
+model Location {
+  locationId        Int              @id @default(sequence())
+  latitude          Float
+  longitude         Float
+  description       String?
+  events            Event[]
 }
