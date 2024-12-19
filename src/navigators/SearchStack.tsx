@@ -3,13 +3,18 @@ import { SearchView } from "../views/SearchView";
 import { EventDetailsView } from "../views/EventDetailsView";
 import { ProfileDetailsView } from "../views/ProfileDetailsView";
 
-
 const SearchStackNavigator = createNativeStackNavigator();
 
+export enum SearchRoutes {
+    Search = "Search",
+    EventDetails = "EventDetails",
+    ProfileDetails = "ProfileDetails"
+}
+
 export type SearchStackParamList = {
-    Search: undefined;
-    EventDetails: undefined;
-    ProfileDetails: undefined;
+    [SearchRoutes.Search]: undefined;
+    [SearchRoutes.EventDetails]: undefined;
+    [SearchRoutes.ProfileDetails]: undefined;
 };
 
 export type SearchStackNavigationProp = NativeStackNavigationProp<SearchStackParamList>;
@@ -17,11 +22,11 @@ export type SearchStackNavigationProp = NativeStackNavigationProp<SearchStackPar
 export function SearchStack() {
     return(
         <SearchStackNavigator.Navigator
-            initialRouteName="Search"
+            initialRouteName={SearchRoutes.Search}
         >
-            <SearchStackNavigator.Screen name="Search" component={SearchView} />
-            <SearchStackNavigator.Screen name="EventDetails" component={EventDetailsView} />
-            <SearchStackNavigator.Screen name="ProfileDetails" component={ProfileDetailsView} />
+            <SearchStackNavigator.Screen name={SearchRoutes.Search} component={SearchView} />
+            <SearchStackNavigator.Screen name={SearchRoutes.EventDetails} component={EventDetailsView} />
+            <SearchStackNavigator.Screen name={SearchRoutes.ProfileDetails} component={ProfileDetailsView} />
         </SearchStackNavigator.Navigator>
     )
 }

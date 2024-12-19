@@ -5,10 +5,16 @@ import { ProfileDetailsView } from "../views/ProfileDetailsView";
 
 const HomeStackNavigator = createNativeStackNavigator();
 
+export enum HomeRoutes {
+    Home = "Home",
+    EventDetails = "EventDetails",
+    ProfileDetails = "ProfileDetails"
+}
+
 export type HomeStackParamList = {
-    Home: undefined;
-    EventDetails: undefined;
-    ProfileDetails: undefined;
+    [HomeRoutes.Home]: undefined;
+    [HomeRoutes.EventDetails]: undefined;
+    [HomeRoutes.ProfileDetails]: undefined;
 };
   
 export type HomeStackNavigationProp = NativeStackNavigationProp<HomeStackParamList>;
@@ -16,11 +22,11 @@ export type HomeStackNavigationProp = NativeStackNavigationProp<HomeStackParamLi
 export function HomeStack() {
     return(
         <HomeStackNavigator.Navigator
-            initialRouteName="Home"    
+            initialRouteName={HomeRoutes.Home}    
         >
-            <HomeStackNavigator.Screen name="Home" component={HomeView} />
-            <HomeStackNavigator.Screen name="EventDetails" component={EventDetailsView} />
-            <HomeStackNavigator.Screen name="ProfileDetails" component={ProfileDetailsView} />
+            <HomeStackNavigator.Screen name={HomeRoutes.Home} component={HomeView} />
+            <HomeStackNavigator.Screen name={HomeRoutes.EventDetails} component={EventDetailsView} />
+            <HomeStackNavigator.Screen name={HomeRoutes.ProfileDetails} component={ProfileDetailsView} />
         </HomeStackNavigator.Navigator>
     )
 }

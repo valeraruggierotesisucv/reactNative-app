@@ -5,8 +5,12 @@ import { AddView } from "../views/AddView";
 
 const AddStackNavigator = createNativeStackNavigator();
 
+enum AddRoutes {
+    Add = "Add"
+}
+
 export type AddStackParamList = {
-    Add: undefined;
+    [AddRoutes.Add]: undefined;
 };
 
 export type AddStackNavigationProp = NativeStackNavigationProp<AddStackParamList>;
@@ -14,9 +18,9 @@ export type AddStackNavigationProp = NativeStackNavigationProp<AddStackParamList
 export function AddStack() {
     return(
         <AddStackNavigator.Navigator
-            initialRouteName="Add"
+            initialRouteName={AddRoutes.Add}
         >
-            <AddStackNavigator.Screen name="Add" component={AddView} />
+            <AddStackNavigator.Screen name={AddRoutes.Add} component={AddView} />
         </AddStackNavigator.Navigator>
     )
 }

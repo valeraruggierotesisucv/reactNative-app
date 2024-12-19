@@ -7,12 +7,20 @@ import { ChangePasswordView } from "../views/ChangePasswordView";
 
 const ProfileStackNavigator = createNativeStackNavigator();
 
+export enum ProfileRoutes {
+    Profile = "Profile",
+    EditProfile = "EditProfile",
+    Configuration = "Configuration",
+    ChangePassword = "ChangePassword",
+    ChangeLanguage = "ChangeLanguage"
+}
+
 export type ProfileStackParamList = {
-    Profile: undefined;
-    EditProfile: undefined;
-    Configuration: undefined;
-    ChangePassword: undefined;
-    ChangeLanguage: undefined;
+    [ProfileRoutes.Profile]: undefined;
+    [ProfileRoutes.EditProfile]: undefined;
+    [ProfileRoutes.Configuration]: undefined;
+    [ProfileRoutes.ChangePassword]: undefined;
+    [ProfileRoutes.ChangeLanguage]: undefined;
 };
 
 export type ProfileStackNavigationProp = NativeStackNavigationProp<ProfileStackParamList>;
@@ -20,13 +28,13 @@ export type ProfileStackNavigationProp = NativeStackNavigationProp<ProfileStackP
 export function ProfileStack() {
     return(
         <ProfileStackNavigator.Navigator
-            initialRouteName="Profile"
+            initialRouteName={ProfileRoutes.Profile}
         >
-            <ProfileStackNavigator.Screen name="Profile" component={ProfileView} />
-            <ProfileStackNavigator.Screen name="EditProfile" component={EditProfileView} />
-            <ProfileStackNavigator.Screen name="Configuration" component={ConfigurationView} />
-            <ProfileStackNavigator.Screen name="ChangePassword" component={ChangePasswordView} />
-            <ProfileStackNavigator.Screen name="ChangeLanguage" component={ChangeLanguageView} />       
+            <ProfileStackNavigator.Screen name={ProfileRoutes.Profile} component={ProfileView} />
+            <ProfileStackNavigator.Screen name={ProfileRoutes.EditProfile} component={EditProfileView} />
+            <ProfileStackNavigator.Screen name={ProfileRoutes.Configuration} component={ConfigurationView} />
+            <ProfileStackNavigator.Screen name={ProfileRoutes.ChangePassword} component={ChangePasswordView} />
+            <ProfileStackNavigator.Screen name={ProfileRoutes.ChangeLanguage} component={ChangeLanguageView} />       
         </ProfileStackNavigator.Navigator>
     )
 }
