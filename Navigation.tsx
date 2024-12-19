@@ -6,18 +6,14 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { theme } from "./utils/theme";
 
-
-// Views 
-import { ProfileView } from "./src/views/ProfileView";
-
 // Stacks Navigators
 import { HomeStack } from "./src/navigators/HomeStack";
 import { SearchStack } from "./src/navigators/SearchStack";
 import { AddStack } from "./src/navigators/AddStack";
 import { NotificationsStack } from "./src/navigators/NotificationsStack";
+import { ProfileStack } from "./src/navigators/ProfileStack";
+
 const Tab = createBottomTabNavigator();
-
-
 
 function BottomTabNavigator() {
     return(
@@ -75,7 +71,7 @@ function BottomTabNavigator() {
             />
             <Tab.Screen 
                 name={TabBar.Profile} 
-                component={ProfileView} 
+                component={ProfileStack} 
                 options={{
                     tabBarIcon: ({ color, size }) => {
                         return <AntDesign name="user" size={size} color={color} />

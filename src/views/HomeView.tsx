@@ -5,7 +5,7 @@ import { HomeStackNavigationProp } from "../navigators/HomeStack";
 export function HomeView() {
     const navigation = useNavigation<HomeStackNavigationProp>();
     return(
-        <View>
+        <View style={{flex: 1, gap: 8}}>
             <Text>HomeView</Text>
             <Button
                 title="Ver detalles del evento"
