@@ -1,16 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button } from "react-native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
-type RootStackParamList = {
-  EventDetails: undefined;
-  ProfileDetails: undefined;
-};
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+import { HomeStackNavigationProp } from "../navigators/HomeStack";
 
 export function HomeView() {
-    const navigation = useNavigation<NavigationProp>();
+    const navigation = useNavigation<HomeStackNavigationProp>();
     return(
         <View>
             <Text>HomeView</Text>

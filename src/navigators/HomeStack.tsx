@@ -1,9 +1,17 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HomeView } from "../views/HomeView";
 import { EventDetailsView } from "../views/EventDetailsView";
 import { ProfileDetailsView } from "../views/ProfileDetailsView";
 
 const HomeStackNavigator = createNativeStackNavigator();
+
+export type HomeStackParamList = {
+    Home: undefined;
+    EventDetails: undefined;
+    ProfileDetails: undefined;
+};
+  
+export type HomeStackNavigationProp = NativeStackNavigationProp<HomeStackParamList>;
 
 export function HomeStack() {
     return(
