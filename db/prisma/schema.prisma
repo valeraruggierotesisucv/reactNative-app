@@ -23,7 +23,7 @@ enum NotificationType {
 }
 
 model User {
-  userId            Int              @id @default(sequence())
+  userId            String              @id @default(cuid())
   username          String
   fullName          String
   email             String           @unique
@@ -45,8 +45,8 @@ model User {
 }
 
 model FollowUser {
-  userIdFollows     Int
-  userIdFollowedBy  Int
+  userIdFollows     String
+  userIdFollowedBy  String
   createdAt         DateTime         @default(now())
 
   userFollows       User             @relation("Following", fields: [userIdFollows], references: [userId])
@@ -57,8 +57,8 @@ model FollowUser {
 
 model Notification {
   notificationId    Int              @id @default(sequence())
-  fromUserId        Int
-  toUserId          Int
+  fromUserId        String
+  toUserId          String
   type              NotificationType
   message           String
   createdAt         DateTime         @default(now())
@@ -69,7 +69,7 @@ model Notification {
 
 model Event {
   eventId           Int              @id @default(sequence())
-  userId            Int
+  userId            String
   categoryId        Int
   locationId        Int
   title             String
@@ -89,7 +89,7 @@ model Event {
 
 model Comment {
   commentId         Int              @id @default(sequence())
-  userId            Int
+  userId            String
   eventId           Int
   text              String
   createdAt         DateTime         @default(now())
@@ -100,7 +100,7 @@ model Comment {
 
 
 model SocialInteraction {
-  userId            Int
+  userId            String
   eventId           Int
   createdAt         DateTime         @default(now())
 

@@ -134,6 +134,7 @@ async function main() {
 
     await Promise.all(followRelations);
 
+
     const notifications = await Promise.all(
         Array.from({ length: NUM_NOTIFICATIONS }).map(() => {
             const fromUser = faker.helpers.arrayElement(users);
