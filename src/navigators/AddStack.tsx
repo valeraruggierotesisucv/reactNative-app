@@ -1,17 +1,9 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AddView } from "../views/AddView";
-
-
+import { AddRoutes} from "../../utils/routes"; 
+import { AddStackParamList } from "../../utils/types";
 
 const AddStackNavigator = createNativeStackNavigator();
-
-enum AddRoutes {
-    Add = "Add"
-}
-
-export type AddStackParamList = {
-    [AddRoutes.Add]: undefined;
-};
 
 export type AddStackNavigationProp = NativeStackNavigationProp<AddStackParamList>;
 

@@ -1,7 +1,7 @@
 import { View, Text, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
-import { ProfileRoutes } from "../navigators/ProfileStack";
+import { ProfileRoutes } from "../../utils/routes";
 import { useAuth } from "../contexts/AuthContext";
 
 export function ProfileView() {

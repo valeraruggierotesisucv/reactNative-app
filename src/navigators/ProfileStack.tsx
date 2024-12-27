@@ -4,24 +4,10 @@ import { EditProfileView } from "../views/EditProfileView";
 import { ConfigurationView } from "../views/ConfigurationView";
 import { ChangeLanguageView } from "../views/ChangeLanguageView";
 import { ChangePasswordView } from "../views/ChangePasswordView";
+import { ProfileRoutes } from "../../utils/routes";
+import { ProfileStackParamList } from "../../utils/types";
 
 const ProfileStackNavigator = createNativeStackNavigator();
-
-export enum ProfileRoutes {
-    Profile = "Profile",
-    EditProfile = "EditProfile",
-    Configuration = "Configuration",
-    ChangePassword = "ChangePassword",
-    ChangeLanguage = "ChangeLanguage"
-}
-
-export type ProfileStackParamList = {
-    [ProfileRoutes.Profile]: undefined;
-    [ProfileRoutes.EditProfile]: undefined;
-    [ProfileRoutes.Configuration]: undefined;
-    [ProfileRoutes.ChangePassword]: undefined;
-    [ProfileRoutes.ChangeLanguage]: undefined;
-};
 
 export type ProfileStackNavigationProp = NativeStackNavigationProp<ProfileStackParamList>;
 

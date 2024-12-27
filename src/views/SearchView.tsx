@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button } from "react-native";
 import { SearchStackNavigationProp } from "../navigators/SearchStack";
-import { SearchRoutes } from "../navigators/SearchStack";
+import { SearchRoutes } from "../../utils/routes";
 
 export function SearchView() {
     const navigation = useNavigation<SearchStackNavigationProp>();

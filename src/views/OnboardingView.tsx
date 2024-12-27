@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Button } from "react-native";
-import { AuthRoutes, AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
+import { AuthRoutes } from "../../utils/routes";
+import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 
 export function OnboardingView() {
     const navigation = useNavigation<AuthStackNavigationProp>();

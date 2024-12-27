@@ -2,20 +2,10 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-na
 import { SearchView } from "../views/SearchView";
 import { EventDetailsView } from "../views/EventDetailsView";
 import { ProfileDetailsView } from "../views/ProfileDetailsView";
+import { SearchRoutes } from "../../utils/routes";
+import { SearchStackParamList } from "../../utils/types";
 
 const SearchStackNavigator = createNativeStackNavigator();
-
-export enum SearchRoutes {
-    Search = "Search",
-    EventDetails = "EventDetails",
-    ProfileDetails = "ProfileDetails"
-}
-
-export type SearchStackParamList = {
-    [SearchRoutes.Search]: undefined;
-    [SearchRoutes.EventDetails]: undefined;
-    [SearchRoutes.ProfileDetails]: undefined;
-};
 
 export type SearchStackNavigationProp = NativeStackNavigationProp<SearchStackParamList>;
 
