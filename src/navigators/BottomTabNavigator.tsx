@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { TabBar } from "../../utils/enums";
+import { TabBar } from "../../utils/tabs";
 import { theme } from "../../utils/theme";
 
 // Stacks Navigators
