@@ -3,10 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button, ButtonSize, ButtonVariant } from './Button';
 
 const meta = {
-  title: 'MyButton',
+  title: 'Button',
   component: Button, 
   decorators: [
-    (Story : StoryObj) => (
+    (Story) => (
       <View style={{ padding: 16, alignItems: 'center' }}>
         <Story />
       </View>
@@ -15,12 +15,11 @@ const meta = {
 } satisfies Meta<typeof Button>;
 
 export default meta;
-
 type Story = StoryObj<typeof meta>;
 
 export const ExtraSmall: Story = {
   args: {
-    label: "Extra small", 
+    label: "XS", 
     onPress: () => console.log("Button pressed "), 
     size: ButtonSize.EXTRA_SMALL, 
     variant: ButtonVariant.PRIMARY
