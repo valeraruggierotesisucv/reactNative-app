@@ -1,0 +1,28 @@
+import { View } from "react-native";
+import type { Meta, StoryObj } from '@storybook/react';
+import { EventCard } from "./EventCard";
+
+const meta = {
+    title: 'EventCard', 
+    component: EventCard, 
+    decorators: [
+        (Story) => (          
+            <Story />         
+        ),
+      ],
+
+} satisfies Meta<typeof EventCard>; 
+
+export default meta; 
+type Story = StoryObj<typeof meta>; 
+
+export const Default: Story = {
+    args: {
+        profileImage: require("../../assets/Avatar.png") , 
+        username: "John Doe",
+        eventImage: require("../../assets/event.png"), 
+        isLiked: false, 
+        onComment: () => console.log("COMMENT"), 
+        onShare: () => console.log("SHARE")
+    }
+}
