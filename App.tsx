@@ -1,7 +1,8 @@
-import { Navigation } from './RootNavigation';
-import { AuthProvider } from './src/contexts/AuthContext';
+import { Navigation } from "./RootNavigation";
+import { AuthProvider } from "./src/contexts/AuthContext";
+import Constants from "expo-constants";
 
-export default function App() {
+export function App() {
   return (
     <AuthProvider>
       <Navigation />
@@ -9,3 +10,10 @@ export default function App() {
   );
 }
 
+let AppEntryPoint = App;
+
+if (Constants.expoConfig?.extra?.storybookEnabled === "true") {
+  AppEntryPoint = require("./.storybook").default;
+}
+
+export default AppEntryPoint;
