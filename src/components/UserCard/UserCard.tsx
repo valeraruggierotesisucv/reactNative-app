@@ -1,7 +1,7 @@
 import { View, Image, Text, ImageSourcePropType } from "react-native";
 import { StyleSheet } from "react-native";
-import { Button, ButtonSize} from "./Button";
-import { Avatar } from "./Avatar";
+import { Button, ButtonSize} from "../Button/Button";
+import { Avatar } from "../Avatar/Avatar";
 
 export enum UserCardVariant{
     DEFAULT = "default", 

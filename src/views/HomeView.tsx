@@ -2,8 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text } from "react-native";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
-import { Button } from "../components/Button";
-import { UserCard, UserCardVariant } from "../components/UserCard";
+import { Button } from "../components/Button/Button";
+import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 
 export function HomeView() {
     const navigation = useNavigation<HomeStackNavigationProp>();
