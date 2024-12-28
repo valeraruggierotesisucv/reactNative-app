@@ -21,7 +21,9 @@ export const Default: Story = {
         profileImage: require("../../assets/Avatar.png") , 
         username: "John Doe",
         eventImage: require("../../assets/event.png"), 
+        title: "Martin Garrix Meet and Greet", 
         isLiked: false, 
+        date: "24/12/2024", 
         onComment: () => console.log("COMMENT"), 
         onShare: () => console.log("SHARE")
     }
