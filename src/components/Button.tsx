@@ -2,13 +2,14 @@ import { TouchableOpacity, Text} from "react-native";
 import { StyleSheet } from "react-native";
 import { theme } from "../../utils/theme";
 
-enum ButtonSize {
+export enum ButtonSize {
+    EXTRA_SMALL = "extraSmall", 
     SMALL = "small", 
     MEDIUM = "medium", 
     LARGE = "large"
 }
 
-enum ButtonVariant {
+export enum ButtonVariant {
     PRIMARY = "primary"
 }
 
@@ -42,9 +43,15 @@ const styles = StyleSheet.create({
     label: {
         color: 'white'
     }, 
+    extraSmall :{
+        borderRadius: 5, 
+        width: 72, 
+        height: 32
+    }, 
     small: {
         borderRadius: 5, 
-        width: 160
+        width: 160, 
+        height: 32
     }, 
     medium:{
         borderRadius: 30, 
