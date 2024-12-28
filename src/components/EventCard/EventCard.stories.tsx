@@ -22,9 +22,11 @@ export const Default: Story = {
         username: "John Doe",
         eventImage: require("../../assets/event.png"), 
         title: "Martin Garrix Meet and Greet", 
+        description: "Martijn Gerard Garritsen, conocido por su nombre artístico Martin Garrix, es un DJ, remezclador y productor discográfico neerlandés; también propietario del sello discográfico STMPD RCRDS", 
         isLiked: false, 
         date: "24/12/2024", 
         onComment: () => console.log("COMMENT"), 
-        onShare: () => console.log("SHARE")
+        onShare: () => console.log("SHARE"), 
+        onMoreDetails: () =>  console.log("MORE DETAILS")
     }
 }

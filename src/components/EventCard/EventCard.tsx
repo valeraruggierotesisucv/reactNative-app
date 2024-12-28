@@ -1,29 +1,34 @@
-import { ImageSourcePropType, Image, View, Text, StyleSheet } from "react-native";
+import { ImageSourcePropType, Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { UserCard, UserCardVariant } from "../UserCard/UserCard";
 import { SocialInteractions } from "../SocialInteractions/SocialInteractions";
 import { useState } from "react";
 import { Chip, ChipVariant } from "../Chip/Chip";
+import { theme } from "../../../utils/theme";
 
 interface EventCardProps{
     profileImage: ImageSourcePropType, 
     username: string, 
     eventImage: ImageSourcePropType, 
     title: string, 
+    description: string, 
     isLiked: boolean, 
     date: string, 
     onComment: () => void, 
     onShare: () => void, 
+    onMoreDetails: () => void
 }
 
 export function EventCard({
     profileImage, 
     username, 
-    eventImage, 
+    eventImage,                 // falta este campo en la db 
     title,                      // max 28 caracteres
+    description, 
     isLiked, 
     date, 
     onComment, 
-    onShare
+    onShare, 
+    onMoreDetails
 }: EventCardProps){
     const [like, setLike] = useState(isLiked); 
 
@@ -56,6 +61,14 @@ export function EventCard({
                     />
                 </View>                
             </View>
+            <Text style={styles.description} numberOfLines={3}>
+                {description}
+            </Text>
+            <TouchableOpacity onPress={onMoreDetails}>
+                <Text style={styles.details}>
+                    Ver más detalles ...
+                </Text>
+            </TouchableOpacity>
         </>
     )
 }
@@ -75,5 +88,16 @@ const styles = StyleSheet.create({
         fontSize: 20, 
         fontWeight: "bold", 
         padding: 8, 
+    }, 
+    description: {
+        fontFamily: "Inter", 
+        fontSize: 13, 
+        fontWeight: "regular", 
+        padding: 10, 
+        justifyContent: "space-evenly"
+    }, 
+    details: {
+        color: theme.colors["darkGray"], 
+        textAlign: "center"
     }
 })
