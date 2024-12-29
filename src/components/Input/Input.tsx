@@ -10,7 +10,7 @@ export enum InputVariant {
 interface InputProps {
   label: string;
   placeholder: string;
-  variant: InputVariant;
+  variant?: InputVariant;
   onPress?: () => void;
 }
 

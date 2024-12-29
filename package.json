@@ -27,10 +27,12 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.5",
+    "react-native-calendar-picker": "^8.0.5",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.3.0",
-    "react-native-web": "~0.19.13"
+    "react-native-web": "~0.19.13",
+    "@react-native-community/datetimepicker": "8.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -44,6 +46,7 @@
     "@storybook/addon-ondevice-notes": "^8.4.3",
     "@storybook/react-native": "^8.4.3",
     "@types/react": "~18.3.12",
+    "@types/react-native-calendar-picker": "^8.0.0",
     "babel-loader": "^8.4.1",
     "cross-env": "^7.0.3",
     "react-native-gesture-handler": "~2.16.1",
