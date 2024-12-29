@@ -1,32 +1,50 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 
 export const FontLoader: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
-  const [fontsLoaded] = useFonts({
-    "SF-Pro-Rounded-Black": require("./assets/fonts/SF-Pro-Rounded-Black.otf"),
-    "SF-Pro-Rounded-Bold": require("./assets/fonts/SF-Pro-Rounded-Bold.otf"),
-    "SF-Pro-Rounded-Heavy": require("./assets/fonts/SF-Pro-Rounded-Heavy.otf"),
-    "SF-Pro-Rounded-Light": require("./assets/fonts/SF-Pro-Rounded-Light.otf"),
-    "SF-Pro-Rounded-Medium": require("./assets/fonts/SF-Pro-Rounded-Medium.otf"),
-    "SF-Pro-Rounded-Regular": require("./assets/fonts/SF-Pro-Rounded-Regular.otf"),
-    "SF-Pro-Rounded-Semibold": require("./assets/fonts/SF-Pro-Rounded-Semibold.otf"),
-    "SF-Pro-Rounded-Thin": require("./assets/fonts/SF-Pro-Rounded-Thin.otf"),
-    "SF-Pro-Rounded-Ultralight": require("./assets/fonts/SF-Pro-Rounded-Ultralight.otf"),
-    "SF-Pro-Text-Regular": require("./assets/fonts/SF-Pro-Text-Regular.otf"),
-    "SF-Pro-Text-Bold": require("./assets/fonts/SF-Pro-Text-Bold.otf"),
-    "SF-Pro-Text-Medium": require("./assets/fonts/SF-Pro-Text-Medium.otf"),
-    "SF-Pro-Text-Semibold": require("./assets/fonts/SF-Pro-Text-Semibold.otf"),
-    "SF-Pro-Text-Thin": require("./assets/fonts/SF-Pro-Text-Thin.otf"),
-    "SF-Pro-Text-Ultralight": require("./assets/fonts/SF-Pro-Text-Ultralight.otf"),
-    "SF-Pro-Text-Heavy": require("./assets/fonts/SF-Pro-Text-Heavy.otf"),
-    "SF-Pro-Text-Light": require("./assets/fonts/SF-Pro-Text-Light.otf"),
+  const [fontsLoaded, error] = useFonts({
+    "SF-Pro-Rounded-Heavy": require("./assets/fonts/SFProRoundedHeavy.otf"),
+    "SF-Pro-Rounded-Semibold": require("./assets/fonts/SFProRoundedSemibold.otf"),
+    "SF-Pro-Text-Regular": require("./assets/fonts/SFProTextRegular.otf"),
+    "SF-Pro-Text-Bold": require("./assets/fonts/SFProTextBold.otf"),
+    "SF-Pro-Text-Medium": require("./assets/fonts/SFProTextMedium.otf"),
+    "SF-Pro-Text-Semibold": require("./assets/fonts/SFProTextSemibold.otf"),
+    "SF-Pro-Text-Light": require("./assets/fonts/SFProTextLight.otf"),
   });
 
+  useEffect(() => {
+    if (error) {
+      console.error("Error loading fonts:", error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    const prepare = async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+      } catch (e) {
+        console.warn("Error preventing auto-hide of splash screen:", e);
+      }
+    };
+
+    prepare();
+  }, []);
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      console.log("Fonts loaded successfully");
+      SplashScreen.hideAsync();
+    } else {
+      console.log("Fonts not loaded yet");
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    console.log("Returning null because fonts are not loaded");
+    return null; // Optionally, you can return a loading indicator here
   }
 
   return <>{children}</>;

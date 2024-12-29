@@ -27,5 +27,14 @@ export default ({ config }) => ({
   extra: {
     storybookEnabled: process.env.STORYBOOK_ENABLED,
   },
-  plugins: ["expo-font"],
+  plugins: [
+    "expo-font",
+    [
+      "expo-asset",
+      {
+        assets: ["./assets/fonts"],
+      },
+    ],
+  ],
+  assetBundlePatterns: ["**/*"],
 });
