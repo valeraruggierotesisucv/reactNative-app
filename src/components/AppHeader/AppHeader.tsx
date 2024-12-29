@@ -22,7 +22,7 @@ export function AppHeader({ title, goBack, goToConfig }: AppHeaderProps) {
           <Text style={styles.title}>{title}</Text>
         ) : (
           <Image
-            source={require("../../assets/EventifyTextLogo.png")}
+            source={require("../../../assets/EventifyTextLogo.png")}
             style={styles.logo}
             resizeMode="contain"
           />
