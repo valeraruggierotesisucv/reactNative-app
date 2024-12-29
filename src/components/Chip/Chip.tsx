@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors['gray'], 
         alignItems: 'center', 
         justifyContent: "center", 
-        width: 95, 
-        height: 30, 
+        minWidth: 80, 
+        height: 25, 
         padding: 5, 
         borderRadius: 6
     }, 
