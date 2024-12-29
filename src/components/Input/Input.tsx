@@ -1,52 +1,52 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "../../../utils/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export enum InputVariant {
-    DEFAULT = "default", 
-    ARROW = "arrow"
+  DEFAULT = "default",
+  ARROW = "arrow",
 }
 
 interface InputProps {
-    label: string, 
-    placeholder: string, 
-    variant: InputVariant
+  label: string;
+  placeholder: string;
+  variant: InputVariant;
+  onPress?: () => void;
 }
 
 export function Input({
-    label, 
-    placeholder, 
-    variant = InputVariant.DEFAULT
-}: InputProps){
-    return(
-        <View style={styles.container}>
-            <Text style={styles.label}>{label}</Text>
-            <Text style={styles.placeholder}>{placeholder}</Text>
-            {
-                variant === InputVariant.ARROW
-                ?   <MaterialIcons name="keyboard-arrow-right" size={24} color="gray" />
-                :   null
-            }            
-        </View>
-    )
+  label,
+  placeholder,
+  variant = InputVariant.DEFAULT,
+  onPress,
+}: InputProps) {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.placeholder}>{placeholder}</Text>
+      {variant === InputVariant.ARROW ? (
+        <MaterialIcons name="keyboard-arrow-right" size={24} color="gray" />
+      ) : null}
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {        
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-        borderBottomWidth: 2,
-        borderBottomColor: theme.colors['gray']
-    }, 
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: theme.colors["gray"],
+  },
 
-    label: {
-        flex: 0.45,
-        fontWeight: "bold",
-    },
+  label: {
+    flex: 0.45,
+    fontWeight: "bold",
+  },
 
-    placeholder: {
-        flex: 1,
-        color: "gray",
-    }
-})
+  placeholder: {
+    flex: 1,
+    color: "gray",
+  },
+});
