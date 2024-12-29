@@ -4,8 +4,26 @@ import { SocialInteractions } from "../SocialInteractions/SocialInteractions";
 import { useState } from "react";
 import { Chip, ChipVariant } from "../Chip/Chip";
 import { theme } from "../../../utils/theme";
+import { DisplayInput } from "../DisplayInput/DisplayInput";
 
-interface EventCardProps{
+export enum EventCardVariant {
+    DEFAULT = "default", 
+    DETAILS = "details"
+}
+
+interface PillsProps {
+    startsAt: string,               // esto falta en el modelo 
+    endsAt: string,                 // esto falta en el modelo
+    date: string
+}
+interface DisplayEventProps {
+    location?: string, 
+    startsAt?: string,               // esto falta en el modelo 
+    endsAt?: string,                 // esto falta en el modelo
+    date?: string, 
+    category?: string
+}
+interface EventCardProps extends DisplayEventProps{
     profileImage: ImageSourcePropType, 
     username: string, 
     eventImage: ImageSourcePropType, 
@@ -13,9 +31,52 @@ interface EventCardProps{
     description: string, 
     isLiked: boolean, 
     date: string, 
+    variant? : EventCardVariant, 
     onComment: () => void, 
     onShare: () => void, 
     onMoreDetails: () => void
+}
+
+const Pills = ({ startsAt, endsAt, date } : PillsProps ) => {
+    return (
+        <View style={{ flexDirection: "row", gap: 8 }}>
+            <Chip label={startsAt} variant={ChipVariant.LIGHT}/>
+            <Chip label={endsAt} variant={ChipVariant.LIGHT}/>
+            <Chip label={date} variant={ChipVariant.LIGHT}/>
+        </View>
+    );
+}
+
+export function DisplayEvent({
+    location, 
+    startsAt, 
+    endsAt, 
+    date, 
+    category
+}: DisplayEventProps){
+    return(
+        <View>
+            <DisplayInput 
+                label="UBICACIÓN"
+                data={location}
+            />
+
+            <DisplayInput
+                label="¿CUÁNDO?"
+                data={<Pills 
+                    startsAt={startsAt || ""}
+                    endsAt={endsAt || ""}
+                    date={date || ""}
+                />}
+            />
+
+            <DisplayInput 
+                label="CATEGORÍA"
+                data= { <Chip label={category || ""} variant={ChipVariant.LIGHT}/>}
+            />
+            
+        </View>
+    )
 }
 
 export function EventCard({
@@ -26,6 +87,11 @@ export function EventCard({
     description, 
     isLiked, 
     date, 
+    location, 
+    startsAt, 
+    category,
+    endsAt, 
+    variant = EventCardVariant.DEFAULT, 
     onComment, 
     onShare, 
     onMoreDetails
@@ -54,21 +120,36 @@ export function EventCard({
             />
             <View style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
-                <View style={styles.chipContainer}>
-                    <Chip
-                        label={date}
-                        variant={ChipVariant.LIGHT}
-                    />
-                </View>                
+                {
+                    variant === EventCardVariant.DEFAULT
+                    ?   <View style={styles.chipContainer}>
+                            <Chip
+                                label={date}
+                                variant={ChipVariant.LIGHT}
+                            />
+                        </View>
+                    :   null
+                }                                
             </View>
             <Text style={styles.description} numberOfLines={3}>
                 {description}
             </Text>
-            <TouchableOpacity onPress={onMoreDetails}>
-                <Text style={styles.details}>
-                    Ver más detalles ...
-                </Text>
-            </TouchableOpacity>
+            {
+                variant === EventCardVariant.DEFAULT
+                ?   <TouchableOpacity onPress={onMoreDetails}>
+                        <Text style={styles.details}>
+                            Ver más detalles ...
+                        </Text>
+                    </TouchableOpacity>
+                :   <DisplayEvent 
+                        location={location}
+                        startsAt={startsAt}
+                        endsAt={endsAt}
+                        date={date}
+                        category={category}
+                    />
+            }
+            
         </>
     )
 }

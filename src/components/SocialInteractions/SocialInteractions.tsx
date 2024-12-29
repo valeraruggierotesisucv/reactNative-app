@@ -18,15 +18,15 @@ export function SocialInteractions({
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={onLike}>
-                <AntDesign name={ isLiked ? "heart" : "hearto"} size={26} color="black" />
+                <AntDesign name={ isLiked ? "heart" : "hearto"} size={22} color="black" />
             </TouchableOpacity>
             
             <TouchableOpacity onPress={onComment}>
-                <FontAwesome5 name="comment-alt" size={23} color="black" />
+                <FontAwesome5 name="comment-alt" size={19} color="black" />
             </TouchableOpacity>
             
             <TouchableOpacity onPress={onShare}>
-                <Feather name="send" size={24} color="black" />
+                <Feather name="send" size={21} color="black" />
             </TouchableOpacity>            
         </View>
     );
@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row", 
         gap: 14, 
-        padding: 5
+        padding: 8
     }
 })

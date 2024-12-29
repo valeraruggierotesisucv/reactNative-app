@@ -26,8 +26,7 @@ export function Input({
                 variant === InputVariant.ARROW
                 ?   <MaterialIcons name="keyboard-arrow-right" size={24} color="gray" />
                 :   null
-            }
-            
+            }            
         </View>
     )
 }
