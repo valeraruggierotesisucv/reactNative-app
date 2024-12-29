@@ -13,19 +13,33 @@ import { Input, InputVariant } from "../Input/Input";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 interface CalendarProps {
+  initialStartDate?: Date;
+  initialEndDate?: Date;
+  minDate?: Date;
+  maxDate?: Date;
   onStartDateChange?: (date: Date | null) => void;
   onEndDateChange?: (date: Date | null) => void;
+  onDateRangeChange?: (startDate: Date | null, endDate: Date | null) => void;
 }
 
 export function Calendar({
+  initialStartDate,
+  initialEndDate,
+  minDate,
+  maxDate,
   onStartDateChange,
   onEndDateChange,
+  onDateRangeChange,
 }: CalendarProps) {
   const [date, setDate] = useState<Date | null>(null);
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
-  const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null);
-  const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
+  const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(
+    initialStartDate || null
+  );
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(
+    initialEndDate || null
+  );
   const today = new Date();
   const nextYear = new Date().setFullYear(today.getFullYear() + 1);
 
@@ -41,6 +55,9 @@ export function Calendar({
     if (showEndTimePicker && onEndDateChange) {
       onEndDateChange(selectedEndDate);
     }
+    if (onDateRangeChange) {
+      onDateRangeChange(selectedStartDate, selectedEndDate);
+    }
     toggleTimePicker();
   };
 
@@ -54,8 +71,8 @@ export function Calendar({
         }}
         weekdays={[]}
         selectedDayTextStyle={{ color: "#2A90FF", fontWeight: "bold" }}
-        minDate={today}
-        maxDate={nextYear}
+        minDate={minDate || today}
+        maxDate={maxDate || nextYear}
         textStyle={{ color: "black" }}
       />
       <View style={styles.dateInputContainer}>
@@ -77,6 +94,8 @@ export function Calendar({
                 if (Platform.OS !== "ios") {
                   setShowStartTimePicker(false);
                   if (onStartDateChange) onStartDateChange(selectedDate);
+                  if (onDateRangeChange)
+                    onDateRangeChange(selectedDate, selectedEndDate);
                 }
               }}
             />
@@ -116,6 +135,8 @@ export function Calendar({
                 if (Platform.OS !== "ios") {
                   setShowEndTimePicker(false);
                   if (onEndDateChange) onEndDateChange(selectedDate);
+                  if (onDateRangeChange)
+                    onDateRangeChange(selectedStartDate, selectedDate);
                 }
               }}
             />
