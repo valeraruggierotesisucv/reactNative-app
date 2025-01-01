@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, LayoutChangeEvent } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, LayoutChangeEvent, Platform } from "react-native";
 import { formatDate } from "../../../utils/formatDate";
 import { useState } from "react";
 
@@ -34,12 +34,12 @@ export function CommentItem({
         const lineHeight = styles.commentText.lineHeight || 20;
         const maxHeight = lineHeight * MIN_LINES;
         setTextHeight(e.nativeEvent.layout.height);
-        setHasTextOverflow(e.nativeEvent.layout.height > maxHeight);
+        setHasTextOverflow(e.nativeEvent.layout.height >= maxHeight);
     };
 
     return (
         <View style={styles.container}>
-            {/* Avatar */}
+
             <View style={styles.avatarContainer}>
                 {userAvatar ? (
                     <Image 
@@ -51,7 +51,6 @@ export function CommentItem({
                 )}
             </View>
 
-            {/* Comment Content */}
             <View style={styles.contentContainer}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.username}>{username}</Text>
@@ -79,12 +78,7 @@ export function CommentItem({
                     )}
                 </View>
 
-                {/* Actions */}
-                <View style={styles.actionsContainer}>
-                    <TouchableOpacity onPress={onReply} style={styles.action}>
-                        <Text style={styles.actionText}>Reply</Text>
-                    </TouchableOpacity>
-                </View>
+                
             </View>
         </View>
     );
