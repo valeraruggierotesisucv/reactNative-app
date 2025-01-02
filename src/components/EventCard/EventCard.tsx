@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Chip, ChipVariant } from "../Chip/Chip";
 import { theme } from "../../../utils/theme";
 import { DisplayInput } from "../DisplayInput/DisplayInput";
+import { getLoadedFonts } from "expo-font";
 
 export enum EventCardVariant {
   DEFAULT = "default",
@@ -104,7 +105,7 @@ export function EventCard({
   onMoreDetails,
 }: EventCardProps) {
   const [like, setLike] = useState(isLiked);
-
+  console.log(getLoadedFonts());
   const handleLike = () => {
     setLike(!like);
   };
@@ -162,19 +163,19 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   title: {
-    fontFamily: "Inter",
+    fontFamily: "SF-Pro-Rounded-Semibold",
     fontSize: 20,
-    fontWeight: "bold",
     padding: 8,
   },
   description: {
-    fontFamily: "Inter",
+    fontFamily: "SF-Pro-Text-Regular",
     fontSize: 13,
-    fontWeight: "regular",
     padding: 10,
+    paddingTop: 0,
     justifyContent: "space-evenly",
   },
   details: {
+    fontFamily: "SF-Pro-Text-Regular",
     color: theme.colors["darkGray"],
     textAlign: "center",
   },
