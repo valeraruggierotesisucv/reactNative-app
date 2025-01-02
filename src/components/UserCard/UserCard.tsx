@@ -62,6 +62,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
+    fontFamily: "SF-Pro-Rounded-Medium",
+    fontSize: 16,
     padding: 5,
   },
 });
