@@ -27,7 +27,7 @@ export function HomeView() {
                 profileImage={require("../assets/Avatar.png")}
                 username="John Doe"
                 variant={UserCardVariant.WITH_BUTTON}
-                onPress={() => console.log("PRESSED")}
+                onPressButton={() => console.log("PRESSED")}
                 actionLabel="seguir"
             />
         </View>

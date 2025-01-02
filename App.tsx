@@ -2,6 +2,7 @@ import { Navigation } from "./RootNavigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
 import Constants from "expo-constants";
 import { FontLoader } from "./FontLoader";
+
 export function App() {
   return (
     <FontLoader>
