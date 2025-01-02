@@ -30,3 +30,4 @@ export function formatDate(date: Date): string {
 
     return `${diffInYears}y ago`;
 }
+
