@@ -43,10 +43,12 @@ const styles = StyleSheet.create({
   label: {
     flex: 0.45,
     fontWeight: "bold",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
 
   placeholder: {
     flex: 1,
     color: "gray",
+    fontFamily: "SF-Pro-Text-Regular",
   },
 });

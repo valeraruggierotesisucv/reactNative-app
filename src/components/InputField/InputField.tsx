@@ -60,13 +60,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    fontSize: 14,
+    fontSize: 16,
     marginBottom: 8,
     color: "#000000",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
   inputContainer: {
     width: "100%",
-    height: 44,
+    height: 50,
     backgroundColor: "white",
     borderRadius: 8,
     borderWidth: 1,
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 12,
     fontSize: 16,
+    fontFamily: "SF-Pro-Text-Regular",
   },
   inputError: {
     borderColor: "#FF0000",
@@ -87,6 +89,7 @@ const styles = StyleSheet.create({
     color: "#FF0000",
     fontSize: 12,
     marginTop: 4,
+    fontFamily: "SF-Pro-Text-Regular",
   },
   iconContainer: {
     paddingHorizontal: 12,

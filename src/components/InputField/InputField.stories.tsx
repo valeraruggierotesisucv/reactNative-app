@@ -19,51 +19,94 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    label: "Label",
-    placeholder: "Text...",
-    value: "",
-    onChangeText: () => {},
+export const Default = {
+  render: () => {
+    const [value, setValue] = useState("");
+    return (
+      <InputField
+        label="Label"
+        placeholder="Text..."
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
 };
 
-export const WithError: Story = {
-  args: {
-    ...Default.args,
-    error: "*error message",
+export const WithError = {
+  render: () => {
+    const [value, setValue] = useState("");
+    return (
+      <InputField
+        label="Label"
+        placeholder="Text..."
+        value={value}
+        onChangeText={setValue}
+        error="*error message"
+      />
+    );
   },
 };
 
-export const WithValue: Story = {
-  args: {
-    ...Default.args,
-    value: "Input text",
+export const WithValue = {
+  render: () => {
+    const [value, setValue] = useState("Input text");
+    return (
+      <InputField
+        label="Label"
+        placeholder="Text..."
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
 };
 
-export const Password: Story = {
-  args: {
-    ...Default.args,
-    label: "Password",
-    secureTextEntry: true,
-    placeholder: "Enter your password",
-    icon: "eye",
-    onPressIcon: () => console.log("Toggle password visibility"),
+export const Password = {
+  render: () => {
+    const [value, setValue] = useState("");
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    return (
+      <InputField
+        label="Password"
+        value={value}
+        onChangeText={setValue}
+        secureTextEntry={!isPasswordVisible}
+        placeholder="Enter your password"
+        icon={isPasswordVisible ? "eye-off" : "eye"}
+        onPressIcon={() => setIsPasswordVisible(!isPasswordVisible)}
+      />
+    );
   },
 };
 
-export const WithIcon: Story = {
-  args: {
-    ...Default.args,
-    icon: "account",
+export const WithIcon = {
+  render: () => {
+    const [value, setValue] = useState("");
+    return (
+      <InputField
+        label="Label"
+        placeholder="Text..."
+        value={value}
+        onChangeText={setValue}
+        icon="account"
+      />
+    );
   },
 };
 
-export const WithClickableIcon: Story = {
-  args: {
-    ...Default.args,
-    icon: "magnify",
-    onPressIcon: () => console.log("Icon clicked"),
+export const WithClickableIcon = {
+  render: () => {
+    const [value, setValue] = useState("");
+    return (
+      <InputField
+        label="Label"
+        placeholder="Text..."
+        value={value}
+        onChangeText={setValue}
+        icon="magnify"
+        onPressIcon={() => console.log("Icon clicked")}
+      />
+    );
   },
 };

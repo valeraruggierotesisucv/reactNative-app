@@ -2,38 +2,36 @@ import { View, Text, StyleSheet } from "react-native";
 import { theme } from "../../../utils/theme";
 
 interface DisplayInputProps {
-    label: string, 
-    data: React.ReactNode,
+  label: string;
+  data: React.ReactNode;
 }
 
-export function DisplayInput({
-    label, 
-    data, 
-}: DisplayInputProps){
-    return(
-        <View style={styles.container}>
-            <Text style={styles.label}>{label}</Text>
-            <Text style={styles.data}>{data}</Text>
-        </View>
-    )
+export function DisplayInput({ label, data }: DisplayInputProps) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.data}>{data}</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {        
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-        borderBottomWidth: 2,
-        borderBottomColor: theme.colors['gray']
-    }, 
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: theme.colors["gray"],
+  },
 
-    label: {
-        flex: 0.45,
-        fontWeight: "bold",
-    },
+  label: {
+    flex: 0.45,
+    fontFamily: "SF-Pro-Rounded-Bold",
+  },
 
-    data: {
-        flex: 1,
-        color: "gray",
-    }
-})
+  data: {
+    flex: 1,
+    color: "gray",
+    fontFamily: "SF-Pro-Text-Regular",
+  },
+});

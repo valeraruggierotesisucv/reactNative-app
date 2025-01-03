@@ -7,7 +7,7 @@ const meta = {
   component: Calendar,
   decorators: [
     (Story) => (
-      <View style={{ padding: 16, alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Story />
       </View>
     ),

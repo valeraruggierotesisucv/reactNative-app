@@ -91,10 +91,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
   description: {
     fontSize: 14,
+    fontFamily: "SF-Pro-Text-Regular",
   },
   avatarImage: {
     width: 60,
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "gray",
     marginLeft: 10,
+    fontFamily: "SF-Pro-Text-Regular",
   },
   titleContainer: {
     flexDirection: "row",

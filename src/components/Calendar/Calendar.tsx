@@ -11,34 +11,36 @@ import CalendarPicker from "react-native-calendar-picker";
 
 import { Input, InputVariant } from "../Input/Input";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import Switch from "../Switch/Switch";
+import { formatHour } from "../../../utils/formatHour";
 
 interface CalendarProps {
-  initialStartDate?: Date;
-  initialEndDate?: Date;
-  minDate?: Date;
+  initialDate?: Date;
+  initialStartTime?: Date;
+  initialEndTime?: Date;
   maxDate?: Date;
-  onStartDateChange?: (date: Date | null) => void;
-  onEndDateChange?: (date: Date | null) => void;
-  onDateRangeChange?: (startDate: Date | null, endDate: Date | null) => void;
+  onDateChange?: (date: Date | null) => void;
+  onStartTimeChange?: (time: Date | null) => void;
+  onEndTimeChange?: (time: Date | null) => void;
 }
 
 export function Calendar({
-  initialStartDate,
-  initialEndDate,
-  minDate,
+  initialDate,
+  initialStartTime,
+  initialEndTime,
   maxDate,
-  onStartDateChange,
-  onEndDateChange,
-  onDateRangeChange,
+  onDateChange,
+  onStartTimeChange,
+  onEndTimeChange,
 }: CalendarProps) {
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date | null>(initialDate || null);
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
-  const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(
-    initialStartDate || null
+  const [selectedStartTime, setSelectedStartTime] = useState<Date | null>(
+    initialStartTime || null
   );
-  const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(
-    initialEndDate || null
+  const [selectedEndTime, setSelectedEndTime] = useState<Date | null>(
+    initialEndTime || null
   );
   const today = new Date();
   const nextYear = new Date().setFullYear(today.getFullYear() + 1);
@@ -49,14 +51,14 @@ export function Calendar({
   };
 
   const confirmIOSTime = () => {
-    if (showStartTimePicker && onStartDateChange) {
-      onStartDateChange(selectedStartDate);
+    if (showStartTimePicker && onStartTimeChange) {
+      onStartTimeChange(selectedStartTime);
     }
-    if (showEndTimePicker && onEndDateChange) {
-      onEndDateChange(selectedEndDate);
+    if (showEndTimePicker && onEndTimeChange) {
+      onEndTimeChange(selectedEndTime);
     }
-    if (onDateRangeChange) {
-      onDateRangeChange(selectedStartDate, selectedEndDate);
+    if (onDateChange) {
+      onDateChange(date);
     }
     toggleTimePicker();
   };
@@ -65,37 +67,39 @@ export function Calendar({
     <ScrollView>
       <CalendarPicker
         onDateChange={(date) => setDate(date)}
-        allowRangeSelection
-        selectedRangeStyle={{
+        selectedDayStyle={{
           backgroundColor: "#E0EFFF",
         }}
         weekdays={[]}
-        selectedDayTextStyle={{ color: "#2A90FF", fontWeight: "bold" }}
-        minDate={minDate || today}
+        selectedDayTextStyle={{
+          color: "#2A90FF",
+          fontFamily: "SF-Pro-Text-Bold",
+        }}
+        minDate={today}
         maxDate={maxDate || nextYear}
-        textStyle={{ color: "black" }}
+        textStyle={{ color: "black", fontFamily: "SF-Pro-Text-Regular" }}
       />
       <View style={styles.dateInputContainer}>
         <Input
-          label="Start Date"
-          placeholder="Start Date"
+          label="Empieza"
+          placeholder={
+            selectedStartTime ? formatHour(selectedStartTime) : "Hora de inicio"
+          }
           variant={InputVariant.ARROW}
           onPress={() => setShowStartTimePicker(true)}
         />
         {showStartTimePicker && (
           <>
             <RNDateTimePicker
-              value={selectedStartDate || new Date()}
+              value={selectedStartTime || new Date()}
               mode="time"
               display="spinner"
-              onChange={(event, date) => {
+              onChange={(_, date) => {
                 const selectedDate = date || null;
-                setSelectedStartDate(selectedDate);
+                setSelectedStartTime(selectedDate);
                 if (Platform.OS !== "ios") {
                   setShowStartTimePicker(false);
-                  if (onStartDateChange) onStartDateChange(selectedDate);
-                  if (onDateRangeChange)
-                    onDateRangeChange(selectedDate, selectedEndDate);
+                  if (onStartTimeChange) onStartTimeChange(selectedDate);
                 }
               }}
             />
@@ -118,25 +122,25 @@ export function Calendar({
           </>
         )}
         <Input
-          label="End Date"
-          placeholder="End Date"
+          label="Termina"
+          placeholder={
+            selectedEndTime ? formatHour(selectedEndTime) : "Hora de fin"
+          }
           variant={InputVariant.ARROW}
           onPress={() => setShowEndTimePicker(true)}
         />
         {showEndTimePicker && (
           <>
             <RNDateTimePicker
-              value={selectedEndDate || new Date()}
+              value={selectedEndTime || new Date()}
               mode="time"
               display="spinner"
-              onChange={(event, date) => {
+              onChange={(_, date) => {
                 const selectedDate = date || null;
-                setSelectedEndDate(selectedDate);
+                setSelectedEndTime(selectedDate);
                 if (Platform.OS !== "ios") {
                   setShowEndTimePicker(false);
-                  if (onEndDateChange) onEndDateChange(selectedDate);
-                  if (onDateRangeChange)
-                    onDateRangeChange(selectedStartDate, selectedDate);
+                  if (onEndTimeChange) onEndTimeChange(selectedDate);
                 }
               }}
             />
