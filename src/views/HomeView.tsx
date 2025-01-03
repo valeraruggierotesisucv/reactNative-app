@@ -4,12 +4,15 @@ import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { Button } from "../components/Button/Button";
 import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
+import { useAuth } from "../contexts/AuthContext";
 
 export function HomeView() {
     const navigation = useNavigation<HomeStackNavigationProp>();
+    const { user } = useAuth(); 
     return(
         <View style={{flex: 1, gap: 8, alignItems: 'center'}}>
             <Text>HomeView</Text>
+            <Text> Bienvenido, {user?.email}</Text>
             <Button
                 label="Ver detalles del evento"
                 onPress={() => navigation.navigate(HomeRoutes.EventDetails)}

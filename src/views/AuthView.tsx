@@ -12,15 +12,8 @@ export function AuthView() {
 
   async function signInWithEmail() {
     setLoading(true)
-    const { error, data} = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    })
-
-    if (error) Alert.alert(error.message)
-    setLoading(false); 
-    console.log("Se ha iniciado sesion: ", data)
-    login(); 
+    login(email, password);
+    setLoading(false);      
   }
 
   async function signUpWithEmail() {
