@@ -5,10 +5,32 @@ import { HomeRoutes } from "../../utils/routes";
 import { Button } from "../components/Button/Button";
 import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 import { useAuth } from "../contexts/AuthContext";
+import { useEffect } from "react";
+import Constants from "expo-constants";
 
 export function HomeView() {
     const navigation = useNavigation<HomeStackNavigationProp>();
     const { user } = useAuth(); 
+    
+    // Solo para testing 
+    useEffect(() => {
+        const host = Constants.expoConfig?.hostUri;
+        const localhost = host?.split(":")[0];    
+        fetch(`http://${localhost}:5000/api/users`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+            
+          });
+    }, [])
     return(
         <View style={{flex: 1, gap: 8, alignItems: 'center'}}>
             <Text>HomeView</Text>
