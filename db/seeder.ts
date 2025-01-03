@@ -70,6 +70,8 @@ async function main() {
                     date: faker.date.future(),
                     time: faker.date.recent().toLocaleTimeString(),
                     eventImage: [randomEventImage],
+                    startsAt: faker.date.future(),
+                    endsAt: faker.date.future(),
                 },
             });
         })

@@ -9,10 +9,10 @@
   "scripts": {
     "build": "",
     "db:push": "npx prisma db push",
-    "db:generate": "prisma db generate",
-    "db:migrate": "prisma migrate dev --name db --",
-    "db:seed": "prisma db seed",
-    "db:studio": "prisma studio --port 1800",
+    "db:generate": "npx prisma db generate",
+    "db:migrate": "npx prisma migrate dev --name db --",
+    "db:seed": "npx prisma db seed",
+    "db:studio": "npx prisma studio --port 1800",
     "db:clear": "npx ts-node clearDatabase.ts"
   },
   "keywords": [],
