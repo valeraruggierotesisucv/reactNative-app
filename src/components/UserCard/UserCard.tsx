@@ -15,7 +15,7 @@ export enum UserCardVariant {
 }
 
 export interface UserCardProps {
-  profileImage: ImageSourcePropType;
+  profileImage: string;
   username: string;
   variant?: UserCardVariant;
   onPressUser?: () => void;
@@ -38,7 +38,7 @@ export function UserCard({
         <Text style={styles.text}>{username}</Text>
       </Pressable>
       {variant === UserCardVariant.WITH_BUTTON && (
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 0, alignItems: "flex-end" }}>
           <Button
             label={actionLabel || "Action"}
             onPress={onPressButton ?? (() => {})}
@@ -54,16 +54,19 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    marginVertical: 3,
   },
   user: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 5,
+    paddingRight: 5,
+    paddingVertical: 5,
     flex: 1,
   },
   text: {
     fontFamily: "SF-Pro-Rounded-Medium",
     fontSize: 16,
     padding: 5,
+    paddingLeft: 10,
   },
 });

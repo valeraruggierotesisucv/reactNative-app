@@ -1,16 +1,14 @@
-import { Image, ImageSourcePropType } from "react-native"; 
+import { Image } from "react-native";
 
 interface AvatarProps {
-    source: ImageSourcePropType
+  source: string;
 }
 
-export function Avatar({
-    source
-}: AvatarProps) {
-    return(
-        <Image 
-            source={source}
-            style={{ borderRadius: 500}}
-        />
-    )
+export function Avatar({ source }: AvatarProps) {
+  return (
+    <Image
+      source={{ uri: source }}
+      style={{ borderRadius: 500, width: 40, height: 40 }}
+    />
+  );
 }
