@@ -90,8 +90,8 @@ export function EventCard({
   profileImage,
   username,
   onPressUser,
-  eventImage, // falta este campo en la db
-  title, // max 28 caracteres
+  eventImage,
+  title,
   description,
   isLiked,
   date,

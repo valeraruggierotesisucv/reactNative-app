@@ -59,6 +59,7 @@ async function main() {
             const randomUser = faker.helpers.arrayElement(users);
             const randomCategory = faker.helpers.arrayElement(categories);
             const randomLocation = faker.helpers.arrayElement(locations);
+            const randomEventImage = faker.image.url();
             return prisma.event.create({
                 data: {
                     userId: randomUser.userId,
@@ -68,6 +69,7 @@ async function main() {
                     description: faker.lorem.paragraph(),
                     date: faker.date.future(),
                     time: faker.date.recent().toLocaleTimeString(),
+                    eventImage: [randomEventImage],
                 },
             });
         })
