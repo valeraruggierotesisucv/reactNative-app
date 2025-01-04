@@ -1,3 +1,5 @@
+import { NotificationType } from "../src/components/NotificationItem/NotificationItem";
+
 export const events = [
     {
         userId: "1", 
@@ -55,4 +57,30 @@ export const user = {
     events: 10,
     followers: 100,
     following: 100,
-  };
+};
+
+export const notifications = [
+    {
+        user: "John Doe",
+        timestamp: new Date("2024-01-01"),
+        userAvatar:
+        "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
+        type: NotificationType.FOLLOW,
+    }, 
+    {
+        user: "Jane Smith",
+        timestamp: new Date("2024-01-02"),
+        userAvatar:
+        "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
+        type: NotificationType.LIKE_EVENT,
+        eventImage: "https://picsum.photos/400/400?random=2",
+    }, 
+    {
+        user: "Alice Johnson",
+        timestamp: new Date("2024-01-03"),
+        userAvatar:
+        "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
+        type: NotificationType.COMMENT_EVENT,
+        eventImage: "https://picsum.photos/400/400?random=3",
+    }
+]
