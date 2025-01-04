@@ -2,8 +2,12 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Input, InputVariant } from "../components/Input/Input";
 import { AppHeader } from "../components/AppHeader/AppHeader";
+import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
+import { useNavigation } from "@react-navigation/native";
+import { ProfileRoutes } from "../../utils/routes";
 
 export function ConfigurationView() {
+  const navigation = useNavigation<ProfileStackNavigationProp>();
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />
@@ -13,7 +17,11 @@ export function ConfigurationView() {
           placeholder="Español"
           variant={InputVariant.ARROW}
         />
-        <Input label="CAMBIAR CONTRASEÑA" variant={InputVariant.ARROW} />
+        <Input
+          label="CAMBIAR CONTRASEÑA"
+          variant={InputVariant.ARROW}
+          onPress={() => navigation.navigate(ProfileRoutes.ChangePassword)}
+        />
         <Input label="CERRAR SESIÓN" />
       </View>
     </SafeAreaView>
