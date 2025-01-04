@@ -21,18 +21,9 @@ export function SearchStack() {
         headerShown: false,
       }}
     >
-      <SearchStackNavigator.Screen
-        name={SearchRoutes.Search}
-        component={SearchView}
-      />
-      <SearchStackNavigator.Screen
-        name={SearchRoutes.EventDetails}
-        component={EventDetailsView}
-      />
-      <SearchStackNavigator.Screen
-        name={SearchRoutes.ProfileDetails}
-        component={ProfileDetailsView}
-      />
+      <SearchStackNavigator.Screen name={SearchRoutes.Search} component={SearchView}/>
+      <SearchStackNavigator.Screen name={SearchRoutes.EventDetails}component={EventDetailsView}/>
+      <SearchStackNavigator.Screen name={SearchRoutes.ProfileDetails}component={ProfileDetailsView}/>
     </SearchStackNavigator.Navigator>
   );
 }
