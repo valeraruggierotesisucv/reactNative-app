@@ -5,9 +5,11 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileRoutes } from "../../utils/routes";
+import { useAuth } from "../contexts/AuthContext";
 
 export function ConfigurationView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
+  const { logout } = useAuth();
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />
@@ -22,7 +24,9 @@ export function ConfigurationView() {
           variant={InputVariant.ARROW}
           onPress={() => navigation.navigate(ProfileRoutes.ChangePassword)}
         />
-        <Input label="CERRAR SESIÓN" />
+        <Input label="CERRAR SESIÓN" 
+          onPress={logout}
+        />
       </View>
     </SafeAreaView>
   );
