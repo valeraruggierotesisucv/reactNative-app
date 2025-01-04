@@ -45,3 +45,14 @@ export const events = [
         category: "CONCIERTO",
     },
 ]
+
+export const user = {
+    profileImage:
+      "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
+    username: "John Doe",
+    email: "john.doe@example.com",
+    biography: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    events: 10,
+    followers: 100,
+    following: 100,
+  };
