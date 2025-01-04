@@ -7,30 +7,38 @@ import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 import { useAuth } from "../contexts/AuthContext";
 import { useEffect } from "react";
 import Constants from "expo-constants";
+import { getServer } from "../../utils/getServer";
 
 export function HomeView() {
     const navigation = useNavigation<HomeStackNavigationProp>();
-    const { user } = useAuth(); 
+    const { user, session } = useAuth(); 
     
     // Solo para testing 
     useEffect(() => {
-        const host = Constants.expoConfig?.hostUri;
-        const localhost = host?.split(":")[0];    
-        fetch(`http://${localhost}:5000/api/users`)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
+        const server = getServer();    
+        const token = session?.access_token; 
+
+        fetch(`http://${server}:5000/api/protected`, {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${token}` 
             }
-            return response.json();
-          })
-          .then((data) => {
-            console.log(data)
-          })
-          .catch((error) => {
-            console.error("Fetch error:", error);
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
             
-          });
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data); 
+        })
+        .catch((error) => {
+            console.error("Fetch error:", error);        
+        });
     }, [])
+
     return(
         <View style={{flex: 1, gap: 8, alignItems: 'center'}}>
             <Text>HomeView</Text>
