@@ -62,6 +62,7 @@ export function HomeView() {
                 />
               )
             }}
+            contentContainerStyle={{ paddingBottom: 70 }}
           />
         </View>   
     </SafeAreaView>  
@@ -77,6 +78,6 @@ const styles = StyleSheet.create({
   view: {
     flexGrow: 1,
     width: "100%",
-    paddingTop: 20              // check padding 
+    paddingTop: 20,              // check padding 
   },   
 });

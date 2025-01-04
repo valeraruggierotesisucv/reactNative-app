@@ -9,6 +9,10 @@ export const events = [
         description: "Martijn Gerard Garritsen, conocido por su nombre artístico Martin Garrix, es un DJ, remezclador y productor discográfico neerlandés; también propietario del sello discográfico STMPD RCRDS",
         isLiked: false,
         date: "24/12/2024",
+        location: "Av Universitaria. ",
+        startsAt: "8:00 pm",
+        endsAt: "10:00 pm",
+        category: "CONCIERTO",
     },
     {
         userId: "2", 
@@ -20,6 +24,10 @@ export const events = [
         description: "Un concierto inolvidable de la famosa banda Coldplay.",
         isLiked: true,
         date: "15/01/2025",
+        location: "Av Universitaria. ",
+        startsAt: "8:00 pm",
+        endsAt: "10:00 pm",
+        category: "CONCIERTO",
     },
     {
         userId: "3", 
@@ -31,5 +39,9 @@ export const events = [
         description: "Una exposición de arte contemporáneo en la galería local.",
         isLiked: false,
         date: "10/02/2025",
+        location: "Av Universitaria. ",
+        startsAt: "8:00 pm",
+        endsAt: "10:00 pm",
+        category: "CONCIERTO",
     },
 ]

@@ -44,7 +44,7 @@ interface EventCardProps extends DisplayEventProps {
   onPressUser: () => void;
   onComment: () => void;
   onShare: () => void;
-  onMoreDetails: () => void;
+  onMoreDetails?: () => void;
 }
 
 const Pills = ({ startsAt, endsAt, date }: PillsProps) => {
