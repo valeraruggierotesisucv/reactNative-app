@@ -1,4 +1,5 @@
 import { NotificationType } from "../src/components/NotificationItem/NotificationItem";
+import { CategoriesEnum } from "../src/views/SearchView";
 
 export const events = [
     {
@@ -14,7 +15,7 @@ export const events = [
         location: "Av Universitaria. ",
         startsAt: "8:00 pm",
         endsAt: "10:00 pm",
-        category: "CONCIERTO",
+        category: CategoriesEnum.CLUBS,
     },
     {
         userId: "2", 
@@ -29,7 +30,7 @@ export const events = [
         location: "Av Universitaria. ",
         startsAt: "8:00 pm",
         endsAt: "10:00 pm",
-        category: "CONCIERTO",
+        category: CategoriesEnum.CONCERTS,
     },
     {
         userId: "3", 
@@ -44,7 +45,7 @@ export const events = [
         location: "Av Universitaria. ",
         startsAt: "8:00 pm",
         endsAt: "10:00 pm",
-        category: "CONCIERTO",
+        category: CategoriesEnum.CONCERTS,
     },
 ]
 

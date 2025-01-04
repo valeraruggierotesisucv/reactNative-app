@@ -23,8 +23,12 @@ export type HomeStackParamList = {
 // Search
 export type SearchStackParamList = {
     [SearchRoutes.Search]: undefined;
-    [SearchRoutes.EventDetails]: undefined;
-    [SearchRoutes.ProfileDetails]: undefined;
+    [SearchRoutes.EventDetails]: {
+        eventId: string
+    };
+    [SearchRoutes.ProfileDetails]: {
+        userId: string
+    };
 };
 
 // Add
