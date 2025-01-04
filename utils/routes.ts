@@ -37,7 +37,9 @@ export enum ProfileRoutes {
     EditProfile = "EditProfile",
     Configuration = "Configuration",
     ChangePassword = "ChangePassword",
-    ChangeLanguage = "ChangeLanguage"
+    ChangeLanguage = "ChangeLanguage",
+    Followers = "Followers",
+    Followed = "Followed"
 }
 
 // Notifications

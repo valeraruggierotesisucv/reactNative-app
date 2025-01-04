@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   medium: {
     borderRadius: 30,
     width: 251,
+    height: 53,
   },
   large: {
     borderRadius: 30,
