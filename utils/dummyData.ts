@@ -1,5 +1,7 @@
 export const events = [
     {
+        userId: "1", 
+        eventId: "1", 
         profileImage: "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
         username: "John Doe",
         eventImage: "https://picsum.photos/400/400?random=1",
@@ -9,6 +11,8 @@ export const events = [
         date: "24/12/2024",
     },
     {
+        userId: "2", 
+        eventId: "2", 
         profileImage: "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
         username: "Jane Smith",
         eventImage: "https://picsum.photos/400/400?random=2" ,
@@ -18,6 +22,8 @@ export const events = [
         date: "15/01/2025",
     },
     {
+        userId: "3", 
+        eventId: "3", 
         profileImage: "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
         username: "Alice Johnson",
         eventImage: "https://picsum.photos/400/400?random=3",

@@ -12,8 +12,12 @@ export type AuthStackParamList = {
 // Home 
 export type HomeStackParamList = {
     [HomeRoutes.Home]: undefined;
-    [HomeRoutes.EventDetails]: undefined;
-    [HomeRoutes.ProfileDetails]: undefined;
+    [HomeRoutes.EventDetails]: {
+        eventId: string
+    };
+    [HomeRoutes.ProfileDetails]: {
+        userId: string
+    };
 };
 
 // Search

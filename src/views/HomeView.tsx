@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView, StyleSheet, FlatList} from "react-native";
+import { SafeAreaView, StyleSheet, FlatList, View} from "react-native";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
@@ -40,28 +40,30 @@ export function HomeView() {
   }, [])
   
   return ( 
-    <SafeAreaView style={styles.container}>      
+    <SafeAreaView style={styles.container}>   
+      <View style={styles.view}>
         <AppHeader />
-        <FlatList
-          data={events}
-          renderItem={({ item }) => {
-            return(
-              <EventCard 
-                profileImage={item.profileImage}
-                username={item.username}                
-                eventImage={item.eventImage}
-                title={item.title}
-                description={item.description}
-                isLiked={item.isLiked}
-                date={item.date}
-                onPressUser={() => navigation.navigate(HomeRoutes.ProfileDetails)}
-                onComment={() => console.log("COMMENT")}
-                onShare={() => console.log("SHARE")}
-                onMoreDetails={() => navigation.navigate(HomeRoutes.EventDetails)}
-              />
-            )
-          }}
-        />
+          <FlatList
+            data={events}
+            renderItem={({ item }) => {
+              return(
+                <EventCard 
+                  profileImage={item.profileImage}
+                  username={item.username}                
+                  eventImage={item.eventImage}
+                  title={item.title}
+                  description={item.description}
+                  isLiked={item.isLiked}
+                  date={item.date}
+                  onPressUser={() => navigation.navigate(HomeRoutes.ProfileDetails, {userId : item.userId})}
+                  onComment={() => console.log("COMMENT")}
+                  onShare={() => console.log("SHARE")}
+                  onMoreDetails={() => navigation.navigate(HomeRoutes.EventDetails, { eventId: item.eventId})}
+                />
+              )
+            }}
+          />
+        </View>   
     </SafeAreaView>  
 
   );
@@ -72,11 +74,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
-  scrollViewContent: {
+  view: {
     flexGrow: 1,
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  
+    paddingTop: 20              // check padding 
+  },   
 });
