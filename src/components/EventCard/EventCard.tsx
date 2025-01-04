@@ -20,27 +20,28 @@ export enum EventCardVariant {
 }
 
 interface PillsProps {
-  startsAt: string; // esto falta en el modelo
-  endsAt: string; // esto falta en el modelo
+  startsAt: string; 
+  endsAt: string; 
   date: string;
 }
+
 interface DisplayEventProps {
   location?: string;
-  startsAt?: string; // esto falta en el modelo
-  endsAt?: string; // esto falta en el modelo
+  startsAt?: string; 
+  endsAt?: string; 
   date?: string;
   category?: string;
 }
 interface EventCardProps extends DisplayEventProps {
   profileImage: string;
   username: string;
-  eventImage: string; // falta este campo en la db
-  onPressUser: () => void;
-  title: string; // max 28 caracteres
+  eventImage: string; 
+  title: string;      // max 28 caracteres
   description: string; // max 100 caracteres
   isLiked: boolean;
   date: string;
   variant?: EventCardVariant;
+  onPressUser: () => void;
   onComment: () => void;
   onShare: () => void;
   onMoreDetails: () => void;
@@ -89,9 +90,8 @@ export function DisplayEvent({
 export function EventCard({
   profileImage,
   username,
-  onPressUser,
-  eventImage,
-  title,
+  eventImage, 
+  title, // max 28 caracteres
   description,
   isLiked,
   date,
@@ -100,6 +100,7 @@ export function EventCard({
   category,
   endsAt,
   variant = EventCardVariant.DEFAULT,
+  onPressUser,
   onComment,
   onShare,
   onMoreDetails,
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
     fontFamily: "SF-Pro-Rounded-Semibold",
     fontSize: 20,
     padding: 8,
+    paddingTop: 0
   },
   description: {
     fontFamily: "SF-Pro-Text-Regular",
