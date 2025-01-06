@@ -25,34 +25,13 @@ export function ProfileStack() {
         headerShown: false,
       }}
     >
-      <ProfileStackNavigator.Screen
-        name={ProfileRoutes.Profile}
-        component={ProfileView}
-      />
-      <ProfileStackNavigator.Screen
-        name={ProfileRoutes.EditProfile}
-        component={EditProfileView}
-      />
-      <ProfileStackNavigator.Screen
-        name={ProfileRoutes.Configuration}
-        component={ConfigurationView}
-      />
-      <ProfileStackNavigator.Screen
-        name={ProfileRoutes.ChangePassword}
-        component={ChangePasswordView}
-      />
-      <ProfileStackNavigator.Screen
-        name={ProfileRoutes.ChangeLanguage}
-        component={ChangeLanguageView}
-      />
-      <ProfileStackNavigator.Screen
-        name={ProfileRoutes.Followers}
-        component={FollowersView}
-      />
-      <ProfileStackNavigator.Screen
-        name={ProfileRoutes.Followed}
-        component={FollowedView}
-      />
+      <ProfileStackNavigator.Screen name={ProfileRoutes.Profile} component={ProfileView}/>
+      <ProfileStackNavigator.Screen name={ProfileRoutes.EditProfile} component={EditProfileView}/>
+      <ProfileStackNavigator.Screen name={ProfileRoutes.Configuration} component={ConfigurationView}/>
+      <ProfileStackNavigator.Screen name={ProfileRoutes.ChangePassword} component={ChangePasswordView}/>
+      <ProfileStackNavigator.Screen name={ProfileRoutes.ChangeLanguage} component={ChangeLanguageView}/>
+      <ProfileStackNavigator.Screen name={ProfileRoutes.Followers} component={FollowersView}/>
+      <ProfileStackNavigator.Screen name={ProfileRoutes.Followed} component={FollowedView}/>
     </ProfileStackNavigator.Navigator>
   );
 }

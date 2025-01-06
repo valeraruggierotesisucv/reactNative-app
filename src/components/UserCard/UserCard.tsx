@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingRight: 5,
-    paddingVertical: 5,
+    paddingLeft: 5, 
     flex: 1,
   },
   text: {

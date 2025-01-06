@@ -11,8 +11,8 @@ interface Tab {
 }
 
 interface TabsProps {
-  tabs: Tab[];
-  onTabChange?: (tabId: string) => void;
+    tabs: Tab[];
+    onTabChange?: (tabId: string) => void;
 }
 
 export function Tabs({ tabs, onTabChange }: TabsProps) {

@@ -14,7 +14,7 @@ app.get("/api/users", (req, res) => {
   res.json({ users: ["Daniela", "Miguel", "Juan"] });
 });
 
-// REjemplo ruta protegida
+// Ejemplo ruta protegida
 app.get('/api/protected', authenticateUser, (req, res) => {
   res.json({ 
       message: `Hola,  ${req.user.email} Accediste a una ruta protegida.` 
