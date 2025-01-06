@@ -44,11 +44,12 @@ const styles = StyleSheet.create({
   },
   label: {
     color: "white",
+    fontFamily: "SF-Pro-Rounded-Semibold",
   },
   extraSmall: {
     borderRadius: 5,
     width: 72,
-    height: 32,
+    height: 36,
   },
   small: {
     borderRadius: 5,
@@ -58,6 +59,7 @@ const styles = StyleSheet.create({
   medium: {
     borderRadius: 30,
     width: 251,
+    height: 53,
   },
   large: {
     borderRadius: 30,

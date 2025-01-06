@@ -8,7 +8,7 @@ export type AuthStackParamList = {
     [AuthRoutes.ForgotPassword]: undefined;
     [AuthRoutes.ForgotPasswordLogin]: undefined;
 };
-            
+
 // Home 
 export type HomeStackParamList = {
     [HomeRoutes.Home]: undefined;
@@ -35,5 +35,7 @@ export type ProfileStackParamList = {
     [ProfileRoutes.Configuration]: undefined;
     [ProfileRoutes.ChangePassword]: undefined;
     [ProfileRoutes.ChangeLanguage]: undefined;
+    [ProfileRoutes.Followers]: undefined;
+    [ProfileRoutes.Followed]: undefined;
 };
 

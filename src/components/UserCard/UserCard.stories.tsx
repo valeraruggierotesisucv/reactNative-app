@@ -20,7 +20,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    profileImage: require("../../assets/Avatar.png"),
+    profileImage:
+      "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
     username: "John Doe",
     onPressUser: () => console.log("User pressed"),
   },

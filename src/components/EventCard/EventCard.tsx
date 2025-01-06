@@ -32,12 +32,12 @@ interface DisplayEventProps {
   category?: string;
 }
 interface EventCardProps extends DisplayEventProps {
-  profileImage: ImageSourcePropType;
+  profileImage: string;
   username: string;
-  eventImage: ImageSourcePropType;
+  eventImage: string; // falta este campo en la db
   onPressUser: () => void;
-  title: string;
-  description: string;
+  title: string; // max 28 caracteres
+  description: string; // max 100 caracteres
   isLiked: boolean;
   date: string;
   variant?: EventCardVariant;
@@ -90,8 +90,8 @@ export function EventCard({
   profileImage,
   username,
   onPressUser,
-  eventImage, // falta este campo en la db
-  title, // max 28 caracteres
+  eventImage,
+  title,
   description,
   isLiked,
   date,
@@ -117,7 +117,7 @@ export function EventCard({
         variant={UserCardVariant.DEFAULT}
         onPressUser={onPressUser}
       />
-      <Image source={eventImage} style={{ height: 277 }} />
+      <Image source={{ uri: eventImage }} style={{ height: 277 }} />
       <SocialInteractions
         isLiked={like}
         onLike={handleLike}

@@ -9,7 +9,7 @@ export enum InputVariant {
 
 interface InputProps {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   variant?: InputVariant;
   onPress?: () => void;
 }
@@ -22,8 +22,10 @@ export function Input({
 }: InputProps) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <Text style={styles.placeholder}>{placeholder}</Text>
+      <Text style={[styles.label, { flex: placeholder ? 0.45 : 1 }]}>
+        {label}
+      </Text>
+      {placeholder && <Text style={styles.placeholder}>{placeholder}</Text>}
       {variant === InputVariant.ARROW ? (
         <MaterialIcons name="keyboard-arrow-right" size={24} color="gray" />
       ) : null}
@@ -38,15 +40,17 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 2,
     borderBottomColor: theme.colors["gray"],
+    justifyContent: "space-between",
   },
 
   label: {
-    flex: 0.45,
     fontWeight: "bold",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
 
   placeholder: {
     flex: 1,
     color: "gray",
+    fontFamily: "SF-Pro-Text-Regular",
   },
 });

@@ -10,6 +10,7 @@ import Constants from "expo-constants";
 import { getServer } from "../../utils/getServer";
 
 export function HomeView() {
+
     const navigation = useNavigation<HomeStackNavigationProp>();
     const { user, session } = useAuth(); 
     

@@ -8,7 +8,12 @@ interface ProfileCardProps {
   followers: number;
   following: number;
   isFollowing?: boolean;
+  onEditProfile?: () => void;
+  onConfigureProfile?: () => void;
   onFollow?: () => void;
+  onEvents?: () => void;
+  onFollowers?: () => void;
+  onFollowed?: () => void;
 }
 
 export function ProfileCard({
@@ -20,6 +25,11 @@ export function ProfileCard({
   following,
   isFollowing = false,
   onFollow,
+  onConfigureProfile,
+  onEditProfile,
+  onEvents,
+  onFollowers,
+  onFollowed,
 }: ProfileCardProps) {
   return (
     <View style={styles.container}>
@@ -28,18 +38,18 @@ export function ProfileCard({
           <Image source={{ uri: profileImage }} style={styles.profileImage} />
 
           <View style={styles.statsContainer}>
-            <View style={styles.statItem}>
+            <TouchableOpacity style={styles.statItem} onPress={onEvents}>
               <Text style={styles.statNumber}>{events}</Text>
               <Text style={styles.statLabel}>Eventos</Text>
-            </View>
-            <View style={styles.statItem}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.statItem} onPress={onFollowers}>
               <Text style={styles.statNumber}>{followers}</Text>
               <Text style={styles.statLabel}>Seguidores</Text>
-            </View>
-            <View style={styles.statItem}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.statItem} onPress={onFollowed}>
               <Text style={styles.statNumber}>{following}</Text>
               <Text style={styles.statLabel}>Seguidos</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.userInfo}>
@@ -47,19 +57,43 @@ export function ProfileCard({
           <Text style={styles.biography}>{biography}</Text>
         </View>
 
-        <TouchableOpacity
-          style={[styles.continueButton, isFollowing && styles.unfollowButton]}
-          onPress={onFollow}
-        >
-          <Text
-            style={[
-              styles.buttonText,
-              isFollowing && styles.unfollowButtonText,
-            ]}
-          >
-            {isFollowing ? "Dejar de seguir" : "Seguir"}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          {onFollow && (
+            <TouchableOpacity
+              style={[
+                styles.continueButton,
+                isFollowing && styles.unfollowButton,
+              ]}
+              onPress={onFollow}
+            >
+              <Text
+                style={[
+                  styles.buttonText,
+                  isFollowing && styles.unfollowButtonText,
+                ]}
+              >
+                {isFollowing ? "Dejar de seguir" : "Seguir"}
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          {onEditProfile && (
+            <TouchableOpacity
+              style={[styles.profileButton]}
+              onPress={onEditProfile}
+            >
+              <Text style={[styles.buttonText]}>Editar perfil</Text>
+            </TouchableOpacity>
+          )}
+          {onConfigureProfile && (
+            <TouchableOpacity
+              style={[styles.profileButton]}
+              onPress={onConfigureProfile}
+            >
+              <Text style={[styles.buttonText]}>Configurar perfil</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -72,14 +106,6 @@ const styles = StyleSheet.create({
     padding: 16,
     width: "100%",
     maxWidth: 400,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   content: {
     alignItems: "center",
@@ -88,7 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 10,
   },
   profileImage: {
     width: 80,
@@ -108,49 +134,64 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "SF-Pro-Text-Regular",
+    color: "#000000",
   },
   statLabel: {
     fontSize: 14,
-    color: "#666",
+    color: "#000000",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
   username: {
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 4,
     textAlign: "left",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
   biography: {
     fontSize: 14,
-    color: "#666",
-    marginBottom: 16,
+    color: "#000000",
+    marginBottom: 10,
     textAlign: "left",
+    fontFamily: "SF-Pro-Text-Regular",
   },
   continueButton: {
-    backgroundColor: "#00008B",
-    paddingVertical: 8,
+    backgroundColor: "#050F71",
+    paddingVertical: 4,
     paddingHorizontal: 24,
-    borderRadius: 4,
+    borderRadius: 8,
     width: "100%",
+    alignItems: "center",
+  },
+  profileButton: {
+    backgroundColor: "#050F71",
+    paddingVertical: 4,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    width: "45%",
     alignItems: "center",
   },
   unfollowButton: {
     backgroundColor: "transparent",
     borderWidth: 1,
-    borderColor: "#00008B",
+    borderColor: "#050F71",
   },
   buttonText: {
     color: "white",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 13,
   },
   unfollowButtonText: {
-    color: "#00008B",
+    color: "#050F71",
   },
   userInfo: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
-    marginTop: 16,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
 });

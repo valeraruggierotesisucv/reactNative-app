@@ -1,18 +1,23 @@
 import { View } from "react-native";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Calendar } from "./Calendar";
+import { SearchBar } from "./SearchBar";
 
 const meta = {
-  title: "Calendar",
-  component: Calendar,
+  title: "SearchBar",
+  component: SearchBar,
   decorators: [
     (Story) => (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          padding: 10,
+        }}
+      >
         <Story />
       </View>
     ),
   ],
-} satisfies Meta<typeof Calendar>;
+} satisfies Meta<typeof SearchBar>;
 
 export default meta;
 
