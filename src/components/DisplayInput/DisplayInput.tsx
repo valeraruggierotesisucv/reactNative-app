@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { theme } from "../../../utils/theme";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 interface DisplayInputProps {
   label: string;

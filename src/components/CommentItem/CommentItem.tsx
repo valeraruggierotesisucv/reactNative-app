@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { formatDate } from "../../../utils/formatDate";
 import { useState } from "react";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 const MAX_LINES = 3;
 const MIN_LINES = 3;
@@ -27,16 +28,14 @@ export function CommentItem({
   username,
   comment,
   timestamp,
-  likes = 0,
   userAvatar,
-  onLike,
-  onReply,
 }: CommentItemProps) {
+  const { t, locale } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   const [textHeight, setTextHeight] = useState(0);
   const [hasTextOverflow, setHasTextOverflow] = useState(false);
 
-  const formattedTimestamp = formatDate(timestamp);
+  const formattedTimestamp = formatDate(timestamp, locale as "en" | "es");
 
   const onTextLayout = (e: LayoutChangeEvent) => {
     const lineHeight = styles.commentText.lineHeight || 20;
@@ -76,7 +75,7 @@ export function CommentItem({
               style={styles.seeMoreButton}
             >
               <Text style={styles.seeMoreText}>
-                {isExpanded ? "See less" : "See more"}
+                {isExpanded ? t("see_less") : t("see_more")}
               </Text>
             </TouchableOpacity>
           )}

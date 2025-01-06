@@ -1,16 +1,14 @@
 import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 interface CommentInputProps {
   onSubmit?: (comment: string) => void;
-  placeholder?: string;
 }
 
-export function CommentInput({
-  onSubmit,
-  placeholder = "Add a comment...",
-}: CommentInputProps) {
+export function CommentInput({ onSubmit }: CommentInputProps) {
+  const { t } = useTranslation();
   const [comment, setComment] = useState("");
 
   const handleSubmit = () => {
@@ -24,9 +22,9 @@ export function CommentInput({
     <View style={styles.container}>
       <TextInput
         style={styles.input}
+        placeholder={t("comment_placeholder")}
         value={comment}
         onChangeText={setComment}
-        placeholder={placeholder}
         placeholderTextColor="#666"
         multiline
         maxLength={1000}

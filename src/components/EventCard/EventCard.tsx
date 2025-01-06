@@ -13,6 +13,7 @@ import { Chip, ChipVariant } from "../Chip/Chip";
 import { theme } from "../../../utils/theme";
 import { DisplayInput } from "../DisplayInput/DisplayInput";
 import { getLoadedFonts } from "expo-font";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 export enum EventCardVariant {
   DEFAULT = "default",
@@ -20,15 +21,15 @@ export enum EventCardVariant {
 }
 
 interface PillsProps {
-  startsAt: string; 
-  endsAt: string; 
+  startsAt: string;
+  endsAt: string;
   date: string;
 }
 
 interface DisplayEventProps {
   location?: string;
-  startsAt?: string; 
-  endsAt?: string; 
+  startsAt?: string;
+  endsAt?: string;
   date?: string;
   category?: string;
 }
@@ -64,12 +65,14 @@ export function DisplayEvent({
   date,
   category,
 }: DisplayEventProps) {
+  const { t } = useTranslation();
+
   return (
     <View>
-      <DisplayInput label="UBICACIÓN" data={location} />
+      <DisplayInput label={t("location")} data={location} />
 
       <DisplayInput
-        label="¿CUÁNDO?"
+        label={t("when")}
         data={
           <Pills
             startsAt={startsAt || ""}
@@ -80,7 +83,7 @@ export function DisplayEvent({
       />
 
       <DisplayInput
-        label="CATEGORÍA"
+        label={t("category")}
         data={<Chip label={category || ""} variant={ChipVariant.LIGHT} />}
       />
     </View>
@@ -105,6 +108,7 @@ export function EventCard({
   onShare,
   onMoreDetails,
 }: EventCardProps) {
+  const { t } = useTranslation();
   const [like, setLike] = useState(isLiked);
   console.log(getLoadedFonts());
   const handleLike = () => {
@@ -118,7 +122,10 @@ export function EventCard({
         variant={UserCardVariant.DEFAULT}
         onPressUser={onPressUser}
       />
-      <Image source={{ uri: eventImage }} style={{ height: 277 }} />
+      <Image
+        source={{ uri: eventImage }}
+        style={{ height: 277, width: "100%" }}
+      />
       <SocialInteractions
         isLiked={like}
         onLike={handleLike}
@@ -138,7 +145,7 @@ export function EventCard({
       </Text>
       {variant === EventCardVariant.DEFAULT ? (
         <TouchableOpacity onPress={onMoreDetails}>
-          <Text style={styles.details}>Ver más detalles ...</Text>
+          <Text style={styles.details}>{t("see_more_details")}</Text>
         </TouchableOpacity>
       ) : (
         <DisplayEvent

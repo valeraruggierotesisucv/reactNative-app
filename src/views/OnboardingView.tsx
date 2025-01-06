@@ -1,15 +1,22 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, Button } from "react-native";
+import { Text, Button } from "react-native";
 import { AuthRoutes } from "../../utils/routes";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
+import { useTranslation } from "../contexts/TranslationContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function OnboardingView() {
   const navigation = useNavigation<AuthStackNavigationProp>();
+  const { t, setLocale, locale } = useTranslation();
   return (
-    <View style={{ flex: 1, gap: 8 }}>
+    <SafeAreaView style={{ flex: 1, gap: 8 }}>
       <Text style={{ fontFamily: "SF-Pro-Rounded-Heavy", fontSize: 24 }}>
-        OnboardingView
+        {t("welcome")}
       </Text>
+      <Button
+        onPress={() => setLocale(locale === "en" ? "es" : "en")}
+        title={`Toggle ${locale}`}
+      />
       <Button
         title="Autenticación"
         onPress={() => navigation.navigate(AuthRoutes.Auth)}
@@ -27,6 +34,6 @@ export function OnboardingView() {
         title="Olvide mi contraseña Login View"
         onPress={() => navigation.navigate(AuthRoutes.ForgotPasswordLogin)}
       />
-    </View>
+    </SafeAreaView>
   );
 }

@@ -1,4 +1,5 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 interface ProfileCardProps {
   profileImage?: string;
@@ -31,6 +32,8 @@ export function ProfileCard({
   onFollowers,
   onFollowed,
 }: ProfileCardProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -40,15 +43,15 @@ export function ProfileCard({
           <View style={styles.statsContainer}>
             <TouchableOpacity style={styles.statItem} onPress={onEvents}>
               <Text style={styles.statNumber}>{events}</Text>
-              <Text style={styles.statLabel}>Eventos</Text>
+              <Text style={styles.statLabel}>{t("events")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.statItem} onPress={onFollowers}>
               <Text style={styles.statNumber}>{followers}</Text>
-              <Text style={styles.statLabel}>Seguidores</Text>
+              <Text style={styles.statLabel}>{t("followers")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.statItem} onPress={onFollowed}>
               <Text style={styles.statNumber}>{following}</Text>
-              <Text style={styles.statLabel}>Seguidos</Text>
+              <Text style={styles.statLabel}>{t("following")}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -72,7 +75,7 @@ export function ProfileCard({
                   isFollowing && styles.unfollowButtonText,
                 ]}
               >
-                {isFollowing ? "Dejar de seguir" : "Seguir"}
+                {isFollowing ? t("unfollow") : t("follow")}
               </Text>
             </TouchableOpacity>
           )}
@@ -82,7 +85,7 @@ export function ProfileCard({
               style={[styles.profileButton]}
               onPress={onEditProfile}
             >
-              <Text style={[styles.buttonText]}>Editar perfil</Text>
+              <Text style={[styles.buttonText]}>{t("edit_profile")}</Text>
             </TouchableOpacity>
           )}
           {onConfigureProfile && (
@@ -90,7 +93,7 @@ export function ProfileCard({
               style={[styles.profileButton]}
               onPress={onConfigureProfile}
             >
-              <Text style={[styles.buttonText]}>Configurar perfil</Text>
+              <Text style={[styles.buttonText]}>{t("configure_profile")}</Text>
             </TouchableOpacity>
           )}
         </View>

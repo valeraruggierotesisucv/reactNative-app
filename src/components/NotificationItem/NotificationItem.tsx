@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Button, ButtonSize } from "../Button/Button";
 import { formatDate } from "../../../utils/formatDate";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 export enum NotificationType {
   FOLLOW = "follow",
@@ -9,9 +10,9 @@ export enum NotificationType {
 }
 
 const notificationMessages = {
-  [NotificationType.FOLLOW]: "Started Following you",
-  [NotificationType.LIKE_EVENT]: "Liked your event",
-  [NotificationType.COMMENT_EVENT]: "Commented on your event",
+  [NotificationType.FOLLOW]: "started_following_you",
+  [NotificationType.LIKE_EVENT]: "liked_your_event",
+  [NotificationType.COMMENT_EVENT]: "commented_on_your_event",
 };
 
 export interface NotificationItemProps {
@@ -31,7 +32,8 @@ export function NotificationItem({
   eventImage,
   onFollow,
 }: NotificationItemProps) {
-  const formattedDate = formatDate(timestamp);
+  const { t, locale } = useTranslation();
+  const formattedDate = formatDate(timestamp, locale as "en" | "es");
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
@@ -47,12 +49,12 @@ export function NotificationItem({
           <Text style={styles.title}>{user}</Text>
           <Text style={styles.timestamp}>{formattedDate}</Text>
         </View>
-        <Text style={styles.description}>{notificationMessages[type]}</Text>
+        <Text style={styles.description}>{t(notificationMessages[type])}</Text>
       </View>
       <View style={styles.actions}>
         {type === NotificationType.FOLLOW && (
           <Button
-            label="Seguir"
+            label={t("follow")}
             onPress={onFollow}
             size={ButtonSize.EXTRA_SMALL}
           />
