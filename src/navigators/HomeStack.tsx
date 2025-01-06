@@ -22,14 +22,8 @@ export function HomeStack() {
       }}
     >
       <HomeStackNavigator.Screen name={HomeRoutes.Home} component={HomeView} />
-      <HomeStackNavigator.Screen
-        name={HomeRoutes.EventDetails}
-        component={EventDetailsView}
-      />
-      <HomeStackNavigator.Screen
-        name={HomeRoutes.ProfileDetails}
-        component={ProfileDetailsView}
-      />
+      <HomeStackNavigator.Screen name={HomeRoutes.EventDetails} component={EventDetailsView}/>
+      <HomeStackNavigator.Screen name={HomeRoutes.ProfileDetails} component={ProfileDetailsView}/>
     </HomeStackNavigator.Navigator>
   );
 }

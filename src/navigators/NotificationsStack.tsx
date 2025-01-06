@@ -21,10 +21,7 @@ export function NotificationsStack() {
         headerShown: false,
       }}
     >
-      <NotificationsStackNavigator.Screen
-        name={NotificationsRoutes.Notifications}
-        component={NotificationsView}
-      />
+      <NotificationsStackNavigator.Screen name={NotificationsRoutes.Notifications} component={NotificationsView}/>
     </NotificationsStackNavigator.Navigator>
   );
 }

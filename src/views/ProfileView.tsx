@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ProfileCard } from "../components/ProfileCard/ProfileCard";
 import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbnailList";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-
+import { user as dummyUser } from "../../utils/dummyData";
 export function ProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
 
@@ -15,16 +15,7 @@ export function ProfileView() {
     imageUrl: `https://picsum.photos/400/400?random=${index + 1}`,
   }));
 
-  const dummyUser = {
-    profileImage:
-      "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
-    username: "John Doe",
-    email: "john.doe@example.com",
-    biography: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    events: 10,
-    followers: 100,
-    following: 100,
-  };
+  
 
   return (
     <SafeAreaView style={styles.container}>

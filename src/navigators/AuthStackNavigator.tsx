@@ -24,22 +24,10 @@ export function AuthStack() {
       }}
     >
       <AuthStackNavigator.Screen name={AuthRoutes.Auth} component={AuthView} />
-      <AuthStackNavigator.Screen
-        name={AuthRoutes.Onboarding}
-        component={OnboardingView}
-      />
-      <AuthStackNavigator.Screen
-        name={AuthRoutes.ChooseCategories}
-        component={ChooseCategoriesView}
-      />
-      <AuthStackNavigator.Screen
-        name={AuthRoutes.ForgotPassword}
-        component={ForgotPasswordView}
-      />
-      <AuthStackNavigator.Screen
-        name={AuthRoutes.ForgotPasswordLogin}
-        component={ForgotPasswordLoginView}
-      />
+      <AuthStackNavigator.Screen name={AuthRoutes.Onboarding} component={OnboardingView}/>
+      <AuthStackNavigator.Screen name={AuthRoutes.ChooseCategories} component={ChooseCategoriesView}/>
+      <AuthStackNavigator.Screen name={AuthRoutes.ForgotPassword} component={ForgotPasswordView}/>
+      <AuthStackNavigator.Screen name={AuthRoutes.ForgotPasswordLogin} component={ForgotPasswordLoginView}/>
     </AuthStackNavigator.Navigator>
   );
 }
