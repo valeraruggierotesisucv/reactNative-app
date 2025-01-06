@@ -1,14 +1,18 @@
-import { SafeAreaView, ScrollView, StyleSheet} from "react-native";
+import { ScrollView, StyleSheet} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { EventCard, EventCardVariant } from "../components/EventCard/EventCard";
 import { events } from "../../utils/dummyData";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
+import { RouteProp } from "@react-navigation/native";
+import { HomeStackParamList } from "../../utils/types";
+import { HomeRoutes } from "../../utils/routes";
 
 export function EventDetailsView() {
     const navigation = useNavigation<HomeStackNavigationProp>();
-    const route = useRoute(); 
+    const route = useRoute<RouteProp<HomeStackParamList, HomeRoutes.EventDetails>>();
 
     function getEventDetails(eventId: string){
         return events.find(event => event.eventId === eventId)
