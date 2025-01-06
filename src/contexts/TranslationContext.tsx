@@ -21,7 +21,7 @@ const TranslationContext = createContext<TranslationContextProps | undefined>(
 export const TranslationProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [locale, setLocale] = useState("en");
+  const [locale, setLocale] = useState("es");
 
   i18n.locale = locale;
 

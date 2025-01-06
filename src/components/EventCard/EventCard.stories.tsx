@@ -17,7 +17,8 @@ export const Default: Story = {
       "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
     username: "John Doe",
     onPressUser: () => console.log("USER PRESSED"),
-    eventImage: require("../../assets/event.png"),
+    eventImage:
+      "https://www.laxmedellin.com/uploads/newsarticle/716b6fe2890f4c94a3a04b71f481d504/Martin-Garrix-02-by-Louis-van-Baar.jpg",
     title: "Martin Garrix Meet and Greet",
     description:
       "Martijn Gerard Garritsen, conocido por su nombre artístico Martin Garrix, es un DJ, remezclador y productor discográfico neerlandés; también propietario del sello discográfico STMPD RCRDS",
@@ -36,7 +37,7 @@ export const Details: Story = {
     username: "John Doe",
     onPressUser: () => console.log("USER PRESSED"),
     eventImage:
-      "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmartingarrix.com%2Ftour%2F&psig=AOvVaw3VUb5iJZIRtKb7JikxVwcC&ust=1736031465915000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMi567LT2ooDFQAAAAAdAAAAABAE",
+      "https://www.laxmedellin.com/uploads/newsarticle/716b6fe2890f4c94a3a04b71f481d504/Martin-Garrix-02-by-Louis-van-Baar.jpg",
     title: "Martin Garrix Meet and Greet",
     description:
       "Martijn Gerard Garritsen, conocido por su nombre artístico Martin Garrix, es un DJ, remezclador y productor discográfico neerlandés; también propietario del sello discográfico STMPD RCRDS",

@@ -1,4 +1,4 @@
-export function formatDate(date: Date): string {
+export function formatDate(date: Date, locale: 'en' | 'es' = 'en'): string {
     const now = new Date();
     const diffInMilliseconds = now.getTime() - date.getTime();
     const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
@@ -8,26 +8,47 @@ export function formatDate(date: Date): string {
     const diffInMonths = Math.floor(diffInDays / 30);
     const diffInYears = Math.floor(diffInDays / 365);
 
+    const translations = {
+        en: {
+            justNow: 'just now',
+            minute: 'm ago',
+            hour: 'h ago',
+            day: 'd ago',
+            month: 'mo ago',
+            year: 'y ago',
+        },
+        es: {
+            justNow: 'ahora mismo',
+            minute: 'min atrás',
+            hour: 'h atrás',
+            day: 'd atrás',
+            month: ' mes atrás',
+            year: ' año atrás',
+        },
+    };
+
+    const t = translations[locale];
+
     if (diffInSeconds < 60) {
-        return 'just now';
+        return t.justNow;
     }
 
     if (diffInMinutes < 60) {
-        return `${diffInMinutes}m ago`;
+        return `${diffInMinutes}${t.minute}`;
     }
 
     if (diffInHours < 24) {
-        return `${diffInHours}h ago`;
+        return `${diffInHours}${t.hour}`;
     }
 
     if (diffInDays < 30) {
-        return `${diffInDays}d ago`;
+        return `${diffInDays}${t.day}`;
     }
 
     if (diffInMonths < 12) {
-        return `${diffInMonths}mo ago`;
+        return `${diffInMonths}${t.month}`;
     }
 
-    return `${diffInYears}y ago`;
+    return `${diffInYears}${t.year}`;
 }
 
