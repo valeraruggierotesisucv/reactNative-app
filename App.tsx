@@ -2,12 +2,15 @@ import { Navigation } from "./RootNavigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
 import Constants from "expo-constants";
 import { FontLoader } from "./FontLoader";
+import { TranslationProvider } from "./src/contexts/TranslationContext";
 
 export function App() {
   return (
     <FontLoader>
       <AuthProvider>
-        <Navigation />
+        <TranslationProvider>
+          <Navigation />
+        </TranslationProvider>
       </AuthProvider>
     </FontLoader>
   );

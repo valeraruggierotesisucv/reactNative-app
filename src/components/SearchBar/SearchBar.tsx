@@ -1,24 +1,21 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 interface SearchBarProps {
-  placeholder?: string;
   onChangeText?: (text: string) => void;
   value?: string;
 }
 
-export function SearchBar({
-  placeholder = "Search",
-  onChangeText,
-  value,
-}: SearchBarProps) {
+export function SearchBar({ onChangeText, value }: SearchBarProps) {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
       <AntDesign name="search1" size={20} color="gray" style={styles.icon} />
       <TextInput
         style={styles.input}
-        placeholder={placeholder}
+        placeholder={t("search")}
         onChangeText={onChangeText}
         value={value}
         placeholderTextColor="gray"
