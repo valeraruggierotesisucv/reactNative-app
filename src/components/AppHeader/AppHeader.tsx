@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 16,
+    padding: 0,
     height: 60,
   },
   leftContainer: {
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   centerContainer: {
     flex: 2,
     alignItems: "center",
+    justifyContent: "center",
   },
   rightContainer: {
     flex: 1,
@@ -67,8 +68,8 @@ const styles = StyleSheet.create({
     height: 30,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontFamily: "SF-Pro-Rounded-Semibold",
     color: "black",
   },
 });

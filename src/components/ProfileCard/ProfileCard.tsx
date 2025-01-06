@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 10,
   },
   profileImage: {
     width: 80,
@@ -134,23 +134,27 @@ const styles = StyleSheet.create({
   },
   statNumber: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "SF-Pro-Text-Regular",
+    color: "#000000",
   },
   statLabel: {
     fontSize: 14,
-    color: "#666",
+    color: "#000000",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
   username: {
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 4,
     textAlign: "left",
+    fontFamily: "SF-Pro-Rounded-Bold",
   },
   biography: {
     fontSize: 14,
-    color: "#666",
-    marginBottom: 16,
+    color: "#000000",
+    marginBottom: 10,
     textAlign: "left",
+    fontFamily: "SF-Pro-Text-Regular",
   },
   continueButton: {
     backgroundColor: "#050F71",
@@ -184,7 +188,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
-    marginTop: 16,
   },
   buttonContainer: {
     flexDirection: "row",

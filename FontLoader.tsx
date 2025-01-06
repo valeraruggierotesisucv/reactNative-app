@@ -8,6 +8,8 @@ export const FontLoader: React.FC<React.PropsWithChildren<{}>> = ({
   const [fontsLoaded, error] = useFonts({
     "SF-Pro-Rounded-Heavy": require("./assets/fonts/SFProRoundedHeavy.otf"),
     "SF-Pro-Rounded-Semibold": require("./assets/fonts/SFProRoundedSemibold.otf"),
+    "SF-Pro-Rounded-Medium": require("./assets/fonts/SFProRoundedMedium.otf"),
+    "SF-Pro-Rounded-Bold": require("./assets/fonts/SFProRoundedBold.otf"),
     "SF-Pro-Text-Regular": require("./assets/fonts/SFProTextRegular.otf"),
     "SF-Pro-Text-Bold": require("./assets/fonts/SFProTextBold.otf"),
     "SF-Pro-Text-Medium": require("./assets/fonts/SFProTextMedium.otf"),
