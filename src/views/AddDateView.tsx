@@ -43,6 +43,8 @@ export function AddDateView({
           <AppHeader title="¿Cuándo?" goBack={navigation.goBack} />            
           <Calendar
             date={date}
+            initialStartTime={startTime}
+            initialEndTime={endTime}
             onDateChange={setDate}
             onStartTimeChange={setStartTime}
             onEndTimeChange={setEndTime}

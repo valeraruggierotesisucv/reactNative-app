@@ -15,8 +15,8 @@ import React from "react";
 import { formatHour } from "../../../utils/formatHour";
 
 interface CalendarProps {
-  initialStartTime?: Date;
-  initialEndTime?: Date;
+  initialStartTime?: Date | null;
+  initialEndTime?: Date | null ;
   maxDate?: Date;
   date: Date | null; 
   onDateChange?: (date: Date | null) => void;
@@ -64,9 +64,10 @@ export function Calendar({
 
   return (
     <ScrollView>
-      <CalendarPicker
+      <CalendarPicker        
         onDateChange={(date) => onDateChange(date)
         }
+        selectedStartDate={date}
         selectedDayStyle={{
           backgroundColor: "#E0EFFF",
         }}
@@ -79,7 +80,7 @@ export function Calendar({
         maxDate={maxDate || nextYear}
         textStyle={{ color: "black", fontFamily: "SF-Pro-Text-Regular" }}
       />
-      <Text>{date?.toString()}</Text>
+      
       <View style={styles.dateInputContainer}>
         <Input
           label="Empieza"
