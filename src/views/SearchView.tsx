@@ -16,6 +16,7 @@ export enum SearchTabsEnum  {
   ACCOUNTS = "Cuentas"
 }
 
+// TODO usar el shareEnum (da error)
 export enum CategoriesEnum {
   ALL = "Todos",
   CONFERENCES = "Conferencias",

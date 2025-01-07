@@ -10,20 +10,22 @@ import { CategoriesEnum } from "./SearchView";
 interface ChooseCategoryProps {
     step: Steps, 
     setStep: (step: Steps) => void, 
+    category: CategoriesEnum | null, 
+    setCategory: ( category: CategoriesEnum) => void
 }
 
+// TODO limitar a poder seleccionar una sola categoria 
 export function ChooseCategoriesView({
     step, 
-    setStep
+    setStep, 
+    category, 
+    setCategory
 }: ChooseCategoryProps) {
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+    const [selectedId, setSelectedId] = useState<CategoriesEnum | null>();
 
-    const handlePress = (categoryId: string) => {
-        setSelectedIds(prev => 
-            prev.includes(categoryId) 
-                ? prev.filter(id => id !== categoryId)
-                : [...prev, categoryId]
-        );
+    const handlePress = (category: CategoriesEnum) => {
+        setSelectedId(category);
+        setCategory(category)
     };
     const categories = [
         { id: '1', label: CategoriesEnum.CULTURE, icon: 'palette' }, 
@@ -52,8 +54,8 @@ export function ChooseCategoriesView({
                             key={category.id}
                             label={category.label}
                             icon={category.icon as any}
-                            selected={selectedIds.includes(category.id)}
-                            onPress={() => handlePress(category.id)}
+                            selected={selectedId === category.label}
+                            onPress={() => handlePress(category.label)}
                         />
                     ))}
                 </View>

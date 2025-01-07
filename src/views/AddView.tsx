@@ -14,7 +14,6 @@ import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
 import { Chip, ChipVariant} from "../components/Chip/Chip";
 import { formatHour } from "../../utils/formatHour";
-import { formatDate } from "../../utils/formatDate";
 
 
 /* TODO
@@ -101,7 +100,7 @@ function Default({
         { category
             ? <DisplayInput 
                 label="CATEGORÍA"
-                data={<Text>category</Text>}
+                data={<Chip label={category.toUpperCase()} variant={ChipVariant.LIGHT}/>}
                 onPress={() => setStep(Steps.CATEGORY)}
             />
             : <Input 
@@ -181,6 +180,8 @@ export function AddView() {
                     <ChooseCategoriesView 
                         step={step}
                         setStep={setStep}
+                        category={category}
+                        setCategory={setCategory}
                     />
                 )}
                 
