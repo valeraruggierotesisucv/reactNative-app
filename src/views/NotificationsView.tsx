@@ -5,9 +5,9 @@ import { NotificationItem } from "../components/NotificationItem/NotificationIte
 
 export function NotificationsView() {
     return(
-        <SafeAreaView style={styles.container}>   
-      <View style={styles.view}>
-        <AppHeader />
+      <SafeAreaView style={styles.container}>   
+        <View style={styles.view}>
+          <AppHeader />
           <FlatList
             data={notifications}
             renderItem={({ item }) => {
@@ -25,7 +25,7 @@ export function NotificationsView() {
             contentContainerStyle={{ paddingBottom: 70 }}
           />
         </View>   
-    </SafeAreaView> 
+      </SafeAreaView> 
     )
 }   
 

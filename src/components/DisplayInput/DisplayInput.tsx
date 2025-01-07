@@ -1,18 +1,19 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "../../../utils/theme";
 import { useTranslation } from "../../contexts/TranslationContext";
 
 interface DisplayInputProps {
   label: string;
   data: React.ReactNode;
+  onPress: () => void
 }
 
-export function DisplayInput({ label, data }: DisplayInputProps) {
+export function DisplayInput({ label, data, onPress}: DisplayInputProps) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.data}>{data}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

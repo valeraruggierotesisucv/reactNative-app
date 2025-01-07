@@ -1,4 +1,4 @@
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { theme } from "../../../utils/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -12,6 +12,8 @@ interface InputProps {
   placeholder?: string;
   variant?: InputVariant;
   onPress?: () => void;
+  value?: string, 
+  onChangeValue?: (data: string) => void
 }
 
 export function Input({
@@ -25,7 +27,17 @@ export function Input({
       <Text style={[styles.label, { flex: placeholder ? 0.45 : 1 }]}>
         {label}
       </Text>
-      {placeholder && <Text style={styles.placeholder}>{placeholder}</Text>}
+
+      {variant === InputVariant.DEFAULT 
+       ? (<TextInput 
+            multiline={true}
+            numberOfLines={4}
+            style={styles.placeholder}
+            placeholder={placeholder}
+       />)
+       : (placeholder && <Text style={styles.placeholder}>{placeholder}</Text>)
+      }
+      
       {variant === InputVariant.ARROW ? (
         <MaterialIcons name="keyboard-arrow-right" size={24} color="gray" />
       ) : null}

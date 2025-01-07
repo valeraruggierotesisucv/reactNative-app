@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Tabs } from "../components/Tabs/Tabs";
 import { Pills } from "../components/Pills/Pills";
 
+
 export enum SearchTabsEnum  {
   EVENTS = "Eventos", 
   ACCOUNTS = "Cuentas"
