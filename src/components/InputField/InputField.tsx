@@ -4,6 +4,8 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ViewStyle,
+  StyleProp,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -17,6 +19,8 @@ interface InputFieldProps {
   icon?: keyof typeof MaterialCommunityIcons.glyphMap;
   onPressIcon?: () => void;
   variant?: "default" | "grayBackground";
+  style?: StyleProp<ViewStyle>;
+  iconColor?: string;
 }
 
 export function InputField({
@@ -29,9 +33,11 @@ export function InputField({
   icon,
   onPressIcon,
   variant = "default",
+  style,
+  iconColor,
 }: InputFieldProps) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Text style={styles.label}>{label}</Text>
       <View
         style={[
@@ -53,7 +59,11 @@ export function InputField({
             onPress={onPressIcon}
             disabled={!onPressIcon}
           >
-            <MaterialCommunityIcons name={icon} size={24} color="#666666" />
+            <MaterialCommunityIcons
+              name={icon}
+              size={24}
+              color={iconColor || "#666666"}
+            />
           </TouchableOpacity>
         )}
       </View>

@@ -1,80 +1,239 @@
-import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { supabase } from '../lib/supabase';
-import { Button, Input } from '@rneui/themed';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from "react";
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+} from "react-native";
+import { supabase } from "../lib/supabase";
+import { useAuth } from "../contexts/AuthContext";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { IconLogo } from "../components/IconLogo/IconLogo";
+import { Tabs } from "../components/Tabs/Tabs";
+import { InputField } from "../components/InputField/InputField";
+import { Button } from "../components/Button/Button";
+import { useTranslation } from "../contexts/TranslationContext";
+import { Formik } from "formik";
+import { AuthRoutes } from "../../utils/routes";
+import { useNavigation } from "@react-navigation/native";
+import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 
-export function AuthView() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+function Login() {
+  const navigation = useNavigation<AuthStackNavigationProp>();
+  const { t } = useTranslation();
   const { login } = useAuth();
-
-  async function signInWithEmail() {
-    setLoading(true)
+  const loginInitialValues = { email: "", password: "" };
+  const [showPassword, setShowPassword] = useState(false);
+  async function signInWithEmail(email: string, password: string) {
     login(email, password);
-    setLoading(false);      
   }
+  return (
+    <Formik
+      initialValues={loginInitialValues}
+      onSubmit={(values) => signInWithEmail(values.email, values.password)}
+    >
+      {({ handleChange, handleSubmit, values }) => (
+        <>
+          <View>
+            <InputField
+              label={t("email")}
+              value={values.email}
+              onChangeText={handleChange("email")}
+              placeholder={t("email_placeholder")}
+              icon="email"
+              iconColor="#050F71"
+              style={{ marginTop: 40, marginBottom: 24 }}
+            />
+            <InputField
+              label={t("password")}
+              value={values.password}
+              onChangeText={handleChange("password")}
+              placeholder={t("password_placeholder")}
+              secureTextEntry={!showPassword}
+              icon={showPassword ? "eye-off" : "eye"}
+              iconColor="#050F71"
+              onPressIcon={() => setShowPassword(!showPassword)}
+              style={{ marginBottom: 9 }}
+            />
+            <Pressable onPress={() => console.log("Forgot Password?")}>
+              <Text style={styles.forgotPasswordText}>
+                {t("forgotPassword")}
+              </Text>
+            </Pressable>
+          </View>
+          <Button
+            label={t("login")}
+            onPress={handleSubmit}
+            style={{ marginBottom: 55 }}
+          />
+        </>
+      )}
+    </Formik>
+  );
+}
 
-  async function signUpWithEmail() {
-    setLoading(true)
+const Signup = () => {
+  const navigation = useNavigation<AuthStackNavigationProp>();
+  const { t } = useTranslation();
+  const signupInitialValues = {
+    username: "",
+    fullname: "",
+    email: "",
+    birthdate: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  async function signUpWithEmail(email: string, password: string) {
     const {
       data: { session },
       error,
     } = await supabase.auth.signUp({
       email: email,
       password: password,
-    })
+    });
 
-    if (error) Alert.alert(error.message)
-    if (!session) Alert.alert('Please check your inbox for email verification!')
-    setLoading(false)
+    if (error) Alert.alert(error.message);
+    if (!session) Alert.alert(t("check_inbox_for_verification"));
   }
+  return (
+    <Formik
+      initialValues={signupInitialValues}
+      onSubmit={(values) => navigation.navigate(AuthRoutes.ChooseCategories)}
+    >
+      {({ handleChange, handleSubmit, values }) => (
+        <>
+          <View>
+            <InputField
+              label={t("username")}
+              value={values.username}
+              onChangeText={handleChange("username")}
+              placeholder={t("username_placeholder")}
+              icon="account"
+              iconColor="#050F71"
+              style={{ marginTop: 40, marginBottom: 24 }}
+            />
+            <InputField
+              label={t("email")}
+              value={values.email}
+              onChangeText={handleChange("email")}
+              placeholder={t("email_placeholder")}
+              icon="email"
+              iconColor="#050F71"
+              style={{ marginBottom: 24 }}
+            />
+            <InputField
+              label={t("fullname")}
+              value={values.fullname}
+              onChangeText={handleChange("fullname")}
+              placeholder={t("fullname_placeholder")}
+              icon="account"
+              iconColor="#050F71"
+              style={{ marginBottom: 24 }}
+            />
+            <InputField
+              label={t("birthdate")}
+              value={values.birthdate}
+              onChangeText={handleChange("birthdate")}
+              placeholder={t("birthdate_placeholder")}
+              icon="calendar"
+              iconColor="#050F71"
+              style={{ marginBottom: 24 }}
+            />
+            <InputField
+              label={t("password")}
+              value={values.password}
+              onChangeText={handleChange("password")}
+              placeholder={t("password_placeholder")}
+              icon="lock"
+              iconColor="#050F71"
+              style={{ marginBottom: 24 }}
+            />
+            <InputField
+              label={t("confirm_password")}
+              value={values.confirmPassword}
+              onChangeText={handleChange("confirmPassword")}
+              placeholder={t("confirm_password_placeholder")}
+              icon="lock"
+              iconColor="#050F71"
+              style={{ marginBottom: 24 }}
+            />
+          </View>
+          <Button
+            label={t("sign_up")}
+            onPress={handleSubmit}
+            style={{ marginTop: 50, marginBottom: 55 }}
+          />
+        </>
+      )}
+    </Formik>
+  );
+};
+
+export function AuthView() {
+  const { t } = useTranslation();
+  const navigation = useNavigation<AuthStackNavigationProp>();
+  const insets = useSafeAreaInsets();
+
+  const tabs = [
+    { id: "login", label: t("login") },
+    { id: "signup", label: t("sign_up") },
+  ];
+  const [activeTab, setActiveTab] = useState({
+    id: "login",
+    label: t("login"),
+  });
 
   return (
     <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input
-          label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          placeholder="email@address.com"
-          autoCapitalize={'none'}
-        />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Input
-          label="Password"
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-          autoCapitalize={'none'}
-        />
-      </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={[styles.iconLogoContainer, { paddingTop: insets.top }]}>
+          <IconLogo style={styles.iconLogo} />
+          <Tabs tabs={tabs} gap={50} onTabChange={(tab) => setActiveTab(tab)} />
+        </View>
+        <View style={styles.formContainer}>
+          {activeTab.id === "login" ? <Login /> : <Signup />}
+        </View>
+      </ScrollView>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
-    padding: 12,
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#D9D9D9",
   },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: 'stretch',
+  iconLogoContainer: {
+    width: "100%",
+    height: "auto",
+    backgroundColor: "white",
+    alignItems: "center",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
-  mt20: {
-    marginTop: 20,
+  iconLogo: {
+    marginTop: 37,
+    marginBottom: 30,
   },
-})
+  formContainer: {
+    flex: 1,
+    width: "100%",
+    paddingHorizontal: 40,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  forgotPasswordText: {
+    textAlign: "center",
+    color: "#050F71",
+    fontSize: 15,
+    fontFamily: "SF-Pro-Text-Semibold",
+    marginTop: 10,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+  },
+});

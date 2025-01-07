@@ -46,7 +46,7 @@ export const FontLoader: React.FC<React.PropsWithChildren<{}>> = ({
 
   if (!fontsLoaded) {
     console.log("Returning null because fonts are not loaded");
-    return null; // Optionally, you can return a loading indicator here
+    return null;
   }
 
   return <>{children}</>;

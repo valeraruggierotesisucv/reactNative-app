@@ -4,7 +4,8 @@ export enum AuthRoutes {
     Onboarding = "Onboarding",
     ChooseCategories = "ChooseCategories",
     ForgotPassword = "ForgotPassword",
-    ForgotPasswordLogin = "ForgotPasswordLogin"
+    ForgotPasswordLogin = "ForgotPasswordLogin",
+    Success = "Success"
 }
 
 // Home

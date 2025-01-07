@@ -22,7 +22,7 @@ export function CategoryButton({
         <MaterialCommunityIcons
           name={icon}
           size={50}
-          color={selected ? "#FFFFFF" : "#050F71"}
+          color={selected ? "#050F71" : "#FFFFFF"}
         />
       </View>
       <Text style={[styles.label]}>{label}</Text>
@@ -42,15 +42,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#050F71",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
     borderWidth: 2,
-    borderColor: "#050F71",
   },
   selectedIconContainer: {
-    backgroundColor: "#050F71",
+    borderColor: "#050F71",
+    backgroundColor: "#F5F5F5",
   },
   label: {
     fontSize: 17,
