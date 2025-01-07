@@ -34,10 +34,6 @@ export function AddDateView({
     const navigation = useNavigation<AddStackNavigationProp>();
 
     function handleNext(){
-      console.log("Date ", date);
-      console.log("Hora de Inicio ", startTime); 
-      console.log("Hora de Fin", endTime)
-
       setStep(Steps.DEFAULT)
     }
 
@@ -51,9 +47,7 @@ export function AddDateView({
             onStartTimeChange={setStartTime}
             onEndTimeChange={setEndTime}
           />
-          <Text>{date?.toString()}</Text>
-          <Text>STARTS {startTime?.toString()}</Text>
-          <Text>ENDS {endTime?.toString()}</Text>
+                  
           <View style={styles.footer}>
             <Button 
               label="Siguiente"

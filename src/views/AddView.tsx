@@ -4,19 +4,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { Input, InputVariant } from "../components/Input/Input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { AddStackNavigationProp } from "../navigators/AddStack";
-import { AddRoutes } from "../../utils/routes";
-import { AddStackParamList } from "../../utils/types";
-import { RouteProp } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
-import { Calendar } from "../components/Calendar/Calendar";
 import React from "react";
 import { AddDateView } from "./AddDateView";
 import { DisplayInput } from "../components/DisplayInput/DisplayInput";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
+import { Chip, ChipVariant} from "../components/Chip/Chip";
+import { formatHour } from "../../utils/formatHour";
+import { formatDate } from "../../utils/formatDate";
 
 
 /* TODO
@@ -51,7 +49,21 @@ function Default({
     endsAt, 
     category    
 }: DefaultProps){
-    
+
+    const DatePills = () => {
+        if (startsAt === null || endsAt === null || date === null) return; 
+        const start = formatHour(startsAt); 
+        const end = formatHour(endsAt); 
+        const formattedDate = date?.toLocaleDateString()
+        
+        return (
+            <View style={{ flexDirection: "row", gap: 8 }}>
+                <Chip label={start} variant={ChipVariant.LIGHT}/>
+                <Chip label={end} variant={ChipVariant.LIGHT}/>
+                <Chip label={formattedDate} variant={ChipVariant.LIGHT}/>
+            </View>
+        );
+    }
     return(
         <>
         <AppHeader title="Nuevo Evento" />
@@ -61,7 +73,7 @@ function Default({
             style={styles.image}
         />
 
-        {/* Ubicación */} 
+        {/* Descripción */} 
         <Input
             label="DESCRIPCIÓN"
             placeholder="Agrega una descripción de tu evento"
@@ -70,11 +82,11 @@ function Default({
             onChangeValue={setDescription}
         />
 
-        {/* Ubicación NO FUNCIONA */} 
+        {/* FECHA Y HORA */} 
         { date && startsAt && endsAt
             ? <DisplayInput 
                 label="¿CUÁNDO?"
-                data={<Text>{date.toString()} - {startsAt.toString()} - {endsAt.toString()}</Text>}
+                data={<DatePills />}
                 onPress={() => setStep(Steps.DATE)}
             />
             : <Input
