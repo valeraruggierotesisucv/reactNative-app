@@ -17,11 +17,17 @@ export enum SearchTabsEnum  {
 }
 
 export enum CategoriesEnum {
-  ALL = "All", 
-  CONCERTS = "Concerts", 
-  FESTIVALS = "Festivals",
+  ALL = "Todos",
+  CONFERENCES = "Conferencias",
+  PARTIES = "Fiestas",
+  CONCERTS = "Conciertos",
   CLUBS = "Clubs", 
-  PARTIES = "Parties" 
+  FESTIVALS = "Festivales",
+  SPORTS = "Deporte",
+  THEATER = "Teatro",
+  EXHIBITIONS = "Exhibición",
+  EDUCATION = "Educativo",
+  CULTURE = "Cultura"
 }
 
 export function SearchView() {

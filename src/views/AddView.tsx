@@ -58,9 +58,9 @@ function Default({
         
         return (
             <View style={{ flexDirection: "row", gap: 8 }}>
-                <Chip label={start} variant={ChipVariant.LIGHT}/>
-                <Chip label={end} variant={ChipVariant.LIGHT}/>
-                <Chip label={formattedDate} variant={ChipVariant.LIGHT}/>
+                <Chip label={start} variant={ChipVariant.LIGHT} onPress={() => setStep(Steps.DATE)}/>
+                <Chip label={end} variant={ChipVariant.LIGHT} onPress={() => setStep(Steps.DATE)}/>
+                <Chip label={formattedDate} variant={ChipVariant.LIGHT} onPress={() => setStep(Steps.DATE)}/>
             </View>
         );
     }
@@ -110,7 +110,6 @@ function Default({
                 variant={InputVariant.ARROW}
                 onPress={() => setStep(Steps.CATEGORY)}
             />
-
         }
         
         <Input 

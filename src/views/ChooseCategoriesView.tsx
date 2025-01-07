@@ -1,14 +1,11 @@
 import { SafeAreaView } from "react-native-safe-area-context"; 
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { AddStackNavigationProp } from "../navigators/AddStack";
-import { Calendar } from "../components/Calendar/Calendar";
 import { Button } from "../components/Button/Button";
-import { AddRoutes } from "../../utils/routes";
-import { AddStackParamList } from "../../utils/types";
 import { useState } from "react";
 import { Steps } from "./AddView";
+import { CategoryButton } from "../components/CategoryButton/CategoryButton";
+import { CategoriesEnum } from "./SearchView";
 
 interface ChooseCategoryProps {
     step: Steps, 
@@ -19,13 +16,47 @@ export function ChooseCategoriesView({
     step, 
     setStep
 }: ChooseCategoryProps) {
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+    const handlePress = (categoryId: string) => {
+        setSelectedIds(prev => 
+            prev.includes(categoryId) 
+                ? prev.filter(id => id !== categoryId)
+                : [...prev, categoryId]
+        );
+    };
+    const categories = [
+        { id: '1', label: CategoriesEnum.CULTURE, icon: 'palette' }, 
+        { id: '2', label: CategoriesEnum.EDUCATION, icon: 'bookshelf' },
+        { id: '3', label: CategoriesEnum.PARTIES, icon: 'party-popper' },
+        { id: '4', label: CategoriesEnum.CONCERTS, icon: 'music' },
+        { id: '5', label: CategoriesEnum.FESTIVALS, icon: 'bookmark-music-outline' },
+        { id: '6', label: CategoriesEnum.SPORTS, icon: 'trophy' },
+        { id: '7', label: CategoriesEnum.THEATER, icon: 'theater' },
+        { id: '8', label: CategoriesEnum.EXHIBITIONS, icon: 'image' },
+        { id: '9', label: CategoriesEnum.CLUBS, icon: 'account-group' }
+    ];
+
     function handleNext(){        
         setStep(Steps.DEFAULT)
     }
     return(
+        
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <AppHeader title="Categoría"/>            
+                <AppHeader title="Categoría"/> 
+                <Text>Seleccione la categoría que mejor se adapte a tu evento</Text>
+                <View style={styles.grid}>
+                    {categories.map((category) => (
+                        <CategoryButton
+                            key={category.id}
+                            label={category.label}
+                            icon={category.icon as any}
+                            selected={selectedIds.includes(category.id)}
+                            onPress={() => handlePress(category.id)}
+                        />
+                    ))}
+                </View>
                 <View style={styles.footer}>
                     <Button 
                         label="Siguiente"
@@ -48,7 +79,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   }, 
-  
+  grid: {
+    flexDirection: 'row' ,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 20,
+    padding: 20
+    },
   footer: {
     flex: 1, 
     justifyContent: "flex-end", 
