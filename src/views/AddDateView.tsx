@@ -32,13 +32,12 @@ export function AddDateView({
   endTime, 
   setEndTime
 }: AddDateViewProps){
-    const navigation = useNavigation<AddStackNavigationProp>();
     const [showError, setShowError] = useState(false); 
 
     function handleNext(){
       
       if(!date || !startTime || !endTime){
-        setShowError(false)
+        setShowError(true)
         return 
       } 
       setShowError(true)

@@ -1,10 +1,10 @@
 import { ScrollView, StyleSheet, Image, View, Text, Platform} from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { Input, InputVariant } from "../components/Input/Input";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { AddStackNavigationProp } from "../navigators/AddStack";
 import React from "react";
@@ -30,8 +30,8 @@ export enum Steps {
 interface DefaultProps {
     step: Steps, 
     setStep: (step: Steps) => void, 
-    description: string, 
-    setDescription: (text: string) => void, 
+    description: string | null, 
+    setDescription: (text: string | null) => void, 
     date: Date | null,
     startsAt: Date | null, 
     endsAt: Date | null, 
@@ -54,6 +54,7 @@ function Default({
 }: DefaultProps){
     
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
     // TODO: colocar esta funcion fuera 
     async function getCurrentLocation() {
         if (Platform.OS === 'android' && !Device.isDevice) {
@@ -115,7 +116,7 @@ function Default({
             label="DESCRIPCIÓN"
             placeholder="Agrega una descripción de tu evento"
             variant={InputVariant.DEFAULT}
-            value={description}
+            value={description ?? ""}
             onChangeValue={setDescription}
         />
 
@@ -182,7 +183,7 @@ function Default({
 
 export function AddView() {
     const navigation = useNavigation<AddStackNavigationProp>();
-    const [description, setDescription] = useState(""); 
+    const [description, setDescription] = useState<string | null>(null); 
     const [date, setDate] = useState<Date | null>(null); 
     const [startTime, setStartTime] = useState<Date | null>(null); 
     const [endTime, setEndTime] = useState<Date | null>(null); 
@@ -194,6 +195,24 @@ export function AddView() {
     function handleAddEvent(){
         console.log("Publicando evento...")
     }
+
+    function cleanForm(){
+        setDescription(null); 
+        setDate(null); 
+        setStartTime(null); 
+        setEndTime(null); 
+        setCategory(null); 
+        setLocation(null)
+    }
+
+    useFocusEffect(
+        useCallback(() => {            
+          
+          return () => {
+            cleanForm()
+          };
+        }, [])
+      );
 
     return(
         <SafeAreaView style={styles.container}>
