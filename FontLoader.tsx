@@ -37,15 +37,11 @@ export const FontLoader: React.FC<React.PropsWithChildren<{}>> = ({
 
   useEffect(() => {
     if (fontsLoaded) {
-      console.log("Fonts loaded successfully");
-      SplashScreen.hideAsync();
-    } else {
-      console.log("Fonts not loaded yet");
+      // SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    console.log("Returning null because fonts are not loaded");
     return null;
   }
 

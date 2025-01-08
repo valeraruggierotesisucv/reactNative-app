@@ -110,7 +110,6 @@ export function EventCard({
 }: EventCardProps) {
   const { t } = useTranslation();
   const [like, setLike] = useState(isLiked);
-  console.log(getLoadedFonts());
   const handleLike = () => {
     setLike(!like);
   };
