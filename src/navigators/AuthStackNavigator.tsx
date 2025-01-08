@@ -9,6 +9,7 @@ import { ForgotPasswordView } from "../views/ForgotPasswordView";
 import { ForgotPasswordLoginView } from "../views/ForgotPasswordLoginView";
 import { AuthRoutes } from "../../utils/routes";
 import { AuthStackParamList } from "../../utils/types";
+import { SuccessView } from "../views/SuccessView";
 
 const AuthStackNavigator = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export function AuthStack() {
       <AuthStackNavigator.Screen name={AuthRoutes.ChooseCategories} component={ChooseCategoriesView}/>
       <AuthStackNavigator.Screen name={AuthRoutes.ForgotPassword} component={ForgotPasswordView}/>
       <AuthStackNavigator.Screen name={AuthRoutes.ForgotPasswordLogin} component={ForgotPasswordLoginView}/>
+      <AuthStackNavigator.Screen name={AuthRoutes.Success} component={SuccessView}/>
     </AuthStackNavigator.Navigator>
   );
 }

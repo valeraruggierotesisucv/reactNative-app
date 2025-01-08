@@ -1,39 +1,68 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, Button } from "react-native";
-import { AuthRoutes } from "../../utils/routes";
+import { Text, StyleSheet, Image, Dimensions, View } from "react-native";
+
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { useTranslation } from "../contexts/TranslationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Button, ButtonSize } from "../components/Button/Button";
+import { AuthRoutes } from "../../utils/routes";
+import { IconLogo } from "../components/IconLogo/IconLogo";
 
 export function OnboardingView() {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const { t, setLocale, locale } = useTranslation();
-  return (
-    <SafeAreaView style={{ flex: 1, gap: 8 }}>
-      <Text style={{ fontFamily: "SF-Pro-Rounded-Heavy", fontSize: 24 }}>
-        {t("welcome")}
-      </Text>
-      <Button
-        onPress={() => setLocale(locale === "en" ? "es" : "en")}
-        title={`Toggle ${locale}`}
-      />
-      <Button
-        title="Autenticación"
-        onPress={() => navigation.navigate(AuthRoutes.Auth)}
-      />
-      <Button
-        title="Olvidé mi contraseña"
-        onPress={() => navigation.navigate(AuthRoutes.ForgotPassword)}
-      />
-      <Button
-        title="Escoger categorías"
-        onPress={() => navigation.navigate(AuthRoutes.ChooseCategories)}
-      />
+  const { t } = useTranslation();
+  const { height } = Dimensions.get("window");
 
+  return (
+    <SafeAreaView style={styles.container}>
+
+      <View style={styles.logoContainer}>
+      <IconLogo style={styles.iconLogo} />
+        <Image
+          source={require("../../assets/images/Onboarding.png")}
+          style={[styles.logo, {  height: height * 0.4 }]}
+        />
+        <Text style={styles.title}>{t("welcome")}</Text>
+      </View>
       <Button
-        title="Olvide mi contraseña Login View"
-        onPress={() => navigation.navigate(AuthRoutes.ForgotPasswordLogin)}
+        label={t("get_started")}
+        onPress={() => navigation.navigate(AuthRoutes.Auth)}
+        style={styles.button}
+        size={ButtonSize.LARGE}
       />
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontFamily: "SF-Pro-Rounded-Heavy",
+    fontSize: 55,
+    lineHeight: 55,
+    width: 300,
+    letterSpacing: -3,
+  },
+  logoContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    resizeMode: "contain",
+  },
+  iconLogo: {
+    marginTop: 36,
+    marginBottom: "auto",
+  },
+  button: {
+    marginTop: 47,
+    marginBottom: 61,
+    height: 70,
+  },
+});

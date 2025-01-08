@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   iconButton: {
-    opacity: 1, // Set to 0 if you want to hide the button when not needed
+    opacity: 1,
+    marginLeft: 10,
   },
   logo: {
     height: 30,

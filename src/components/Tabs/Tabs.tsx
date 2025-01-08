@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { useState } from "react";
 
@@ -11,12 +12,13 @@ interface Tab {
 }
 
 interface TabsProps {
-    tabs: Tab[];
-    onTabChange?: (tabId: string) => void;
+  tabs: Tab[];
+  onTabChange?: (tab: Tab) => void;
+  gap?: number;
 }
 
-export function Tabs({ tabs, onTabChange }: TabsProps) {
-  const indicatorColor = "#0066ff";
+export function Tabs({ tabs, onTabChange, gap }: TabsProps) {
+  const indicatorColor = "#050F71";
   const indicatorHeight = 4;
   const [activeTab, setActiveTab] = useState(tabs[0]?.id);
   const [tabWidths, setTabWidths] = useState<{ [key: string]: number }>({});
@@ -24,9 +26,9 @@ export function Tabs({ tabs, onTabChange }: TabsProps) {
     {}
   );
 
-  const handleTabPress = (tabId: string) => {
-    setActiveTab(tabId);
-    onTabChange?.(tabId);
+  const handleTabPress = (tab: Tab) => {
+    setActiveTab(tab.id);
+    onTabChange?.(tab);
   };
 
   const indicatorStyle = useAnimatedStyle(() => {
@@ -36,27 +38,25 @@ export function Tabs({ tabs, onTabChange }: TabsProps) {
     return {
       transform: [
         {
-          translateX: withSpring(position, {
-            damping: 10,
-            stiffness: 90,
+          translateX: withTiming(position, {
+            duration: 300,
           }),
         },
       ],
-      width: withSpring(width, {
-        damping: 20,
-        stiffness: 90,
+      width: withTiming(width, {
+        duration: 300,
       }),
     };
   });
 
   return (
     <View style={styles.container}>
-      <View style={styles.tabsContainer}>
+      <View style={[styles.tabsContainer, { gap: gap }]}>
         {tabs.map((tab) => (
           <TouchableOpacity
             key={tab.id}
             style={styles.tab}
-            onPress={() => handleTabPress(tab.id)}
+            onPress={() => handleTabPress(tab)}
             onLayout={(e) => {
               const { width, x } = e.nativeEvent.layout;
               setTabWidths((prev) => ({ ...prev, [tab.id]: width }));
