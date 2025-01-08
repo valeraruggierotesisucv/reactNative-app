@@ -48,7 +48,7 @@ export function AddDateView({
     return(
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <AppHeader title="¿Cuándo?" goBack={navigation.goBack} />            
+          <AppHeader title="¿Cuándo?" goBack={() => setStep(Steps.DEFAULT)} />            
           <Calendar
             date={date}
             initialStartTime={startTime}

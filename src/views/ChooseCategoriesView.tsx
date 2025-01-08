@@ -47,18 +47,28 @@ export function ChooseCategoriesView({
     ];
 
     function handleNext(){  
+      if(setStep){
+        setStep(Steps.DEFAULT)
+      }
       if(preferences){
         navigation.navigate(AuthRoutes.Success)
-      } else{
+      }        
+    }
+
+    function handleGoBack(){
+      if(setStep){
         setStep(Steps.DEFAULT)
-      }         
-        
+      }
+
+      if(preferences){
+        navigation.goBack()
+      }
     }
     return(
         //TODO: falta agregar mensaje de error 
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <AppHeader title="Categoría"/> 
+                <AppHeader title="Categoría" goBack={handleGoBack}/> 
                 <Text>Seleccione la categoría que mejor se adapte a tu evento</Text>
                 <View style={styles.grid}>
                     {categories.map((category) => (
