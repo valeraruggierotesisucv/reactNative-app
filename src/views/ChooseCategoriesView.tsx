@@ -6,12 +6,15 @@ import { useState } from "react";
 import { Steps } from "./AddView";
 import { CategoryButton } from "../components/CategoryButton/CategoryButton";
 import { CategoriesEnum } from "./SearchView";
-
+import { useNavigation } from "@react-navigation/native";
+import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
+import { AuthRoutes } from "../../utils/routes";
 interface ChooseCategoryProps {
-    step: Steps, 
-    setStep: (step: Steps) => void, 
-    category: CategoriesEnum | null, 
-    setCategory: ( category: CategoriesEnum) => void
+    step?: Steps, 
+    setStep?: (step: Steps) => void, 
+    category?: CategoriesEnum | null, 
+    setCategory?: ( category: CategoriesEnum) => void, 
+    preferences: boolean
 }
 
 // TODO limitar a poder seleccionar una sola categoria 
@@ -19,13 +22,17 @@ export function ChooseCategoriesView({
     step, 
     setStep, 
     category, 
-    setCategory
+    setCategory, 
+    preferences = true
 }: ChooseCategoryProps) {
-    const [selectedId, setSelectedId] = useState<CategoriesEnum | null>(category);
+    const [selectedId, setSelectedId] = useState<CategoriesEnum | null>(category ?? null);
+    const navigation = useNavigation<AuthStackNavigationProp>();
 
     const handlePress = (category: CategoriesEnum) => {
         setSelectedId(category);
-        setCategory(category)
+        if (setCategory){
+          setCategory(category)
+        }        
     };
     const categories = [
         { id: '1', label: CategoriesEnum.CULTURE, icon: 'palette' }, 
@@ -39,8 +46,13 @@ export function ChooseCategoriesView({
         { id: '9', label: CategoriesEnum.CLUBS, icon: 'account-group' }
     ];
 
-    function handleNext(){        
+    function handleNext(){  
+      if(preferences){
+        navigation.navigate(AuthRoutes.Success)
+      } else{
         setStep(Steps.DEFAULT)
+      }         
+        
     }
     return(
         //TODO: falta agregar mensaje de error 

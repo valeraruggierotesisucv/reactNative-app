@@ -233,6 +233,7 @@ export function AddView() {
                         setStep={setStep}
                         category={category}
                         setCategory={setCategory}
+                        preferences={false}
                     />
                 )}
                 
