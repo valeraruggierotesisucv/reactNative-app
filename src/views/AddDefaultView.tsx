@@ -6,11 +6,13 @@ import { useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import React from "react";
 import { DisplayInput } from "../components/DisplayInput/DisplayInput";
+import * as DocumentPicker from 'expo-document-picker';
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { Chip, ChipVariant} from "../components/Chip/Chip";
 import { formatHour } from "../../utils/formatHour";
 import * as Device from 'expo-device';
 import * as Location from 'expo-location';
+import { truncateString } from "../../utils/formatString";
 
 export enum StepsEnum {
     DEFAULT = "default", 
@@ -29,6 +31,8 @@ interface AddDefaultViewProps {
     category: CategoriesEnum | null, 
     location: Location.LocationObject | null, 
     setLocation: (location: Location.LocationObject) => void, 
+    musicFile: {nameFile: string, uri: string } | null, 
+    setMusicFile: (file: {nameFile: string, uri: string } | null) => void 
     onAddEvent: () => void
 }
 
@@ -43,10 +47,13 @@ export function AddDefaultView({
     category, 
     location, 
     setLocation, 
+    musicFile, 
+    setMusicFile, 
     onAddEvent
 }: AddDefaultViewProps){
     
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    
 
     // TODO: colocar esta funcion fuera 
     async function getCurrentLocation() {
@@ -65,7 +72,26 @@ export function AddDefaultView({
         let location = await Location.getCurrentPositionAsync({});
         setLocation(location);
       }
+    
+    function handleAddMusic(){
+        console.log("Agregar musica...")
+        const pickDocument = async() => {
+            const result = await DocumentPicker.getDocumentAsync({
+                type: 'audio/*',
+                copyToCacheDirectory: false,
+            }); 
+            if(result.assets){
+                setMusicFile({
+                    nameFile: result.assets[0].name, 
+                    uri: result.assets[0].uri
+                })
+                console.log(result)            
+            }
 
+            // UploadFile 
+        }
+        pickDocument()
+    }
     const DatePills = () => {
         if (startsAt === null || endsAt === null || date === null) return; 
         const start = formatHour(startsAt); 
@@ -143,11 +169,23 @@ export function AddDefaultView({
         }
         
         {/* MÚSICA */}
-        <Input 
-            label="MÚSICA"
-            placeholder="Agregar música"
-            variant={InputVariant.ARROW}
-        />
+        { musicFile
+            ? <DisplayInput
+                label="MÚSICA"
+                data={<Chip 
+                    label={truncateString(musicFile.nameFile, 30)} 
+                    variant={ChipVariant.LIGHT} 
+                    onPress={handleAddMusic} />}
+                    onPress={handleAddMusic}
+                />
+            : <Input 
+                label="MÚSICA"
+                placeholder="Agregar música"
+                variant={InputVariant.ARROW}
+                onPress={handleAddMusic}
+            />
+        }
+        
         
         {/* UBICACIÓN */}
         { location

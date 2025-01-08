@@ -23,11 +23,12 @@ export function AddView() {
     const [endTime, setEndTime] = useState<Date | null>(null); 
     const [category, setCategory] = useState<CategoriesEnum | null>(null); 
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
+    const [musicFile, setMusicFile] = useState<{nameFile: string, uri: string }| null>(null);
 
     const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT); 
 
     function handleAddEvent(){
-        if(description && date && startTime && endTime && category && location){
+        if(description && date && startTime && endTime && category && musicFile && location){
             // agregar evento 
         }
         console.log("Publicando evento..."); 
@@ -70,6 +71,8 @@ export function AddView() {
                         category={category}
                         startsAt={startTime}
                         endsAt={endTime}
+                        musicFile={musicFile}
+                        setMusicFile={setMusicFile}
                         location={location}
                         setLocation={setLocation}
                         onAddEvent={handleAddEvent}
