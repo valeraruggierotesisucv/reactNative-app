@@ -1,73 +1,95 @@
-import { StyleSheet, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context"; 
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
+import { Button } from "../components/Button/Button";
+import { useState } from "react";
+import { StepsEnum } from "./AddDefaultView";
+import { CategoryButton } from "../components/CategoryButton/CategoryButton";
+import { CategoriesEnum } from "./SearchView";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
-import { useTranslation } from "../contexts/TranslationContext";
-import { CategoryButton } from "../components/CategoryButton/CategoryButton";
-import { useState } from "react";
-import { Button } from "../components/Button/Button";
 import { AuthRoutes } from "../../utils/routes";
-
-function CategoriesList() {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
-  const handlePress = (categoryId: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(categoryId)
-        ? prev.filter((id) => id !== categoryId)
-        : [...prev, categoryId]
-    );
-  };
-
-  const categories = [
-    { id: "1", label: "Food", icon: "food" },
-    { id: "2", label: "Drinks", icon: "cup" },
-    { id: "3", label: "Sports", icon: "basketball" },
-    { id: "4", label: "Music", icon: "music" },
-    { id: "5", label: "Art", icon: "palette" },
-    { id: "6", label: "Movies", icon: "movie" },
-    { id: "7", label: "Books", icon: "book" },
-    { id: "8", label: "Games", icon: "gamepad-variant" },
-    { id: "9", label: "Travel", icon: "airplane" },
-    { id: "10", label: "Shopping", icon: "shopping" },
-    { id: "11", label: "Health", icon: "heart" },
-    { id: "12", label: "Education", icon: "school" },
-  ];
-
-  return (
-    <View style={styles.grid}>
-      {categories.map((category) => (
-        <CategoryButton
-          key={category.id}
-          label={category.label}
-          icon={category.icon as any}
-          selected={selectedIds.includes(category.id)}
-          onPress={() => handlePress(category.id)}
-        />
-      ))}
-    </View>
-  );
+interface ChooseCategoryProps {
+    step?: StepsEnum, 
+    setStep?: (step: StepsEnum) => void, 
+    category?: CategoriesEnum | null, 
+    setCategory?: ( category: CategoriesEnum) => void, 
+    preferences: boolean
 }
 
-export function ChooseCategoriesView() {
-  const navigation = useNavigation<AuthStackNavigationProp>();
-  const { t } = useTranslation();
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <AppHeader goBack={() => navigation.goBack()} />
-        <Text style={styles.title}>{t("choose_categories")}</Text>
+// TODO limitar a poder seleccionar una sola categoria 
+export function ChooseCategoriesView({
+    step, 
+    setStep, 
+    category, 
+    setCategory, 
+    preferences = true
+}: ChooseCategoryProps) {
+    const [selectedId, setSelectedId] = useState<CategoriesEnum | null>(category ?? null);
+    const navigation = useNavigation<AuthStackNavigationProp>();
 
-        <CategoriesList />
-        <Button
-          label={t("next")}
-          onPress={() => navigation.navigate(AuthRoutes.Success)}
-          style={styles.button}
-        />
-      </ScrollView>
-    </SafeAreaView>
-  );
+    const handlePress = (category: CategoriesEnum) => {
+        setSelectedId(category);
+        if (setCategory){
+          setCategory(category)
+        }        
+    };
+    const categories = [
+        { id: '1', label: CategoriesEnum.CULTURE, icon: 'palette' }, 
+        { id: '2', label: CategoriesEnum.EDUCATION, icon: 'bookshelf' },
+        { id: '3', label: CategoriesEnum.PARTIES, icon: 'party-popper' },
+        { id: '4', label: CategoriesEnum.CONCERTS, icon: 'music' },
+        { id: '5', label: CategoriesEnum.FESTIVALS, icon: 'bookmark-music-outline' },
+        { id: '6', label: CategoriesEnum.SPORTS, icon: 'trophy' },
+        { id: '7', label: CategoriesEnum.THEATER, icon: 'theater' },
+        { id: '8', label: CategoriesEnum.EXHIBITIONS, icon: 'image' },
+        { id: '9', label: CategoriesEnum.CLUBS, icon: 'account-group' }
+    ];
+
+    function handleNext(){  
+      if(setStep){
+        setStep(StepsEnum.DEFAULT)
+      }
+      if(preferences){
+        navigation.navigate(AuthRoutes.Success)
+      }        
+    }
+
+    function handleGoBack(){
+      if(setStep){
+        setStep(StepsEnum.DEFAULT)
+      }
+
+      if(preferences){
+        navigation.goBack()
+      }
+    }
+    return(
+        //TODO: falta agregar mensaje de error 
+        <SafeAreaView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <AppHeader title="Categoría" goBack={handleGoBack}/> 
+                <Text>Seleccione la categoría que mejor se adapte a tu evento</Text>
+                <View style={styles.grid}>
+                    {categories.map((category) => (
+                        <CategoryButton
+                            key={category.id}
+                            label={category.label}
+                            icon={category.icon as any}
+                            selected={selectedId === category.label}
+                            onPress={() => handlePress(category.label)}
+                        />
+                    ))}
+                </View>
+                <View style={styles.footer}>
+                    <Button 
+                        label="Siguiente"
+                        onPress={handleNext}
+                    />
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -78,25 +100,19 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     width: "100%",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
-  },
-  title: {
-    fontSize: 17,
-    fontFamily: "SF-Pro-Text-Semibold",
-    marginTop: 20,
-  },
+  }, 
   grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: 10,
-    paddingBottom: 20,
-    paddingHorizontal: 30,
-    marginTop: 20,
-  },
-  button: {
-    marginBottom: 53,
-    marginTop: 20,
-  },
+    flexDirection: 'row' ,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 20,
+    padding: 20
+    },
+  footer: {
+    flex: 1, 
+    justifyContent: "flex-end", 
+    paddingBottom: 10
+  }
 });

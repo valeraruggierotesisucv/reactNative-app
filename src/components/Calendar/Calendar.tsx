@@ -11,29 +11,28 @@ import CalendarPicker from "react-native-calendar-picker";
 
 import { Input, InputVariant } from "../Input/Input";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import Switch from "../Switch/Switch";
+import React from "react";
 import { formatHour } from "../../../utils/formatHour";
 
 interface CalendarProps {
-  initialDate?: Date;
-  initialStartTime?: Date;
-  initialEndTime?: Date;
+  initialStartTime?: Date | null;
+  initialEndTime?: Date | null ;
   maxDate?: Date;
+  date: Date | null; 
   onDateChange?: (date: Date | null) => void;
   onStartTimeChange?: (time: Date | null) => void;
   onEndTimeChange?: (time: Date | null) => void;
 }
 
 export function Calendar({
-  initialDate,
   initialStartTime,
   initialEndTime,
   maxDate,
+  date, 
   onDateChange,
   onStartTimeChange,
   onEndTimeChange,
 }: CalendarProps) {
-  const [date, setDate] = useState<Date | null>(initialDate || null);
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const [selectedStartTime, setSelectedStartTime] = useState<Date | null>(
@@ -65,8 +64,10 @@ export function Calendar({
 
   return (
     <ScrollView>
-      <CalendarPicker
-        onDateChange={(date) => setDate(date)}
+      <CalendarPicker        
+        onDateChange={(date) => onDateChange(date)
+        }
+        selectedStartDate={date}
         selectedDayStyle={{
           backgroundColor: "#E0EFFF",
         }}
@@ -79,6 +80,7 @@ export function Calendar({
         maxDate={maxDate || nextYear}
         textStyle={{ color: "black", fontFamily: "SF-Pro-Text-Regular" }}
       />
+      
       <View style={styles.dateInputContainer}>
         <Input
           label="Empieza"

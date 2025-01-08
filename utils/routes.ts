@@ -24,7 +24,8 @@ export enum SearchRoutes {
 
 // Add
 export enum AddRoutes {
-    Add = "Add"
+    Add = "Add", 
+    AddDate = "AddDate"
 }
 
 // Notifications

@@ -5,6 +5,7 @@ import {
 import { AddView } from "../views/AddView";
 import { AddRoutes } from "../../utils/routes";
 import { AddStackParamList } from "../../utils/types";
+import { AddDateView } from "../views/AddDateView";
 
 const AddStackNavigator = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export function AddStack() {
       }}
     >
       <AddStackNavigator.Screen name={AddRoutes.Add} component={AddView} />
+      
     </AddStackNavigator.Navigator>
   );
 }

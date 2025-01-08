@@ -10,17 +10,25 @@ import { useEffect, useState } from "react";
 import { Tabs } from "../components/Tabs/Tabs";
 import { Pills } from "../components/Pills/Pills";
 
+
 export enum SearchTabsEnum  {
   EVENTS = "Eventos", 
   ACCOUNTS = "Cuentas"
 }
 
+// TODO usar el shareEnum (da error)
 export enum CategoriesEnum {
-  ALL = "All", 
-  CONCERTS = "Concerts", 
-  FESTIVALS = "Festivals",
+  ALL = "Todos",
+  CONFERENCES = "Conferencias",
+  PARTIES = "Fiestas",
+  CONCERTS = "Conciertos",
   CLUBS = "Clubs", 
-  PARTIES = "Parties" 
+  FESTIVALS = "Festivales",
+  SPORTS = "Deporte",
+  THEATER = "Teatro",
+  EXHIBITIONS = "Exhibición",
+  EDUCATION = "Educativo",
+  CULTURE = "Cultura"
 }
 
 export function SearchView() {

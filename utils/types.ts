@@ -34,7 +34,12 @@ export type SearchStackParamList = {
 
 // Add
 export type AddStackParamList = {
-    [AddRoutes.Add]: undefined;
+    [AddRoutes.Add]: {
+        date: Date
+    };
+    [AddRoutes.AddDate]: {
+        setDate: (date: Date | null) => void
+    }
 };
 
 // Profile
