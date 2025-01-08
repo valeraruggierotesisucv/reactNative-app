@@ -27,7 +27,16 @@ export function AddView() {
     const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT); 
 
     function handleAddEvent(){
-        console.log("Publicando evento...")
+        if(description && date && startTime && endTime && category && location){
+            // agregar evento 
+        }
+        console.log("Publicando evento..."); 
+        console.log("Descripcion: ", description); 
+        console.log("Date: ", date); 
+        console.log("Starts at: ", startTime); 
+        console.log("Ends at ", endTime); 
+        console.log("Category ", category); 
+        console.log("Location ", location)
     }
 
     function cleanForm(){
@@ -63,6 +72,7 @@ export function AddView() {
                         endsAt={endTime}
                         location={location}
                         setLocation={setLocation}
+                        onAddEvent={handleAddEvent}
                     />
                 )}
 

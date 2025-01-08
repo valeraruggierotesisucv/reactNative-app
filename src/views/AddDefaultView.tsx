@@ -28,7 +28,8 @@ interface AddDefaultViewProps {
     endsAt: Date | null, 
     category: CategoriesEnum | null, 
     location: Location.LocationObject | null, 
-    setLocation: (location: Location.LocationObject) => void
+    setLocation: (location: Location.LocationObject) => void, 
+    onAddEvent: () => void
 }
 
 export function AddDefaultView({
@@ -41,7 +42,8 @@ export function AddDefaultView({
     endsAt, 
     category, 
     location, 
-    setLocation
+    setLocation, 
+    onAddEvent
 }: AddDefaultViewProps){
     
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -90,9 +92,8 @@ export function AddDefaultView({
                 <Chip label={longitude} variant={ChipVariant.LIGHT} onPress={() => setStep(StepsEnum.DATE)}/>
             </View>
         )
-        
-
     }
+
     return(
         <>
         <AppHeader title="Nuevo Evento" />
@@ -149,8 +150,7 @@ export function AddDefaultView({
         />
         
         {/* UBICACIÓN */}
-        {
-            location
+        { location
             ? <DisplayInput 
                 label="UBICACIÓN"
                 data={<LocationPills />}
@@ -168,6 +168,7 @@ export function AddDefaultView({
             <Button 
                 label="Publicar"
                 size={ButtonSize.MEDIUM}
+                onPress={onAddEvent}
             />
         </View>        
         </>
