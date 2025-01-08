@@ -1,19 +1,14 @@
 import { SafeAreaView } from "react-native-safe-area-context"; 
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { AddStackNavigationProp } from "../navigators/AddStack";
 import { Calendar } from "../components/Calendar/Calendar";
 import { Button } from "../components/Button/Button";
-import { AddRoutes } from "../../utils/routes";
-import { AddStackParamList } from "../../utils/types";
 import { useState } from "react";
-import { Steps } from "./AddView";
-import { start } from "node:repl";
+import { StepsEnum } from "./AddDefaultView";
 
 interface AddDateViewProps {
-  step: Steps, 
-  setStep: (step: Steps) => void, 
+  step: StepsEnum, 
+  setStep: (step: StepsEnum) => void, 
   date: Date | null, 
   setDate: (date: Date | null) => void, 
   startTime: Date | null, 
@@ -41,13 +36,13 @@ export function AddDateView({
         return 
       } 
       setShowError(true)
-      setStep(Steps.DEFAULT)
+      setStep(StepsEnum.DEFAULT)
     }
 
     return(
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <AppHeader title="¿Cuándo?" goBack={() => setStep(Steps.DEFAULT)} />            
+          <AppHeader title="¿Cuándo?" goBack={() => setStep(StepsEnum.DEFAULT)} />            
           <Calendar
             date={date}
             initialStartTime={startTime}

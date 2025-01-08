@@ -3,15 +3,15 @@ import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Button } from "../components/Button/Button";
 import { useState } from "react";
-import { Steps } from "./AddView";
+import { StepsEnum } from "./AddDefaultView";
 import { CategoryButton } from "../components/CategoryButton/CategoryButton";
 import { CategoriesEnum } from "./SearchView";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";
 interface ChooseCategoryProps {
-    step?: Steps, 
-    setStep?: (step: Steps) => void, 
+    step?: StepsEnum, 
+    setStep?: (step: StepsEnum) => void, 
     category?: CategoriesEnum | null, 
     setCategory?: ( category: CategoriesEnum) => void, 
     preferences: boolean
@@ -48,7 +48,7 @@ export function ChooseCategoriesView({
 
     function handleNext(){  
       if(setStep){
-        setStep(Steps.DEFAULT)
+        setStep(StepsEnum.DEFAULT)
       }
       if(preferences){
         navigation.navigate(AuthRoutes.Success)
@@ -57,7 +57,7 @@ export function ChooseCategoriesView({
 
     function handleGoBack(){
       if(setStep){
-        setStep(Steps.DEFAULT)
+        setStep(StepsEnum.DEFAULT)
       }
 
       if(preferences){
