@@ -100,7 +100,7 @@ function Default({
         { category
             ? <DisplayInput 
                 label="CATEGORÍA"
-                data={<Chip label={category.toUpperCase()} variant={ChipVariant.LIGHT}/>}
+                data={<Chip label={category.toUpperCase()} variant={ChipVariant.LIGHT} onPress={() => setStep(Steps.CATEGORY)}/>}
                 onPress={() => setStep(Steps.CATEGORY)}
             />
             : <Input 

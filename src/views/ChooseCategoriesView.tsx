@@ -21,7 +21,7 @@ export function ChooseCategoriesView({
     category, 
     setCategory
 }: ChooseCategoryProps) {
-    const [selectedId, setSelectedId] = useState<CategoriesEnum | null>();
+    const [selectedId, setSelectedId] = useState<CategoriesEnum | null>(category);
 
     const handlePress = (category: CategoriesEnum) => {
         setSelectedId(category);
