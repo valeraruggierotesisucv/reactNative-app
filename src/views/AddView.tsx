@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Image, View, Text} from "react-native";
+import { ScrollView, StyleSheet, Image, View, Text, Platform} from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -14,11 +14,11 @@ import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
 import { Chip, ChipVariant} from "../components/Chip/Chip";
 import { formatHour } from "../../utils/formatHour";
-
+import * as Device from 'expo-device';
+import * as Location from 'expo-location';
 
 /* TODO
     Description debe tener max caracteres 
-
 */
 
 export enum Steps {
@@ -35,7 +35,9 @@ interface DefaultProps {
     date: Date | null,
     startsAt: Date | null, 
     endsAt: Date | null, 
-    category: CategoriesEnum | null
+    category: CategoriesEnum | null, 
+    location: Location.LocationObject | null, 
+    setLocation: (location: Location.LocationObject) => void
 }
 
 function Default({
@@ -46,8 +48,29 @@ function Default({
     date, 
     startsAt, 
     endsAt, 
-    category    
+    category, 
+    location, 
+    setLocation
 }: DefaultProps){
+    
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    // TODO: colocar esta funcion fuera 
+    async function getCurrentLocation() {
+        if (Platform.OS === 'android' && !Device.isDevice) {
+          setErrorMsg(
+            'Oops, this will not work on Snack in an Android Emulator. Try it on your device!'
+          );
+          return;
+        }
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      }
 
     const DatePills = () => {
         if (startsAt === null || endsAt === null || date === null) return; 
@@ -62,6 +85,21 @@ function Default({
                 <Chip label={formattedDate} variant={ChipVariant.LIGHT} onPress={() => setStep(Steps.DATE)}/>
             </View>
         );
+    }
+
+    const LocationPills = () => {
+        if(!location) return
+        const latitude = location.coords.latitude.toFixed(3); 
+        const longitude = location.coords.longitude.toFixed(3); 
+
+        return(
+            <View style={{ flexDirection: "row", gap: 8 }}>
+                <Chip label={latitude} variant={ChipVariant.LIGHT} onPress={() => setStep(Steps.DATE)}/>
+                <Chip label={longitude} variant={ChipVariant.LIGHT} onPress={() => setStep(Steps.DATE)}/>
+            </View>
+        )
+        
+
     }
     return(
         <>
@@ -116,11 +154,21 @@ function Default({
             placeholder="Agregar música"
             variant={InputVariant.ARROW}
         />
-        <Input 
-            label="UBICACIÓN"
-            placeholder="Agregar ubicación"
-            variant={InputVariant.ARROW}
-        />
+        
+        {
+            location
+            ? <DisplayInput 
+                label="UBICACIÓN"
+                data={<LocationPills />}
+                onPress={getCurrentLocation}
+            />
+            : <Input 
+                label="UBICACIÓN"
+                placeholder="Agregar ubicación"
+                variant={InputVariant.ARROW}
+                onPress={getCurrentLocation}
+            />
+        }
         
         <View style={styles.footer}>
             <Button 
@@ -139,6 +187,7 @@ export function AddView() {
     const [startTime, setStartTime] = useState<Date | null>(null); 
     const [endTime, setEndTime] = useState<Date | null>(null); 
     const [category, setCategory] = useState<CategoriesEnum | null>(null); 
+    const [location, setLocation] = useState<Location.LocationObject | null>(null);
 
     const [step, setStep] = useState<Steps>(Steps.DEFAULT); 
 
@@ -160,6 +209,8 @@ export function AddView() {
                         category={category}
                         startsAt={startTime}
                         endsAt={endTime}
+                        location={location}
+                        setLocation={setLocation}
                     />
                 )}
 
