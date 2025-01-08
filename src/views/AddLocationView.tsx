@@ -5,6 +5,7 @@ import { StepsEnum } from "./AddDefaultView";
 import { LatLng } from "react-native-maps";
 import * as Location from "expo-location";
 import { StyleSheet } from "react-native";
+import { useEffect } from "react";
 
 interface AddLocationViewProps {
   origin: Location.LocationObject | null;
@@ -19,6 +20,16 @@ export function AddLocationView({
   setLocation,
   setStep,
 }: AddLocationViewProps) {
+  
+  useEffect(() => {
+    if (origin) {
+    setLocation({
+      latitude: origin.coords.latitude,
+      longitude: origin.coords.longitude,
+    });
+    }
+  }, []);
+
   return (
     <>
       <AppHeader title="Ubicación" goBack={() => setStep(StepsEnum.DEFAULT)} />
