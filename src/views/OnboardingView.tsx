@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, StyleSheet, Image } from "react-native";
+import { Text, StyleSheet, Image, Dimensions, View } from "react-native";
 
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { useTranslation } from "../contexts/TranslationContext";
@@ -11,14 +11,19 @@ import { IconLogo } from "../components/IconLogo/IconLogo";
 export function OnboardingView() {
   const navigation = useNavigation<AuthStackNavigationProp>();
   const { t } = useTranslation();
+  const { height } = Dimensions.get("window");
+
   return (
     <SafeAreaView style={styles.container}>
+
+      <View style={styles.logoContainer}>
       <IconLogo style={styles.iconLogo} />
-      <Image
-        source={require("../../assets/images/Onboarding.png")}
-        style={styles.logo}
-      />
-      <Text style={styles.title}>{t("welcome")}</Text>
+        <Image
+          source={require("../../assets/images/Onboarding.png")}
+          style={[styles.logo, {  height: height * 0.4 }]}
+        />
+        <Text style={styles.title}>{t("welcome")}</Text>
+      </View>
       <Button
         label={t("get_started")}
         onPress={() => navigation.navigate(AuthRoutes.Auth)}
@@ -33,6 +38,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
   },
   title: {
     fontFamily: "SF-Pro-Rounded-Heavy",
@@ -41,9 +48,13 @@ const styles = StyleSheet.create({
     width: 300,
     letterSpacing: -3,
   },
+  logoContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   logo: {
-    width: 380,
-    height: 380,
+    resizeMode: "contain",
   },
   iconLogo: {
     marginTop: 36,
