@@ -9,6 +9,7 @@ import { AddRoutes } from "../../utils/routes";
 import { AddStackParamList } from "../../utils/types";
 import { useState } from "react";
 import { Steps } from "./AddView";
+import { start } from "node:repl";
 
 interface AddDateViewProps {
   step: Steps, 
@@ -32,8 +33,15 @@ export function AddDateView({
   setEndTime
 }: AddDateViewProps){
     const navigation = useNavigation<AddStackNavigationProp>();
+    const [showError, setShowError] = useState(false); 
 
     function handleNext(){
+      
+      if(!date || !startTime || !endTime){
+        setShowError(false)
+        return 
+      } 
+      setShowError(true)
       setStep(Steps.DEFAULT)
     }
 
@@ -49,7 +57,8 @@ export function AddDateView({
             onStartTimeChange={setStartTime}
             onEndTimeChange={setEndTime}
           />
-                  
+          { showError && <Text style={styles.errorText}> * Por favor proporcione la fecha y hora del evento </Text>}          
+      
           <View style={styles.footer}>
             <Button 
               label="Siguiente"
@@ -81,5 +90,13 @@ const styles = StyleSheet.create({
     flex: 1, 
     justifyContent: "flex-end", 
     paddingBottom: 10
-  }
+  }, 
+  errorText: {
+    color: "#FF0000",
+    fontWeight: "bold", 
+    fontSize: 12,
+    marginTop: 4,
+    fontFamily: "SF-Pro-Text-Regular",
+    padding: 20, 
+  },
 });
