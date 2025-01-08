@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, ViewStyle } from "react-native";
 import { StyleSheet } from "react-native";
 import { theme } from "../../../utils/theme";
 
@@ -18,6 +18,7 @@ interface ButtonProps {
   onPress?: () => void;
   size?: ButtonSize;
   variant?: ButtonVariant;
+  style?: ViewStyle;
 }
 
 export function Button({
@@ -25,10 +26,11 @@ export function Button({
   onPress,
   size = ButtonSize.MEDIUM,
   variant = ButtonVariant.PRIMARY,
+  style,
 }: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.container, styles[size], styles[variant]]}
+      style={[styles.container, styles[size], styles[variant], style]}
       onPress={onPress}
     >
       <Text style={styles.label}>{label}</Text>
@@ -45,6 +47,7 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     fontFamily: "SF-Pro-Rounded-Semibold",
+    fontSize: 17,
   },
   extraSmall: {
     borderRadius: 5,

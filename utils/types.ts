@@ -7,6 +7,7 @@ export type AuthStackParamList = {
     [AuthRoutes.ChooseCategories]: undefined;
     [AuthRoutes.ForgotPassword]: undefined;
     [AuthRoutes.ForgotPasswordLogin]: undefined;
+    [AuthRoutes.Success]: undefined;
 };
 
 // Home 
