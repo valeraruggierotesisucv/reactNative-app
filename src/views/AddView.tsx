@@ -11,7 +11,8 @@ import { AddDefaultView } from "./AddDefaultView";
 import { StepsEnum } from "./AddDefaultView";
 import * as Location from "expo-location";
 import MapView, { Marker, LatLng } from "react-native-maps";
-import { AppHeader } from "../components/AppHeader/AppHeader";
+
+import { AddLocationView } from "./AddLocationView";
 /* TODO
     Description debe tener max caracteres 
 */
@@ -131,33 +132,12 @@ export function AddView() {
 
         {step === StepsEnum.LOCATION && (
           <>
-            <AppHeader
-              title="Ubicación"
-              goBack={() => setStep(StepsEnum.DEFAULT)}
+            <AddLocationView
+              origin={origin}
+              location={location}
+              setLocation={setLocation}
+              setStep={setStep}
             />
-            <MapView
-              style={styles.map}
-              initialRegion={{
-                latitude: location?.latitude ?? origin?.coords.latitude ?? 0,
-                longitude: location?.longitude ?? origin?.coords.longitude ?? 0,
-                latitudeDelta: 0.09,
-                longitudeDelta: 0.04,
-              }}
-            >
-              <Marker
-                coordinate={{
-                  latitude: location?.latitude ?? origin?.coords.latitude ?? 0,
-                  longitude:
-                    location?.longitude ?? origin?.coords.longitude ?? 0,
-                }}
-                draggable
-                title="Ubicación del evento"
-                onDragEnd={(direction) => {
-                  setLocation(direction.nativeEvent.coordinate);
-                  console.log("Location: ", direction.nativeEvent.coordinate);
-                }}
-              />
-            </MapView>
           </>
         )}
       </ScrollView>
@@ -174,10 +154,5 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-  },
-  map: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
   },
 });
