@@ -43,7 +43,7 @@ export function ChooseCategoriesView({
         setStep(Steps.DEFAULT)
     }
     return(
-        
+        //TODO: falta agregar mensaje de error 
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <AppHeader title="Categoría"/> 
