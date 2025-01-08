@@ -1,7 +1,8 @@
-import { createContext, useContext, ReactNode, useState } from 'react';
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Alert } from 'react-native';
 import { AuthUser, Session } from '@supabase/supabase-js';
+import * as SplashScreen from "expo-splash-screen";
 
 interface AuthContextType {
     user: AuthUser | null;
@@ -29,7 +30,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     const logout = () => {
         setUser(null);
+        setSession(null);
+        supabase.auth.signOut();
     };
+
+    useEffect(() => {
+        const loadSession = async () => {
+            try {
+                await SplashScreen.preventAutoHideAsync();
+                const { data: sessionData } = await supabase.auth.getSession();
+                setSession(sessionData.session);
+                setUser(sessionData.session?.user || null);
+                await SplashScreen.hideAsync();
+            } catch (error) {
+                console.error("Error preventing auto-hide of splash screen:", error);
+            } finally {
+                await SplashScreen.hideAsync();
+            }
+        };
+        loadSession();
+
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+            (event, session) => {
+                setSession(session);
+                setUser(session?.user || null);
+            }
+        );
+        return () => {
+            authListener?.subscription.unsubscribe();
+        };  
+    }, []);
 
     return (
         <AuthContext.Provider value={{ user, session, login, logout }}>
