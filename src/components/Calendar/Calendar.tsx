@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingHorizontal: 20,
+    padding: 10
   },
   datepickerButtons: {
     backgroundColor: "#11182711",

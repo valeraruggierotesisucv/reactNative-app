@@ -21,6 +21,8 @@ export function Input({
   placeholder,
   variant = InputVariant.DEFAULT,
   onPress,
+  value, 
+  onChangeValue
 }: InputProps) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
@@ -34,6 +36,9 @@ export function Input({
             numberOfLines={4}
             style={styles.placeholder}
             placeholder={placeholder}
+            onChange={onPress}
+            value={value}
+            onChangeText={onChangeValue}
        />)
        : (placeholder && <Text style={styles.placeholder}>{placeholder}</Text>)
       }
