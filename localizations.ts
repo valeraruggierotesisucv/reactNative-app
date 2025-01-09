@@ -43,6 +43,18 @@ const en = {
     next: "Next",
     success: "Success!",
     success_description: "Your registration has been completed successfully",
+    new_event: "New Event",
+    add_description: "Add a description of your event",
+    add_date: "Add date and time",
+    add_category: "Add category",
+    add_music: "Add music",
+    add_location: "Add location",
+    publish: "Publish",
+    take_photo: "Take Photo",
+    choose_from_gallery: "Choose from Gallery",
+    cancel: "Cancel",
+    music: "Music",
+
 }
 
 const es = {
@@ -90,7 +102,18 @@ const es = {
     next: "Siguiente",
     success: "¡Felicidades!",
     success_description: "Tu registro se ha completado exitosamente",
-
+    new_event: "Nuevo Evento",
+    add_description: "Agrega una descripción de tu evento",
+    add_date: "Agrega fecha y hora",
+    add_category: "Agrega categoría",
+    add_music: "Agrega música",
+    add_location: "Agrega ubicación",
+    publish: "Publicar",
+    take_photo: "Tomar foto",
+    choose_from_gallery: "Elegir de la galería",
+    cancel: "Cancelar",
+    music: "Música",
+    description: "Descripción",
 };
 
 export { en, es };

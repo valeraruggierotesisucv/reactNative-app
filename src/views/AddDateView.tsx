@@ -40,28 +40,25 @@ export function AddDateView({
     }
 
     return(
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <AppHeader title="¿Cuándo?" goBack={() => setStep(StepsEnum.DEFAULT)} />            
-          <Calendar
-            date={date}
-            initialStartTime={startTime}
-            initialEndTime={endTime}
-            onDateChange={setDate}
-            onStartTimeChange={setStartTime}
-            onEndTimeChange={setEndTime}
+      <>
+        <AppHeader title="¿Cuándo?" goBack={() => setStep(StepsEnum.DEFAULT)} />            
+        <Calendar
+          date={date}
+          initialStartTime={startTime}
+          initialEndTime={endTime}
+          onDateChange={setDate}
+          onStartTimeChange={setStartTime}
+          onEndTimeChange={setEndTime}
+        />
+        { showError && <Text style={styles.errorText}> * Por favor proporcione la fecha y hora del evento </Text>}          
+    
+        <View style={styles.footer}>
+          <Button 
+            label="Siguiente"
+            onPress={handleNext}
           />
-          { showError && <Text style={styles.errorText}> * Por favor proporcione la fecha y hora del evento </Text>}          
-      
-          <View style={styles.footer}>
-            <Button 
-              label="Siguiente"
-              onPress={handleNext}
-            />
-          </View>
-          
-        </ScrollView>
-      </SafeAreaView>
+        </View>  
+      </>
     )
 }
 
