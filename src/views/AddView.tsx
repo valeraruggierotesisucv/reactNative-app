@@ -41,6 +41,7 @@ export function AddView() {
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [category, setCategory] = useState<CategoriesEnum | null>(null);
   const [location, setLocation] = useState<LatLng | null>(null);
+  const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{
     nameFile: string;
     uri: string;
@@ -49,15 +50,7 @@ export function AddView() {
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
   function handleAddEvent() {
-    if (
-      description &&
-      date &&
-      startTime &&
-      endTime &&
-      category &&
-      musicFile &&
-      location
-    ) {
+    if (description && date && startTime && endTime && category && location) {
       // agregar evento
     }
     console.log("Publicando evento...");
@@ -85,6 +78,13 @@ export function AddView() {
       };
     }, [])
   );
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        cleanForm();
+      };
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -103,6 +103,8 @@ export function AddView() {
             setMusicFile={setMusicFile}
             location={location}
             setLocation={setLocation}
+            image={image}
+            setImage={setImage}
             onAddEvent={handleAddEvent}
           />
         )}

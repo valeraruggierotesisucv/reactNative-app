@@ -25,6 +25,7 @@ import { LatLng } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { useTranslation } from "../contexts/TranslationContext";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export enum StepsEnum {
   DEFAULT = "default",
@@ -47,6 +48,8 @@ interface AddDefaultViewProps {
   musicFile: { nameFile: string; uri: string } | null;
   setMusicFile: (file: { nameFile: string; uri: string } | null) => void;
   onAddEvent: () => void;
+  image: string | null;
+  setImage: (image: string | null) => void;
 }
 
 export function AddDefaultView({
@@ -63,10 +66,11 @@ export function AddDefaultView({
   musicFile,
   setMusicFile,
   onAddEvent,
+  image,
+  setImage,
 }: AddDefaultViewProps) {
   const { t } = useTranslation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [imageUri, setImageUri] = useState<string | null>(null);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   // TODO: colocar esta funcion fuera
@@ -122,7 +126,7 @@ export function AddDefaultView({
 
       if (!result.canceled) {
         console.log("Camera Image URI: ", result.assets[0].uri);
-        setImageUri(result.assets[0].uri);
+        setImage(result.assets[0].uri);
       }
     } else {
       alert("Camera permission is required to take photos.");
@@ -142,7 +146,7 @@ export function AddDefaultView({
 
       if (!result.canceled) {
         console.log("Gallery Image URI: ", result.assets[0].uri);
-        setImageUri(result.assets[0].uri);
+        setImage(result.assets[0].uri);
       }
     } else {
       alert("Gallery permission is required to select photos.");
@@ -206,13 +210,11 @@ export function AddDefaultView({
         onPress={() => setModalVisible(true)}
         style={styles.imageContainer}
       >
-        {imageUri ? (
-          <Image source={{ uri: imageUri }} style={styles.image} />
+        {image ? (
+          <Image source={{ uri: image }} style={styles.image} />
         ) : (
           <View style={styles.placeholder}>
-            <Text style={styles.placeholderText}>
-              Presiona para añadir una imagen
-            </Text>
+            <MaterialCommunityIcons name="plus" size={48} color="black" />
           </View>
         )}
       </TouchableOpacity>
