@@ -44,7 +44,9 @@ const en = {
     success: "Success!",
     success_description: "Your registration has been completed successfully",
     send_link: "Send link", 
-    forgot_password_text: "Enter your email address to request a password reset."
+    send_link_success: "¡Email sent successfully!", 
+    forgot_password_text: "Enter your email address to request a password reset.", 
+    succes_email_text: "Please check your inbox and follow the link to change your password. Don't forget to check your spam folder if you can't find it. "
 }
 
 const es = {
@@ -93,8 +95,9 @@ const es = {
     success: "¡Felicidades!",
     success_description: "Tu registro se ha completado exitosamente",
     send_link: "Enviar enlace", 
-    forgot_password_text: "Introduce tu dirección de Correo Electrónico para solicitar el reetablecimiento de tu contraseña."
-
+    send_link_success: "¡Correo enviado con éxito!", 
+    forgot_password_text: "Introduce tu dirección de Correo Electrónico para solicitar el reetablecimiento de tu contraseña.", 
+    succes_email_text: "Por favor, verifica tu bandeja de entrada y sigue el enlace para cambiar tu contraseña. No olvides de revisar la carpeta de spam si no lo encuentras."
 };
 
 export { en, es };

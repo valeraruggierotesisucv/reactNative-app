@@ -9,12 +9,19 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { theme } from "../../utils/theme";
 import { InputField } from "../components/InputField/InputField";
 import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 export function ForgotPasswordView() {
     const navigation = useNavigation<AuthStackNavigationProp>();
+    const { resetPassword } = useAuth(); 
     const [email, setEmail] = useState(""); 
     const insets = useSafeAreaInsets();
     const { t } = useTranslation();
+    
+    function handleSendEmail(){
+      //resetPassword(email); 
+      navigation.navigate(AuthRoutes.ForgotPasswordLogin)
+    }
     return(
         <SafeAreaView style={styles.container}>            
             <View style={styles.card}>
@@ -44,6 +51,7 @@ export function ForgotPasswordView() {
             <View style={styles.footer}>
                 <Button 
                     label={t("send_link")}
+                    onPress={handleSendEmail}
                 />
             </View>
             

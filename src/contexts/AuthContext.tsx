@@ -9,6 +9,7 @@ interface AuthContextType {
     session: Session | null;
     login: (email:string, password: string) => void;
     logout: () => void;
+    resetPassword: (email:string) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,6 +34,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(null);
         supabase.auth.signOut();
     };
+
+    const resetPassword = async(email:string) => {
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email)
+        console.log("email", email); 
+        console.log(data); 
+        if(error) Alert.alert(error.message); 
+    }
 
     useEffect(() => {
         const loadSession = async () => {
@@ -62,7 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, session, login, logout }}>
+        <AuthContext.Provider value={{ user, session, login, logout, resetPassword }} >
             {children}
         </AuthContext.Provider>
     );
