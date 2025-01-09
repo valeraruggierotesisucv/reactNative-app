@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native-safe-area-context"; 
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Button } from "../components/Button/Button";
@@ -10,86 +10,87 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";
 interface ChooseCategoryProps {
-    step?: StepsEnum, 
-    setStep?: (step: StepsEnum) => void, 
-    category?: CategoriesEnum | null, 
-    setCategory?: ( category: CategoriesEnum) => void, 
-    preferences: boolean
+  step?: StepsEnum;
+  setStep?: (step: StepsEnum) => void;
+  category?: CategoriesEnum | null;
+  setCategory?: (category: CategoriesEnum) => void;
+  preferences: boolean;
 }
 
-// TODO limitar a poder seleccionar una sola categoria 
+// TODO limitar a poder seleccionar una sola categoria
 export function ChooseCategoriesView({
-    step, 
-    setStep, 
-    category, 
-    setCategory, 
-    preferences = true
+  step,
+  setStep,
+  category,
+  setCategory,
+  preferences = true,
 }: ChooseCategoryProps) {
-    const [selectedId, setSelectedId] = useState<CategoriesEnum | null>(category ?? null);
-    const navigation = useNavigation<AuthStackNavigationProp>();
+  const [selectedId, setSelectedId] = useState<CategoriesEnum | null>(
+    category ?? null
+  );
+  const navigation = useNavigation<AuthStackNavigationProp>();
 
-    const handlePress = (category: CategoriesEnum) => {
-        setSelectedId(category);
-        if (setCategory){
-          setCategory(category)
-        }        
-    };
-    const categories = [
-        { id: '1', label: CategoriesEnum.CULTURE, icon: 'palette' }, 
-        { id: '2', label: CategoriesEnum.EDUCATION, icon: 'bookshelf' },
-        { id: '3', label: CategoriesEnum.PARTIES, icon: 'party-popper' },
-        { id: '4', label: CategoriesEnum.CONCERTS, icon: 'music' },
-        { id: '5', label: CategoriesEnum.FESTIVALS, icon: 'bookmark-music-outline' },
-        { id: '6', label: CategoriesEnum.SPORTS, icon: 'trophy' },
-        { id: '7', label: CategoriesEnum.THEATER, icon: 'theater' },
-        { id: '8', label: CategoriesEnum.EXHIBITIONS, icon: 'image' },
-        { id: '9', label: CategoriesEnum.CLUBS, icon: 'account-group' }
-    ];
+  const handlePress = (category: CategoriesEnum) => {
+    setSelectedId(category);
+    if (setCategory) {
+      setCategory(category);
+    }
+  };
+  const categories = [
+    { id: "1", label: CategoriesEnum.CULTURE, icon: "palette" },
+    { id: "2", label: CategoriesEnum.EDUCATION, icon: "bookshelf" },
+    { id: "3", label: CategoriesEnum.PARTIES, icon: "party-popper" },
+    { id: "4", label: CategoriesEnum.CONCERTS, icon: "music" },
+    {
+      id: "5",
+      label: CategoriesEnum.FESTIVALS,
+      icon: "bookmark-music-outline",
+    },
+    { id: "6", label: CategoriesEnum.SPORTS, icon: "trophy" },
+    { id: "7", label: CategoriesEnum.THEATER, icon: "theater" },
+    { id: "8", label: CategoriesEnum.EXHIBITIONS, icon: "image" },
+    { id: "9", label: CategoriesEnum.CLUBS, icon: "account-group" },
+  ];
 
-    function handleNext(){  
-      if(setStep){
-        setStep(StepsEnum.DEFAULT)
-      }
-      if(preferences){
-        navigation.navigate(AuthRoutes.Success)
-      }        
+  function handleNext() {
+    if (setStep) {
+      setStep(StepsEnum.DEFAULT);
+    }
+    if (preferences) {
+      navigation.navigate(AuthRoutes.Success);
+    }
+  }
+
+  function handleGoBack() {
+    if (setStep) {
+      setStep(StepsEnum.DEFAULT);
     }
 
-    function handleGoBack(){
-      if(setStep){
-        setStep(StepsEnum.DEFAULT)
-      }
-
-      if(preferences){
-        navigation.goBack()
-      }
+    if (preferences) {
+      navigation.goBack();
     }
-    return(
-        //TODO: falta agregar mensaje de error 
-        <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <AppHeader title="Categoría" goBack={handleGoBack}/> 
-                <Text>Seleccione la categoría que mejor se adapte a tu evento</Text>
-                <View style={styles.grid}>
-                    {categories.map((category) => (
-                        <CategoryButton
-                            key={category.id}
-                            label={category.label}
-                            icon={category.icon as any}
-                            selected={selectedId === category.label}
-                            onPress={() => handlePress(category.label)}
-                        />
-                    ))}
-                </View>
-                <View style={styles.footer}>
-                    <Button 
-                        label="Siguiente"
-                        onPress={handleNext}
-                    />
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
+  }
+  return (
+    //TODO: falta agregar mensaje de error
+    <>
+      <AppHeader title="Categoría" goBack={handleGoBack} />
+      <Text>Seleccione la categoría que mejor se adapte a tu evento</Text>
+      <View style={styles.grid}>
+        {categories.map((category) => (
+          <CategoryButton
+            key={category.id}
+            label={category.label}
+            icon={category.icon as any}
+            selected={selectedId === category.label}
+            onPress={() => handlePress(category.label)}
+          />
+        ))}
+      </View>
+      <View style={styles.footer}>
+        <Button label="Siguiente" onPress={handleNext} />
+      </View>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -102,17 +103,17 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-  }, 
+  },
   grid: {
-    flexDirection: 'row' ,
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     gap: 20,
-    padding: 20
-    },
+    padding: 20,
+  },
   footer: {
-    flex: 1, 
-    justifyContent: "flex-end", 
-    paddingBottom: 10
-  }
+    flex: 1,
+    justifyContent: "flex-end",
+    paddingBottom: 10,
+  },
 });

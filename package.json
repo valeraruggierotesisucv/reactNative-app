@@ -49,6 +49,8 @@
     "react-native-screens": "^4.3.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.13",
+    "expo-image-picker": "~16.0.3",
+    "expo-camera": "~16.0.10",
     "react-native-maps": "1.18.0"
   },
   "devDependencies": {

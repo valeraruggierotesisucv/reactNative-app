@@ -1,4 +1,12 @@
-import { StyleSheet, Image, View, Platform } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  View,
+  Platform,
+  Modal,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { Input, InputVariant } from "../components/Input/Input";
@@ -13,7 +21,11 @@ import { formatHour } from "../../utils/formatHour";
 import * as Device from "expo-device";
 import * as Location from "expo-location";
 import { LatLng } from "react-native-maps";
-import { truncateString } from "../../utils/formatString";
+
+import * as ImagePicker from "expo-image-picker";
+import { Camera } from "expo-camera";
+import { useTranslation } from "../contexts/TranslationContext";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export enum StepsEnum {
   DEFAULT = "default",
@@ -36,6 +48,8 @@ interface AddDefaultViewProps {
   musicFile: { nameFile: string; uri: string } | null;
   setMusicFile: (file: { nameFile: string; uri: string } | null) => void;
   onAddEvent: () => void;
+  image: string | null;
+  setImage: (image: string | null) => void;
 }
 
 export function AddDefaultView({
@@ -52,8 +66,12 @@ export function AddDefaultView({
   musicFile,
   setMusicFile,
   onAddEvent,
+  image,
+  setImage,
 }: AddDefaultViewProps) {
+  const { t } = useTranslation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   // TODO: colocar esta funcion fuera
   async function getCurrentLocation() {
@@ -95,6 +113,47 @@ export function AddDefaultView({
     };
     pickDocument();
   }
+
+  const openCamera = async () => {
+    const { status } = await Camera.requestCameraPermissionsAsync();
+    if (status === "granted") {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        console.log("Camera Image URI: ", result.assets[0].uri);
+        setImage(result.assets[0].uri);
+      }
+    } else {
+      alert("Camera permission is required to take photos.");
+    }
+    setModalVisible(false);
+  };
+
+  const openGallery = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status === "granted") {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        console.log("Gallery Image URI: ", result.assets[0].uri);
+        setImage(result.assets[0].uri);
+      }
+    } else {
+      alert("Gallery permission is required to select photos.");
+    }
+    setModalVisible(false);
+  };
+
   const DatePills = () => {
     if (startsAt === null || endsAt === null || date === null) return;
     const start = formatHour(startsAt);
@@ -145,14 +204,25 @@ export function AddDefaultView({
 
   return (
     <>
-      <AppHeader title="Nuevo Evento" />
+      <AppHeader title={t("new_event")} />
       {/* Imagen */}
-      <Image source={{ uri: IMAGE_PLACEHOLDER }} style={styles.image} />
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={styles.imageContainer}
+      >
+        {image ? (
+          <Image source={{ uri: image }} style={styles.image} />
+        ) : (
+          <View style={styles.placeholder}>
+            <MaterialCommunityIcons name="plus" size={48} color="black" />
+          </View>
+        )}
+      </TouchableOpacity>
 
       {/* Descripción */}
       <Input
-        label="DESCRIPCIÓN"
-        placeholder="Agrega una descripción de tu evento"
+        label={t("description").toUpperCase()}
+        placeholder={t("add_description")}
         variant={InputVariant.DEFAULT}
         value={description ?? ""}
         onChangeValue={setDescription}
@@ -161,14 +231,14 @@ export function AddDefaultView({
       {/* FECHA Y HORA */}
       {date && startsAt && endsAt ? (
         <DisplayInput
-          label="¿CUÁNDO?"
+          label={t("when").toUpperCase()}
           data={<DatePills />}
           onPress={() => setStep(StepsEnum.DATE)}
         />
       ) : (
         <Input
-          label="¿CUÁNDO?"
-          placeholder="Agregar fecha y hora"
+          label={t("when").toUpperCase()}
+          placeholder={t("add_date")}
           variant={InputVariant.ARROW}
           onPress={() => setStep(StepsEnum.DATE)}
         />
@@ -177,7 +247,7 @@ export function AddDefaultView({
       {/* Categoría */}
       {category ? (
         <DisplayInput
-          label="CATEGORÍA"
+          label={t("category").toUpperCase()}
           data={
             <Chip
               label={category.toUpperCase()}
@@ -189,72 +259,133 @@ export function AddDefaultView({
         />
       ) : (
         <Input
-          label="CATEGORÍA"
-          placeholder="Agregar categoría"
+          label={t("category").toUpperCase()}
+          placeholder={t("add_category")}
           variant={InputVariant.ARROW}
           onPress={() => setStep(StepsEnum.CATEGORY)}
         />
       )}
 
       {/* MÚSICA */}
-      {musicFile ? (
-        <DisplayInput
-          label="MÚSICA"
-          data={
-            <Chip
-              label={truncateString(musicFile.nameFile, 30)}
-              variant={ChipVariant.LIGHT}
-              onPress={handleAddMusic}
-            />
-          }
-          onPress={handleAddMusic}
-        />
-      ) : (
-        <Input
-          label="MÚSICA"
-          placeholder="Agregar música"
-          variant={InputVariant.ARROW}
-          onPress={handleAddMusic}
-        />
-      )}
+      <Input
+        label={t("music").toUpperCase()}
+        placeholder={t("add_music")}
+        variant={InputVariant.ARROW}
+      />
 
       {/* UBICACIÓN */}
       {location ? (
         <DisplayInput
-          label="UBICACIÓN"
+          label={t("location").toUpperCase()}
           data={<LocationPills />}
-          onPress={() => setStep(StepsEnum.LOCATION)}
+          onPress={getCurrentLocation}
         />
       ) : (
         <Input
-          label="UBICACIÓN"
-          placeholder="Agregar ubicación"
+          label={t("location").toUpperCase()}
+          placeholder={t("add_location")}
           variant={InputVariant.ARROW}
-          onPress={() => {
-            setStep(StepsEnum.LOCATION);
-          }}
+          onPress={getCurrentLocation}
         />
       )}
 
       <View style={styles.footer}>
         <Button
-          label="Publicar"
+          label={t("publish")}
           size={ButtonSize.MEDIUM}
           onPress={onAddEvent}
         />
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalView}>
+          <View style={styles.modalButtonsContainer}>
+            <TouchableOpacity onPress={openCamera} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>{t("take_photo")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={openGallery} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>
+                {t("choose_from_gallery")}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              style={styles.modalButton}
+            >
+              <Text style={styles.modalButtonText}>{t("cancel")}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  placeholder: {
+    width: "100%",
+    height: 270,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#D9D9D9",
+  },
+  placeholderText: {
+    fontSize: 17,
+    fontFamily: "SF-Pro-Text-Regular",
+    color: "#000",
+    marginBottom: 5,
+    textAlign: "left",
+  },
   image: {
     height: 270,
     width: "100%",
+    resizeMode: "cover",
   },
   footer: {
     flex: 1,
     justifyContent: "flex-end",
     paddingBottom: 10,
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalButton: {
+    backgroundColor: "transparent",
+    margin: 10,
+    borderRadius: 20,
+  },
+  modalButtonText: {
+    fontSize: 16,
+    fontFamily: "SF-Pro-Text-Semibold",
+    textAlign: "center",
+    color: "#007AFF",
+  },
+  modalButtonsContainer: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    borderRadius: 10,
+    backgroundColor: "white",
+    width: "60%",
+    padding: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontFamily: "SF-Pro-Text-Regular",
+    color: "#000",
+    marginBottom: 5,
+    textAlign: "left",
   },
 });
