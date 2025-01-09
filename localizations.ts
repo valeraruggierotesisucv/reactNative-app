@@ -43,6 +43,8 @@ const en = {
     next: "Next",
     success: "Success!",
     success_description: "Your registration has been completed successfully",
+    send_link: "Send link", 
+    forgot_password_text: "Enter your email address to request a password reset."
 }
 
 const es = {
@@ -90,6 +92,8 @@ const es = {
     next: "Siguiente",
     success: "¡Felicidades!",
     success_description: "Tu registro se ha completado exitosamente",
+    send_link: "Enviar enlace", 
+    forgot_password_text: "Introduce tu dirección de Correo Electrónico para solicitar el reetablecimiento de tu contraseña."
 
 };
 

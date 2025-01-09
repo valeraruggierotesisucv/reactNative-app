@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "SF-Pro-Rounded-Heavy",
-    fontSize: 55,
-    lineHeight: 55,
+    fontSize: 50,
+    lineHeight: 50,
     width: 300,
     letterSpacing: -3,
   },
