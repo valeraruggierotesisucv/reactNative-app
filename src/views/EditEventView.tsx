@@ -1,4 +1,4 @@
-import { Platform, ScrollView, StyleSheet } from "react-native";
+import { Text, ScrollView, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
@@ -10,12 +10,14 @@ import { ChooseCategoriesView } from "./ChooseCategoriesView";
 import { AddDefaultView } from "./AddDefaultView";
 import { StepsEnum } from "./AddDefaultView";
 import * as Location from "expo-location";
-import MapView, { Marker, LatLng } from "react-native-maps";
-
+import  {  LatLng } from "react-native-maps";
+import { Modal } from "../components/Modal/Modal";
 import { AddLocationView } from "./AddLocationView";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { ProfileStackParamList } from "../../utils/types";
 import { ProfileRoutes } from "../../utils/routes";
+import { AppHeader } from "../components/AppHeader/AppHeader";
+import { useTranslation } from "../contexts/TranslationContext";
 /* TODO
     Description debe tener max caracteres 
 */
@@ -35,7 +37,9 @@ interface Event {
 }
 
 export function EditEventView() {
+  const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const route = useRoute<RouteProp<ProfileStackParamList, ProfileRoutes.EditEvent>>();
   const eventId = route.params.eventId;
   const [event, setEvent] = useState<Event>({
@@ -48,7 +52,7 @@ export function EditEventView() {
       latitude: 0,
       longitude: 0
     },
-    image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdancingastronaut.com%2F2022%2F06%2Fmartin-garrix-debuts-sentio-in-south-america-during-newest-the-martin-garrix-show-epsiode%2F&psig=AOvVaw1I9aaqLIf5nQsalRaCP_Sb&ust=1736561346130000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMiiyK2J6ooDFQAAAAAdAAAAABAE",
+    image: "https://dancingastronaut.com/wp-content/uploads/2022/06/imgonline-com-ua-twotoone-3h3siEMcoQW7.jpg",
     musicFile: {
       nameFile: "music.mp3",
       uri: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdancingastronaut.com%2F2022%2F06%2Fmartin-garrix-debuts-sentio-in-south-america-during-newest-the-martin-garrix-show-epsiode%2F&psig=AOvVaw1I9aaqLIf5nQsalRaCP_Sb&ust=1736561346130000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMiiyK2J6ooDFQAAAAAdAAAAABAE"
@@ -86,6 +90,7 @@ export function EditEventView() {
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
   function handleAddEvent() {
+    setModalVisible(true);
     if (description && date && startTime && endTime && category && location) {
       // agregar evento
     }
@@ -125,6 +130,7 @@ export function EditEventView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <AppHeader title={step === StepsEnum.DEFAULT ? t("edit_event") : step === StepsEnum.DATE ? t("when") : step === StepsEnum.CATEGORY ? t("category") : step === StepsEnum.LOCATION ? t("location") : ""} goBack={() => step === StepsEnum.DEFAULT ? navigation.goBack() : setStep(StepsEnum.DEFAULT)} />
         {step === StepsEnum.DEFAULT && (
           <AddDefaultView
             step={step}
@@ -142,6 +148,7 @@ export function EditEventView() {
             image={image}
             setImage={setImage}
             onAddEvent={handleAddEvent}
+            buttonLabel={t("save_changes")}
           />
         )}
 
@@ -179,6 +186,21 @@ export function EditEventView() {
           </>
         )}
       </ScrollView>
+
+      <Modal 
+        visible={modalVisible} 
+        onClose={() => {setModalVisible(false); navigation.goBack()}}
+      >   
+        <Text style={{ 
+            fontSize: 18, 
+            fontWeight: '600',
+            textAlign: 'center',
+            marginBottom: 8,
+        }}>
+            {t("event_edited")}
+        </Text>
+        <Image source={require('../../assets/images/Onboarding.png')} style={{ width: 200, height: 200, marginBottom: 16 }} />
+      </Modal>
     </SafeAreaView>
   );
 }

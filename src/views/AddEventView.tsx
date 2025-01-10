@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { AddStackNavigationProp } from "../navigators/AddStack";
+import React from "react";
 import { AddDateView } from "./AddDateView";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
@@ -11,17 +12,19 @@ import { StepsEnum } from "./AddDefaultView";
 import * as Location from "expo-location";
 import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
-import { FileTypeEnum, uploadFile } from "../services/storage";
-import { theme } from "../../utils/theme";
-import React from "react";
-
+import { AppHeader } from "../components/AppHeader/AppHeader";
+import { useTranslation } from "../contexts/TranslationContext";
+import { Image, Text } from "react-native";
+import { Modal } from "../components/Modal/Modal";
 
 /* TODO
     Description debe tener max caracteres 
 */
 
-export function AddView() {
+export function AddEventView() {
+  const { t } = useTranslation();
   const navigation = useNavigation<AddStackNavigationProp>();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [origin, setOrigin] = useState<Location.LocationObject | null>(null);
 
   useEffect(() => {
@@ -46,10 +49,12 @@ export function AddView() {
   const [location, setLocation] = useState<LatLng | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
-  const [imageUrl, setImageUrl] = useState(); 
+
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
-  async function handleAddEvent() {
+  function handleAddEvent() {
+    setModalVisible(true);
+    console.log(modalVisible);
     if (description && date && startTime && endTime && category && location) {
       // agregar evento
     }
@@ -60,19 +65,6 @@ export function AddView() {
     console.log("Ends at ", endTime);
     console.log("Category ", category);
     console.log("Location ", location);
-
-    
-    if(image){
-      console.log("Uploading image..."); 
-      const imageUrl = await uploadFile(image, FileTypeEnum.IMAGE)  // guardar en la db
-      console.log("Event Image URL-->", imageUrl);       
-    }    
-
-    if(musicFile){
-      console.log("Uploading music..."); 
-      const musicURL = await uploadFile(musicFile.uri, FileTypeEnum.AUDIO)  // guardar en la db
-      console.log("Event Music URL-->", musicURL)
-    }
   }
 
   function cleanForm() {
@@ -96,6 +88,7 @@ export function AddView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <AppHeader title={step === StepsEnum.DEFAULT ? t("new_event") : step === StepsEnum.DATE ? t("when") : step === StepsEnum.CATEGORY ? t("category") : step === StepsEnum.LOCATION ? t("location") : ""} goBack={() => setStep(StepsEnum.DEFAULT)} />
         {step === StepsEnum.DEFAULT && (
           <AddDefaultView
             step={step}
@@ -113,6 +106,7 @@ export function AddView() {
             image={image}
             setImage={setImage}
             onAddEvent={handleAddEvent}
+            buttonLabel={t("publish")}
           />
         )}
 
@@ -150,13 +144,28 @@ export function AddView() {
           </>
         )}
       </ScrollView>
+
+      <Modal 
+        visible={modalVisible} 
+        onClose={() => {setModalVisible(false); navigation.goBack()}}
+      >   
+        <Image source={require('../../assets/images/Onboarding.png')} style={{ width: 200, height: 200, marginBottom: 16 }} />
+        <Text style={{ 
+            fontSize: 18, 
+            fontWeight: '600',
+            textAlign: 'center',
+            marginBottom: 8,
+        }}>
+            {t("event_published")}
+        </Text>
+      </Modal>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors['white'],
+    backgroundColor: "#FFFFFF",
   },
   scrollViewContent: {
     flexGrow: 1,

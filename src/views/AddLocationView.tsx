@@ -33,7 +33,6 @@ export function AddLocationView({
 
   return (
     <>
-      <AppHeader title="Ubicación" goBack={() => setStep(StepsEnum.DEFAULT)} />
       <MapView
         style={styles.map}
         initialRegion={{
