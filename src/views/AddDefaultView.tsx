@@ -74,25 +74,6 @@ export function AddDefaultView({
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   // TODO: colocar esta funcion fuera
-  async function getCurrentLocation() {
-    if (Platform.OS === "android" && !Device.isDevice) {
-      setErrorMsg(
-        "Oops, this will not work on Snack in an Android Emulator. Try it on your device!"
-      );
-      return;
-    }
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied");
-      return;
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    });
-  }
 
   function handleAddMusic() {
     console.log("Agregar musica...");
@@ -278,14 +259,14 @@ export function AddDefaultView({
         <DisplayInput
           label={t("location").toUpperCase()}
           data={<LocationPills />}
-          onPress={getCurrentLocation}
+          onPress={() => setStep(StepsEnum.LOCATION)}
         />
       ) : (
         <Input
           label={t("location").toUpperCase()}
           placeholder={t("add_location")}
           variant={InputVariant.ARROW}
-          onPress={getCurrentLocation}
+          onPress={() => setStep(StepsEnum.LOCATION)}
         />
       )}
 
