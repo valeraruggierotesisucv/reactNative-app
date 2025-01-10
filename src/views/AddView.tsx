@@ -1,4 +1,4 @@
-import { Platform, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
@@ -10,9 +10,9 @@ import { ChooseCategoriesView } from "./ChooseCategoriesView";
 import { AddDefaultView } from "./AddDefaultView";
 import { StepsEnum } from "./AddDefaultView";
 import * as Location from "expo-location";
-import MapView, { Marker, LatLng } from "react-native-maps";
-
+import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
+
 /* TODO
     Description debe tener max caracteres 
 */
@@ -42,10 +42,7 @@ export function AddView() {
   const [category, setCategory] = useState<CategoriesEnum | null>(null);
   const [location, setLocation] = useState<LatLng | null>(null);
   const [image, setImage] = useState<string | null>(null);
-  const [musicFile, setMusicFile] = useState<{
-    nameFile: string;
-    uri: string;
-  } | null>(null);
+  const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
 
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
@@ -78,13 +75,7 @@ export function AddView() {
       };
     }, [])
   );
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        cleanForm();
-      };
-    }, [])
-  );
+
 
   return (
     <SafeAreaView style={styles.container}>

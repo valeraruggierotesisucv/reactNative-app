@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Pressable,
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-} from "react-native";
+import { Alert, Pressable, StyleSheet, View, Text, ScrollView } from "react-native";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -19,6 +12,7 @@ import { Formik } from "formik";
 import { AuthRoutes } from "../../utils/routes";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
+import { theme } from "../../utils/theme";
 
 function Login() {
   const navigation = useNavigation<AuthStackNavigationProp>();
@@ -26,13 +20,11 @@ function Login() {
   const { login } = useAuth();
   const loginInitialValues = { email: "", password: "" };
   const [showPassword, setShowPassword] = useState(false);
-  async function signInWithEmail(email: string, password: string) {
-    login(email, password);
-  }
+
   return (
     <Formik
       initialValues={loginInitialValues}
-      onSubmit={(values) => signInWithEmail(values.email, values.password)}
+      onSubmit={(values) => login(values.email, values.password)}
     >
       {({ handleChange, handleSubmit, values }) => (
         <>
@@ -43,7 +35,7 @@ function Login() {
               onChangeText={handleChange("email")}
               placeholder={t("email_placeholder")}
               icon="email"
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               style={{ marginTop: 40, marginBottom: 24 }}
             />
             <InputField
@@ -53,7 +45,7 @@ function Login() {
               placeholder={t("password_placeholder")}
               secureTextEntry={!showPassword}
               icon={showPassword ? "eye-off" : "eye"}
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               onPressIcon={() => setShowPassword(!showPassword)}
               style={{ marginBottom: 9 }}
             />
@@ -86,18 +78,6 @@ const Signup = () => {
     confirmPassword: "",
   };
 
-  async function signUpWithEmail(email: string, password: string) {
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
-    if (error) Alert.alert(error.message);
-    if (!session) Alert.alert(t("check_inbox_for_verification"));
-  }
   return (
     <Formik
       initialValues={signupInitialValues}
@@ -112,7 +92,7 @@ const Signup = () => {
               onChangeText={handleChange("username")}
               placeholder={t("username_placeholder")}
               icon="account"
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               style={{ marginTop: 40, marginBottom: 24 }}
             />
             <InputField
@@ -121,7 +101,7 @@ const Signup = () => {
               onChangeText={handleChange("email")}
               placeholder={t("email_placeholder")}
               icon="email"
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
@@ -130,7 +110,7 @@ const Signup = () => {
               onChangeText={handleChange("fullname")}
               placeholder={t("fullname_placeholder")}
               icon="account"
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
@@ -139,7 +119,7 @@ const Signup = () => {
               onChangeText={handleChange("birthdate")}
               placeholder={t("birthdate_placeholder")}
               icon="calendar"
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
@@ -148,7 +128,7 @@ const Signup = () => {
               onChangeText={handleChange("password")}
               placeholder={t("password_placeholder")}
               icon="lock"
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
@@ -157,7 +137,7 @@ const Signup = () => {
               onChangeText={handleChange("confirmPassword")}
               placeholder={t("confirm_password_placeholder")}
               icon="lock"
-              iconColor="#050F71"
+              iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
           </View>
@@ -205,7 +185,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: theme.colors['lightGray'],
   },
   iconLogoContainer: {
     width: "100%",
@@ -228,7 +208,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     textAlign: "center",
-    color: "#050F71",
+    color: theme.colors['primary'],
     fontSize: 15,
     fontFamily: "SF-Pro-Text-Semibold",
     marginTop: 10,

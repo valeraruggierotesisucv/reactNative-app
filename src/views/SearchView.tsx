@@ -9,7 +9,7 @@ import { SearchBar } from "../components/SearchBar/SearchBar";
 import { useEffect, useState } from "react";
 import { Tabs } from "../components/Tabs/Tabs";
 import { Pills } from "../components/Pills/Pills";
-
+import { theme } from "../../utils/theme";
 
 export enum SearchTabsEnum  {
   EVENTS = "Eventos", 
@@ -84,7 +84,6 @@ export function SearchView() {
           <View style={styles.view}>
             <AppHeader />
             <SearchBar
-              placeholder="Search"
               onChangeText={handleSearchChange}
               value={search}
             />
@@ -130,7 +129,7 @@ export function SearchView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   view: {
     flexGrow: 1,

@@ -1,10 +1,11 @@
-import {   StyleSheet, Text, Image, View } from "react-native";
+import {  StyleSheet, Text, Image, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "../contexts/TranslationContext";
 import { AuthRoutes } from "../../utils/routes";
 import { Button } from "../components/Button/Button";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { theme } from "../../utils/theme";
 
 
 export function SuccessView() {
@@ -28,7 +29,7 @@ export function SuccessView() {
 const styles = StyleSheet.create({  
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
     alignItems: "center",
   },
   content: {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontFamily: "SF-Pro-Rounded-Semibold",
     marginTop: 20,
-    color: "#050F71",
+    color: theme.colors['primary'],
   },
   description: {
     fontSize: 25,

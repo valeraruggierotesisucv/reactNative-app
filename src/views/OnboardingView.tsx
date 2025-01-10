@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
 import { Text, StyleSheet, Image, Dimensions, View } from "react-native";
-
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { useTranslation } from "../contexts/TranslationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
