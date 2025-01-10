@@ -8,6 +8,7 @@ import { events } from "../../utils/dummyData";
 import { useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { getServer } from "../../utils/getServer";
+import { theme } from "../../utils/theme";
 
 export function HomeView() {
   const navigation = useNavigation<HomeStackNavigationProp>();
@@ -73,7 +74,7 @@ export function HomeView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   view: {
     flexGrow: 1,

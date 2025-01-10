@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -6,6 +6,7 @@ import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { InputField } from "../components/InputField/InputField";
 import { useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
+import { theme } from "../../utils/theme";
 
 export function ChangePasswordView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
@@ -81,7 +82,7 @@ export function ChangePasswordView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,

@@ -7,6 +7,8 @@ import { ProfileCard } from "../components/ProfileCard/ProfileCard";
 import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbnailList";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { user as dummyUser } from "../../utils/dummyData";
+import { theme } from "../../utils/theme";
+
 export function ProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
 
@@ -14,8 +16,6 @@ export function ProfileView() {
     id: `event-${index + 1}`,
     imageUrl: `https://picsum.photos/400/400?random=${index + 1}`,
   }));
-
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,7 +56,7 @@ export function ProfileView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     width: "90%",
-    backgroundColor: "#000",
+    backgroundColor: theme.colors['black'],
     marginBottom: 10,
   },
 });

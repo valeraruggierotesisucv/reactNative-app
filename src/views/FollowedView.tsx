@@ -45,7 +45,6 @@ export function FollowedView() {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <AppHeader title="Seguidos" goBack={navigation.goBack} />
         <SearchBar
-          placeholder="Search"
           onChangeText={handleSearchChange}
           value={search}
         />

@@ -6,6 +6,7 @@ import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileRoutes } from "../../utils/routes";
 import { useAuth } from "../contexts/AuthContext";
+import { theme } from "../../utils/theme";
 
 export function ConfigurationView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
@@ -35,7 +36,7 @@ export function ConfigurationView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   content: {
     flex: 1,

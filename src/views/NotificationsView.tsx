@@ -2,6 +2,7 @@ import { View, SafeAreaView, FlatList, StyleSheet } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { notifications } from "../../utils/dummyData";
 import { NotificationItem } from "../components/NotificationItem/NotificationItem";
+import { theme } from "../../utils/theme";
 
 export function NotificationsView() {
     return(
@@ -32,7 +33,7 @@ export function NotificationsView() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#FFFFFF",
+      backgroundColor: theme.colors['white'],
     },
     view: {
       flexGrow: 1,

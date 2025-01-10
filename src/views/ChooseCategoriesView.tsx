@@ -1,5 +1,4 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Button } from "../components/Button/Button";
 import { useState } from "react";
@@ -9,12 +8,14 @@ import { CategoriesEnum } from "./SearchView";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";
+import { theme } from "../../utils/theme";
+import React from "react";
 interface ChooseCategoryProps {
   step?: StepsEnum;
   setStep?: (step: StepsEnum) => void;
   category?: CategoriesEnum | null;
   setCategory?: (category: CategoriesEnum) => void;
-  preferences: boolean;
+  preferences?: boolean;
 }
 
 // TODO limitar a poder seleccionar una sola categoria
@@ -41,11 +42,7 @@ export function ChooseCategoriesView({
     { id: "2", label: CategoriesEnum.EDUCATION, icon: "bookshelf" },
     { id: "3", label: CategoriesEnum.PARTIES, icon: "party-popper" },
     { id: "4", label: CategoriesEnum.CONCERTS, icon: "music" },
-    {
-      id: "5",
-      label: CategoriesEnum.FESTIVALS,
-      icon: "bookmark-music-outline",
-    },
+    { id: "5", label: CategoriesEnum.FESTIVALS, icon: "bookmark-music-outline" },
     { id: "6", label: CategoriesEnum.SPORTS, icon: "trophy" },
     { id: "7", label: CategoriesEnum.THEATER, icon: "theater" },
     { id: "8", label: CategoriesEnum.EXHIBITIONS, icon: "image" },
@@ -96,7 +93,7 @@ export function ChooseCategoriesView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,

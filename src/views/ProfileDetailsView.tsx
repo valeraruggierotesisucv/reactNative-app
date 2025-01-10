@@ -6,6 +6,7 @@ import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbn
 import { ProfileRoutes } from "../../utils/routes";
 import { user } from "../../utils/dummyData";
 import { ProfileCard } from "../components/ProfileCard/ProfileCard";
+import { theme } from "../../utils/theme";
 
 export function ProfileDetailsView() {
     const navigation = useNavigation<ProfileStackNavigationProp>();
@@ -50,7 +51,7 @@ export function ProfileDetailsView() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: theme.colors['white'],
     },
     scrollViewContent: {
         flexGrow: 1,
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     separator: {
         height: 1,
         width: "90%",
-        backgroundColor: "#000",
+        backgroundColor: theme.colors['black'],
         marginBottom: 10,
     },
 });
