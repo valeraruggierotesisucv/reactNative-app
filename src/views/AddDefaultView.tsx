@@ -2,13 +2,11 @@ import {
   StyleSheet,
   Image,
   View,
-  Platform,
   Modal,
   Text,
   TouchableOpacity,
 } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { Input, InputVariant } from "../components/Input/Input";
 import { useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
@@ -18,14 +16,13 @@ import * as DocumentPicker from "expo-document-picker";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { Chip, ChipVariant } from "../components/Chip/Chip";
 import { formatHour } from "../../utils/formatHour";
-import * as Device from "expo-device";
-import * as Location from "expo-location";
 import { LatLng } from "react-native-maps";
 
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import { useTranslation } from "../contexts/TranslationContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { truncateString } from "../../utils/formatString";
 
 export enum StepsEnum {
   DEFAULT = "default",
@@ -247,13 +244,25 @@ export function AddDefaultView({
         />
       )}
 
-      {/* MÚSICA */}
-      <Input
-        label={t("music").toUpperCase()}
-        placeholder={t("add_music")}
-        variant={InputVariant.ARROW}
-      />
-
+       {/* MÚSICA */}
+       { musicFile
+            ? <DisplayInput
+                label={t("music").toUpperCase()}
+                data={<Chip 
+                    label={truncateString(musicFile.nameFile, 30)} 
+                    variant={ChipVariant.LIGHT} 
+                    onPress={handleAddMusic} />}
+                    onPress={handleAddMusic}
+                />
+            : <Input 
+                label="MÚSICA"
+                placeholder="Agregar música"
+                variant={InputVariant.ARROW}
+                onPress={handleAddMusic}
+            />
+        }
+        
+        
       {/* UBICACIÓN */}
       {location ? (
         <DisplayInput

@@ -6,7 +6,7 @@ import { LatLng } from "react-native-maps";
 import * as Location from "expo-location";
 import { StyleSheet } from "react-native";
 import { useEffect } from "react";
-
+import React from "react";
 interface AddLocationViewProps {
   origin: Location.LocationObject | null;
   location: LatLng | null;

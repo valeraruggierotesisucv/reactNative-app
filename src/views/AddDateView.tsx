@@ -5,7 +5,7 @@ import { Calendar } from "../components/Calendar/Calendar";
 import { Button } from "../components/Button/Button";
 import { useState } from "react";
 import { StepsEnum } from "./AddDefaultView";
-
+import React from "react";
 interface AddDateViewProps {
   step: StepsEnum, 
   setStep: (step: StepsEnum) => void, 
