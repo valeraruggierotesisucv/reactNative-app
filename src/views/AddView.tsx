@@ -1,9 +1,8 @@
-import { ScrollView, StyleSheet, Image, Text } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { AddStackNavigationProp } from "../navigators/AddStack";
-import React from "react";
 import { AddDateView } from "./AddDateView";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
@@ -12,7 +11,10 @@ import { StepsEnum } from "./AddDefaultView";
 import * as Location from "expo-location";
 import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
-import { uploadImage } from "../services/storage";
+import { FileTypeEnum, uploadFile } from "../services/storage";
+import { theme } from "../../utils/theme";
+import React from "react";
+
 
 /* TODO
     Description debe tener max caracteres 
@@ -59,11 +61,18 @@ export function AddView() {
     console.log("Category ", category);
     console.log("Location ", location);
 
-    console.log("Uploading image..."); 
+    
     if(image){
-      const imageURL = await uploadImage(image); // guardar en la db 
-      console.log(imageURL);       
+      console.log("Uploading image..."); 
+      const imageUrl = await uploadFile(image, FileTypeEnum.IMAGE)  // guardar en la db
+      console.log("Event Image URL-->", imageUrl);       
     }    
+
+    if(musicFile){
+      console.log("Uploading music..."); 
+      const musicURL = await uploadFile(musicFile.uri, FileTypeEnum.AUDIO)  // guardar en la db
+      console.log("Event Music URL-->", musicURL)
+    }
   }
 
   function cleanForm() {
@@ -147,7 +156,7 @@ export function AddView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,

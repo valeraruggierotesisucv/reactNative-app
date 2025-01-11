@@ -1,39 +1,27 @@
-import {
-  StyleSheet,
-  Image,
-  View,
-  Modal,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Image, View, Modal, Text, TouchableOpacity } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Input, InputVariant } from "../components/Input/Input";
 import { useEffect, useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
-import React from "react";
 import { DisplayInput } from "../components/DisplayInput/DisplayInput";
-import * as DocumentPicker from "expo-document-picker";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { Chip, ChipVariant } from "../components/Chip/Chip";
 import { formatHour } from "../../utils/formatHour";
 import { LatLng } from "react-native-maps";
-
-import * as ImagePicker from "expo-image-picker";
-import { Camera } from "expo-camera";
 import { useTranslation } from "../contexts/TranslationContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { truncateString } from "../../utils/formatString";
-import { supabase } from "../lib/supabase";
-import { uploadImage } from "../services/storage";
 import { useImagePicker } from "../hooks/useImagePicker";
 import { useMusicPicker } from "../hooks/useMusicPicker";
+import React from "react";
+import { theme } from "../../utils/theme";
+
 export enum StepsEnum {
   DEFAULT = "default",
   DATE = "date",
   CATEGORY = "category",
   LOCATION = "location",
 }
-
 interface AddDefaultViewProps {
   step: StepsEnum;
   setStep: (step: StepsEnum) => void;
@@ -281,12 +269,12 @@ const styles = StyleSheet.create({
     height: 270,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: theme.colors['lightGray'],
   },
   placeholderText: {
     fontSize: 17,
     fontFamily: "SF-Pro-Text-Regular",
-    color: "#000",
+    color: theme.colors['black'],
     marginBottom: 5,
     textAlign: "left",
   },
@@ -328,7 +316,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontFamily: "SF-Pro-Text-Regular",
-    color: "#000",
+    color: theme.colors['black'],
     marginBottom: 5,
     textAlign: "left",
   },
