@@ -9,8 +9,10 @@ import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { RouteProp } from "@react-navigation/native";
 import { HomeStackParamList } from "../../utils/types";
 import { HomeRoutes } from "../../utils/routes";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export function EventDetailsView() {
+    const { t } = useTranslation();
     const navigation = useNavigation<HomeStackNavigationProp>();
     const route = useRoute<RouteProp<HomeStackParamList, HomeRoutes.EventDetails>>();
 
@@ -23,15 +25,15 @@ export function EventDetailsView() {
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <AppHeader title="Detalles" goBack={navigation.goBack} />
+                <AppHeader title={t("common.details")} goBack={navigation.goBack} />
                 <EventCard 
                     profileImage={event?.profileImage || IMAGE_PLACEHOLDER}
-                    username={event?.username || "No disponible"}
+                    username={event?.username || t("common.not_available")}
                     eventImage={event?.eventImage || IMAGE_PLACEHOLDER}
-                    title={event?.title || "No disponible"}
-                    description={event?.description || "No disponible"}
+                    title={event?.title || t("common.not_available")}
+                    description={event?.description || t("common.not_available")}
                     isLiked={event?.isLiked || false}
-                    date={event?.date || "No disponible"}
+                    date={event?.date || t("common.not_available")}
                     variant={EventCardVariant.DETAILS}
                     location={event?.location}
                     startsAt={event?.startsAt}
@@ -52,6 +54,5 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         flexGrow: 1,
-        paddingTop: 20
     },
 });

@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 import { SearchStackNavigationProp } from "../navigators/SearchStack";
 import { SearchRoutes } from "../../utils/routes";
 import { EventCard } from "../components/EventCard/EventCard";
@@ -7,7 +8,7 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { events as allEvents} from "../../utils/dummyData";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { useEffect, useState } from "react";
-import { Tab, Tabs } from "../components/Tabs/Tabs";
+import { Tabs, Tab } from "../components/Tabs/Tabs";
 import { Pills } from "../components/Pills/Pills";
 import { theme } from "../../utils/theme";
 import { onShare } from "../../utils/share";
@@ -35,24 +36,24 @@ export enum CategoriesEnum {
 }
 
 export function SearchView() {
+    const { t } = useTranslation(); 
     const navigation = useNavigation<SearchStackNavigationProp>();
-    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<string>(SearchTabsEnum.EVENTS); 
     const [activeCategories, setActiveCategories] = useState<string[] | string>([])
     const [search, setSearch] = useState(""); 
     const [events, setEvents] = useState(allEvents); 
 
     const searchTabs = [
-      { id: SearchTabsEnum.EVENTS, label: SearchTabsEnum.EVENTS},
-      { id: SearchTabsEnum.ACCOUNTS, label: SearchTabsEnum.ACCOUNTS },
+      { id: SearchTabsEnum.EVENTS, label: t("search.tabs.events")},
+      { id: SearchTabsEnum.ACCOUNTS, label: t("search.tabs.accounts")},
     ]
     
     const categories = [
-      { id: CategoriesEnum.ALL, label: CategoriesEnum.ALL}, 
-      { id: CategoriesEnum.CLUBS, label: CategoriesEnum.CLUBS}, 
-      { id: CategoriesEnum.CONCERTS, label: CategoriesEnum.CONCERTS}, 
-      { id: CategoriesEnum.FESTIVALS, label: CategoriesEnum.FESTIVALS}, 
-      { id: CategoriesEnum.PARTIES, label: CategoriesEnum.PARTIES}, 
+      { id: CategoriesEnum.ALL, label: t("categories.all")}, 
+      { id: CategoriesEnum.CLUBS, label: t("categories.clubs")}, 
+      { id: CategoriesEnum.CONCERTS, label: t("categories.concerts")}, 
+      { id: CategoriesEnum.FESTIVALS, label: t("categories.festivals")}, 
+      { id: CategoriesEnum.PARTIES, label: t("categories.parties")}, 
     ]
 
     // TODO: falta 
@@ -137,9 +138,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors['white'],
   },
   view: {
-    flexGrow: 1,
+    flex: 1,
     width: "100%",
-    paddingTop: 20,              // check padding 
   },   
   tabs: {
     alignItems: "flex-start", 

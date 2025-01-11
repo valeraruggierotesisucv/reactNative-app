@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView, StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
@@ -93,6 +94,5 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     width: "100%",
-    paddingTop: 20, // check padding
-  },
+  },   
 });

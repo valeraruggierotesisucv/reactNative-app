@@ -10,9 +10,9 @@ export enum NotificationType {
 }
 
 const notificationMessages = {
-  [NotificationType.FOLLOW]: "started_following_you",
-  [NotificationType.LIKE_EVENT]: "liked_your_event",
-  [NotificationType.COMMENT_EVENT]: "commented_on_your_event",
+  [NotificationType.FOLLOW]: "notifications.started_following_you",
+  [NotificationType.LIKE_EVENT]: "notifications.liked_your_event",
+  [NotificationType.COMMENT_EVENT]: "notifications.commented_on_your_event",
 };
 
 export interface NotificationItemProps {
@@ -33,7 +33,7 @@ export function NotificationItem({
   onFollow,
 }: NotificationItemProps) {
   const { t, locale } = useTranslation();
-  const formattedDate = formatDate(timestamp, locale as "en" | "es");
+  const formattedDate = formatDate(timestamp, locale);
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
@@ -54,9 +54,10 @@ export function NotificationItem({
       <View style={styles.actions}>
         {type === NotificationType.FOLLOW && (
           <Button
-            label={t("follow")}
+            label={t("common.follow")}
             onPress={onFollow}
             size={ButtonSize.EXTRA_SMALL}
+            fontSize={14}
           />
         )}
         {(type === NotificationType.LIKE_EVENT ||

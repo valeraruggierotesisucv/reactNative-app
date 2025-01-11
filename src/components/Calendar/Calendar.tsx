@@ -13,13 +13,14 @@ import { Input, InputVariant } from "../Input/Input";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import React from "react";
 import { formatHour } from "../../../utils/formatHour";
+import { useTranslation } from "../../contexts/TranslationContext";
 
 interface CalendarProps {
   initialStartTime?: Date | null;
   initialEndTime?: Date | null ;
   maxDate?: Date;
   date: Date | null; 
-  onDateChange?: (date: Date | null) => void;
+  onDateChange: (date: Date | null) => void;
   onStartTimeChange?: (time: Date | null) => void;
   onEndTimeChange?: (time: Date | null) => void;
 }
@@ -33,6 +34,7 @@ export function Calendar({
   onStartTimeChange,
   onEndTimeChange,
 }: CalendarProps) {
+  const { t } = useTranslation();
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const [selectedStartTime, setSelectedStartTime] = useState<Date | null>(
@@ -65,9 +67,8 @@ export function Calendar({
   return (
     <ScrollView>
       <CalendarPicker        
-        onDateChange={(date) => onDateChange(date)
-        }
-        selectedStartDate={date}
+        onDateChange={(date) => onDateChange(date)}
+        selectedStartDate={date || new Date()}
         selectedDayStyle={{
           backgroundColor: "#E0EFFF",
         }}
@@ -79,13 +80,14 @@ export function Calendar({
         minDate={today}
         maxDate={maxDate || nextYear}
         textStyle={{ color: "black", fontFamily: "SF-Pro-Text-Regular" }}
+
       />
       
       <View style={styles.dateInputContainer}>
         <Input
-          label="Empieza"
+          label={t("calendar.start").toUpperCase()}
           placeholder={
-            selectedStartTime ? formatHour(selectedStartTime) : "Hora de inicio"
+            selectedStartTime ? formatHour(selectedStartTime) : t("calendar.start_time_placeholder")
           }
           variant={InputVariant.ARROW}
           onPress={() => setShowStartTimePicker(true)}
@@ -111,22 +113,22 @@ export function Calendar({
                   style={styles.datepickerButtons}
                   onPress={toggleTimePicker}
                 >
-                  <Text>Cancelar</Text>
+                  <Text>{t("calendar.cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.datepickerButtons}
                   onPress={confirmIOSTime}
                 >
-                  <Text>Confirmar</Text>
+                  <Text>{t("calendar.confirm")}</Text>
                 </TouchableOpacity>
               </View>
             )}
           </>
         )}
         <Input
-          label="Termina"
+          label={t("calendar.end").toUpperCase()}
           placeholder={
-            selectedEndTime ? formatHour(selectedEndTime) : "Hora de fin"
+            selectedEndTime ? formatHour(selectedEndTime) : t("calendar.end_time_placeholder")
           }
           variant={InputVariant.ARROW}
           onPress={() => setShowEndTimePicker(true)}
@@ -152,13 +154,13 @@ export function Calendar({
                   style={styles.datepickerButtons}
                   onPress={toggleTimePicker}
                 >
-                  <Text>Cancelar</Text>
+                  <Text>{t("calendar.cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.datepickerButtons}
                   onPress={confirmIOSTime}
                 >
-                  <Text>Confirmar</Text>
+                  <Text>{t("calendar.confirm")}</Text>
                 </TouchableOpacity>
               </View>
             )}

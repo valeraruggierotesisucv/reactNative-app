@@ -6,8 +6,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { useState } from "react";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export function FollowersView() {
+  const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
 
@@ -40,9 +42,8 @@ export function FollowersView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <AppHeader title="Seguidores" goBack={navigation.goBack} />
+        <AppHeader title={t("profile.followers")} goBack={navigation.goBack} />
         <SearchBar
-          placeholder="Search"
           onChangeText={handleSearchChange}
           value={search}
         />

@@ -35,7 +35,7 @@ export function CommentItem({
   const [textHeight, setTextHeight] = useState(0);
   const [hasTextOverflow, setHasTextOverflow] = useState(false);
 
-  const formattedTimestamp = formatDate(timestamp, locale as "en" | "es");
+  const formattedTimestamp = formatDate(timestamp, locale);
 
   const onTextLayout = (e: LayoutChangeEvent) => {
     const lineHeight = styles.commentText.lineHeight || 20;
@@ -75,7 +75,7 @@ export function CommentItem({
               style={styles.seeMoreButton}
             >
               <Text style={styles.seeMoreText}>
-                {isExpanded ? t("see_less") : t("see_more")}
+                {isExpanded ? t("common.see_less") : t("common.see_more")}
               </Text>
             </TouchableOpacity>
           )}

@@ -21,10 +21,10 @@ export function OnboardingView() {
           source={require("../../assets/images/Onboarding.png")}
           style={[styles.logo, {  height: height * 0.4 }]}
         />
-        <Text style={styles.title}>{t("welcome")}</Text>
+        <Text style={styles.title}>{t("onboarding.welcome")}</Text>
       </View>
       <Button
-        label={t("get_started")}
+        label={t("auth.get_started")}
         onPress={() => navigation.navigate(AuthRoutes.Auth)}
         style={styles.button}
         size={ButtonSize.LARGE}

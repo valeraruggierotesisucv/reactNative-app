@@ -1,14 +1,17 @@
-import { View, SafeAreaView, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { notifications } from "../../utils/dummyData";
 import { NotificationItem } from "../components/NotificationItem/NotificationItem";
 import { theme } from "../../utils/theme";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export function NotificationsView() {
+    const { t } = useTranslation();
     return(
       <SafeAreaView style={styles.container}>   
         <View style={styles.view}>
-          <AppHeader />
+          <AppHeader title={t("notifications.title")} />
           <FlatList
             data={notifications}
             renderItem={({ item }) => {
@@ -36,8 +39,7 @@ const styles = StyleSheet.create({
       backgroundColor: theme.colors['white'],
     },
     view: {
-      flexGrow: 1,
+      flex: 1,
       width: "100%",
-      paddingTop: 20,              // check padding 
-    },   
+      },   
   });

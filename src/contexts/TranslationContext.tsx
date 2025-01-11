@@ -1,7 +1,7 @@
 // src/contexts/TranslationContext.tsx
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import { I18n } from "i18n-js";
-import { en, es } from "../../localizations";
+import { en, es } from "../../translations";
 import { getLanguage, setLanguage } from "../../utils/languageUtils";
 
 const i18n = new I18n({
@@ -9,9 +9,14 @@ const i18n = new I18n({
   es,
 });
 
+export enum Locale {
+  EN = "en",
+  ES = "es",
+}
+
 interface TranslationContextProps {
-  locale: string;
-  setLocale: (locale: string) => void;
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
   t: (key: string, options?: any) => string;
 }
 
@@ -22,13 +27,13 @@ const TranslationContext = createContext<TranslationContextProps | undefined>(
 export const TranslationProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [locale, setLocale] = useState<string | undefined>(undefined);
+  const [locale, setLocale] = useState<Locale | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLanguage = async () => {
       const language = await getLanguage();
-      setLocale(language);
+      setLocale(language as Locale);
       setLoading(false);
       console.log("language", language);
       i18n.locale = language;

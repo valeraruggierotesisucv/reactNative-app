@@ -43,6 +43,7 @@ export function UserCard({
             label={actionLabel || "Action"}
             onPress={onPressButton ?? (() => {})}
             size={ButtonSize.EXTRA_SMALL}
+            fontSize={14}
           />
         </View>
       )}

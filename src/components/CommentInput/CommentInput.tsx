@@ -31,7 +31,7 @@ export function CommentInput({ onSubmit, onFocus, onBlur }: CommentInputProps) {
     <View style={styles.container}>
       <BottomSheetTextInput
         style={styles.input}
-        placeholder={t("comment_placeholder")}
+        placeholder={t("comments.comment_placeholder")}
         value={comment}
         onChangeText={setComment}
         placeholderTextColor="#666"

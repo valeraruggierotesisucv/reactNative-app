@@ -7,8 +7,10 @@ import { ProfileRoutes } from "../../utils/routes";
 import { user } from "../../utils/dummyData";
 import { ProfileCard } from "../components/ProfileCard/ProfileCard";
 import { theme } from "../../utils/theme";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export function ProfileDetailsView() {
+    const { t } = useTranslation();
     const navigation = useNavigation<ProfileStackNavigationProp>();
 
     const mockEvents = Array.from({ length: 22 }, (_, index) => ({
@@ -21,7 +23,7 @@ export function ProfileDetailsView() {
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <AppHeader title="Detalles del Perfil" goBack={navigation.goBack} />
+                <AppHeader title={t("profile.details")} goBack={navigation.goBack} />
                 <ProfileCard
                     profileImage={user?.profileImage}
                     username={user?.username || "No disponible"}

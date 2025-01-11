@@ -10,6 +10,7 @@ import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";
 import { theme } from "../../utils/theme";
 import React from "react";
+import { useTranslation } from "../contexts/TranslationContext";
 interface ChooseCategoryProps {
   step?: StepsEnum;
   setStep?: (step: StepsEnum) => void;
@@ -26,6 +27,7 @@ export function ChooseCategoriesView({
   setCategory,
   preferences = true,
 }: ChooseCategoryProps) {
+  const { t } = useTranslation();
   const [selectedId, setSelectedId] = useState<CategoriesEnum | null>(
     category ?? null
   );
@@ -38,15 +40,15 @@ export function ChooseCategoriesView({
     }
   };
   const categories = [
-    { id: "1", label: CategoriesEnum.CULTURE, icon: "palette" },
-    { id: "2", label: CategoriesEnum.EDUCATION, icon: "bookshelf" },
-    { id: "3", label: CategoriesEnum.PARTIES, icon: "party-popper" },
-    { id: "4", label: CategoriesEnum.CONCERTS, icon: "music" },
-    { id: "5", label: CategoriesEnum.FESTIVALS, icon: "bookmark-music-outline" },
-    { id: "6", label: CategoriesEnum.SPORTS, icon: "trophy" },
-    { id: "7", label: CategoriesEnum.THEATER, icon: "theater" },
-    { id: "8", label: CategoriesEnum.EXHIBITIONS, icon: "image" },
-    { id: "9", label: CategoriesEnum.CLUBS, icon: "account-group" },
+    { id: "1", label: t("categories.culture"), icon: "palette" },
+    { id: "2", label: t("categories.education"), icon: "bookshelf" },
+    { id: "3", label: t("categories.parties"), icon: "party-popper" },
+    { id: "4", label: t("categories.concerts"), icon: "music" },
+    { id: "5", label: t("categories.festivals"), icon: "bookmark-music-outline" },
+    { id: "6", label: t("categories.sports"), icon: "trophy" },
+    { id: "7", label: t("categories.theater"), icon: "theater" },
+    { id: "8", label: t("categories.exhibitions"), icon: "image" },
+    { id: "9", label: t("categories.clubs"), icon: "account-group" },
   ];
 
   function handleNext() {
@@ -70,7 +72,8 @@ export function ChooseCategoriesView({
   return (
     //TODO: falta agregar mensaje de error
     <>
-      <Text>Seleccione la categoría que mejor se adapte a tu evento</Text>
+      <AppHeader title={t("categories.title")} goBack={handleGoBack} />
+      <Text>{t("categories.description")}</Text>
       <View style={styles.grid}>
         {categories.map((category) => (
           <CategoryButton
@@ -78,12 +81,12 @@ export function ChooseCategoriesView({
             label={category.label}
             icon={category.icon as any}
             selected={selectedId === category.label}
-            onPress={() => handlePress(category.label)}
+            onPress={() => handlePress(category.label as CategoriesEnum)}
           />
         ))}
       </View>
       <View style={styles.footer}>
-        <Button label="Siguiente" onPress={handleNext} />
+        <Button label={t("common.next")} onPress={handleNext} />
       </View>
     </>
   );
