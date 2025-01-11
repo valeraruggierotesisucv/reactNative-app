@@ -36,6 +36,7 @@ const en = {
         confirm_password: "Confirm Password",
         confirm_password_placeholder: "Confirm Password",
         check_inbox_for_verification: "Please check your inbox for email verification!",
+        forgot_password: "Forgot Password?",
     },
     addEvent: {
         new_event: "New Event",
@@ -194,6 +195,7 @@ const es = {
         confirm_password: "Confirmar contraseña",
         confirm_password_placeholder: "Confirmar contraseña",
         check_inbox_for_verification: "¡Por favor, revisa tu bandeja de entrada para la verificación por correo electrónico!",
+        forgot_password: "¿Olvidaste tu contraseña?",
     },
     addEvent: {
         new_event: "Nuevo Evento",

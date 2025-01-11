@@ -30,19 +30,19 @@ function Login() {
         <>
           <View>
             <InputField
-              label={t("email")}
+              label={t("auth.email")}
               value={values.email}
               onChangeText={handleChange("email")}
-              placeholder={t("email_placeholder")}
+              placeholder={t("auth.email_placeholder")}
               icon="email"
               iconColor={theme.colors['primary']}
               style={{ marginTop: 40, marginBottom: 24 }}
             />
             <InputField
-              label={t("password")}
+              label={t("auth.password")}
               value={values.password}
               onChangeText={handleChange("password")}
-              placeholder={t("password_placeholder")}
+              placeholder={t("auth.password_placeholder")}
               secureTextEntry={!showPassword}
               icon={showPassword ? "eye-off" : "eye"}
               iconColor={theme.colors['primary']}
@@ -51,12 +51,12 @@ function Login() {
             />
             <Pressable onPress={() => navigation.navigate(AuthRoutes.ForgotPassword)}>
               <Text style={styles.forgotPasswordText}>
-                {t("forgotPassword")}
+                {t("auth.forgot_password")}
               </Text>
             </Pressable>
           </View>
           <Button
-            label={t("login")}
+            label={t("auth.login")}
             onPress={handleSubmit}
             style={{ marginBottom: 55 }}
           />
@@ -87,62 +87,62 @@ const Signup = () => {
         <>
           <View>
             <InputField
-              label={t("username")}
+              label={t("auth.username")}
               value={values.username}
               onChangeText={handleChange("username")}
-              placeholder={t("username_placeholder")}
+              placeholder={t("auth.username_placeholder")}
               icon="account"
               iconColor={theme.colors['primary']}
               style={{ marginTop: 40, marginBottom: 24 }}
             />
             <InputField
-              label={t("email")}
+              label={t("auth.email")}
               value={values.email}
               onChangeText={handleChange("email")}
-              placeholder={t("email_placeholder")}
+              placeholder={t("auth.email_placeholder")}
               icon="email"
               iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
-              label={t("fullname")}
+              label={t("auth.fullname")}
               value={values.fullname}
               onChangeText={handleChange("fullname")}
-              placeholder={t("fullname_placeholder")}
+              placeholder={t("auth.fullname_placeholder")}
               icon="account"
               iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
-              label={t("birthdate")}
+              label={t("auth.birthdate")}
               value={values.birthdate}
               onChangeText={handleChange("birthdate")}
-              placeholder={t("birthdate_placeholder")}
+              placeholder={t("auth.birthdate_placeholder")}
               icon="calendar"
               iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
-              label={t("password")}
+              label={t("auth.password")}
               value={values.password}
               onChangeText={handleChange("password")}
-              placeholder={t("password_placeholder")}
+              placeholder={t("auth.password_placeholder")}
               icon="lock"
               iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
             <InputField
-              label={t("confirm_password")}
+              label={t("auth.confirm_password")}
               value={values.confirmPassword}
               onChangeText={handleChange("confirmPassword")}
-              placeholder={t("confirm_password_placeholder")}
+              placeholder={t("auth.confirm_password_placeholder")}
               icon="lock"
               iconColor={theme.colors['primary']}
               style={{ marginBottom: 24 }}
             />
           </View>
           <Button
-            label={t("sign_up")}
+            label={t("auth.sign_up")}
             onPress={handleSubmit}
             style={{ marginTop: 50, marginBottom: 55 }}
           />
@@ -158,12 +158,12 @@ export function AuthView() {
   const insets = useSafeAreaInsets();
 
   const tabs = [
-    { id: "login", label: t("login") },
-    { id: "signup", label: t("sign_up") },
+    { id: "login", label: t("auth.login") },
+    { id: "signup", label: t("auth.sign_up") },
   ];
   const [activeTab, setActiveTab] = useState({
     id: "login",
-    label: t("login"),
+    label: t("auth.login"),
   });
 
   return (

@@ -21,7 +21,7 @@ export function OnboardingView() {
           source={require("../../assets/images/Onboarding.png")}
           style={[styles.logo, {  height: height * 0.4 }]}
         />
-        <Text style={styles.title}>{t("onboarding.welcome")}</Text>
+        <Text style={styles.title}>{t("welcome")}</Text>
       </View>
       <Button
         label={t("auth.get_started")}
