@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Image, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
@@ -44,10 +44,10 @@ export function AddView() {
   const [location, setLocation] = useState<LatLng | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
-
+  const [imageUrl, setImageUrl] = useState(); 
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
-  function handleAddEvent() {
+  async function handleAddEvent() {
     if (description && date && startTime && endTime && category && location) {
       // agregar evento
     }
@@ -61,9 +61,9 @@ export function AddView() {
 
     console.log("Uploading image..."); 
     if(image){
-      uploadImage(image)
-    }
-    
+      const imageURL = await uploadImage(image); // guardar en la db 
+      console.log(imageURL);       
+    }    
   }
 
   function cleanForm() {
