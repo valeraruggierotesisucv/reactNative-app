@@ -1,19 +1,13 @@
-import {
-  ImageSourcePropType,
-  Image,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { UserCard, UserCardVariant } from "../UserCard/UserCard";
 import { SocialInteractions } from "../SocialInteractions/SocialInteractions";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Chip, ChipVariant } from "../Chip/Chip";
 import { theme } from "../../../utils/theme";
 import { DisplayInput } from "../DisplayInput/DisplayInput";
-import { getLoadedFonts } from "expo-font";
 import { useTranslation } from "../../contexts/TranslationContext";
+import { CommentsSection } from "../CommentsSection/CommentsSection";
+import { Comment } from "../CommentsSection/CommentsSection";
 
 export enum EventCardVariant {
   DEFAULT = "default",
@@ -36,16 +30,17 @@ interface DisplayEventProps {
 interface EventCardProps extends DisplayEventProps {
   profileImage: string;
   username: string;
-  eventImage: string; 
-  title: string;      // max 28 caracteres
+  eventImage: string;
+  title: string; // max 28 caracteres
   description: string; // max 100 caracteres
   isLiked: boolean;
   date: string;
   variant?: EventCardVariant;
   onPressUser: () => void;
-  onComment: () => void;
+  onComment: (comment: string) => Promise<void>;
   onShare: () => void;
   onMoreDetails?: () => void;
+  fetchComments: () => Promise<Comment[]>;
 }
 
 const Pills = ({ startsAt, endsAt, date }: PillsProps) => {
@@ -93,7 +88,7 @@ export function DisplayEvent({
 export function EventCard({
   profileImage,
   username,
-  eventImage, 
+  eventImage,
   title, // max 28 caracteres
   description,
   isLiked,
@@ -107,12 +102,51 @@ export function EventCard({
   onComment,
   onShare,
   onMoreDetails,
+  fetchComments,
 }: EventCardProps) {
   const { t } = useTranslation();
   const [like, setLike] = useState(isLiked);
+  const [commentsVisible, setCommentsVisible] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+
   const handleLike = () => {
     setLike(!like);
   };
+
+  const handleAddComment = (comment: string) => {
+    console.log("comment", comment);
+
+    try {
+      onComment(comment);
+    } catch (error) {
+      console.error("Error adding comment", error);
+      return;
+    }
+
+    setComments([
+      ...comments,
+      {
+        username: username,
+        comment: comment,
+        userAvatar: profileImage,
+        timestamp: new Date(),
+      },
+    ]);
+  };
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const response = await fetchComments();
+        setComments(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getComments();
+  }, [commentsVisible]);
+
   return (
     <>
       <UserCard
@@ -128,7 +162,7 @@ export function EventCard({
       <SocialInteractions
         isLiked={like}
         onLike={handleLike}
-        onComment={onComment}
+        onComment={() => setCommentsVisible(true)}
         onShare={onShare}
       />
       <View style={styles.header}>
@@ -155,6 +189,14 @@ export function EventCard({
           category={category}
         />
       )}
+      {commentsVisible && (
+        <CommentsSection
+          comments={comments}
+          onAddComment={handleAddComment}
+          isOpen={commentsVisible}
+          setIsOpen={setCommentsVisible}
+        />
+      )}
     </>
   );
 }
@@ -173,7 +215,7 @@ const styles = StyleSheet.create({
     fontFamily: "SF-Pro-Rounded-Semibold",
     fontSize: 20,
     padding: 8,
-    paddingTop: 0
+    paddingTop: 0,
   },
   description: {
     fontFamily: "SF-Pro-Text-Regular",

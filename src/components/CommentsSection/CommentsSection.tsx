@@ -1,10 +1,19 @@
-import { useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useRef, useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
 import { CommentItem } from "../CommentItem/CommentItem";
 import { CommentInput } from "../CommentInput/CommentInput";
+
 export interface Comment {
-  id: string;
   username: string;
   comment: string;
   timestamp: Date;
@@ -13,18 +22,26 @@ export interface Comment {
 
 interface CommentsSectionProps {
   comments: Comment[];
-  onReply?: (commentId: string) => void;
   onAddComment?: (comment: string) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export function CommentsSection({
   comments,
-  onReply,
   onAddComment,
+  isOpen,
+  setIsOpen,
 }: CommentsSectionProps) {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const [isOpen, setIsOpen] = useState(true);
-  const snapPoints = ["100%"];
+  const scrollViewRef = useRef<ScrollView>(null);
+  const snapPoints = ["80%"];
+
+  useEffect(() => {
+    if (isOpen) {
+      bottomSheetRef.current?.expand();
+    }
+  }, [isOpen]);
 
   return (
     <BottomSheet
@@ -34,35 +51,43 @@ export function CommentsSection({
       animateOnMount
       onClose={() => setIsOpen(false)}
       index={0}
+      keyboardBehavior="extend"
+      enableDynamicSizing={false}
     >
-      <View style={styles.container}>
-        <BottomSheetScrollView contentContainerStyle={styles.scrollContainer}>
-          {comments.map((comment) => (
+      <>
+        <BottomSheetScrollView
+          ref={scrollViewRef}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {comments.map((comment, index) => (
             <CommentItem
-              key={comment.id}
+              key={index}
               username={comment.username}
               comment={comment.comment}
               timestamp={comment.timestamp}
               userAvatar={comment.userAvatar}
-              onReply={() => onReply?.(comment.id)}
             />
           ))}
         </BottomSheetScrollView>
         <View style={styles.inputContainer}>
-          <CommentInput onSubmit={onAddComment} />
+          <CommentInput
+            onSubmit={(comment) => {
+              onAddComment?.(comment);
+              // scrollViewRef.current?.scrollToEnd();
+            }}
+          />
         </View>
-      </View>
+      </>
     </BottomSheet>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: "100%",
     position: "relative",
   },
   scrollContainer: {
-    flexGrow: 1,
     paddingBottom: 80,
   },
   inputContainer: {
@@ -79,5 +104,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 5,
+  },
+  textInput: {
+    alignSelf: "stretch",
+    marginHorizontal: 12,
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: "grey",
+    color: "white",
+    textAlign: "center",
   },
 });

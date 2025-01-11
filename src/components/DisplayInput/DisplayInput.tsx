@@ -8,7 +8,7 @@ interface DisplayInputProps {
   onPress?: () => void
 }
 
-export function DisplayInput({ label, data, onPress}: DisplayInputProps) {
+export function DisplayInput({ label, data, onPress }: DisplayInputProps) {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.label}>{label}</Text>
