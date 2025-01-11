@@ -26,6 +26,7 @@ import { truncateString } from "../../utils/formatString";
 import { supabase } from "../lib/supabase";
 import { uploadImage } from "../services/storage";
 import { useImagePicker } from "../hooks/useImagePicker";
+import { useMusicPicker } from "../hooks/useMusicPicker";
 export enum StepsEnum {
   DEFAULT = "default",
   DATE = "date",
@@ -70,36 +71,8 @@ export function AddDefaultView({
 }: AddDefaultViewProps) {
   const { t } = useTranslation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const { 
-    isModalVisible, 
-    imageUri, 
-    openCamera, 
-    openGallery, 
-    setModalVisible,
-    setImageUri 
-  } = useImagePicker();
-
-
-  // TODO: colocar esta funcion fuera
-  function handleAddMusic() {
-    console.log("Agregar musica...");
-    const pickDocument = async () => {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: "audio/*",
-        copyToCacheDirectory: false,
-      });
-      if (result.assets) {
-        setMusicFile({
-          nameFile: result.assets[0].name,
-          uri: result.assets[0].uri,
-        });
-        console.log(result);
-      }
-
-      // UploadFile
-    };
-    pickDocument();
-  }
+  const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
+  const { musicFileUri, pickMusicFile } = useMusicPicker(); 
 
   const DatePills = () => {
     if (startsAt === null || endsAt === null || date === null) return;
@@ -153,7 +126,13 @@ export function AddDefaultView({
     if (imageUri) {
       setImage(imageUri); 
     }
-  }, [imageUri, setImage]);
+  }, [imageUri]);
+
+  useEffect(() => {
+    if(musicFileUri){
+      setMusicFile(musicFileUri)
+    }
+  }, [musicFileUri])
 
   return (
     <>
@@ -226,14 +205,14 @@ export function AddDefaultView({
                 data={<Chip 
                     label={truncateString(musicFile.nameFile, 30)} 
                     variant={ChipVariant.LIGHT} 
-                    onPress={handleAddMusic} />}
-                    onPress={handleAddMusic}
+                    onPress={pickMusicFile} />}
+                    onPress={pickMusicFile}
                 />
             : <Input 
                 label="MÚSICA"
                 placeholder="Agregar música"
                 variant={InputVariant.ARROW}
-                onPress={handleAddMusic}
+                onPress={pickMusicFile}
             />
         }
         
