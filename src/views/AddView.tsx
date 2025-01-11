@@ -12,6 +12,7 @@ import { StepsEnum } from "./AddDefaultView";
 import * as Location from "expo-location";
 import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
+import { uploadImage } from "../services/storage";
 
 /* TODO
     Description debe tener max caracteres 
@@ -57,6 +58,12 @@ export function AddView() {
     console.log("Ends at ", endTime);
     console.log("Category ", category);
     console.log("Location ", location);
+
+    console.log("Uploading image..."); 
+    if(image){
+      uploadImage(image)
+    }
+    
   }
 
   function cleanForm() {
