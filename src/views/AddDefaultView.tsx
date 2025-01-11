@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Input, InputVariant } from "../components/Input/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import React from "react";
 import { DisplayInput } from "../components/DisplayInput/DisplayInput";
@@ -25,6 +25,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { truncateString } from "../../utils/formatString";
 import { supabase } from "../lib/supabase";
 import { uploadImage } from "../services/storage";
+import { useImagePicker } from "../hooks/useImagePicker";
 export enum StepsEnum {
   DEFAULT = "default",
   DATE = "date",
@@ -69,10 +70,17 @@ export function AddDefaultView({
 }: AddDefaultViewProps) {
   const { t } = useTranslation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const { 
+    isModalVisible, 
+    imageUri, 
+    openCamera, 
+    openGallery, 
+    setModalVisible,
+    setImageUri 
+  } = useImagePicker();
+
 
   // TODO: colocar esta funcion fuera
-
   function handleAddMusic() {
     console.log("Agregar musica...");
     const pickDocument = async () => {
@@ -92,50 +100,6 @@ export function AddDefaultView({
     };
     pickDocument();
   }
-
-  const openCamera = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    if (status === "granted") {
-      let result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ["images"],
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-        base64: true
-      });
-
-      if (!result.canceled) {
-        console.log("Camera Image URI: ", result.assets[0].uri);        
-        uploadImage(result.assets[0].uri); 
-        console.log(result)
-        setImage(result.assets[0].uri);
-      }
-    } else {
-      alert("Camera permission is required to take photos.");
-    }
-    setModalVisible(false);
-  };
-
-  const openGallery = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status === "granted") {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ["images"],
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-        base64: true
-      });
-
-      if (!result.canceled) {
-        console.log("Gallery Image URI: ", result.assets[0].uri);
-        setImage(result.assets[0].uri);
-      }
-    } else {
-      alert("Gallery permission is required to select photos.");
-    }
-    setModalVisible(false);
-  };
 
   const DatePills = () => {
     if (startsAt === null || endsAt === null || date === null) return;
@@ -184,6 +148,12 @@ export function AddDefaultView({
       </View>
     );
   };
+
+  useEffect(() => {
+    if (imageUri) {
+      setImage(imageUri); 
+    }
+  }, [imageUri, setImage]);
 
   return (
     <>
