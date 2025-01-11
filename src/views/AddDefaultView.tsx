@@ -24,6 +24,7 @@ import { useTranslation } from "../contexts/TranslationContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { truncateString } from "../../utils/formatString";
 import { supabase } from "../lib/supabase";
+import { uploadImage } from "../services/storage";
 export enum StepsEnum {
   DEFAULT = "default",
   DATE = "date",
@@ -90,21 +91,6 @@ export function AddDefaultView({
       // UploadFile
     };
     pickDocument();
-  }
-
-
-  const uploadImage = async (uri: string) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const arrayBuffer = await new Response(blob).arrayBuffer();
-    const fileName = `${Date.now()}.jpg`;
-    const { error } = await supabase
-      .storage
-      .from('EventImages')
-      .upload(fileName, arrayBuffer, { contentType: 'image/jpeg', upsert: false });
-    if (error) {
-      console.error('Error uploading image: ', error);
-    }
   }
 
   const openCamera = async () => {
