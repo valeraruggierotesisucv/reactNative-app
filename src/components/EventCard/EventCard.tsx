@@ -8,6 +8,7 @@ import { DisplayInput } from "../DisplayInput/DisplayInput";
 import { useTranslation } from "../../contexts/TranslationContext";
 import { CommentsSection } from "../CommentsSection/CommentsSection";
 import { Comment } from "../CommentsSection/CommentsSection";
+import { Portal, PortalHost } from "@gorhom/portal";
 
 export enum EventCardVariant {
   DEFAULT = "default",

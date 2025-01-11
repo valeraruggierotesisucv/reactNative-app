@@ -12,6 +12,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import { CommentItem } from "../CommentItem/CommentItem";
 import { CommentInput } from "../CommentInput/CommentInput";
+import { Portal } from "@gorhom/portal";
 
 export interface Comment {
   username: string;
@@ -44,41 +45,43 @@ export function CommentsSection({
   }, [isOpen]);
 
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      snapPoints={snapPoints}
-      enablePanDownToClose={true}
-      animateOnMount
-      onClose={() => setIsOpen(false)}
-      index={0}
-      keyboardBehavior="extend"
-      enableDynamicSizing={false}
-    >
-      <>
-        <BottomSheetScrollView
-          ref={scrollViewRef}
-          contentContainerStyle={styles.scrollContainer}
-        >
-          {comments.map((comment, index) => (
-            <CommentItem
-              key={index}
-              username={comment.username}
-              comment={comment.comment}
-              timestamp={comment.timestamp}
-              userAvatar={comment.userAvatar}
+    <Portal>
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        animateOnMount
+        onClose={() => setIsOpen(false)}
+        index={0}
+        keyboardBehavior="extend"
+        enableDynamicSizing={false}
+      >
+        <>
+          <BottomSheetScrollView
+            ref={scrollViewRef}
+            contentContainerStyle={styles.scrollContainer}
+          >
+            {comments.map((comment, index) => (
+              <CommentItem
+                key={index}
+                username={comment.username}
+                comment={comment.comment}
+                timestamp={comment.timestamp}
+                userAvatar={comment.userAvatar}
+              />
+            ))}
+          </BottomSheetScrollView>
+          <View style={styles.inputContainer}>
+            <CommentInput
+              onSubmit={(comment) => {
+                onAddComment?.(comment);
+                // scrollViewRef.current?.scrollToEnd();
+              }}
             />
-          ))}
-        </BottomSheetScrollView>
-        <View style={styles.inputContainer}>
-          <CommentInput
-            onSubmit={(comment) => {
-              onAddComment?.(comment);
-              // scrollViewRef.current?.scrollToEnd();
-            }}
-          />
-        </View>
-      </>
-    </BottomSheet>
+          </View>
+        </>
+      </BottomSheet>
+    </Portal>
   );
 }
 

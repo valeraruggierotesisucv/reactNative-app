@@ -4,6 +4,7 @@ import Constants from "expo-constants";
 import { FontLoader } from "./FontLoader";
 import { TranslationProvider } from "./src/contexts/TranslationContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PortalProvider } from "@gorhom/portal";
 
 export function App() {
   return (
@@ -11,7 +12,9 @@ export function App() {
       <AuthProvider>
         <TranslationProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
-            <Navigation />
+            <PortalProvider>
+              <Navigation />
+            </PortalProvider>
           </GestureHandlerRootView>
         </TranslationProvider>
       </AuthProvider>

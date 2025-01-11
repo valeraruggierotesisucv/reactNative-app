@@ -15,6 +15,7 @@
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
     "@expo/vector-icons": "^14.0.3",
+    "@gorhom/portal": "^1.0.14",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/datetimepicker": "8.2.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
@@ -29,10 +30,12 @@
     "env": "^0.0.2",
     "expo": "~52.0.19",
     "expo-asset": "~11.0.1",
+    "expo-camera": "~16.0.10",
     "expo-constants": "~16.0.2",
     "expo-device": "^7.0.1",
     "expo-document-picker": "^13.0.1",
     "expo-font": "~13.0.2",
+    "expo-image-picker": "~16.0.3",
     "expo-location": "^18.0.4",
     "expo-splash-screen": "~0.29.18",
     "expo-status-bar": "~2.0.0",
@@ -44,14 +47,12 @@
     "react-native-calendar-picker": "^8.0.5",
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "~2.20.2",
+    "react-native-maps": "1.18.0",
     "react-native-reanimated": "~3.16.1",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.3.0",
     "react-native-url-polyfill": "^2.0.0",
-    "react-native-web": "~0.19.13",
-    "expo-image-picker": "~16.0.3",
-    "expo-camera": "~16.0.10",
-    "react-native-maps": "1.18.0"
+    "react-native-web": "~0.19.13"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
