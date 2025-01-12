@@ -4,9 +4,10 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { StepsEnum } from "./AddDefaultView";
 import { LatLng } from "react-native-maps";
 import * as Location from "expo-location";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useEffect } from "react";
 import React from "react";
+import { Button, ButtonSize } from "../components/Button/Button";
 interface AddLocationViewProps {
   origin: Location.LocationObject | null;
   location: LatLng | null;
@@ -23,10 +24,10 @@ export function AddLocationView({
   
   useEffect(() => {
     if (origin) {
-    setLocation({
-      latitude: origin.coords.latitude,
-      longitude: origin.coords.longitude,
-    });
+      setLocation({
+        latitude: origin.coords.latitude,
+        longitude: origin.coords.longitude,
+      });
     }
   }, []);
 
@@ -55,6 +56,9 @@ export function AddLocationView({
           }}
         />
       </MapView>
+      <View style={styles.buttonContainer}>
+        <Button label="Siguiente" onPress={() => setStep(StepsEnum.DEFAULT)} size={ButtonSize.MEDIUM} />
+      </View>
     </>
   );
 }
@@ -64,5 +68,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    alignItems: "center",
   },
 });

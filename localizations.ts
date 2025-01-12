@@ -54,8 +54,8 @@ const en = {
     choose_from_gallery: "Choose from Gallery",
     cancel: "Cancel",
     music: "Music",
-
-}
+    shareMessage: "Check out this event: {{eventName}} on {{eventDate}}!\nDownload our Eventify app from the App Store.\nhttps://www.eventify.com",
+};
 
 const es = {
     appName: "Aplicacion de Eventos",
@@ -114,6 +114,7 @@ const es = {
     cancel: "Cancelar",
     music: "Música",
     description: "Descripción",
+    shareMessage: "¡Mira este evento: {{eventName}} el {{eventDate}}!\nDescarga nuestra aplicación Eventify desde la App Store.\nhttps://www.eventify.com",
 };
 
 export { en, es };
