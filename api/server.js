@@ -201,7 +201,43 @@ app.get("/api/users/:userId/followers", async(req, res) => {
 
 // getUserFollowing
 app.get("/api/users/:userId/following", async(req, res) => {
+  try{
+    const { userId } = req.params; 
+    const following = await db.followUser.findMany({
+      where: {
+        userIdFollows: userId
+      }
+    }); 
 
+    const followingIds = following.map((follow) => follow.userIdFollowedBy); 
+
+    try{
+
+      const followingsProfile = await Promise.all(
+        followingIds.map(async (followigId) => {
+          const user = await db.user.findFirst({
+            where: {
+              userId: followigId,
+            },
+          });
+          return user;
+        })
+      );
+
+      res.json({
+        data: followingsProfile, 
+        success: true
+      })
+      
+    }catch(error){
+      console.error(error); 
+      res.status(500).json({ error: "FAILED to get users profile" });
+    }
+    
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to get user followers" });
+  }
 })
 
 
