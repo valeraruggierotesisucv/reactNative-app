@@ -124,13 +124,6 @@ app.get("/api/users/:userId/events", async(req, res) => {
       }
     })
 
-    if(!events){
-      res.json({
-        data: "User not found", 
-        success: false
-      })
-    }
-
     res.json({
       data: events, 
       success: true
@@ -144,7 +137,26 @@ app.get("/api/users/:userId/events", async(req, res) => {
 
 
 // getNotifications
-app.get("/api/users/:userId/notifications", async(req, res) => {})
+app.get("/api/users/:userId/notifications", async(req, res) => {
+  try{
+    const { userId } = req.params;  
+
+    const notifications = await db.notification.findMany({
+      where: {
+        toUserId: userId
+      }
+    })
+
+    res.json({
+      data: notifications, 
+      success: true
+    })
+
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to get user notifications" });
+  }
+})
 
 // getUserFollowers
 app.get("/api/users/:userId/followers", async(req, res) => {

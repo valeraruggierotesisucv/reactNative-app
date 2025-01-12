@@ -22,5 +22,8 @@ Content-Type: application/json
 } 
 
 ### Get User events
-GET http://localhost:5000/api/users/cm5tuz6l0000tyn4vcrz9ks7/events
+GET http://localhost:5000/api/users/cm5tuuz6l0000tyn4vcrz9ks7/events
+
+### Get User notifications
+GET http://localhost:5000/api/users/cm5tuuz6l0000tyn4vcrz9ks7/notifications
 
