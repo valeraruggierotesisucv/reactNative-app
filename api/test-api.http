@@ -20,3 +20,7 @@ Content-Type: application/json
   "startsAt": "2025-01-01T19:00:00.000Z",
   "endsAt": "2025-01-01T23:00:00.000Z"
 } 
+
+### Get User events
+GET http://localhost:5000/api/users/cm5tuz6l0000tyn4vcrz9ks7/events
+

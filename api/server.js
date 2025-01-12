@@ -41,7 +41,7 @@ app.post("/api/events", async(req, res) => {
 
   // Validations 
     // fecha endsAt > startsAt 
-    
+
   // Create location
   try{
     const location = await db.location.create({
@@ -113,11 +113,49 @@ app.get("/api/events/:eventId", async(req, res) => {
  
 })
 
-// addEvent
-// getNotifications
-// getUserFollowers
-// getUserFollowing
 // getProfileEvents 
+app.get("/api/users/:userId/events", async(req, res) => {
+  try{
+    const { userId } = req.params; 
+
+    const events = await db.event.findMany({
+      where: {
+        userId: userId
+      }
+    })
+
+    if(!events){
+      res.json({
+        data: "User not found", 
+        success: false
+      })
+    }
+
+    res.json({
+      data: events, 
+      success: true
+    })
+
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to get user events" });
+  }
+})
+
+
+// getNotifications
+app.get("/api/users/:userId/notifications", async(req, res) => {})
+
+// getUserFollowers
+app.get("/api/users/:userId/followers", async(req, res) => {
+
+})
+
+// getUserFollowing
+app.get("/api/users/:userId/following", async(req, res) => {
+
+})
+
 
 // Iniciar el servidor
 app.listen(5000, () => {
