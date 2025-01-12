@@ -53,7 +53,7 @@ model FollowUser {
 }
 
 model Notification {
-  notificationId    Int              @id @default(autoincrement())
+  notificationId    String              @id @default(cuid())
   fromUserId        String
   toUserId          String
   type              NotificationType
@@ -65,11 +65,11 @@ model Notification {
 }
 
 model Event {
-  eventId           Int              @id @default(autoincrement())
+  eventId           String              @id @default(cuid())
   userId            String
   eventImage        String[]
-  categoryId        Int
-  locationId        Int
+  categoryId        String
+  locationId        String
   title             String
   description       String
   date              DateTime
@@ -88,9 +88,9 @@ model Event {
 }
 
 model Comment {
-  commentId         Int              @id @default(autoincrement())
+  commentId         String              @id @default(cuid())
   userId            String
-  eventId           Int
+  eventId           String
   text              String
   createdAt         DateTime         @default(now())
 
@@ -100,7 +100,7 @@ model Comment {
 
 model SocialInteraction {
   userId            String
-  eventId           Int
+  eventId           String
   createdAt         DateTime         @default(now())
 
   user              User             @relation(fields: [userId], references: [userId])
@@ -110,7 +110,7 @@ model SocialInteraction {
 }
 
 model Category {
-  categoryId        Int              @id @default(autoincrement())
+  categoryId        String              @id @default(cuid())
   name              String
   description       String?
   
@@ -119,7 +119,7 @@ model Category {
 }
 
 model Location {
-  locationId        Int              @id @default(autoincrement())
+  locationId        String              @id @default(cuid())
   latitude          Float
   longitude         Float
   description       String?
