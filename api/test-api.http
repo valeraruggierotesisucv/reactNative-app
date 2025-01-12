@@ -1,6 +1,49 @@
 ### TEST API
 GET http://localhost:5000/api/users
 
+###
+# Test signUp Endpoint
+POST http://localhost:5000/api/signup
+Content-Type: application/json
+
+{
+  "userId": "asd5a4s543x4c5453a2sd",
+  "username": "testuser",
+  "fullName": "Test User",
+  "email": "testuser@example.com",
+  "birthDate": "1990-01-01",
+  "language": "ENGLISH"
+}
+
+###
+GET http://localhost:5000/api/categories
+
+###
+# Test getHomeEvents Endpoint
+GET http://localhost:5000/api/home/events
+
+
+###
+POST http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j/like
+Content-Type: application/json
+
+{
+  "userId": "cm5tzwdmo000dty5cfe8lr1fr"
+}
+
+###
+POST http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j/comment
+Content-Type: application/json
+
+{
+  "userId": "cm5tzwdmo000dty5cfe8lr1fr",
+  "text": "This is a test comment."
+}
+
+###
+GET http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j/comments
+
+
 ### GET event details 
 GET http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j
 

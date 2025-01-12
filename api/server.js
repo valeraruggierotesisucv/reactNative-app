@@ -5,6 +5,7 @@ const app = express();
 const { PrismaClient } = require("@prisma/client"); 
 const { eventSchema } = require("./validationSchemas.js");
 
+const { likeEventSchema, commentEventSchema, signUpSchema } = require("./validationSchemas.js");
 
 const db = new PrismaClient(); 
 // Middleware para permitir CORS
@@ -250,6 +251,167 @@ app.get("/api/users/:userId/following", async(req, res) => {
   }
 })
 
+// signUp
+app.post("/api/signup", async (req, res) => {
+  const validationResult = signUpSchema.safeParse(req.body);
+
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      errors: validationResult.error.errors,
+    });
+  }
+
+  const { userId, username, fullName, email, birthDate, language } = req.body;
+
+  try {
+    const newUser = await db.user.create({
+      data: {
+        userId,
+        username,
+        fullName,
+        email,
+        birthDate: new Date(birthDate),
+        language,
+      },
+    });
+
+    res.json({ data: newUser, success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to sign up" });
+  }
+});
+
+// getCategories
+app.get("/api/categories", async (req, res) => {
+  try {
+    const categories = await db.category.findMany();
+    res.json({ data: categories, success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to get categories" });
+  }
+});
+
+// getHomeEvents
+app.get("/api/home/events", async (req, res) => {
+  const userId = "asd5a4s543x4c5453a2sd"; // This should come from the Supabase token
+
+  try {
+    const following = await db.followUser.findMany({
+      where: { userIdFollows: userId },
+      select: { userIdFollowedBy: true },
+    });
+
+    const followingIds = following.map(f => f.userIdFollowedBy);
+
+    let events;
+
+    if (followingIds.length > 0) {
+      try {
+        events = await db.event.findMany({
+          where: { userId: { in: followingIds } },
+          orderBy: { createdAt: "desc" },
+          take: 10,
+        });
+      } catch (error) {
+        console.error("Error fetching events from followed users:", error);
+        return res.status(500).json({ error: "Failed to fetch events" });
+      }
+    } else {
+      try {
+        const likedCategories = await db.user.findUnique({
+          where: { userId },
+          select: { likedCategories: { select: { categoryId: true } } },
+        });
+
+        const categoryIds = likedCategories.likedCategories.map(c => c.categoryId);
+
+        events = await db.event.findMany({
+          where: { categoryId: { in: categoryIds } },
+          orderBy: { createdAt: "desc" },
+        });
+      } catch (error) {
+        console.error("Error fetching events from liked categories:", error);
+        return res.status(500).json({ error: "Failed to fetch events" });
+      }
+    }
+
+    res.json({ data: events, success: true });
+  } catch (error) {
+    console.error("Error fetching following users:", error);
+    res.status(500).json({ error: "Failed to get home events" });
+  }
+});
+
+// likeEvent
+app.post("/api/events/:eventId/like", async (req, res) => {
+  const validationResult = likeEventSchema.safeParse(req.body);
+
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      errors: validationResult.error.errors,
+    });
+  }
+
+  const { eventId } = req.params;
+  const userId = req.body.userId;
+
+  try {
+    await db.socialInteraction.create({
+      data: { userId, eventId: eventId },
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to like event" });
+  }
+});
+
+// commentEvent
+app.post("/api/events/:eventId/comment", async (req, res) => {
+  const validationResult = commentEventSchema.safeParse(req.body);
+
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      errors: validationResult.error.errors,
+    });
+  }
+
+  const { eventId } = req.params;
+  const { text, userId } = req.body;
+
+  try {
+    const comment = await db.comment.create({
+      data: { userId, eventId: eventId, text },
+    });
+
+    res.json({ data: comment, success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to comment on event" });
+  }
+});
+
+// getCommentsByPostId
+app.get("/api/events/:eventId/comments", async (req, res) => {
+  const { eventId } = req.params;
+
+  try {
+    const comments = await db.comment.findMany({
+      where: { eventId: eventId },
+    });
+
+    res.json({ data: comments, success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to get comments" });
+  }
+});
 
 // Iniciar el servidor
 app.listen(5000, () => {
