@@ -43,15 +43,15 @@ export function ProfileCard({
           <View style={styles.statsContainer}>
             <TouchableOpacity style={styles.statItem} onPress={onEvents}>
               <Text style={styles.statNumber}>{events}</Text>
-              <Text style={styles.statLabel}>{t("events")}</Text>
+              <Text style={styles.statLabel}>{t("profile.events")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.statItem} onPress={onFollowers}>
               <Text style={styles.statNumber}>{followers}</Text>
-              <Text style={styles.statLabel}>{t("followers")}</Text>
+              <Text style={styles.statLabel}>{t("profile.followers")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.statItem} onPress={onFollowed}>
               <Text style={styles.statNumber}>{following}</Text>
-              <Text style={styles.statLabel}>{t("following")}</Text>
+              <Text style={styles.statLabel}>{t("profile.following")}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -75,7 +75,7 @@ export function ProfileCard({
                   isFollowing && styles.unfollowButtonText,
                 ]}
               >
-                {isFollowing ? t("unfollow") : t("follow")}
+                {isFollowing ? t("common.unfollow") : t("common.follow")}
               </Text>
             </TouchableOpacity>
           )}
@@ -85,7 +85,7 @@ export function ProfileCard({
               style={[styles.profileButton]}
               onPress={onEditProfile}
             >
-              <Text style={[styles.buttonText]}>{t("edit_profile")}</Text>
+              <Text style={[styles.buttonText]}>{t("profile.edit_profile")}</Text>
             </TouchableOpacity>
           )}
           {onConfigureProfile && (
@@ -93,7 +93,7 @@ export function ProfileCard({
               style={[styles.profileButton]}
               onPress={onConfigureProfile}
             >
-              <Text style={[styles.buttonText]}>{t("configure_profile")}</Text>
+              <Text style={[styles.buttonText]}>{t("profile.configure_profile")}</Text>
             </TouchableOpacity>
           )}
         </View>

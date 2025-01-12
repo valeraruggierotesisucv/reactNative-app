@@ -7,8 +7,10 @@ import { InputField } from "../components/InputField/InputField";
 import { useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { theme } from "../../utils/theme";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export function ChangePasswordView() {
+  const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [passwords, setPasswords] = useState({
     password: "",
@@ -30,12 +32,12 @@ export function ChangePasswordView() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <AppHeader
-          title="Cambiar Contraseña"
+          title={t("changePassword.title")}
           goBack={() => navigation.goBack()}
         />
         <View style={styles.content}>
           <InputField
-            label="CONTRASEÑA ACTUAL"
+            label={t("changePassword.current_password").toUpperCase()}
             value={passwords.password}
             onChangeText={(text) =>
               setPasswords({ ...passwords, password: text })
@@ -46,7 +48,7 @@ export function ChangePasswordView() {
             variant="grayBackground"
           />
           <InputField
-            label="NUEVA CONTRASEÑA"
+            label={t("changePassword.new_password").toUpperCase()}
             value={passwords.newPassword}
             onChangeText={(text) =>
               setPasswords({ ...passwords, newPassword: text })
@@ -57,7 +59,7 @@ export function ChangePasswordView() {
             variant="grayBackground"
           />
           <InputField
-            label="CONFIRMAR CONTRASEÑA"
+            label={t("changePassword.confirm_password").toUpperCase()}
             value={passwords.confirmPassword}
             onChangeText={(text) =>
               setPasswords({ ...passwords, confirmPassword: text })
@@ -69,7 +71,7 @@ export function ChangePasswordView() {
           />
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <Button
-              label="Enviar"
+              label={t("common.send")}
               onPress={() => console.log("Cambiar contraseña")}
               size={ButtonSize.MEDIUM}
             />

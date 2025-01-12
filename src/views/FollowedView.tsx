@@ -6,8 +6,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { useState } from "react";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export function FollowedView() {
+  const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
 
@@ -43,7 +45,7 @@ export function FollowedView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <AppHeader title="Seguidos" goBack={navigation.goBack} />
+        <AppHeader title={t("profile.followed")} goBack={navigation.goBack} />
         <SearchBar
           onChangeText={handleSearchChange}
           value={search}
@@ -55,7 +57,7 @@ export function FollowedView() {
             username={followed.name}
             onPressButton={() => {}}
             variant={UserCardVariant.WITH_BUTTON}
-            actionLabel={followed.followed ? "Dejar de seguir" : "Seguir"}
+            actionLabel={followed.followed ? t("common.unfollow") : t("common.follow")}
           />
         ))}
       </ScrollView>

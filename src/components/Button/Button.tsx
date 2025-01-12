@@ -19,6 +19,7 @@ interface ButtonProps {
   size?: ButtonSize;
   variant?: ButtonVariant;
   style?: ViewStyle;
+  fontSize?: number;
 }
 
 export function Button({
@@ -26,6 +27,7 @@ export function Button({
   onPress,
   size = ButtonSize.MEDIUM,
   variant = ButtonVariant.PRIMARY,
+  fontSize = 17,
   style,
 }: ButtonProps) {
   return (
@@ -33,7 +35,7 @@ export function Button({
       style={[styles.container, styles[size], styles[variant], style]}
       onPress={onPress}
     >
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, { fontSize }]}>{label}</Text>
     </TouchableOpacity>
   );
 }
@@ -47,7 +49,6 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     fontFamily: "SF-Pro-Rounded-Semibold",
-    fontSize: 17,
   },
   extraSmall: {
     borderRadius: 5,

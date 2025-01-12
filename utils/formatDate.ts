@@ -1,4 +1,6 @@
-export function formatDate(date: Date, locale: 'en' | 'es' = 'en'): string {
+import { Locale } from "../src/contexts/TranslationContext";
+
+export function formatDate(date: Date, locale: Locale = Locale.EN): string {
     const now = new Date();
     const diffInMilliseconds = now.getTime() - date.getTime();
     const diffInSeconds = Math.floor(diffInMilliseconds / 1000);

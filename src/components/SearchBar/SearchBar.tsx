@@ -15,7 +15,7 @@ export function SearchBar({ onChangeText, value }: SearchBarProps) {
       <AntDesign name="search1" size={20} color="gray" style={styles.icon} />
       <TextInput
         style={styles.input}
-        placeholder={t("search")}
+        placeholder={t("search.placeholder")}
         onChangeText={onChangeText}
         value={value}
         placeholderTextColor="gray"

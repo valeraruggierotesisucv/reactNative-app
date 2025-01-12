@@ -5,6 +5,7 @@ import { Button } from "../components/Button/Button";
 import { useState } from "react";
 import { StepsEnum } from "./AddDefaultView";
 import React from "react";
+import { useTranslation } from "../contexts/TranslationContext";
 interface AddDateViewProps {
   step: StepsEnum, 
   setStep: (step: StepsEnum) => void, 
@@ -26,8 +27,8 @@ export function AddDateView({
   endTime, 
   setEndTime
 }: AddDateViewProps){
+    const { t } = useTranslation();
     const [showError, setShowError] = useState(false); 
-
     function handleNext(){
       
       if(!date || !startTime || !endTime){
@@ -39,8 +40,7 @@ export function AddDateView({
     }
 
     return(
-      <>
-                 
+      <>     
         <Calendar
           date={date}
           initialStartTime={startTime}
@@ -49,11 +49,11 @@ export function AddDateView({
           onStartTimeChange={setStartTime}
           onEndTimeChange={setEndTime}
         />
-        { showError && <Text style={styles.errorText}> * Por favor proporcione la fecha y hora del evento </Text>}          
+        { showError && <Text style={styles.errorText}> {t("addEventDate.error")} </Text>}          
     
         <View style={styles.footer}>
           <Button 
-            label="Siguiente"
+            label={t("common.next")}
             onPress={handleNext}
           />
         </View>  

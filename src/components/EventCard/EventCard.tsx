@@ -65,10 +65,10 @@ export function DisplayEvent({
 
   return (
     <View>
-      <DisplayInput label={t("location")} data={location} />
+      <DisplayInput label={t("common.location").toUpperCase()} data={location} />
 
       <DisplayInput
-        label={t("when")}
+        label={t("common.when").toUpperCase()}
         data={
           <Pills
             startsAt={startsAt || ""}
@@ -79,7 +79,7 @@ export function DisplayEvent({
       />
 
       <DisplayInput
-        label={t("category")}
+        label={t("common.category").toUpperCase()}
         data={<Chip label={category || ""} variant={ChipVariant.LIGHT} />}
       />
     </View>
@@ -179,7 +179,7 @@ export function EventCard({
       </Text>
       {variant === EventCardVariant.DEFAULT ? (
         <TouchableOpacity onPress={onMoreDetails}>
-          <Text style={styles.details}>{t("see_more_details")}</Text>
+          <Text style={styles.details}>{t("common.see_more_details")}</Text>
         </TouchableOpacity>
       ) : (
         <DisplayEvent

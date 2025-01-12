@@ -7,25 +7,27 @@ import { useNavigation } from "@react-navigation/native";
 import { ProfileRoutes } from "../../utils/routes";
 import { useAuth } from "../contexts/AuthContext";
 import { theme } from "../../utils/theme";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export function ConfigurationView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const { logout } = useAuth();
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />
       <View style={styles.content}>
         <Input
-          label="IDIOMA"
+          label={t("configuration.language").toUpperCase()}
           placeholder="Español"
           variant={InputVariant.ARROW}
         />
         <Input
-          label="CAMBIAR CONTRASEÑA"
+          label={t("configuration.change_password").toUpperCase()}
           variant={InputVariant.ARROW}
           onPress={() => navigation.navigate(ProfileRoutes.ChangePassword)}
         />
-        <Input label="CERRAR SESIÓN" 
+        <Input label={t("configuration.logout").toUpperCase()} 
           onPress={logout}
         />
       </View>

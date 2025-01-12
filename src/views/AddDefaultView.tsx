@@ -42,7 +42,6 @@ interface AddDefaultViewProps {
 }
 
 export function AddDefaultView({
-  step,
   setStep,
   description,
   setDescription,
@@ -51,10 +50,8 @@ export function AddDefaultView({
   endsAt,
   category,
   location,
-  setLocation,
   musicFile,
   setMusicFile,
-  buttonLabel,
   onAddEvent,
   image,
   setImage,
@@ -126,7 +123,6 @@ export function AddDefaultView({
 
   return (
     <>
-      
       {/* Imagen */}
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
@@ -143,8 +139,8 @@ export function AddDefaultView({
 
       {/* Descripción */}
       <Input
-        label={t("description").toUpperCase()}
-        placeholder={t("add_description")}
+        label={t("addEvent.description").toUpperCase()}
+        placeholder={t("addEvent.add_description")}
         variant={InputVariant.DEFAULT}
         value={description ?? ""}
         onChangeValue={setDescription}
@@ -153,14 +149,14 @@ export function AddDefaultView({
       {/* FECHA Y HORA */}
       {date && startsAt && endsAt ? (
         <DisplayInput
-          label={t("when").toUpperCase()}
+          label={t("addEvent.when").toUpperCase()}
           data={<DatePills />}
           onPress={() => setStep(StepsEnum.DATE)}
         />
       ) : (
         <Input
-          label={t("when").toUpperCase()}
-          placeholder={t("add_date")}
+          label={t("addEvent.when").toUpperCase()}
+          placeholder={t("addEvent.add_date")}
           variant={InputVariant.ARROW}
           onPress={() => setStep(StepsEnum.DATE)}
         />
@@ -169,7 +165,7 @@ export function AddDefaultView({
       {/* Categoría */}
       {category ? (
         <DisplayInput
-          label={t("category").toUpperCase()}
+          label={t("addEvent.category").toUpperCase()}
           data={
             <Chip
               label={category.toUpperCase()}
@@ -181,8 +177,8 @@ export function AddDefaultView({
         />
       ) : (
         <Input
-          label={t("category").toUpperCase()}
-          placeholder={t("add_category")}
+          label={t("addEvent.category").toUpperCase()}
+          placeholder={t("addEvent.add_category")}
           variant={InputVariant.ARROW}
           onPress={() => setStep(StepsEnum.CATEGORY)}
         />
@@ -191,7 +187,7 @@ export function AddDefaultView({
        {/* MÚSICA */}
        { musicFile
             ? <DisplayInput
-                label={t("music").toUpperCase()}
+                label={t("addEvent.music").toUpperCase()}
                 data={<Chip 
                     label={truncateString(musicFile.nameFile, 30)} 
                     variant={ChipVariant.LIGHT} 
@@ -199,8 +195,8 @@ export function AddDefaultView({
                     onPress={pickMusicFile}
                 />
             : <Input 
-                label="MÚSICA"
-                placeholder="Agregar música"
+                label={t("addEvent.music").toUpperCase()}
+                placeholder={t("addEvent.add_music")}
                 variant={InputVariant.ARROW}
                 onPress={pickMusicFile}
             />
@@ -210,14 +206,14 @@ export function AddDefaultView({
       {/* UBICACIÓN */}
       {location ? (
         <DisplayInput
-          label={t("location").toUpperCase()}
+          label={t("addEvent.location").toUpperCase()}
           data={<LocationPills />}
           onPress={() => setStep(StepsEnum.LOCATION)}
         />
       ) : (
         <Input
-          label={t("location").toUpperCase()}
-          placeholder={t("add_location")}
+          label={t("addEvent.location").toUpperCase()}
+          placeholder={t("addEvent.add_location")}
           variant={InputVariant.ARROW}
           onPress={() => setStep(StepsEnum.LOCATION)}
         />
@@ -225,7 +221,7 @@ export function AddDefaultView({
 
       <View style={styles.footer}>
         <Button
-          label={buttonLabel}
+          label={t("addEvent.publish")}
           size={ButtonSize.MEDIUM}
           onPress={onAddEvent}
         />
@@ -240,18 +236,18 @@ export function AddDefaultView({
         <View style={styles.modalView}>
           <View style={styles.modalButtonsContainer}>
             <TouchableOpacity onPress={openCamera} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>{t("take_photo")}</Text>
+              <Text style={styles.modalButtonText}>{t("addEvent.take_photo")}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={openGallery} style={styles.modalButton}>
               <Text style={styles.modalButtonText}>
-                {t("choose_from_gallery")}
+                {t("addEvent.choose_from_gallery")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
               style={styles.modalButton}
             >
-              <Text style={styles.modalButtonText}>{t("cancel")}</Text>
+              <Text style={styles.modalButtonText}>{t("addEvent.cancel")}</Text>
             </TouchableOpacity>
           </View>
         </View>

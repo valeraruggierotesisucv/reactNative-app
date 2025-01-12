@@ -24,7 +24,7 @@ export function OnboardingView() {
         <Text style={styles.title}>{t("welcome")}</Text>
       </View>
       <Button
-        label={t("get_started")}
+        label={t("auth.get_started")}
         onPress={() => navigation.navigate(AuthRoutes.Auth)}
         style={styles.button}
         size={ButtonSize.LARGE}

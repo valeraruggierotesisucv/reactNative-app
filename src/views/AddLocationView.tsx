@@ -8,6 +8,7 @@ import { StyleSheet, View } from "react-native";
 import { useEffect } from "react";
 import React from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
+import { useTranslation } from "../contexts/TranslationContext";
 interface AddLocationViewProps {
   origin: Location.LocationObject | null;
   location: LatLng | null;
@@ -21,7 +22,7 @@ export function AddLocationView({
   setLocation,
   setStep,
 }: AddLocationViewProps) {
-  
+  const { t } = useTranslation();
   useEffect(() => {
     if (origin) {
       setLocation({
@@ -48,7 +49,7 @@ export function AddLocationView({
             longitude: location?.longitude ?? origin?.coords.longitude ?? 0,
           }}
           draggable
-          title="Ubicación del evento"
+          title={t("addLocation.marker")}
           onDragEnd={(direction) => {
             setLocation(direction.nativeEvent.coordinate);
             console.log("Location: ", direction.nativeEvent.coordinate);

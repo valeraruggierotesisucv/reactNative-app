@@ -14,14 +14,14 @@ export function SuccessView() {
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.content}>
-            <Text style={styles.title}>{t("success")}</Text>
-            <Text style={styles.description}>{t("success_description")}</Text>
+            <Text style={styles.title}>{t("success.title")}</Text>
+            <Text style={styles.description}>{t("success.description")}</Text>
         </View>
 
         <View style={styles.imageContainer}>
             <Image source={require("../../assets/images/Success.png")} style={styles.image} />
         </View>
-        <Button label={t("next")} onPress={() => navigation.navigate(AuthRoutes.Auth)} style={styles.button} />
+        <Button label={t("common.next")} onPress={() => navigation.navigate(AuthRoutes.Auth)} style={styles.button} />
     </SafeAreaView>
   );
 }
