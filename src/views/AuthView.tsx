@@ -49,7 +49,7 @@ function Login() {
               onPressIcon={() => setShowPassword(!showPassword)}
               style={{ marginBottom: 9 }}
             />
-            <Pressable onPress={() => console.log("Forgot Password?")}>
+            <Pressable onPress={() => navigation.navigate(AuthRoutes.ForgotPassword)}>
               <Text style={styles.forgotPasswordText}>
                 {t("forgotPassword")}
               </Text>
