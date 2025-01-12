@@ -1,28 +1,20 @@
-import {
-  StyleSheet,
-  Image,
-  View,
-  Modal,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Image, View, Modal, Text, TouchableOpacity } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Input, InputVariant } from "../components/Input/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
-import React from "react";
 import { DisplayInput } from "../components/DisplayInput/DisplayInput";
-import * as DocumentPicker from "expo-document-picker";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { Chip, ChipVariant } from "../components/Chip/Chip";
 import { formatHour } from "../../utils/formatHour";
 import { LatLng } from "react-native-maps";
-
-import * as ImagePicker from "expo-image-picker";
-import { Camera } from "expo-camera";
 import { useTranslation } from "../contexts/TranslationContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { truncateString } from "../../utils/formatString";
+import { useImagePicker } from "../hooks/useImagePicker";
+import { useMusicPicker } from "../hooks/useMusicPicker";
+import React from "react";
+import { theme } from "../../utils/theme";
 
 export enum StepsEnum {
   DEFAULT = "default",
@@ -30,7 +22,6 @@ export enum StepsEnum {
   CATEGORY = "category",
   LOCATION = "location",
 }
-
 interface AddDefaultViewProps {
   step: StepsEnum;
   setStep: (step: StepsEnum) => void;
@@ -68,69 +59,8 @@ export function AddDefaultView({
 }: AddDefaultViewProps) {
   const { t } = useTranslation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
-
-  // TODO: colocar esta funcion fuera
-
-  function handleAddMusic() {
-    console.log("Agregar musica...");
-    const pickDocument = async () => {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: "audio/*",
-        copyToCacheDirectory: false,
-      });
-      if (result.assets) {
-        setMusicFile({
-          nameFile: result.assets[0].name,
-          uri: result.assets[0].uri,
-        });
-        console.log(result);
-      }
-
-      // UploadFile
-    };
-    pickDocument();
-  }
-
-  const openCamera = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    if (status === "granted") {
-      let result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ["images"],
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-
-      if (!result.canceled) {
-        console.log("Camera Image URI: ", result.assets[0].uri);
-        setImage(result.assets[0].uri);
-      }
-    } else {
-      alert("Camera permission is required to take photos.");
-    }
-    setModalVisible(false);
-  };
-
-  const openGallery = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status === "granted") {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ["images"],
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-
-      if (!result.canceled) {
-        console.log("Gallery Image URI: ", result.assets[0].uri);
-        setImage(result.assets[0].uri);
-      }
-    } else {
-      alert("Gallery permission is required to select photos.");
-    }
-    setModalVisible(false);
-  };
+  const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
+  const { musicFileUri, pickMusicFile } = useMusicPicker(); 
 
   const DatePills = () => {
     if (startsAt === null || endsAt === null || date === null) return;
@@ -179,6 +109,18 @@ export function AddDefaultView({
       </View>
     );
   };
+
+  useEffect(() => {
+    if (imageUri) {
+      setImage(imageUri); 
+    }
+  }, [imageUri]);
+
+  useEffect(() => {
+    if(musicFileUri){
+      setMusicFile(musicFileUri)
+    }
+  }, [musicFileUri])
 
   return (
     <>
@@ -251,14 +193,14 @@ export function AddDefaultView({
                 data={<Chip 
                     label={truncateString(musicFile.nameFile, 30)} 
                     variant={ChipVariant.LIGHT} 
-                    onPress={handleAddMusic} />}
-                    onPress={handleAddMusic}
+                    onPress={pickMusicFile} />}
+                    onPress={pickMusicFile}
                 />
             : <Input 
                 label="MÚSICA"
                 placeholder="Agregar música"
                 variant={InputVariant.ARROW}
-                onPress={handleAddMusic}
+                onPress={pickMusicFile}
             />
         }
         
@@ -327,12 +269,12 @@ const styles = StyleSheet.create({
     height: 270,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#D9D9D9",
+    backgroundColor: theme.colors['lightGray'],
   },
   placeholderText: {
     fontSize: 17,
     fontFamily: "SF-Pro-Text-Regular",
-    color: "#000",
+    color: theme.colors['black'],
     marginBottom: 5,
     textAlign: "left",
   },
@@ -374,7 +316,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontFamily: "SF-Pro-Text-Regular",
-    color: "#000",
+    color: theme.colors['black'],
     marginBottom: 5,
     textAlign: "left",
   },

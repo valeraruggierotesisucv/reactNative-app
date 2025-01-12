@@ -3,7 +3,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { AddStackNavigationProp } from "../navigators/AddStack";
-import React from "react";
 import { AddDateView } from "./AddDateView";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
@@ -12,6 +11,10 @@ import { StepsEnum } from "./AddDefaultView";
 import * as Location from "expo-location";
 import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
+import { FileTypeEnum, uploadFile } from "../services/storage";
+import { theme } from "../../utils/theme";
+import React from "react";
+
 
 /* TODO
     Description debe tener max caracteres 
@@ -43,10 +46,10 @@ export function AddView() {
   const [location, setLocation] = useState<LatLng | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
-
+  const [imageUrl, setImageUrl] = useState(); 
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
-  function handleAddEvent() {
+  async function handleAddEvent() {
     if (description && date && startTime && endTime && category && location) {
       // agregar evento
     }
@@ -57,6 +60,19 @@ export function AddView() {
     console.log("Ends at ", endTime);
     console.log("Category ", category);
     console.log("Location ", location);
+
+    
+    if(image){
+      console.log("Uploading image..."); 
+      const imageUrl = await uploadFile(image, FileTypeEnum.IMAGE)  // guardar en la db
+      console.log("Event Image URL-->", imageUrl);       
+    }    
+
+    if(musicFile){
+      console.log("Uploading music..."); 
+      const musicURL = await uploadFile(musicFile.uri, FileTypeEnum.AUDIO)  // guardar en la db
+      console.log("Event Music URL-->", musicURL)
+    }
   }
 
   function cleanForm() {
@@ -140,7 +156,7 @@ export function AddView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,
