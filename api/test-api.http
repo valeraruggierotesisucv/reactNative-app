@@ -27,3 +27,6 @@ GET http://localhost:5000/api/users/cm5tuuz6l0000tyn4vcrz9ks7/events
 ### Get User notifications
 GET http://localhost:5000/api/users/cm5tuuz6l0000tyn4vcrz9ks7/notifications
 
+### Get User followers
+GET http://localhost:5000/api/users/cm5tuuz6l0000tyn4vcrz9ks7/followers
+
