@@ -24,6 +24,100 @@ app.get('/api/protected', authenticateUser, (req, res) => {
   });
 });
 
+// addEvent 
+app.post("/api/events", async(req, res) => {
+  const { 
+    userId, 
+    eventImage, 
+    categoryId, 
+    latitude, 
+    longitude, 
+    title, 
+    description, 
+    date, 
+    startsAt, 
+    endsAt    
+  } = req.body; 
+
+  // Validations 
+    // fecha endsAt > startsAt 
+    
+  // Create location
+  try{
+    const location = await db.location.create({
+      data: {
+        latitude:  parseFloat(latitude), 
+        longitude: parseFloat(longitude), 
+
+      }
+    }); 
+
+    try{
+      const event = await db.event.create({
+        data:{
+          userId: userId, 
+          eventImage: eventImage, 
+          categoryId: categoryId, 
+          locationId: location.locationId, 
+          title: title, 
+          description: description, 
+          date: date, 
+          startsAt: startsAt, 
+          endsAt: endsAt, 
+          time: "QUITAR"
+        }
+      }); 
+
+      res.json({
+        data: event, 
+        success: true
+      })
+
+    }catch(error){
+      console.error(error); 
+      res.status(500).json({ error: "FAILED to create event" });
+    }
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to create location" });
+  }
+})
+
+// getEventDetails
+app.get("/api/events/:eventId", async(req, res) => { 
+  try{
+    const { eventId } = req.params;
+
+    const eventDetails = await db.event.findFirst({
+      where: {
+        eventId: eventId
+      }
+    })
+
+    if(!eventDetails){
+      res.json({
+        data: "Event not found", 
+        success: false
+      })
+
+      return
+    }
+    res.json({
+      data: eventDetails, 
+      success: true
+    })
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "Something went wrong" });
+  }  
+ 
+})
+
+// addEvent
+// getNotifications
+// getUserFollowers
+// getUserFollowing
+// getProfileEvents 
 
 // Iniciar el servidor
 app.listen(5000, () => {

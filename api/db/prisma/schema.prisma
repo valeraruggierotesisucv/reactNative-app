@@ -67,7 +67,7 @@ model Notification {
 model Event {
   eventId           String              @id @default(cuid())
   userId            String
-  eventImage        String[]
+  eventImage        String[]            // Ya no es un [] 
   categoryId        String
   locationId        String
   title             String
@@ -75,7 +75,7 @@ model Event {
   date              DateTime
   startsAt          DateTime
   endsAt            DateTime
-  time              String
+  time              String              // QUITAR 
   likesCounter      Int              @default(0)
   commentsCounter   Int              @default(0)
   createdAt         DateTime         @default(now())
