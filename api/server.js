@@ -27,16 +27,14 @@ app.get('/api/protected', authenticateUser, (req, res) => {
 });
 
 
-
 // addEvent 
 app.post("/api/events", async(req, res) => {
   const validationResult = eventSchema.safeParse(req.body);
 
   if (!validationResult.success) {
-    // Si la validación falla, responder con los errores
     return res.status(400).json({
-      success: false,
-      errors: validationResult.error.errors,
+      data: validationResult.error.errors,
+      success: false      
     });
   }
 
