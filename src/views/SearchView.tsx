@@ -12,6 +12,7 @@ import { Pills } from "../components/Pills/Pills";
 import { theme } from "../../utils/theme";
 import { onShare } from "../../utils/share";
 import { useTranslation } from "../contexts/TranslationContext";
+import { dummyComments } from "../data/dummyComments";
 
 export enum SearchTabsEnum  {
   EVENTS = "Eventos", 
@@ -116,9 +117,10 @@ export function SearchView() {
                     isLiked={item.isLiked}
                     date={item.date}
                     onPressUser={() => navigation.navigate(SearchRoutes.ProfileDetails, { userId: item.userId})}
-                    onComment={() => console.log("COMMENT")}
+                    onComment={(comment: string) => Promise.resolve()}
                     onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
                     onMoreDetails={() => navigation.navigate(SearchRoutes.EventDetails, {eventId: item.eventId})}
+                    fetchComments={() => Promise.resolve(dummyComments)}
                   />
                 )
               }}
