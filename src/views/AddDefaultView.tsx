@@ -42,7 +42,6 @@ interface AddDefaultViewProps {
 }
 
 export function AddDefaultView({
-  step,
   setStep,
   description,
   setDescription,
@@ -51,10 +50,8 @@ export function AddDefaultView({
   endsAt,
   category,
   location,
-  setLocation,
   musicFile,
   setMusicFile,
-  buttonLabel,
   onAddEvent,
   image,
   setImage,
@@ -126,7 +123,6 @@ export function AddDefaultView({
 
   return (
     <>
-      <AppHeader title={t("addEvent.new_event")} />
       {/* Imagen */}
       <TouchableOpacity
         onPress={() => setModalVisible(true)}

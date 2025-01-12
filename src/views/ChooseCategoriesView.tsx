@@ -72,7 +72,6 @@ export function ChooseCategoriesView({
   return (
     //TODO: falta agregar mensaje de error
     <>
-      <AppHeader title={t("categories.title")} goBack={handleGoBack} />
       <Text>{t("categories.description")}</Text>
       <View style={styles.grid}>
         {categories.map((category) => (

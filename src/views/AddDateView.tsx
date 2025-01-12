@@ -40,8 +40,7 @@ export function AddDateView({
     }
 
     return(
-      <>
-        <AppHeader title={t("addEventDate.title")} goBack={() => setStep(StepsEnum.DEFAULT)} />            
+      <>     
         <Calendar
           date={date}
           initialStartTime={startTime}

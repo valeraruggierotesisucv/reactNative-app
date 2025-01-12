@@ -88,7 +88,12 @@ export function AddEventView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      <AppHeader title={step === StepsEnum.DEFAULT ? t("new_event") : step === StepsEnum.DATE ? t("when") : step === StepsEnum.CATEGORY ? t("category") : step === StepsEnum.LOCATION ? t("location") : ""} goBack={() => setStep(StepsEnum.DEFAULT)} />
+        {
+          step === StepsEnum.DEFAULT ? 
+            <AppHeader title={t("addEvent.new_event")} /> 
+            : 
+            <AppHeader title={step === StepsEnum.DATE ? t("addEvent.when") : step === StepsEnum.CATEGORY ? t("addEvent.category") : step === StepsEnum.LOCATION ? t("addEvent.location") : ""} goBack={() => setStep(StepsEnum.DEFAULT)} />
+        }
         {step === StepsEnum.DEFAULT && (
           <AddDefaultView
             step={step}
