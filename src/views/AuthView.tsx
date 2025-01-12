@@ -184,7 +184,7 @@ export function AuthView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+   
     backgroundColor: theme.colors['lightGray'],
   },
   iconLogoContainer: {

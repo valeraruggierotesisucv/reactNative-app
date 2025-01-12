@@ -1,5 +1,4 @@
-import { SafeAreaView } from "react-native-safe-area-context"; 
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Calendar } from "../components/Calendar/Calendar";
 import { Button } from "../components/Button/Button";
