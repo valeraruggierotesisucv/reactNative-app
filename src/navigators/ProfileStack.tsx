@@ -12,6 +12,7 @@ import { ProfileStackParamList } from "../../utils/types";
 import { FollowersView } from "../views/FollowersView";
 import { FollowedView } from "../views/FollowedView";
 import { EditEventView } from "../views/EditEventView";
+import { EventDetailsView } from "../views/EventDetailsView";
 
 const ProfileStackNavigator = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ export function ProfileStack() {
       <ProfileStackNavigator.Screen name={ProfileRoutes.ChangeLanguage} component={ChangeLanguageView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.Followers} component={FollowersView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.Followed} component={FollowedView}/>
+      <ProfileStackNavigator.Screen name={ProfileRoutes.EventDetails} component={EventDetailsView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.EditEvent} component={EditEventView}/>
     </ProfileStackNavigator.Navigator>
   );

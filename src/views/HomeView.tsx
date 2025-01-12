@@ -73,6 +73,7 @@ export function HomeView() {
                 onMoreDetails={() =>
                   navigation.navigate(HomeRoutes.EventDetails, {
                     eventId: item.eventId,
+                    canEdit: false
                   })
                 }
               />

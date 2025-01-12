@@ -98,6 +98,10 @@ const en = {
         title: "Add date and time",
         error: "Please provide the date and time of your event",
     },
+    eventDetails: {
+        title: "Details",
+        edit: "Edit Event",
+    },
     categories: {
         title: "Category",
         description: "Select the category that best fits your event",
@@ -133,6 +137,12 @@ const en = {
         events: "Events",
         edit_profile: "Edit Profile",
         configure_profile: "Configure Profile",
+    },
+    editEvent: {
+        edit_event: "Edit Event",
+        when: "When",
+        category: "Category",
+        location: "Location",
     },
     notifications: {
         title: "Notifications",
@@ -225,6 +235,16 @@ const es = {
         take_photo: "Tomar foto",
         choose_from_gallery: "Elegir de la galería",
         when: "Cuando",
+    },
+    editEvent: {
+        edit_event: "Editar Evento",
+        when: "Cuando",
+        category: "Categoría",
+        location: "Ubicación",
+    },
+    eventDetails: {
+        title: "Detalles",
+        edit: "Editar Evento",
     },
     addLocation: {
         title: "Ubicación",
