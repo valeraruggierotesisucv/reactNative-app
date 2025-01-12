@@ -1,26 +1,35 @@
-import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TextInputFocusEventData,
+  NativeSyntheticEvent,
+  View,
+} from "react-native";
 import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useTranslation } from "../../contexts/TranslationContext";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 interface CommentInputProps {
   onSubmit?: (comment: string) => void;
+  onFocus?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void;
+  onBlur?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void;
 }
 
-export function CommentInput({ onSubmit }: CommentInputProps) {
+export function CommentInput({ onSubmit, onFocus, onBlur }: CommentInputProps) {
   const { t } = useTranslation();
   const [comment, setComment] = useState("");
 
   const handleSubmit = () => {
-    if (comment.trim()) {
-      onSubmit?.(comment);
-      setComment("");
+    if (onSubmit) {
+      onSubmit(comment);
     }
+    setComment("");
   };
 
   return (
     <View style={styles.container}>
-      <TextInput
+      <BottomSheetTextInput
         style={styles.input}
         placeholder={t("comment_placeholder")}
         value={comment}
@@ -28,18 +37,20 @@ export function CommentInput({ onSubmit }: CommentInputProps) {
         placeholderTextColor="#666"
         multiline
         maxLength={1000}
-        onSubmitEditing={handleSubmit}
+        onSubmitEditing={() => {}}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
       <TouchableOpacity
         style={[styles.sendButton]}
         onPress={handleSubmit}
-        disabled={!comment.trim()}
+        disabled={comment.length === 0}
       >
         <View style={styles.iconContainer}>
           <Feather
             name="send"
             size={24}
-            color={!comment.trim() ? "gray" : "black"}
+            color={comment.length === 0 ? "gray" : "black"}
           />
         </View>
       </TouchableOpacity>
@@ -76,22 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
-  },
-  sendButtonDisabled: {
-    backgroundColor: "transparent",
-  },
-  sendArrow: {
-    width: 0,
-    height: 0,
-    backgroundColor: "transparent",
-    borderStyle: "solid",
-    borderLeftWidth: 8,
-    borderRightWidth: 8,
-    borderBottomWidth: 15,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderBottomColor: "white",
-    transform: [{ rotate: "90deg" }],
   },
   iconContainer: {
     transform: [{ rotate: "45deg" }],

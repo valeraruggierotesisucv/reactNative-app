@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import type { Meta, StoryObj } from "@storybook/react";
 import { EventCard, EventCardVariant } from "./EventCard";
+import { dummyComments } from "../../data/dummyComments";
 
 const meta = {
   title: "EventCard",
@@ -24,7 +25,8 @@ export const Default: Story = {
       "Martijn Gerard Garritsen, conocido por su nombre artístico Martin Garrix, es un DJ, remezclador y productor discográfico neerlandés; también propietario del sello discográfico STMPD RCRDS",
     isLiked: false,
     date: "24/12/2024",
-    onComment: () => console.log("COMMENT"),
+    onComment: () => Promise.resolve(),
+    fetchComments: () => Promise.resolve(dummyComments),
     onShare: () => console.log("SHARE"),
     onMoreDetails: () => console.log("MORE DETAILS"),
   },
@@ -48,7 +50,8 @@ export const Details: Story = {
     startsAt: "8:00 pm",
     endsAt: "10:00 pm",
     category: "CONCIERTO",
-    onComment: () => console.log("COMMENT"),
+    onComment: () => Promise.resolve(),
+    fetchComments: () => Promise.resolve(dummyComments),
     onShare: () => console.log("SHARE"),
     onMoreDetails: () => console.log("MORE DETAILS"),
   },

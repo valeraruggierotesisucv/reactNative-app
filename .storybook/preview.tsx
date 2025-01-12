@@ -2,13 +2,19 @@ import React from "react";
 import { Preview } from "@storybook/react";
 import { FontLoader } from "../FontLoader";
 import { TranslationProvider } from "../src/contexts/TranslationContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PortalProvider } from "@gorhom/portal";
 
 const preview: Preview = {
   decorators: [
     (Story) => (
       <FontLoader>
         <TranslationProvider>
-          <Story />
+          <GestureHandlerRootView>
+            <PortalProvider>
+              <Story />
+            </PortalProvider>
+          </GestureHandlerRootView>
         </TranslationProvider>
       </FontLoader>
     ),
