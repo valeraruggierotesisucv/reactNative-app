@@ -54,12 +54,13 @@ const en = {
     choose_from_gallery: "Choose from Gallery",
     cancel: "Cancel",
     music: "Music",
+
+    shareMessage: "Check out this event: {{eventName}} on {{eventDate}}!\nDownload our Eventify app from the App Store.\nhttps://www.eventify.com",
     send_link: "Send link", 
     send_link_success: "¡Email sent successfully!", 
     forgot_password_text: "Enter your email address to request a password reset.", 
     succes_email_text: "Please check your inbox and follow the link to change your password. Don't forget to check your spam folder if you can't find it. "
-
-}
+};
 
 const es = {
     appName: "Aplicacion de Eventos",
@@ -118,6 +119,7 @@ const es = {
     cancel: "Cancelar",
     music: "Música",
     description: "Descripción",
+    shareMessage: "¡Mira este evento: {{eventName}} el {{eventDate}}!\nDescarga nuestra aplicación Eventify desde la App Store.\nhttps://www.eventify.com",
     send_link: "Enviar enlace", 
     send_link_success: "¡Correo enviado con éxito!", 
     forgot_password_text: "Introduce tu dirección de Correo Electrónico para solicitar el reetablecimiento de tu contraseña.", 

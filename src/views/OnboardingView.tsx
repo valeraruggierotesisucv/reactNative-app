@@ -9,12 +9,13 @@ import { IconLogo } from "../components/IconLogo/IconLogo";
 
 export function OnboardingView() {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const { t } = useTranslation();
+  const { t, locale} = useTranslation();
+  console.log("locale en esta cagada", locale);
   const { height } = Dimensions.get("window");
 
   return (
     <SafeAreaView style={styles.container}>
-
+      
       <View style={styles.logoContainer}>
       <IconLogo style={styles.iconLogo} />
         <Image

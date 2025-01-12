@@ -5,7 +5,7 @@ import { useTranslation } from "../../contexts/TranslationContext";
 interface DisplayInputProps {
   label: string;
   data: React.ReactNode;
-  onPress: () => void
+  onPress?: () => void
 }
 
 export function DisplayInput({ label, data, onPress}: DisplayInputProps) {

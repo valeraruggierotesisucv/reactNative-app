@@ -6,7 +6,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useState } from "react";
 
-interface Tab {
+export interface Tab {
   id: string;
   label: string;
 }

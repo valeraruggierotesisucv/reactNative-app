@@ -7,9 +7,11 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { events as allEvents} from "../../utils/dummyData";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { useEffect, useState } from "react";
-import { Tabs } from "../components/Tabs/Tabs";
+import { Tab, Tabs } from "../components/Tabs/Tabs";
 import { Pills } from "../components/Pills/Pills";
 import { theme } from "../../utils/theme";
+import { onShare } from "../../utils/share";
+import { useTranslation } from "../contexts/TranslationContext";
 
 export enum SearchTabsEnum  {
   EVENTS = "Eventos", 
@@ -33,6 +35,7 @@ export enum CategoriesEnum {
 
 export function SearchView() {
     const navigation = useNavigation<SearchStackNavigationProp>();
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<string>(SearchTabsEnum.EVENTS); 
     const [activeCategories, setActiveCategories] = useState<string[] | string>([])
     const [search, setSearch] = useState(""); 
@@ -90,7 +93,7 @@ export function SearchView() {
             <View style={styles.tabs}>
               <Tabs 
                 tabs={searchTabs}
-                onTabChange={(tabId) => setActiveTab(tabId)}
+                onTabChange={(tab: Tab) => setActiveTab(tab.id)}
               />
             </View>
             <View style={{padding: 5}}>
@@ -114,7 +117,7 @@ export function SearchView() {
                     date={item.date}
                     onPressUser={() => navigation.navigate(SearchRoutes.ProfileDetails, { userId: item.userId})}
                     onComment={() => console.log("COMMENT")}
-                    onShare={() => console.log("SHARE")}
+                    onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
                     onMoreDetails={() => navigation.navigate(SearchRoutes.EventDetails, {eventId: item.eventId})}
                   />
                 )

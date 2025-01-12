@@ -9,11 +9,17 @@ import { useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { getServer } from "../../utils/getServer";
 import { theme } from "../../utils/theme";
+import { onShare } from "../../utils/share";
+import { useTranslation } from "../contexts/TranslationContext";
+
 
 export function HomeView() {
   const navigation = useNavigation<HomeStackNavigationProp>();
   const { user, session } = useAuth(); 
-    
+  const { t } = useTranslation();
+
+
+ 
   // Solo para testing 
   useEffect(() => {
       const server = getServer();    
@@ -58,7 +64,7 @@ export function HomeView() {
                   date={item.date}
                   onPressUser={() => navigation.navigate(HomeRoutes.ProfileDetails, {userId : item.userId})}
                   onComment={() => console.log("COMMENT")}
-                  onShare={() => console.log("SHARE")}
+                  onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
                   onMoreDetails={() => navigation.navigate(HomeRoutes.EventDetails, { eventId: item.eventId})}
                 />
               )
