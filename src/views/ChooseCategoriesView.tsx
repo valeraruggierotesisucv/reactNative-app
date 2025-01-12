@@ -70,7 +70,6 @@ export function ChooseCategoriesView({
   return (
     //TODO: falta agregar mensaje de error
     <>
-      <AppHeader title="Categoría" goBack={handleGoBack} />
       <Text>Seleccione la categoría que mejor se adapte a tu evento</Text>
       <View style={styles.grid}>
         {categories.map((category) => (

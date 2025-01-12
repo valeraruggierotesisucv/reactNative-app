@@ -9,8 +9,7 @@ import { IconLogo } from "../components/IconLogo/IconLogo";
 
 export function OnboardingView() {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const { t, locale} = useTranslation();
-  console.log("locale en esta cagada", locale);
+  const { t } = useTranslation();
   const { height } = Dimensions.get("window");
 
   return (

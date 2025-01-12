@@ -37,6 +37,7 @@ export enum NotificationsRoutes {
 export enum ProfileRoutes {
     Profile = "Profile",
     EditProfile = "EditProfile",
+    EditEvent = "EditEvent",
     Configuration = "Configuration",
     ChangePassword = "ChangePassword",
     ChangeLanguage = "ChangeLanguage",

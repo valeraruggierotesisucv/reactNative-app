@@ -45,7 +45,7 @@ export function ProfileView() {
         <EventThumbnailList
           events={mockEvents}
           onPressEvent={(eventId) => {
-            console.log("Pressed event", eventId);
+            navigation.navigate(ProfileRoutes.EditEvent, { eventId });
           }}
         />
       </ScrollView>

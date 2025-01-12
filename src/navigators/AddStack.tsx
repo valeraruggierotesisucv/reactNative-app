@@ -2,11 +2,9 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { AddView } from "../views/AddView";
+import { AddEventView } from "../views/AddEventView";
 import { AddRoutes } from "../../utils/routes";
 import { AddStackParamList } from "../../utils/types";
-import { AddDateView } from "../views/AddDateView";
-
 const AddStackNavigator = createNativeStackNavigator();
 
 export type AddStackNavigationProp =
@@ -20,7 +18,7 @@ export function AddStack() {
         headerShown: false,
       }}
     >
-      <AddStackNavigator.Screen name={AddRoutes.Add} component={AddView} />
+      <AddStackNavigator.Screen name={AddRoutes.Add} component={AddEventView} />
       
     </AddStackNavigator.Navigator>
   );

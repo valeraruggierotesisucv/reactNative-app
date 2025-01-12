@@ -46,6 +46,9 @@ export type AddStackParamList = {
 export type ProfileStackParamList = {
     [ProfileRoutes.Profile]: undefined;
     [ProfileRoutes.EditProfile]: undefined;
+    [ProfileRoutes.EditEvent]: {
+        eventId: string
+    };
     [ProfileRoutes.Configuration]: undefined;
     [ProfileRoutes.ChangePassword]: undefined;
     [ProfileRoutes.ChangeLanguage]: undefined;

@@ -38,6 +38,7 @@ interface AddDefaultViewProps {
   onAddEvent: () => void;
   image: string | null;
   setImage: (image: string | null) => void;
+  buttonLabel: string;
 }
 
 export function AddDefaultView({
@@ -53,6 +54,7 @@ export function AddDefaultView({
   setLocation,
   musicFile,
   setMusicFile,
+  buttonLabel,
   onAddEvent,
   image,
   setImage,
@@ -124,7 +126,7 @@ export function AddDefaultView({
 
   return (
     <>
-      <AppHeader title={t("new_event")} />
+      
       {/* Imagen */}
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
@@ -223,7 +225,7 @@ export function AddDefaultView({
 
       <View style={styles.footer}>
         <Button
-          label={t("publish")}
+          label={buttonLabel}
           size={ButtonSize.MEDIUM}
           onPress={onAddEvent}
         />
