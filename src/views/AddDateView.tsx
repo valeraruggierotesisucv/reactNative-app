@@ -1,11 +1,10 @@
 import { StyleSheet, View, Text } from "react-native";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Calendar } from "../components/Calendar/Calendar";
 import { Button } from "../components/Button/Button";
 import { useState } from "react";
 import { StepsEnum } from "./AddDefaultView";
 import React from "react";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 interface AddDateViewProps {
   step: StepsEnum, 
   setStep: (step: StepsEnum) => void, 

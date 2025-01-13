@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { theme } from "../../../utils/theme";
-import { useTranslation } from "../../contexts/TranslationContext";
-
+import { useTranslation } from "react-i18next";
+  
 interface DisplayInputProps {
   label: string;
   data: React.ReactNode;

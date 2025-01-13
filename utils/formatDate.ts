@@ -1,6 +1,4 @@
-import { Locale } from "../src/contexts/TranslationContext";
-
-export function formatDate(date: Date, locale: Locale = Locale.EN): string {
+export function formatDate(date: Date, locale: string = "en-US"): string {
     const now = new Date();
     const diffInMilliseconds = now.getTime() - date.getTime();
     const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
@@ -11,7 +9,7 @@ export function formatDate(date: Date, locale: Locale = Locale.EN): string {
     const diffInYears = Math.floor(diffInDays / 365);
 
     const translations = {
-        en: {
+        "en-US": {
             justNow: 'just now',
             minute: 'm ago',
             hour: 'h ago',
@@ -19,7 +17,7 @@ export function formatDate(date: Date, locale: Locale = Locale.EN): string {
             month: 'mo ago',
             year: 'y ago',
         },
-        es: {
+        "es-ES": {
             justNow: 'ahora mismo',
             minute: 'min atrás',
             hour: 'h atrás',
@@ -29,7 +27,7 @@ export function formatDate(date: Date, locale: Locale = Locale.EN): string {
         },
     };
 
-    const t = translations[locale];
+    const t = translations[locale as keyof typeof translations];
 
     if (diffInSeconds < 60) {
         return t.justNow;

@@ -1,6 +1,5 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useTranslation } from "../../contexts/TranslationContext";
-
+import { useTranslation } from "react-i18next";
 interface ProfileCardProps {
   profileImage?: string;
   username: string;

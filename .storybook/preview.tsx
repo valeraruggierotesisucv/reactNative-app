@@ -1,7 +1,7 @@
 import React from "react";
 import { Preview } from "@storybook/react";
 import { FontLoader } from "../FontLoader";
-import { TranslationProvider } from "../src/contexts/TranslationContext";
+import i18n from "../i18n";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalProvider } from "@gorhom/portal";
 
@@ -9,13 +9,11 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <FontLoader>
-        <TranslationProvider>
-          <GestureHandlerRootView>
-            <PortalProvider>
+        <GestureHandlerRootView>
+          <PortalProvider>
               <Story />
             </PortalProvider>
           </GestureHandlerRootView>
-        </TranslationProvider>
       </FontLoader>
     ),
   ],

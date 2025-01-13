@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useTranslation } from "../../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 interface SearchBarProps {
   onChangeText?: (text: string) => void;

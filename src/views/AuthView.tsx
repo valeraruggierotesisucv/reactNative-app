@@ -7,7 +7,7 @@ import { IconLogo } from "../components/IconLogo/IconLogo";
 import { Tabs } from "../components/Tabs/Tabs";
 import { InputField } from "../components/InputField/InputField";
 import { Button } from "../components/Button/Button";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
 import { AuthRoutes } from "../../utils/routes";
 import { useNavigation } from "@react-navigation/native";

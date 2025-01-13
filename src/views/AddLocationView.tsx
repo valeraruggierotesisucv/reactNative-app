@@ -1,6 +1,5 @@
 import { Marker } from "react-native-maps";
 import MapView from "react-native-maps";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 import { StepsEnum } from "./AddDefaultView";
 import { LatLng } from "react-native-maps";
 import * as Location from "expo-location";
@@ -8,7 +7,7 @@ import { StyleSheet, View } from "react-native";
 import { useEffect } from "react";
 import React from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 interface AddLocationViewProps {
   origin: Location.LocationObject | null;
   location: LatLng | null;

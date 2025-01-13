@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { useTranslation } from "../../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 interface EventThumbnail {
   id: string;

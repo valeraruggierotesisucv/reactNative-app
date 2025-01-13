@@ -1,5 +1,5 @@
 import { StyleSheet, Image, View, Modal, Text, TouchableOpacity } from "react-native";
-import { AppHeader } from "../components/AppHeader/AppHeader";
+import { useTranslation } from "react-i18next";
 import { Input, InputVariant } from "../components/Input/Input";
 import { useEffect, useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
@@ -8,7 +8,6 @@ import { CategoriesEnum } from "../../utils/shareEnums";
 import { Chip, ChipVariant } from "../components/Chip/Chip";
 import { formatHour } from "../../utils/formatHour";
 import { LatLng } from "react-native-maps";
-import { useTranslation } from "../contexts/TranslationContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { truncateString } from "../../utils/formatString";
 import { useImagePicker } from "../hooks/useImagePicker";
@@ -247,7 +246,7 @@ export function AddDefaultView({
               onPress={() => setModalVisible(false)}
               style={styles.modalButton}
             >
-              <Text style={styles.modalButtonText}>{t("addEvent.cancel")}</Text>
+              <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
             </TouchableOpacity>
           </View>
         </View>

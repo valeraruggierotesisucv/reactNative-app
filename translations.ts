@@ -53,6 +53,7 @@ const en = {
         add_date: "Add date and time",
         success: "Success!",
         success_description: "Your registration has been completed successfully",
+        event_published: "Your event has been successfully published", 
         choose_categories: "Choose at least 3 categories of your preference:",
         next: "Next",
         take_photo: "Take Photo",
@@ -155,6 +156,12 @@ const en = {
         new_password: "New Password",
         confirm_password: "Confirm Password",
     },
+    editProfile: {
+        title: "Edit Profile",
+        save: "Save changes",
+        fullName: "Full Name",
+        biography: "Biography",
+    },
 };
 
 const es = {
@@ -212,6 +219,7 @@ const es = {
         add_date: "Agrega fecha y hora",
         success: "¡Felicidades!",
         success_description: "Tu registro se ha completado exitosamente",
+        event_published: "Tu evento se ha publicado con éxito", 
         choose_categories: "Selecciona al menos 3 categorías de tu preferencia:",
         next: "Siguiente",
         take_photo: "Tomar foto",
@@ -312,6 +320,12 @@ const es = {
         current_password: "Contraseña actual",
         new_password: "Nueva contraseña",
         confirm_password: "Confirmar contraseña",
+    },
+    editProfile: {
+        title: "Editar perfil",
+        save: "Guardar cambios",
+        fullName: "Nombre completo",
+        biography: "Biografía",
     },
 };
 

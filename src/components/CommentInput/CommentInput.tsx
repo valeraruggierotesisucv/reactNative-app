@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import { useTranslation } from "../../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 
 interface CommentInputProps {

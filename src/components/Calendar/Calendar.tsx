@@ -13,7 +13,7 @@ import { Input, InputVariant } from "../Input/Input";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import React from "react";
 import { formatHour } from "../../../utils/formatHour";
-import { useTranslation } from "../../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 interface CalendarProps {
   initialStartTime?: Date | null;

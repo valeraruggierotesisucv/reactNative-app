@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 import { SearchBar } from "../components/SearchBar/SearchBar";
 import { useState } from "react";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 export function FollowersView() {
   const { t } = useTranslation();
