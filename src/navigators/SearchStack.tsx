@@ -1,7 +1,4 @@
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SearchView } from "../views/SearchView";
 import { EventDetailsView } from "../views/EventDetailsView";
 import { ProfileDetailsView } from "../views/ProfileDetailsView";

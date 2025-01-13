@@ -1,7 +1,4 @@
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthView } from "../views/AuthView";
 import { OnboardingView } from "../views/OnboardingView";
 import { ChooseCategoriesView } from "../views/ChooseCategoriesView";

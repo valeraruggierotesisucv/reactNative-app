@@ -1,11 +1,7 @@
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ProfileView } from "../views/ProfileView";
 import { EditProfileView } from "../views/EditProfileView";
 import { ConfigurationView } from "../views/ConfigurationView";
-import { ChangeLanguageView } from "../views/ChangeLanguageView";
 import { ChangePasswordView } from "../views/ChangePasswordView";
 import { ProfileRoutes } from "../../utils/routes";
 import { ProfileStackParamList } from "../../utils/types";
@@ -31,7 +27,6 @@ export function ProfileStack() {
       <ProfileStackNavigator.Screen name={ProfileRoutes.EditProfile} component={EditProfileView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.Configuration} component={ConfigurationView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.ChangePassword} component={ChangePasswordView}/>
-      <ProfileStackNavigator.Screen name={ProfileRoutes.ChangeLanguage} component={ChangeLanguageView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.Followers} component={FollowersView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.Followed} component={FollowedView}/>
       <ProfileStackNavigator.Screen name={ProfileRoutes.EventDetails} component={EventDetailsView}/>

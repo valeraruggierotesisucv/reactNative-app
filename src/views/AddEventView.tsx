@@ -3,7 +3,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { AddStackNavigationProp } from "../navigators/AddStack";
-import React from "react";
 import { AddDateView } from "./AddDateView";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
@@ -16,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import { Image, Text } from "react-native";
 import { Modal } from "../components/Modal/Modal";
 import { useCurrentLocation } from "../hooks/useCurrentLocation";
+import React from "react";
+import { theme } from "../../utils/theme";
 
 /* TODO
     Description debe tener max caracteres 
@@ -157,7 +158,7 @@ export function AddEventView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,

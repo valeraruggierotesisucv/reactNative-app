@@ -68,14 +68,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card:{
-    backgroundColor: "white", 
+    backgroundColor: theme.colors['white'], 
     width: "100%", 
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     height: "auto"
   }, 
   titleContainer: {
-    justifyContent: "center", alignItems: "center", paddingTop: 20
+    justifyContent: "center", 
+    alignItems: "center", 
+    paddingTop: 20
   }, 
   title: {
     fontFamily: "SF-Pro-Text-Semibold", 
