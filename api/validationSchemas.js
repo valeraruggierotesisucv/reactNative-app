@@ -21,6 +21,27 @@ const eventSchema = z.object({
       .refine((val) => !isNaN(Date.parse(val)), "endsAt must be a valid ISO date")
 });
 
+const likeEventSchema = z.object({
+  userId: z.string().nonempty("userId is required"),
+});
+
+const commentEventSchema = z.object({
+  userId: z.string().nonempty("userId is required"),
+  text: z.string().nonempty("text is required"),
+});
+
+const signUpSchema = z.object({
+  userId: z.string().nonempty("userId is required"),
+  username: z.string().nonempty("username is required"),
+  fullName: z.string().nonempty("fullName is required"),
+  email: z.string().email("email must be a valid email"),
+  birthDate: z.string().refine((val) => !isNaN(Date.parse(val)), "birthDate must be a valid date"),
+  language: z.enum(["ENGLISH", "SPANISH"]),
+});
+
 module.exports = {
   eventSchema,
+  likeEventSchema,
+  commentEventSchema,
+  signUpSchema,
 };
