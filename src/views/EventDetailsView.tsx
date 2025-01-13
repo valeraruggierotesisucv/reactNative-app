@@ -10,6 +10,7 @@ import { RouteProp } from "@react-navigation/native";
 import { HomeStackParamList } from "../../utils/types";
 import { HomeRoutes } from "../../utils/routes";
 import { useTranslation } from "../contexts/TranslationContext";
+import { dummyComments } from "../data/dummyComments";
 
 export function EventDetailsView() {
     const { t } = useTranslation();
@@ -40,8 +41,9 @@ export function EventDetailsView() {
                     endsAt={event?.endsAt}
                     category={event?.category}
                     onPressUser={() => console.log("USER")}
-                    onComment={() => console.log("Comment")}
+                    onComment={() => Promise.resolve()}
                     onShare={() => console.log("SHARE")}
+                    fetchComments={() => Promise.resolve(dummyComments)}
                 />
             </ScrollView>
         </SafeAreaView>

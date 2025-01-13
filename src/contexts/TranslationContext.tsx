@@ -27,15 +27,12 @@ const TranslationContext = createContext<TranslationContextProps | undefined>(
 export const TranslationProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [locale, setLocale] = useState<Locale | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
+  const [locale, setLocale] = useState<Locale>(Locale.EN);
 
   useEffect(() => {
     const fetchLanguage = async () => {
       const language = await getLanguage();
       setLocale(language as Locale);
-      setLoading(false);
-      console.log("language", language);
       i18n.locale = language;
     };
 
@@ -43,23 +40,13 @@ export const TranslationProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   useEffect(() => {
-    if (locale) {
-      i18n.locale = locale;
-      const fetchSetLanguage = async () => {
-        await setLanguage(locale);
-      };
-      fetchSetLanguage();
-    }
+    i18n.locale = locale;
+    console.log("locale", locale);
+    setLanguage(locale);
   }, [locale]);
 
-  
-
-  if (loading || !locale) {
-    return null; // or a loading spinner
-  }
-
   const value = {
-    locale: locale,
+    locale,
     setLocale,
     t: i18n.t.bind(i18n),
   };

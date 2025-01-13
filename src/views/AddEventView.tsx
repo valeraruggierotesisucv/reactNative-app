@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { AddStackNavigationProp } from "../navigators/AddStack";
 import React from "react";
 import { AddDateView } from "./AddDateView";
@@ -9,13 +9,13 @@ import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
 import { AddDefaultView } from "./AddDefaultView";
 import { StepsEnum } from "./AddDefaultView";
-import * as Location from "expo-location";
 import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { useTranslation } from "../contexts/TranslationContext";
 import { Image, Text } from "react-native";
 import { Modal } from "../components/Modal/Modal";
+import { useCurrentLocation } from "../hooks/useCurrentLocation";
 
 /* TODO
     Description debe tener max caracteres 
@@ -25,21 +25,7 @@ export function AddEventView() {
   const { t } = useTranslation();
   const navigation = useNavigation<AddStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [origin, setOrigin] = useState<Location.LocationObject | null>(null);
-
-  useEffect(() => {
-    async function getCurrentLocation() {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setOrigin(location);
-    }
-
-    getCurrentLocation();
-  }, []);
+  const { location: origin, errorMsg, isLoading } = useCurrentLocation();
 
   const [description, setDescription] = useState<string | null>(null);
   const [date, setDate] = useState<Date | null>(null);

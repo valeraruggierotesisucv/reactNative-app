@@ -155,6 +155,12 @@ const en = {
         new_password: "New Password",
         confirm_password: "Confirm Password",
     },
+    editProfile: {
+        title: "Edit Profile",
+        save: "Save changes",
+        fullName: "Full Name",
+        biography: "Biography",
+    },
 };
 
 const es = {
@@ -312,6 +318,12 @@ const es = {
         current_password: "Contraseña actual",
         new_password: "Nueva contraseña",
         confirm_password: "Confirmar contraseña",
+    },
+    editProfile: {
+        title: "Editar perfil",
+        save: "Guardar cambios",
+        fullName: "Nombre completo",
+        biography: "Biografía",
     },
 };
 

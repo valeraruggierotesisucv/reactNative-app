@@ -247,7 +247,7 @@ export function AddDefaultView({
               onPress={() => setModalVisible(false)}
               style={styles.modalButton}
             >
-              <Text style={styles.modalButtonText}>{t("addEvent.cancel")}</Text>
+              <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
             </TouchableOpacity>
           </View>
         </View>
