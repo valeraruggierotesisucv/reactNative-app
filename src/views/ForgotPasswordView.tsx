@@ -1,6 +1,6 @@
 import { StyleSheet, Text, Image, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { AuthRoutes } from "../../utils/routes";
 import { Button } from "../components/Button/Button";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";

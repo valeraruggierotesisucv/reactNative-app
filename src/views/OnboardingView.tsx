@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { Text, StyleSheet, Image, Dimensions, View } from "react-native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { AuthRoutes } from "../../utils/routes";

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Modal, TouchableOpacity } from "rea
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { theme } from "../../utils/theme";

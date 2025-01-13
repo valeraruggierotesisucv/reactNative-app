@@ -9,7 +9,7 @@ import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { RouteProp } from "@react-navigation/native";
 import { HomeStackParamList } from "../../utils/types";
 import { HomeRoutes } from "../../utils/routes";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { dummyComments } from "../data/dummyComments";
 
 export function EventDetailsView() {

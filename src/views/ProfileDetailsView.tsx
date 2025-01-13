@@ -7,7 +7,7 @@ import { ProfileRoutes } from "../../utils/routes";
 import { user } from "../../utils/dummyData";
 import { ProfileCard } from "../components/ProfileCard/ProfileCard";
 import { theme } from "../../utils/theme";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 export function ProfileDetailsView() {
     const { t } = useTranslation();

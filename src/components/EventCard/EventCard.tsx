@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { Chip, ChipVariant } from "../Chip/Chip";
 import { theme } from "../../../utils/theme";
 import { DisplayInput } from "../DisplayInput/DisplayInput";
-import { useTranslation } from "../../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { CommentsSection } from "../CommentsSection/CommentsSection";
 import { Comment } from "../CommentsSection/CommentsSection";
 import { Portal, PortalHost } from "@gorhom/portal";

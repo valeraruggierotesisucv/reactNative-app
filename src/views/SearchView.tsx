@@ -12,7 +12,7 @@ import { Tabs, Tab } from "../components/Tabs/Tabs";
 import { Pills } from "../components/Pills/Pills";
 import { theme } from "../../utils/theme";
 import { onShare } from "../../utils/share";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { dummyComments } from "../data/dummyComments";
 
 export enum SearchTabsEnum  {

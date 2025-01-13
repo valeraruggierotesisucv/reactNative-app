@@ -4,7 +4,7 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { notifications } from "../../utils/dummyData";
 import { NotificationItem } from "../components/NotificationItem/NotificationItem";
 import { theme } from "../../utils/theme";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 export function NotificationsView() {
     const { t } = useTranslation();

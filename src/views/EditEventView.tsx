@@ -17,7 +17,7 @@ import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { ProfileStackParamList } from "../../utils/types";
 import { ProfileRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 /* TODO
     Description debe tener max caracteres 
 */

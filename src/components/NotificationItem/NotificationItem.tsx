@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Button, ButtonSize } from "../Button/Button";
 import { formatDate } from "../../../utils/formatDate";
-import { useTranslation } from "../../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 export enum NotificationType {
   FOLLOW = "follow",
@@ -32,8 +32,8 @@ export function NotificationItem({
   eventImage,
   onFollow,
 }: NotificationItemProps) {
-  const { t, locale } = useTranslation();
-  const formattedDate = formatDate(timestamp, locale);
+  const { t, i18n } = useTranslation();
+  const formattedDate = formatDate(timestamp, i18n.language);
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>

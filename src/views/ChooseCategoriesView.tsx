@@ -10,7 +10,7 @@ import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";
 import { theme } from "../../utils/theme";
 import React from "react";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 interface ChooseCategoryProps {
   step?: StepsEnum;
   setStep?: (step: StepsEnum) => void;

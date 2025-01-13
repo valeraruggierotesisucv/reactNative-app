@@ -1,0 +1,164 @@
+{
+    "appName": "Aplicacion de Eventos",
+    "welcome": "Eventos para todos",
+    "search": {
+        "title": "Buscar",
+        "placeholder": "Buscar",
+        "tabs": {
+            "events": "Eventos",
+            "accounts": "Cuentas"
+        }
+    },
+    "user": {
+        "edit_profile": "Editar perfil",
+        "configure_profile": "Configurar perfil",
+        "followers": "Seguidores",
+        "following": "Seguidos",
+        "started_following_you": "Comenzó a seguirte",
+        "liked_your_event": "Le gustó tu evento",
+        "commented_on_your_event": "Comentó en tu evento"
+    },
+    "auth": {
+        "get_started": "Comenzar",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "email": "Correo electrónico",
+        "email_placeholder": "correo@direccion.com",
+        "password": "Contraseña",
+        "password_placeholder": "Contraseña",
+        "login": "Iniciar sesión",
+        "sign_up": "Registrarse",
+        "username": "Nombre de usuario",
+        "username_placeholder": "Nombre de usuario",
+        "fullname": "Nombre completo",
+        "fullname_placeholder": "Nombre completo",
+        "birthdate": "Fecha de nacimiento",
+        "birthdate_placeholder": "Fecha de nacimiento",
+        "confirm_password": "Confirmar contraseña",
+        "confirm_password_placeholder": "Confirmar contraseña",
+        "check_inbox_for_verification": "¡Por favor, revisa tu bandeja de entrada para la verificación por correo electrónico!",
+        "forgot_password": "¿Olvidaste tu contraseña?"
+    },
+    "addEvent": {
+        "new_event": "Nuevo Evento",
+        "description": "Descripción",
+        "add_description": "Agrega una descripción de tu evento",
+        "category": "Categoría",
+        "add_category": "Agrega categoría",
+        "music": "Música",
+        "add_music": "Agrega música",
+        "location": "Ubicación",
+        "add_location": "Agrega ubicación",
+        "publish": "Publicar",
+        "date": "Fecha y hora",
+        "add_date": "Agrega fecha y hora",
+        "success": "¡Felicidades!",
+        "success_description": "Tu registro se ha completado exitosamente",
+        "choose_categories": "Selecciona al menos 3 categorías de tu preferencia:",
+        "next": "Siguiente",
+        "take_photo": "Tomar foto",
+        "choose_from_gallery": "Elegir de la galería",
+        "when": "Cuando"
+    },
+    "addLocation": {
+        "title": "Ubicación",
+        "marker": "Ubicación del evento",
+        "error": "Por favor proporciona la ubicación de tu evento"
+    },
+    "media": {
+        "take_photo": "Tomar foto",
+        "choose_from_gallery": "Elegir de la galería"
+    },
+    "common": {
+        "cancel": "Cancelar",
+        "like": "Me gusta",
+        "reply": "Responder",
+        "location": "Ubicación",
+        "when": "Cuándo",
+        "category": "Categoría",
+        "see_more_details": "Ver más detalles...",
+        "see_more": "Ver más",
+        "see_less": "Ver menos",
+        "follow": "Seguir",
+        "unfollow": "Dejar de seguir",
+        "events": "Eventos",
+        "music": "Música",
+        "description": "Descripción",
+        "details": "Detalles",
+        "accounts": "Cuentas",
+        "not_available": "No disponible",
+        "next": "Siguiente",
+        "send": "Enviar"
+    },
+    "comments": {
+        "comment_placeholder": "Escribe un comentario...",
+        "add_comment": "Agregar un comentario"
+    },
+    "addEventDate": {
+        "title": "Agrega fecha y hora",
+        "error": "Por favor proporciona la fecha y hora de tu evento"
+    },
+    "categories": {
+        "title": "Categoría",
+        "description": "Seleccione la categoría que mejor se adapte a tu evento",
+        "all": "Todos",
+        "conferences": "Conferencias",
+        "parties": "Fiestas",
+        "concerts": "Conciertos",
+        "clubs": "Clubs",
+        "festivals": "Festivales",
+        "sports": "Deporte",
+        "theater": "Teatro",
+        "exhibitions": "Exhibición",
+        "education": "Educativo",
+        "culture": "Cultura"
+    },
+    "calendar": {
+        "start": "Empieza",
+        "end": "Termina",
+        "confirm": "Confirmar",
+        "cancel": "Cancelar",
+        "start_time_placeholder": "Hora de inicio",
+        "end_time_placeholder": "Hora de fin"
+    },
+    "success": {
+        "title": "¡Felicidades!",
+        "description": "Tu registro se ha completado exitosamente"
+    },
+    "profile": {
+        "details": "Detalles del perfil",
+        "followed": "Seguidos",
+        "followers": "Seguidores",
+        "following": "Seguidos",
+        "events": "Eventos",
+        "edit_profile": "Editar perfil",
+        "configure_profile": "Configurar perfil"
+    },
+    "notifications": {
+        "title": "Notificaciones",
+        "started_following_you": "Comenzó a seguirte",
+        "liked_your_event": "Le gustó tu evento",
+        "commented_on_your_event": "Comentó en tu evento"
+    },
+    "onboarding": {
+        "welcome": "Bienvenido a Event App"
+    },
+    "configuration": {
+        "title": "Configuración",
+        "language": "Idioma",
+        "language_placeholder": "Selecciona idioma",
+        "change_password": "Cambiar contraseña",
+        "logout": "Cerrar sesión"
+    },
+    "changePassword": {
+        "title": "Cambiar contraseña",
+        "current_password": "Contraseña actual",
+        "new_password": "Nueva contraseña",
+        "confirm_password": "Confirmar contraseña"
+    },
+    "editProfile": {
+        "title": "Editar perfil",
+        "save": "Guardar cambios",
+        "fullName": "Nombre completo",
+        "biografía": "Biografía"
+    }
+}

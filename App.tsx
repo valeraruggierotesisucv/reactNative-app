@@ -1,22 +1,35 @@
+import React, { useState, useEffect } from 'react';
 import { Navigation } from "./RootNavigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
 import Constants from "expo-constants";
-import { FontLoader } from "./FontLoader";
-import { TranslationProvider } from "./src/contexts/TranslationContext";
+import i18n from "./i18n";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalProvider } from "@gorhom/portal";
+import { FontLoader } from "./FontLoader";
 
 export function App() {
+  const [isI18nInitialized, setIsI18nInitialized] = useState(false);
+
+  useEffect(() => {
+    i18n.init().then(() => {
+      setIsI18nInitialized(true);
+    }).catch((error) => {
+      console.error("i18n initialization failed", error);
+    });
+  }, []);
+
+  if (!isI18nInitialized) {
+    return null;
+  }
+
   return (
     <FontLoader>
       <AuthProvider>
-        <TranslationProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <PortalProvider>
-              <Navigation />
-            </PortalProvider>
-          </GestureHandlerRootView>
-        </TranslationProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <PortalProvider>
+            <Navigation />
+          </PortalProvider>
+        </GestureHandlerRootView>
       </AuthProvider>
     </FontLoader>
   );

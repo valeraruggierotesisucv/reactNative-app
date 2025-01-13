@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { formatDate } from "../../../utils/formatDate";
 import { useState } from "react";
-import { useTranslation } from "../../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 const MAX_LINES = 3;
 const MIN_LINES = 3;
@@ -30,12 +30,12 @@ export function CommentItem({
   timestamp,
   userAvatar,
 }: CommentItemProps) {
-  const { t, locale } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   const [textHeight, setTextHeight] = useState(0);
   const [hasTextOverflow, setHasTextOverflow] = useState(false);
 
-  const formattedTimestamp = formatDate(timestamp, locale);
+  const formattedTimestamp = formatDate(timestamp, i18n.language);
 
   const onTextLayout = (e: LayoutChangeEvent) => {
     const lineHeight = styles.commentText.lineHeight || 20;

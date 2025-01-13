@@ -12,7 +12,7 @@ import { StepsEnum } from "./AddDefaultView";
 import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 import { Image, Text } from "react-native";
 import { Modal } from "../components/Modal/Modal";
 import { useCurrentLocation } from "../hooks/useCurrentLocation";

@@ -7,7 +7,7 @@ import { InputField } from "../components/InputField/InputField";
 import { useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { theme } from "../../utils/theme";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 export function ChangePasswordView() {
   const { t } = useTranslation();

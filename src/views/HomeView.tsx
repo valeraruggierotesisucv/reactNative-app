@@ -11,9 +11,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { getServer } from "../../utils/getServer";
 import { theme } from "../../utils/theme";
 import { dummyComments } from "../data/dummyComments";
-import { CommentsSection } from "../components/CommentsSection/CommentsSection";
 import { onShare } from "../../utils/share";
-import { useTranslation } from "../contexts/TranslationContext";
+import { useTranslation } from "react-i18next";
 
 
 export function HomeView() {
