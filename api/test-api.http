@@ -1,8 +1,7 @@
 ### TEST API
 GET http://localhost:5000/api/users
 
-###
-# Test signUp Endpoint
+### ADD user
 POST http://localhost:5000/api/signup
 Content-Type: application/json
 
@@ -15,15 +14,14 @@ Content-Type: application/json
   "language": "ENGLISH"
 }
 
-###
+### GET categories
 GET http://localhost:5000/api/categories
 
-###
-# Test getHomeEvents Endpoint
+### GET home events
 GET http://localhost:5000/api/home/events
 
 
-###
+### LIKE a post
 POST http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j/like
 Content-Type: application/json
 
@@ -31,7 +29,7 @@ Content-Type: application/json
   "userId": "cm5tzwdmo000dty5cfe8lr1fr"
 }
 
-###
+### ADD comment
 POST http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j/comment
 Content-Type: application/json
 
