@@ -1,7 +1,8 @@
-import {SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
+import { ScrollView, StyleSheet, View} from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbnailList";
 import { ProfileRoutes } from "../../utils/routes";
 import { user } from "../../utils/dummyData";
@@ -60,7 +61,6 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: 20,
     },
     separator: {
         height: 1,

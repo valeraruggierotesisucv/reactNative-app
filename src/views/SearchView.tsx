@@ -120,7 +120,7 @@ export function SearchView() {
                     onPressUser={() => navigation.navigate(SearchRoutes.ProfileDetails, { userId: item.userId})}
                     onComment={(comment: string) => Promise.resolve()}
                     onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
-                    onMoreDetails={() => navigation.navigate(SearchRoutes.EventDetails, {eventId: item.eventId})}
+                    onMoreDetails={() => navigation.navigate(SearchRoutes.EventDetails, {eventId: item.eventId, canEdit: false})}
                     fetchComments={() => Promise.resolve(dummyComments)}
                   />
                 )

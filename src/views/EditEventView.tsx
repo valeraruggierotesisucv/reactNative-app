@@ -130,7 +130,7 @@ export function EditEventView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <AppHeader title={step === StepsEnum.DEFAULT ? t("edit_event") : step === StepsEnum.DATE ? t("when") : step === StepsEnum.CATEGORY ? t("category") : step === StepsEnum.LOCATION ? t("location") : ""} goBack={() => step === StepsEnum.DEFAULT ? navigation.goBack() : setStep(StepsEnum.DEFAULT)} />
+        <AppHeader title={step === StepsEnum.DEFAULT ? t("editEvent.edit_event") : step === StepsEnum.DATE ? t("editEvent.when") : step === StepsEnum.CATEGORY ? t("editEvent.category") : step === StepsEnum.LOCATION ? t("editEvent.location") : ""} goBack={() => step === StepsEnum.DEFAULT ? navigation.goBack() : setStep(StepsEnum.DEFAULT)} />
         {step === StepsEnum.DEFAULT && (
           <AddDefaultView
             step={step}

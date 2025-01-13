@@ -15,6 +15,7 @@ export type HomeStackParamList = {
     [HomeRoutes.Home]: undefined;
     [HomeRoutes.EventDetails]: {
         eventId: string
+        canEdit: boolean
     };
     [HomeRoutes.ProfileDetails]: {
         userId: string
@@ -26,6 +27,7 @@ export type SearchStackParamList = {
     [SearchRoutes.Search]: undefined;
     [SearchRoutes.EventDetails]: {
         eventId: string
+        canEdit: boolean
     };
     [SearchRoutes.ProfileDetails]: {
         userId: string
@@ -54,5 +56,9 @@ export type ProfileStackParamList = {
     [ProfileRoutes.ChangeLanguage]: undefined;
     [ProfileRoutes.Followers]: undefined;
     [ProfileRoutes.Followed]: undefined;
+    [ProfileRoutes.EventDetails]: {
+        eventId: string
+        canEdit: boolean
+    };
 };
 
