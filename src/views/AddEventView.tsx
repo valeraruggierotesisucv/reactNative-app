@@ -59,6 +59,7 @@ export function AddEventView() {
     setStartTime(null);
     setEndTime(null);
     setCategory(null);
+    setMusicFile(null); 
     setLocation(null);
   }
 
@@ -147,7 +148,7 @@ export function AddEventView() {
             textAlign: 'center',
             marginBottom: 8,
         }}>
-            {t("event_published")}
+            {t("addEvent.event_published")}
         </Text>
       </Modal>
     </SafeAreaView>
