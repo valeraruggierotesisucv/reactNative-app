@@ -18,6 +18,7 @@ import { useCurrentLocation } from "../hooks/useCurrentLocation";
 import React from "react";
 import { theme } from "../../utils/theme";
 import { FileTypeEnum, uploadFile } from "../services/storage";
+import { UploadFileController } from "../controllers/UploadFileController";
 
 /* TODO
     Description debe tener max caracteres 
@@ -43,9 +44,7 @@ export function AddEventView() {
   async function handleAddEvent() {
     setModalVisible(true);
     console.log(modalVisible);
-    if (description && date && startTime && endTime && category && location) {
-      // agregar evento
-    }
+    
     console.log("Publicando evento...");
     console.log("Descripcion: ", description);
     console.log("Date: ", date);
@@ -54,26 +53,32 @@ export function AddEventView() {
     console.log("Category ", category);
     console.log("Location ", location);
 
-    if(image){
-      console.log("Uploading image..."); 
-      const imageUrl = await uploadFile(image, FileTypeEnum.IMAGE)  // guardar en la db
-      console.log("Event Image URL-->", imageUrl);       
-    }    
+    // CONTROLLERS
+    // UploadImageController ----> UploadFileController
+    // UploadMusicController  ---> UploadFileController
+    // UploadLocationController ---> ELIMINAR 
+    // PostEventController 
 
-    if(musicFile){
+    // Agregar evento 
+    if (description && date && startTime && endTime && category && musicFile && image && location) {
+      console.log("Uploading image..."); 
+      const imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE) // guardar en la db 
+      console.log("Event Image URL-->", imageUrl);  
+
       console.log("Uploading music..."); 
-      const musicURL = await uploadFile(musicFile.uri, FileTypeEnum.AUDIO)  // guardar en la db
-      console.log("Event Music URL-->", musicURL)
+      const musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO) // guardar en la db
+      console.log("Event Music URL-->", musicUrl); 
+
+      // PostEventController
     }
   }
-
-
 
   function cleanForm() {
     setDescription(null);
     setDate(null);
     setStartTime(null);
     setEndTime(null);
+    setImage(null); 
     setCategory(null);
     setMusicFile(null); 
     setLocation(null);
