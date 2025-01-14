@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Pressable, StyleSheet, View, Text, ScrollView } from "react-native";
-import { supabase } from "../lib/supabase";
+import { Pressable, StyleSheet, View, Text, ScrollView } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { IconLogo } from "../components/IconLogo/IconLogo";

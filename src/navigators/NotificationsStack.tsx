@@ -1,12 +1,6 @@
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NotificationsView } from "../views/NotificationsView";
-import {
-  NotificationsRoutes,
-  NotificationsStackParamList,
-} from "../../utils/routes";
+import { NotificationsRoutes, NotificationsStackParamList } from "../../utils/routes";
 
 const NotificationsStackNavigator = createNativeStackNavigator();
 

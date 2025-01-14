@@ -2,8 +2,6 @@ import { Text, ScrollView, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
-import { AddStackNavigationProp } from "../navigators/AddStack";
-import React from "react";
 import { AddDateView } from "./AddDateView";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
@@ -18,6 +16,8 @@ import { ProfileStackParamList } from "../../utils/types";
 import { ProfileRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { useTranslation } from "react-i18next";
+import React from "react";
+
 /* TODO
     Description debe tener max caracteres 
 */
@@ -107,6 +107,7 @@ export function EditEventView() {
     setDescription(null);
     setDate(null);
     setStartTime(null);
+    setMusicFile(null), 
     setEndTime(null);
     setCategory(null);
     setLocation(null);

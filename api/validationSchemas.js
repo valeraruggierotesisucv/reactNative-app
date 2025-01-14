@@ -3,7 +3,7 @@ const { z } = require("zod");
 const eventSchema = z.object({
     userId: z.string().nonempty("userId is required"),
     eventImage: z.string().url("eventImage must be a valid URL"),
-    categoryId: z.string().nonempty("categoryId is required"),
+    categoryId: z.number(),
     latitude: z
       .string()
       .refine((val) => !isNaN(parseFloat(val)), "latitude must be a valid number"),

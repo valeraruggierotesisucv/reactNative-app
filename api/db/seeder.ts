@@ -4,13 +4,24 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 const NUM_USERS = 20;
-const NUM_CATEGORIES = 20;
 const NUM_LOCATIONS = 20;
 const NUM_EVENTS = 20;
 const NUM_COMMENTS = 40;
 const NUM_SOCIAL_INTERACTIONS = 40;
 const NUM_NOTIFICATIONS = 40;
 const NUM_FOLLOW_RELATIONS = 50;
+
+enum CategoriesEnum {
+    PARTIES = "Fiestas",
+    CONCERTS = "Conciertos",
+    CLUBS = "Clubs", 
+    FESTIVALS = "Festivales",
+    SPORTS = "Deporte",
+    THEATER = "Teatro",
+    EXHIBITIONS = "Exhibición",
+    EDUCATION = "Educativo",
+    CULTURE = "Cultura"
+}
 
 async function main() {
     console.log("Seeding database...");
@@ -25,17 +36,16 @@ async function main() {
                     profileImage: faker.image.avatar(),
                     birthDate: faker.date.birthdate({ min: 18, max: 60, mode: 'age' }),
                     biography: faker.lorem.sentence(),
-                    language: faker.helpers.arrayElement(['ENGLISH', 'SPANISH']),
                 },
             })
         )
     );
 
     const categories = await Promise.all(
-        Array.from({ length: NUM_CATEGORIES }).map(() =>
+        Object.values(CategoriesEnum).map((categoryName) =>
             prisma.category.create({
                 data: {
-                    name: faker.commerce.department(),
+                    name: categoryName,
                     description: faker.lorem.sentence(),
                 },
             })

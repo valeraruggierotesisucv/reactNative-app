@@ -13,8 +13,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { ProfileRoutes } from "../../utils/routes";
 
-
-
 export function EditProfileView() {
     
   const navigation = useNavigation<ProfileStackNavigationProp>();
@@ -36,7 +34,7 @@ export function EditProfileView() {
           source={image ? image : "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1"}
           />
           <View style={styles.cameraIcon}>
-            <MaterialCommunityIcons name="camera" size={24} color={"#fff"} />
+            <MaterialCommunityIcons name="camera" size={24} color={theme.colors['white']} />
           </View>
       </TouchableOpacity>
     );
@@ -141,7 +139,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "SF-Pro-Text-Semibold",
     textAlign: "center",
-    color: "#007AFF",
+    color: theme.colors['secondary'],
   },
   modalButtonsContainer: {
     flexDirection: "column",

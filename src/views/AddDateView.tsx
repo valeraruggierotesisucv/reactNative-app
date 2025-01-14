@@ -5,6 +5,7 @@ import { useState } from "react";
 import { StepsEnum } from "./AddDefaultView";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { theme } from "../../utils/theme";
 interface AddDateViewProps {
   step: StepsEnum, 
   setStep: (step: StepsEnum) => void, 
@@ -63,7 +64,7 @@ export function AddDateView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   }, 
   errorText: {
-    color: "#FF0000",
+    color: theme.colors['red'],
     fontWeight: "bold", 
     fontSize: 12,
     marginTop: 4,

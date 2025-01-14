@@ -1,5 +1,4 @@
 import { StyleSheet, View, Text } from "react-native";
-import { AppHeader } from "../components/AppHeader/AppHeader";
 import { Button } from "../components/Button/Button";
 import { useState } from "react";
 import { StepsEnum } from "./AddDefaultView";
@@ -9,8 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";
 import { theme } from "../../utils/theme";
-import React from "react";
 import { useTranslation } from "react-i18next";
+import React from "react";
 interface ChooseCategoryProps {
   step?: StepsEnum;
   setStep?: (step: StepsEnum) => void;

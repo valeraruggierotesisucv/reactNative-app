@@ -5,9 +5,9 @@ import { LatLng } from "react-native-maps";
 import * as Location from "expo-location";
 import { StyleSheet, View } from "react-native";
 import { useEffect } from "react";
-import React from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { useTranslation } from "react-i18next";
+import React from "react";
 interface AddLocationViewProps {
   origin: Location.LocationObject | null;
   location: LatLng | null;

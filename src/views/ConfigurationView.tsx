@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "SF-Pro-Text-Semibold",
     textAlign: "center",
-    color: "#007AFF",
+    color: theme.colors['secondary'],
   },
   modalButtonsContainer: {
     flexDirection: "column",
