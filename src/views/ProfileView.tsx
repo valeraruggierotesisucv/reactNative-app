@@ -19,8 +19,8 @@ export function ProfileView() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <AppHeader />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <AppHeader />
         <ProfileCard
           profileImage={dummyUser.profileImage}
           username={dummyUser.username}
@@ -45,7 +45,10 @@ export function ProfileView() {
         <EventThumbnailList
           events={mockEvents}
           onPressEvent={(eventId) => {
-            navigation.navigate(ProfileRoutes.EventDetails, { eventId: "1", canEdit: true });
+            navigation.navigate(ProfileRoutes.EventDetails, {
+              eventId: "1",
+              canEdit: true,
+            });
           }}
         />
       </ScrollView>
@@ -56,7 +59,7 @@ export function ProfileView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors['white'],
+    backgroundColor: theme.colors["white"],
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     width: "90%",
-    backgroundColor: theme.colors['black'],
+    backgroundColor: theme.colors["black"],
     marginBottom: 10,
   },
 });
