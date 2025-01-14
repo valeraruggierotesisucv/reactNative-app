@@ -14,7 +14,6 @@ export function useMusicPicker() {
         multiple: false
       });
 
-      console.log("this is what we have ", result)
       if (result.assets) {
         setMusicFileUri({
           nameFile: result.assets[0].name,

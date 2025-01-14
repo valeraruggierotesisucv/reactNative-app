@@ -17,6 +17,7 @@ import { Modal } from "../components/Modal/Modal";
 import { useCurrentLocation } from "../hooks/useCurrentLocation";
 import React from "react";
 import { theme } from "../../utils/theme";
+import { FileTypeEnum, uploadFile } from "../services/storage";
 
 /* TODO
     Description debe tener max caracteres 
@@ -39,7 +40,7 @@ export function AddEventView() {
 
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
-  function handleAddEvent() {
+  async function handleAddEvent() {
     setModalVisible(true);
     console.log(modalVisible);
     if (description && date && startTime && endTime && category && location) {
@@ -52,7 +53,21 @@ export function AddEventView() {
     console.log("Ends at ", endTime);
     console.log("Category ", category);
     console.log("Location ", location);
+
+    if(image){
+      console.log("Uploading image..."); 
+      const imageUrl = await uploadFile(image, FileTypeEnum.IMAGE)  // guardar en la db
+      console.log("Event Image URL-->", imageUrl);       
+    }    
+
+    if(musicFile){
+      console.log("Uploading music..."); 
+      const musicURL = await uploadFile(musicFile.uri, FileTypeEnum.AUDIO)  // guardar en la db
+      console.log("Event Music URL-->", musicURL)
+    }
   }
+
+
 
   function cleanForm() {
     setDescription(null);
