@@ -1,11 +1,9 @@
+const { likeEventSchema, commentEventSchema, signUpSchema, eventSchema } = require("./validationSchemas.js");
 const authenticateUser = require("./authenticateUser.js"); 
 const express = require("express");
 const cors = require("cors");
 const app = express();
 const { PrismaClient } = require("@prisma/client"); 
-const { eventSchema } = require("./validationSchemas.js");
-
-const { likeEventSchema, commentEventSchema, signUpSchema } = require("./validationSchemas.js");
 
 const db = new PrismaClient(); 
 // Middleware para permitir CORS
@@ -69,7 +67,7 @@ app.post("/api/events", async(req, res) => {
         data:{
           userId: userId, 
           eventImage: eventImage, 
-          categoryId: categoryId, 
+          categoryId: parseInt(categoryId), 
           locationId: location.locationId, 
           title: title, 
           description: description, 

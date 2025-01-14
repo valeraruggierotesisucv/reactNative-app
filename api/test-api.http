@@ -50,9 +50,9 @@ POST http://localhost:5000/api/events
 Content-Type: application/json
 
 {
-  "userId": "cm5tzwbk50000ty5c57ia1ca6",
+  "userId": "cm5vrg4ew0000tyq4z7i9rz4m",
   "eventImage": "https://example.com/image1.jpg",
-  "categoryId": "cm5tzwf4m000kty5c6rbiygv0",
+  "categoryId": 32,
   "latitude": "40.7128",
   "longitude": "-74.0060",
   "title": "Carnaval",
