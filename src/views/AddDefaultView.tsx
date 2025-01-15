@@ -14,6 +14,7 @@ import { useImagePicker } from "../hooks/useImagePicker";
 import { useMusicPicker } from "../hooks/useMusicPicker";
 import React from "react";
 import { theme } from "../../utils/theme";
+import { useToast } from "react-native-toast-notifications";
 
 export enum StepsEnum {
   DEFAULT = "default",

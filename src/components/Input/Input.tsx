@@ -12,6 +12,7 @@ interface InputProps {
   placeholder?: string;
   multiline?: boolean; 
   variant?: InputVariant;
+  required?: boolean; 
   onPress?: () => void;
   value?: string, 
   onChangeValue?: (data: string) => void
@@ -22,6 +23,7 @@ export function Input({
   placeholder,
   variant = InputVariant.DEFAULT,
   multiline = true, 
+  required = true, 
   onPress,
   value, 
   onChangeValue
@@ -29,8 +31,10 @@ export function Input({
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Text style={[styles.label, { flex: placeholder ? 0.45 : 1 }]}>
-        {label}
+        {label}{" "}
+        {required && <Text style={styles.required}>*</Text>}
       </Text>
+      <Text></Text>
 
       {variant === InputVariant.DEFAULT 
        ? (<TextInput 
@@ -72,4 +76,7 @@ const styles = StyleSheet.create({
     color: "gray",
     fontFamily: "SF-Pro-Text-Regular",
   },
+  required:{
+    color: theme.colors['red']
+  }
 });

@@ -37,7 +37,7 @@ app.post("/api/events", async(req, res) => {
     });
   }
 
-  // falta fecha endsAt > startsAt 
+  // TODO: falta fecha endsAt > startsAt 
 
   const { 
     userId, 
@@ -49,7 +49,8 @@ app.post("/api/events", async(req, res) => {
     description, 
     date, 
     startsAt, 
-    endsAt    
+    endsAt, 
+    eventMusic
   } = req.body; 
 
   // Create location
@@ -58,7 +59,6 @@ app.post("/api/events", async(req, res) => {
       data: {
         latitude:  parseFloat(latitude), 
         longitude: parseFloat(longitude), 
-
       }
     }); 
 
@@ -74,6 +74,7 @@ app.post("/api/events", async(req, res) => {
           date: date, 
           startsAt: startsAt, 
           endsAt: endsAt, 
+          eventMusic: eventMusic
         }
       }); 
 

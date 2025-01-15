@@ -1,3 +1,4 @@
+import { apiRequest } from "../../utils/apiRequest";
 import { getServer } from "../../utils/getServer";
 
 export class EventModel {
@@ -6,29 +7,15 @@ export class EventModel {
     }
 
     // POST api/events
-    static createEvent(token: string ){
-        const event = new EventModel(); 
+    static async createEvent(token: string, event: object){
+        const createdEvent = await apiRequest(
+            "events", 
+            "POST", 
+            event, 
+            token
+        )
 
-        const server = getServer();        
-        fetch(`http://${server}:5000/api/protected`, {
-            headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-    
-            return response.json();
-            })
-            .then((data) => {
-            console.log(data);
-            })
-            .catch((error) => {
-            console.error("Fetch error:", error);
-            });
+        return createdEvent
     }
 
     // GET api/events/:eventId
