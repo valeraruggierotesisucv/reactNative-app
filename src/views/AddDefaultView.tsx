@@ -24,6 +24,8 @@ export enum StepsEnum {
 interface AddDefaultViewProps {
   step: StepsEnum;
   setStep: (step: StepsEnum) => void;
+  title: string | null; 
+  setTitle: (title: string) => void; 
   description: string | null;
   setDescription: (text: string | null) => void;
   date: Date | null;
@@ -42,6 +44,8 @@ interface AddDefaultViewProps {
 
 export function AddDefaultView({
   setStep,
+  title, 
+  setTitle, 
   description,
   setDescription,
   date,
@@ -135,6 +139,16 @@ export function AddDefaultView({
           </View>
         )}
       </TouchableOpacity>
+
+      {/* Título */}
+      <Input
+        label={t("addEvent.title").toUpperCase()}
+        placeholder={t("addEvent.add_title")}
+        multiline={false}
+        variant={InputVariant.DEFAULT}
+        value={title ?? ""}
+        onChangeValue={setTitle}
+      />
 
       {/* Descripción */}
       <Input
@@ -276,7 +290,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   image: {
-    height: 270,
+    height: 250,
     width: "100%",
     resizeMode: "cover",
   },

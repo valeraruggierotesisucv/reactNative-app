@@ -34,6 +34,7 @@ export function AddEventView() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { location: origin, errorMsg, isLoading } = useCurrentLocation();
 
+  const [title, setTitle] = useState<string| null>(null); 
   const [description, setDescription] = useState<string | null>(null);
   const [date, setDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -139,6 +140,8 @@ export function AddEventView() {
           <AddDefaultView
             step={step}
             setStep={setStep}
+            title={title}
+            setTitle={setTitle}
             description={description}
             setDescription={setDescription}
             date={date}

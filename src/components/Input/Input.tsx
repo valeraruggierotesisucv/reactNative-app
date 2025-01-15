@@ -10,6 +10,7 @@ export enum InputVariant {
 interface InputProps {
   label: string;
   placeholder?: string;
+  multiline?: boolean; 
   variant?: InputVariant;
   onPress?: () => void;
   value?: string, 
@@ -20,6 +21,7 @@ export function Input({
   label,
   placeholder,
   variant = InputVariant.DEFAULT,
+  multiline = true, 
   onPress,
   value, 
   onChangeValue
@@ -32,8 +34,8 @@ export function Input({
 
       {variant === InputVariant.DEFAULT 
        ? (<TextInput 
-            multiline={true}
-            numberOfLines={4}
+            multiline={multiline}
+            numberOfLines={multiline ? 3 : 1}
             style={styles.placeholder}
             placeholder={placeholder}
             onChange={onPress}
