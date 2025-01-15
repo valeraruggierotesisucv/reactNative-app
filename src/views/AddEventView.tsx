@@ -19,6 +19,8 @@ import React from "react";
 import { theme } from "../../utils/theme";
 import { FileTypeEnum, uploadFile } from "../services/storage";
 import { UploadFileController } from "../controllers/UploadFileController";
+import { AddEventController } from "../controllers/AddEventController";
+import { useAuth } from "../contexts/AuthContext";
 
 /* TODO
     Description debe tener max caracteres 
@@ -26,6 +28,7 @@ import { UploadFileController } from "../controllers/UploadFileController";
 
 export function AddEventView() {
   const { t } = useTranslation();
+  const { session } = useAuth(); 
   const navigation = useNavigation<AddStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { location: origin, errorMsg, isLoading } = useCurrentLocation();
@@ -68,9 +71,16 @@ export function AddEventView() {
       console.log("Uploading music..."); 
       const musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO) // guardar en la db
       console.log("Event Music URL-->", musicUrl); 
-
+      
+       
       // PostEventController
     }
+    console.log(" Controlador ")
+    if(session){
+      await AddEventController.postEvent(session?.access_token);
+    }
+    
+    console.log(" after controlador")
   }
 
   function cleanForm() {

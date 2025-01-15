@@ -26,6 +26,8 @@ export function EditProfileView() {
     setImage(imageUri);
   }, [imageUri]);
 
+  // EditProfileController
+
   const profileImage = () => {
     return (
       <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.profileImageContainer}>    

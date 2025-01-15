@@ -12,7 +12,7 @@ export function FollowedView() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
-
+  // ListUsersController
   const followedDummyData = [
     {
       id: 1,

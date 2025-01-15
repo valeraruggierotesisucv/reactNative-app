@@ -24,6 +24,8 @@ export function EventDetailsView() {
 
     function getEventDetails(eventId: string){
         return events.find(event => event.eventId === eventId)
+
+        // EventDetailsController(id)
     }
 
     const event = getEventDetails(route.params?.eventId); 

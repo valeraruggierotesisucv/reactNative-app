@@ -18,8 +18,9 @@ export function ProfileDetailsView() {
         id: `event-${index + 1}`,
         imageUrl: `https://picsum.photos/400/400?random=${index + 1}`,
       }));
-
-    // TODO: En la tarjeta de perfil, agregar variacion con el boton de seguir | dejar de seguir
+    
+      // FollowUserController
+      // TODO: En la tarjeta de perfil, agregar variacion con el boton de seguir | dejar de seguir
     
     return(
         <SafeAreaView style={styles.container}>

@@ -13,6 +13,7 @@ export function FollowersView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
 
+  // ListUsersController
   const followersDummyData = [
     {
       id: 1,
