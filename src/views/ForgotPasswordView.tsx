@@ -18,6 +18,7 @@ export function ForgotPasswordView() {
     const insets = useSafeAreaInsets();
     const { t } = useTranslation();
     
+    // ForgotPassword
     function handleSendEmail(){
       resetPassword(email); 
       navigation.navigate(AuthRoutes.ForgotPasswordLogin)

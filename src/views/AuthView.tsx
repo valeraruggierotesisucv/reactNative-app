@@ -20,6 +20,7 @@ function Login() {
   const loginInitialValues = { email: "", password: "" };
   const [showPassword, setShowPassword] = useState(false);
 
+  // LoginController
   return (
     <Formik
       initialValues={loginInitialValues}
@@ -76,6 +77,8 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   };
+
+  // SignUpController
 
   return (
     <Formik

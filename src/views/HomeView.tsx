@@ -20,6 +20,10 @@ export function HomeView() {
   const { user, session } = useAuth();
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
+
+
+  // ListEventController 
+  
   // Solo para testing
   useEffect(() => {
     const server = getServer();
