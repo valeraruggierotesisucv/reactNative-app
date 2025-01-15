@@ -50,6 +50,8 @@ export const Details: Story = {
     startsAt: "8:00 pm",
     endsAt: "10:00 pm",
     category: "CONCIERTO",
+    musicUrl:
+      "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventMusic/1736816688882",
     onComment: () => Promise.resolve(),
     fetchComments: () => Promise.resolve(dummyComments),
     onShare: () => console.log("SHARE"),
