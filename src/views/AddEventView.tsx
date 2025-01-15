@@ -21,6 +21,7 @@ import { FileTypeEnum, uploadFile } from "../services/storage";
 import { UploadFileController } from "../controllers/UploadFileController";
 import { AddEventController } from "../controllers/AddEventController";
 import { useAuth } from "../contexts/AuthContext";
+import { apiRequest } from "../../utils/apiRequest";
 
 /* TODO
     Description debe tener max caracteres 
@@ -28,7 +29,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export function AddEventView() {
   const { t } = useTranslation();
-  const { session } = useAuth(); 
+  const { session, user } = useAuth(); 
   const navigation = useNavigation<AddStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { location: origin, errorMsg, isLoading } = useCurrentLocation();
@@ -79,8 +80,30 @@ export function AddEventView() {
     if(session){
       await AddEventController.postEvent(session?.access_token);
     }
-    
+    // Some example
+    const eventData = {
+      userId: "cm5x32zqk0000ty28fon5j3yg",
+      eventImage: "https://example.com/image1.jpg",
+      categoryId: 42,
+      latitude: "40.7128",
+      longitude: "-74.0060",
+      title: "Carnaval",
+      description: "A grand celebration to welcome the new year.",
+      date: "2025-01-01T00:00:00.000Z",
+      startsAt: "2025-01-01T19:00:00.000Z",
+      endsAt: "2025-01-01T23:00:00.000Z"
+    }
+
     console.log(" after controlador")
+    const response = await apiRequest("protected", "GET", undefined, session?.access_token)
+    console.log("this is the response" , response); 
+    const createEvent = await apiRequest(
+      "events", 
+      "POST", 
+      eventData, 
+      session?.access_token
+    )
+    console.log(createEvent)
   }
 
   function cleanForm() {
