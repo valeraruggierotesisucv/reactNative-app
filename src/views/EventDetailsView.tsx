@@ -26,8 +26,10 @@ export function EventDetailsView() {
   const route = useRoute<EventDetailsRouteProp>();
   const canEdit = route.params?.canEdit || false;
 
-  function getEventDetails(eventId: string) {
-    return events.find((event) => event.eventId === eventId);
+  function getEventDetails(eventId: string){
+      return events.find(event => event.eventId === eventId)
+
+      // EventDetailsController(id)
   }
 
   const event = getEventDetails(route.params?.eventId);

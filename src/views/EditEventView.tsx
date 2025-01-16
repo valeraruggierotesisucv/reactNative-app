@@ -17,6 +17,7 @@ import { ProfileRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { useTranslation } from "react-i18next";
 import React from "react";
+import { theme } from "../../utils/theme";
 
 /* TODO
     Description debe tener max caracteres 
@@ -102,7 +103,10 @@ export function EditEventView() {
     console.log("Category ", category);
     console.log("Location ", location);
   }
-
+  // EditEventController
+  // EditImageController
+  // DeleteMusicController
+  
   function cleanForm() {
     setDescription(null);
     setDate(null);
@@ -208,7 +212,7 @@ export function EditEventView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: theme.colors['white'],
   },
   scrollViewContent: {
     flexGrow: 1,

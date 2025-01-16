@@ -16,7 +16,8 @@ export function ProfileView() {
     id: `event-${index + 1}`,
     imageUrl: `https://picsum.photos/400/400?random=${index + 1}`,
   }));
-
+  // ProfileController 
+  
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />

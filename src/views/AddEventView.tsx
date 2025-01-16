@@ -18,6 +18,10 @@ import { useCurrentLocation } from "../hooks/useCurrentLocation";
 import React from "react";
 import { theme } from "../../utils/theme";
 import { FileTypeEnum, uploadFile } from "../services/storage";
+import { UploadFileController } from "../controllers/UploadFileController";
+import { AddEventController } from "../controllers/AddEventController";
+import { useAuth } from "../contexts/AuthContext";
+import { apiRequest } from "../../utils/apiRequest";
 
 /* TODO
     Description debe tener max caracteres 
@@ -25,6 +29,7 @@ import { FileTypeEnum, uploadFile } from "../services/storage";
 
 export function AddEventView() {
   const { t } = useTranslation();
+  const { session, user } = useAuth(); 
   const navigation = useNavigation<AddStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { location: origin, errorMsg, isLoading } = useCurrentLocation();
@@ -43,9 +48,7 @@ export function AddEventView() {
   async function handleAddEvent() {
     setModalVisible(true);
     console.log(modalVisible);
-    if (description && date && startTime && endTime && category && location) {
-      // agregar evento
-    }
+    
     console.log("Publicando evento...");
     console.log("Descripcion: ", description);
     console.log("Date: ", date);
@@ -54,26 +57,61 @@ export function AddEventView() {
     console.log("Category ", category);
     console.log("Location ", location);
 
-    if(image){
+    // CONTROLLERS
+    // UploadImageController ----> UploadFileController
+    // UploadMusicController  ---> UploadFileController
+    // UploadLocationController ---> ELIMINAR 
+    // PostEventController 
+
+    // Agregar evento 
+    if (description && date && startTime && endTime && category && musicFile && image && location) {
       console.log("Uploading image..."); 
-      const imageUrl = await uploadFile(image, FileTypeEnum.IMAGE)  // guardar en la db
-      console.log("Event Image URL-->", imageUrl);       
-    }    
+      const imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE) // guardar en la db 
+      console.log("Event Image URL-->", imageUrl);  
 
-    if(musicFile){
       console.log("Uploading music..."); 
-      const musicURL = await uploadFile(musicFile.uri, FileTypeEnum.AUDIO)  // guardar en la db
-      console.log("Event Music URL-->", musicURL)
+      const musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO) // guardar en la db
+      console.log("Event Music URL-->", musicUrl); 
+      
+       
+      // PostEventController
     }
+    console.log(" Controlador ")
+    if(session){
+      await AddEventController.postEvent(session?.access_token);
+    }
+    // Some example
+    const eventData = {
+      userId: "cm5x32zqk0000ty28fon5j3yg",
+      eventImage: "https://example.com/image1.jpg",
+      categoryId: 42,
+      latitude: "40.7128",
+      longitude: "-74.0060",
+      title: "Carnaval",
+      description: "A grand celebration to welcome the new year.",
+      date: "2025-01-01T00:00:00.000Z",
+      startsAt: "2025-01-01T19:00:00.000Z",
+      endsAt: "2025-01-01T23:00:00.000Z"
+    }
+
+    console.log(" after controlador")
+    const response = await apiRequest("protected", "GET", undefined, session?.access_token)
+    console.log("this is the response" , response); 
+    const createEvent = await apiRequest(
+      "events", 
+      "POST", 
+      eventData, 
+      session?.access_token
+    )
+    console.log(createEvent)
   }
-
-
 
   function cleanForm() {
     setDescription(null);
     setDate(null);
     setStartTime(null);
     setEndTime(null);
+    setImage(null); 
     setCategory(null);
     setMusicFile(null); 
     setLocation(null);

@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 export function ChangePasswordView() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
+  // ChangePasswordController
+
   const [passwords, setPasswords] = useState({
     password: "",
     newPassword: "",
