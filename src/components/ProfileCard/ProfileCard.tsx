@@ -1,5 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Avatar } from "../Avatar/Avatar";
 interface ProfileCardProps {
   profileImage?: string;
   username: string;
@@ -37,8 +38,7 @@ export function ProfileCard({
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.headerSection}>
-          <Image source={{ uri: profileImage }} style={styles.profileImage} />
-
+          <Avatar source={profileImage} size={80} />
           <View style={styles.statsContainer}>
             <TouchableOpacity style={styles.statItem} onPress={onEvents}>
               <Text style={styles.statNumber}>{events}</Text>
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "red",
   },
   statsContainer: {
     flex: 1,

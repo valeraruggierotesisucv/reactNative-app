@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { ProfileRoutes } from "../../utils/routes";
@@ -11,25 +11,27 @@ import { theme } from "../../utils/theme";
 import { Event, ProfileController } from "../controllers/ProfileController";
 import { useEffect, useState } from "react";
 import UserModel from "../models/UserModel";
+import { useAuth } from "../contexts/AuthContext";
 
 export function ProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [user, setUser] = useState<UserModel | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
-
+  const { user: authUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
   // ProfileController
   useEffect(() => {
+    setIsLoading(true);
     const fetchProfile = async () => {
       const user = await ProfileController.getProfile(
-        "cm5ylssnm0000ty7wb1c36urk"
+        authUser?.id || ""
       );
-      console.log(user);
       setUser(user);
       const events = await ProfileController.getUserEvents(
-        "cm5ylssnm0000ty7wb1c36urk"
+        authUser?.id || ""
       );
       setEvents(events);
-      console.log(events);
+      setIsLoading(false);
     };
 
     fetchProfile();
@@ -39,13 +41,16 @@ export function ProfileView() {
     <SafeAreaView style={styles.container}>
       <AppHeader />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <ProfileCard
-          profileImage={user?.profileImage || ""}
-          username={user?.username || ""}
-          biography={user?.biography || ""}
-          events={0}
-          followers={user?.followersCounter || 0}
-          following={user?.followingCounter || 0}
+        <AppHeader />
+        {isLoading ? <Text style={{flex: 1, justifyContent: "center", alignItems: "center"}}>Loading...</Text> : (
+          <>
+          <ProfileCard
+            profileImage={user?.profileImage || "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventImages/user.jpg"}
+            username={user?.username || ""}
+            biography={user?.biography || ""}
+            events={events.length}
+            followers={user?.followersCounter || 0}
+            following={user?.followingCounter || 0}
           onFollowers={() => {
             navigation.navigate(ProfileRoutes.Followers);
           }}
@@ -64,11 +69,13 @@ export function ProfileView() {
           events={events}
           onPressEvent={(eventId) => {
             navigation.navigate(ProfileRoutes.EventDetails, {
-              eventId: "1",
+              eventId: "1",         //cambiar a eventId
               canEdit: true,
             });
           }}
-        />
+          />
+        </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
