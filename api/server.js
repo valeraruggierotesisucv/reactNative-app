@@ -156,8 +156,21 @@ app.get("/api/users/:userId/notifications", async(req, res) => {
       }
     })
 
+    const notificationsWithUser = await Promise.all(notifications.map(async (notification) => {
+      const userData = await db.user.findFirst({
+        where: { userId: notification.fromUserId },
+        select: { username: true, profileImage: true }
+      });
+    
+      return {
+        notification: notification,
+        userData: userData
+      };
+    }));
+    
+
     res.json({
-      data: notifications, 
+      data: notificationsWithUser, 
       success: true
     })
 

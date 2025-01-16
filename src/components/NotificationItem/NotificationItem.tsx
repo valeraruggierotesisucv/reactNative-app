@@ -4,15 +4,15 @@ import { formatDate } from "../../../utils/formatDate";
 import { useTranslation } from "react-i18next";
 
 export enum NotificationType {
-  FOLLOW = "follow",
-  LIKE_EVENT = "like_event",
-  COMMENT_EVENT = "comment_event",
+  FOLLOW = "FOLLOW",
+  LIKE_EVENT = "LIKE",
+  COMMENT_EVENT = "COMMENT",
 }
 
 const notificationMessages = {
-  [NotificationType.FOLLOW]: "notifications.started_following_you",
-  [NotificationType.LIKE_EVENT]: "notifications.liked_your_event",
-  [NotificationType.COMMENT_EVENT]: "notifications.commented_on_your_event",
+  [NotificationType.FOLLOW]: "notifications.FOLLOW",
+  [NotificationType.LIKE_EVENT]: "notifications.LIKE",
+  [NotificationType.COMMENT_EVENT]: "notifications.COMMENT",
 };
 
 export interface NotificationItemProps {
