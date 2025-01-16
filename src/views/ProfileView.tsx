@@ -8,27 +8,44 @@ import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbn
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { user as dummyUser } from "../../utils/dummyData";
 import { theme } from "../../utils/theme";
+import { Event, ProfileController } from "../controllers/ProfileController";
+import { useEffect, useState } from "react";
+import UserModel from "../models/UserModel";
 
 export function ProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
+  const [user, setUser] = useState<UserModel | null>(null);
+  const [events, setEvents] = useState<Event[]>([]);
 
-  const mockEvents = Array.from({ length: 22 }, (_, index) => ({
-    id: `event-${index + 1}`,
-    imageUrl: `https://picsum.photos/400/400?random=${index + 1}`,
-  }));
-  // ProfileController 
-  
+  // ProfileController
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const user = await ProfileController.getProfile(
+        "cm5ylssnm0000ty7wb1c36urk"
+      );
+      console.log(user);
+      setUser(user);
+      const events = await ProfileController.getUserEvents(
+        "cm5ylssnm0000ty7wb1c36urk"
+      );
+      setEvents(events);
+      console.log(events);
+    };
+
+    fetchProfile();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <ProfileCard
-          profileImage={dummyUser.profileImage}
-          username={dummyUser.username}
-          biography={dummyUser.biography}
-          events={dummyUser.events}
-          followers={dummyUser.followers}
-          following={dummyUser.following}
+          profileImage={user?.profileImage || ""}
+          username={user?.username || ""}
+          biography={user?.biography || ""}
+          events={0}
+          followers={user?.followersCounter || 0}
+          following={user?.followingCounter || 0}
           onFollowers={() => {
             navigation.navigate(ProfileRoutes.Followers);
           }}
@@ -44,7 +61,7 @@ export function ProfileView() {
         />
         <View style={styles.separator} />
         <EventThumbnailList
-          events={mockEvents}
+          events={events}
           onPressEvent={(eventId) => {
             navigation.navigate(ProfileRoutes.EventDetails, {
               eventId: "1",

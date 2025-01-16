@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ### Get User events
-GET http://localhost:5000/api/users/cm5tzwbk50000ty5c57ia1ca6/events
+GET http://localhost:5000/api/users/cm5ylssnm0000ty7wb1c36urk/events
 
 ### Get User notifications
 GET http://localhost:5000/api/users/9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7/notifications
@@ -90,4 +90,7 @@ GET http://localhost:5000/api/users/cm5tzwbk50000ty5c57ia1ca6/followers
 
 ### Get User followings
 GET http://localhost:5000/api/users/cm5tzwbk50000ty5c57ia1ca6/following
+
+### Get User profile
+GET http://localhost:5000/api/users/cm5ylssnm0000ty7wb1c36urk
 
