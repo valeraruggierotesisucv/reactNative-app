@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { CommentsSection } from "../CommentsSection/CommentsSection";
 import { Comment } from "../CommentsSection/CommentsSection";
 import { Portal, PortalHost } from "@gorhom/portal";
+import { AudioPlayer } from "../AudioPlayer/AudioPlayer";
 
 export enum EventCardVariant {
   DEFAULT = "default",
@@ -27,6 +28,7 @@ interface DisplayEventProps {
   endsAt?: string;
   date?: string;
   category?: string;
+  musicUrl?: string;
 }
 interface EventCardProps extends DisplayEventProps {
   profileImage: string;
@@ -37,6 +39,7 @@ interface EventCardProps extends DisplayEventProps {
   isLiked: boolean;
   date: string;
   variant?: EventCardVariant;
+  musicUrl?: string;
   onPressUser: () => void;
   onComment: (comment: string) => Promise<void>;
   onShare: () => void;
@@ -60,12 +63,16 @@ export function DisplayEvent({
   endsAt,
   date,
   category,
+  musicUrl,
 }: DisplayEventProps) {
   const { t } = useTranslation();
 
   return (
     <View>
-      <DisplayInput label={t("common.location").toUpperCase()} data={location} />
+      <DisplayInput
+        label={t("common.location").toUpperCase()}
+        data={location}
+      />
 
       <DisplayInput
         label={t("common.when").toUpperCase()}
@@ -82,6 +89,7 @@ export function DisplayEvent({
         label={t("common.category").toUpperCase()}
         data={<Chip label={category || ""} variant={ChipVariant.LIGHT} />}
       />
+      {musicUrl && <AudioPlayer uri={musicUrl} />}
     </View>
   );
 }
@@ -104,6 +112,7 @@ export function EventCard({
   onShare,
   onMoreDetails,
   fetchComments,
+  musicUrl,
 }: EventCardProps) {
   const { t } = useTranslation();
   const [like, setLike] = useState(isLiked);
@@ -188,6 +197,7 @@ export function EventCard({
           endsAt={endsAt}
           date={date}
           category={category}
+          musicUrl={musicUrl}
         />
       )}
       {commentsVisible && (
