@@ -104,7 +104,8 @@ model SocialInteraction {
 
 model Category {
   categoryId        Int              @id @default(autoincrement())
-  name              String
+  nameEs            String
+  nameEn            String
   description       String?
   
   events            Event[]

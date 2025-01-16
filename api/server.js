@@ -27,7 +27,7 @@ app.get('/api/protected', authenticateUser, (req, res) => {
 
 
 // addEvent 
-app.post("/api/events", async(req, res) => {
+app.post("/api/events", authenticateUser, async(req, res) => {
   const validationResult = eventSchema.safeParse(req.body);
 
   if (!validationResult.success) {
@@ -77,7 +77,7 @@ app.post("/api/events", async(req, res) => {
           eventMusic: eventMusic
         }
       }); 
-
+      
       res.json({
         data: event, 
         success: true
@@ -296,7 +296,7 @@ app.post("/api/signup", async (req, res) => {
 });
 
 // getCategories
-app.get("/api/categories", async (req, res) => {
+app.get("/api/categories", authenticateUser, async (req, res) => {
   try {
     const categories = await db.category.findMany();
     res.json({ data: categories, success: true });

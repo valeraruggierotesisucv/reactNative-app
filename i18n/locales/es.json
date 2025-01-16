@@ -60,7 +60,8 @@
         "take_photo": "Tomar foto",
         "choose_from_gallery": "Elegir de la galería",
         "when": "Cuando", 
-        "event_published": "Tu evento se ha publicado con éxito"
+        "event_published": "Tu evento se ha publicado con éxito", 
+        "require_fields": "Por favor complete todos los campos obligatorios"
     },
     "addLocation": {
         "title": "Ubicación",

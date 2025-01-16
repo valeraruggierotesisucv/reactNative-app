@@ -11,7 +11,7 @@ const NUM_SOCIAL_INTERACTIONS = 40;
 const NUM_NOTIFICATIONS = 40;
 const NUM_FOLLOW_RELATIONS = 50;
 
-enum CategoriesEnum {
+enum CategoriesEnumEs {
     PARTIES = "Fiestas",
     CONCERTS = "Conciertos",
     CLUBS = "Clubs", 
@@ -23,6 +23,29 @@ enum CategoriesEnum {
     CULTURE = "Cultura"
 }
 
+enum CategoriesEnumEn {
+    PARTIES = "Parties",
+    CONCERTS = "Concerts",
+    CLUBS = "Clubs", 
+    FESTIVALS = "Festivals",
+    SPORTS = "Sports",
+    THEATER = "Theather",
+    EXHIBITIONS = "Exhibitions",
+    EDUCATION = "Education",
+    CULTURE = "Culture"
+}
+
+const categoriesData = [
+    { id: "1", labelEs: CategoriesEnumEs.CULTURE, labelEn: CategoriesEnumEn.CULTURE, icon: "palette" },
+    { id: "2", labelEs: CategoriesEnumEs.EDUCATION, labelEn: CategoriesEnumEn.EDUCATION, icon: "bookshelf" },
+    { id: "3", labelEs: CategoriesEnumEs.PARTIES, labelEn: CategoriesEnumEn.PARTIES, icon: "party-popper" },
+    { id: "4", labelEs: CategoriesEnumEs.CONCERTS, labelEn: CategoriesEnumEn.CONCERTS, icon: "music" },
+    { id: "5", labelEs: CategoriesEnumEs.FESTIVALS, labelEn: CategoriesEnumEn.FESTIVALS, icon: "bookmark-music-outline" },
+    { id: "6", labelEs: CategoriesEnumEs.SPORTS, labelEn: CategoriesEnumEn.SPORTS, icon: "trophy" },
+    { id: "7", labelEs: CategoriesEnumEs.THEATER, labelEn: CategoriesEnumEn.THEATER, icon: "theater" },
+    { id: "8", labelEs: CategoriesEnumEs.EXHIBITIONS, labelEn: CategoriesEnumEn.EXHIBITIONS, icon: "image" },
+    { id: "9", labelEs: CategoriesEnumEs.CLUBS, labelEn: CategoriesEnumEn.CLUBS, icon: "account-group" },
+  ];
 async function main() {
     console.log("Seeding database...");
 
@@ -42,10 +65,12 @@ async function main() {
     );
 
     const categories = await Promise.all(
-        Object.values(CategoriesEnum).map((categoryName) =>
+        categoriesData.map((category) =>
             prisma.category.create({
                 data: {
-                    name: categoryName,
+                    categoryId: parseInt(category.id), 
+                    nameEs: category.labelEs, 
+                    nameEn: category.labelEn, 
                     description: faker.lorem.sentence(),
                 },
             })

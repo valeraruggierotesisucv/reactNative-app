@@ -42,6 +42,7 @@ export function AddEventView() {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [category, setCategory] = useState<CategoriesEnum | null>(null);
+  const [categoryId, setCategoryId] = useState<number|null>(null); 
   const [location, setLocation] = useState<LatLng | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
@@ -64,19 +65,21 @@ export function AddEventView() {
         endsAt: endTime.toISOString(), 
         eventImage: imageUrl,
         eventMusic: musicUrl, 
-        categoryId: 42,                                 // TODO: retornar categoria correcta
+        categoryId: categoryId,                                
         latitude: location?.latitude,
         longitude: location?.longitude,       
       }
-      console.log(eventData)
+
     
       if(session){
-        await AddEventController.postEvent(session?.access_token, eventData);
+        console.log("Evento creado: "); 
+        const result = await AddEventController.postEvent(session?.access_token, eventData); 
+        console.log(result);
       }      
       
     }else{
       
-      toast.show("Por favor complete todos los campos obligatorios", {
+      toast.show(t("addEvent.require_fields"), {
         type: "normal",
         placement: "top",
       })
@@ -92,6 +95,7 @@ export function AddEventView() {
     setEndTime(null);
     setImage(null); 
     setCategory(null);
+    setCategoryId(null); 
     setMusicFile(null); 
     setLocation(null);
   }
@@ -157,6 +161,8 @@ export function AddEventView() {
             category={category}
             setCategory={setCategory}
             preferences={false}
+            categoryId={categoryId}
+            setCategoryId={setCategoryId}
           />
         )}
 

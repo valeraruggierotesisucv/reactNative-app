@@ -60,7 +60,8 @@
         "take_photo": "Take Photo",
         "choose_from_gallery": "Choose from Gallery",
         "when": "When", 
-        "event_published": "Your event has been successfully published"
+        "event_published": "Your event has been successfully published", 
+        "require_fields": "Please complete all required fields"
     },
     "addLocation": {
         "title": "Location",
