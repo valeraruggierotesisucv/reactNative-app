@@ -1,13 +1,38 @@
 import { View, FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { notifications } from "../../utils/dummyData";
 import { NotificationItem } from "../components/NotificationItem/NotificationItem";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
+import { useCallback, useEffect, useState } from "react";
+import { NotificationsController } from "../controllers/NotificationsController";
+import { useAuth } from "../contexts/AuthContext";
+import { useFocusEffect } from "@react-navigation/native";
 
 export function NotificationsView() {
     const { t } = useTranslation();
+    const { session, user } = useAuth(); 
+    const [ notifications, setNotifications] = useState(); 
+
+    useFocusEffect(
+      useCallback(() => {
+        async function fetchNotifications (){
+          if(session && user){
+            const result = await NotificationsController.getNotifications(session?.access_token, user?.id); 
+            setNotifications(result); 
+            console.log(result)
+          }
+          
+        }
+  
+        fetchNotifications()
+        return () => {
+          // Do something when the screen is unfocused
+          console.log("Out Notifications")
+        };
+      }, [])
+    );
+
     return(
       <SafeAreaView style={styles.container}>   
         <View style={styles.view}>
@@ -21,7 +46,7 @@ export function NotificationsView() {
                   timestamp={item.timestamp}
                   userAvatar={item.userAvatar}
                   type={item.type}
-                  eventImage={item.eventImage}
+                  eventImage={"https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventImages/1736910426700"}
                   onFollow={() => console.log("FOLLOW")}
                 />
               )

@@ -135,9 +135,9 @@
     },
     "notifications": {
         "title": "Notificaciones",
-        "started_following_you": "Comenzó a seguirte",
-        "liked_your_event": "Le gustó tu evento",
-        "commented_on_your_event": "Comentó en tu evento"
+        "FOLLOW": "Comenzó a seguirte",
+        "LIKE": "Le gustó tu evento",
+        "COMMENT": "Comentó en tu evento"
     },
     "onboarding": {
         "welcome": "Bienvenido a Event App"
