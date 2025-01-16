@@ -10,7 +10,9 @@ export enum InputVariant {
 interface InputProps {
   label: string;
   placeholder?: string;
+  multiline?: boolean; 
   variant?: InputVariant;
+  required?: boolean; 
   onPress?: () => void;
   value?: string, 
   onChangeValue?: (data: string) => void
@@ -20,6 +22,8 @@ export function Input({
   label,
   placeholder,
   variant = InputVariant.DEFAULT,
+  multiline = true, 
+  required = true, 
   onPress,
   value, 
   onChangeValue
@@ -27,13 +31,15 @@ export function Input({
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Text style={[styles.label, { flex: placeholder ? 0.45 : 1 }]}>
-        {label}
+        {label}{" "}
+        {required && <Text style={styles.required}>*</Text>}
       </Text>
+      <Text></Text>
 
       {variant === InputVariant.DEFAULT 
        ? (<TextInput 
-            multiline={true}
-            numberOfLines={4}
+            multiline={multiline}
+            numberOfLines={multiline ? 3 : 1}
             style={styles.placeholder}
             placeholder={placeholder}
             onChange={onPress}
@@ -70,4 +76,7 @@ const styles = StyleSheet.create({
     color: "gray",
     fontFamily: "SF-Pro-Text-Regular",
   },
+  required:{
+    color: theme.colors['red']
+  }
 });

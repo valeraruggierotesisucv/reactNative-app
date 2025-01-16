@@ -42,6 +42,8 @@
         "new_event": "New Event",
         "description": "Description",
         "add_description": "Add a description of your event",
+        "title": "Title", 
+        "add_title": "Add title", 
         "category": "Category",
         "add_category": "Add category",
         "music": "Music",
@@ -57,7 +59,9 @@
         "next": "Next",
         "take_photo": "Take Photo",
         "choose_from_gallery": "Choose from Gallery",
-        "when": "When"
+        "when": "When", 
+        "event_published": "Your event has been successfully published", 
+        "require_fields": "Please complete all required fields"
     },
     "addLocation": {
         "title": "Location",

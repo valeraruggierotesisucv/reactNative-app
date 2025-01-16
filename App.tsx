@@ -6,6 +6,7 @@ import i18n from "./i18n";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalProvider } from "@gorhom/portal";
 import { FontLoader } from "./FontLoader";
+import { ToastProvider } from 'react-native-toast-notifications';
 
 export function App() {
   const [isI18nInitialized, setIsI18nInitialized] = useState(false);
@@ -24,13 +25,15 @@ export function App() {
 
   return (
     <FontLoader>
-      <AuthProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <PortalProvider>
-            <Navigation />
-          </PortalProvider>
-        </GestureHandlerRootView>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <PortalProvider>
+              <Navigation />
+            </PortalProvider>
+          </GestureHandlerRootView>
+        </AuthProvider>
+      </ToastProvider>      
     </FontLoader>
   );
 }

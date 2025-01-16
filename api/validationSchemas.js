@@ -5,10 +5,10 @@ const eventSchema = z.object({
     eventImage: z.string().url("eventImage must be a valid URL"),
     categoryId: z.number(),
     latitude: z
-      .string()
+      .number()
       .refine((val) => !isNaN(parseFloat(val)), "latitude must be a valid number"),
     longitude: z
-      .string()
+      .number()
       .refine((val) => !isNaN(parseFloat(val)), "longitude must be a valid number"),
     title: z.string().nonempty("title is required"),
     description: z.string().nonempty("description is required"),
@@ -18,7 +18,8 @@ const eventSchema = z.object({
       .refine((val) => !isNaN(Date.parse(val)), "startsAt must be a valid ISO date"),
     endsAt: z
       .string()
-      .refine((val) => !isNaN(Date.parse(val)), "endsAt must be a valid ISO date")
+      .refine((val) => !isNaN(Date.parse(val)), "endsAt must be a valid ISO date"), 
+      eventMusic: z.string().url("eventMusic must be a valid URL").optional(),
 });
 
 const likeEventSchema = z.object({

@@ -1,13 +1,7 @@
-import { getServer } from "../../utils/getServer";
-import { useAuth } from "../contexts/AuthContext";
+import { EventModel } from "../models/EventModel";
 
 export class AddEventController{
-    static async postEvent(token: string){
-        //const { session} = useAuth(); 
-        console.log(" This is the postCONTROLLER")
-        console.log(" this is the session ", token); 
-
-        
-        // EventModel.create
+    static async postEvent(token: string, event : object){
+        return await EventModel.createEvent(token, event);     
     }
 }

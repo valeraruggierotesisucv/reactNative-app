@@ -22,6 +22,7 @@ import { UploadFileController } from "../controllers/UploadFileController";
 import { AddEventController } from "../controllers/AddEventController";
 import { useAuth } from "../contexts/AuthContext";
 import { apiRequest } from "../../utils/apiRequest";
+import { useToast } from "react-native-toast-notifications";
 
 /* TODO
     Description debe tener max caracteres 
@@ -29,90 +30,72 @@ import { apiRequest } from "../../utils/apiRequest";
 
 export function AddEventView() {
   const { t } = useTranslation();
+  const toast =  useToast(); 
   const { session, user } = useAuth(); 
   const navigation = useNavigation<AddStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { location: origin, errorMsg, isLoading } = useCurrentLocation();
 
+  const [title, setTitle] = useState<string| null>(null); 
   const [description, setDescription] = useState<string | null>(null);
   const [date, setDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [category, setCategory] = useState<CategoriesEnum | null>(null);
+  const [categoryId, setCategoryId] = useState<number|null>(null); 
   const [location, setLocation] = useState<LatLng | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
-
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
-  async function handleAddEvent() {
-    setModalVisible(true);
-    console.log(modalVisible);
-    
-    console.log("Publicando evento...");
-    console.log("Descripcion: ", description);
-    console.log("Date: ", date);
-    console.log("Starts at: ", startTime);
-    console.log("Ends at ", endTime);
-    console.log("Category ", category);
-    console.log("Location ", location);
-
-    // CONTROLLERS
-    // UploadImageController ----> UploadFileController
-    // UploadMusicController  ---> UploadFileController
-    // UploadLocationController ---> ELIMINAR 
-    // PostEventController 
-
-    // Agregar evento 
-    if (description && date && startTime && endTime && category && musicFile && image && location) {
-      console.log("Uploading image..."); 
-      const imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE) // guardar en la db 
-      console.log("Event Image URL-->", imageUrl);  
-
-      console.log("Uploading music..."); 
-      const musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO) // guardar en la db
-      console.log("Event Music URL-->", musicUrl); 
+  // Agregar evento 
+  async function handleAddEvent() {     
+    if (title && description && date && startTime && endTime && category && image && musicFile && location) {
+      setModalVisible(true);
       
+      const imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE); 
+      const musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
        
-      // PostEventController
-    }
-    console.log(" Controlador ")
-    if(session){
-      await AddEventController.postEvent(session?.access_token);
-    }
-    // Some example
-    const eventData = {
-      userId: "cm5x32zqk0000ty28fon5j3yg",
-      eventImage: "https://example.com/image1.jpg",
-      categoryId: 42,
-      latitude: "40.7128",
-      longitude: "-74.0060",
-      title: "Carnaval",
-      description: "A grand celebration to welcome the new year.",
-      date: "2025-01-01T00:00:00.000Z",
-      startsAt: "2025-01-01T19:00:00.000Z",
-      endsAt: "2025-01-01T23:00:00.000Z"
-    }
+      const eventData = {
+        userId: user?.id,
+        title: title,
+        description: description,
+        date: date.toISOString(),
+        startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
+        endsAt: endTime.toISOString(), 
+        eventImage: imageUrl,
+        eventMusic: musicUrl, 
+        categoryId: categoryId,                                
+        latitude: location?.latitude,
+        longitude: location?.longitude,       
+      }
 
-    console.log(" after controlador")
-    const response = await apiRequest("protected", "GET", undefined, session?.access_token)
-    console.log("this is the response" , response); 
-    const createEvent = await apiRequest(
-      "events", 
-      "POST", 
-      eventData, 
-      session?.access_token
-    )
-    console.log(createEvent)
+    
+      if(session){
+        console.log("Evento creado: "); 
+        const result = await AddEventController.postEvent(session?.access_token, eventData); 
+        console.log(result);
+      }      
+      
+    }else{
+      
+      toast.show(t("addEvent.require_fields"), {
+        type: "normal",
+        placement: "top",
+      })
+    }
+    
   }
 
   function cleanForm() {
+    setTitle(null); 
     setDescription(null);
     setDate(null);
     setStartTime(null);
     setEndTime(null);
     setImage(null); 
     setCategory(null);
+    setCategoryId(null); 
     setMusicFile(null); 
     setLocation(null);
   }
@@ -139,6 +122,8 @@ export function AddEventView() {
           <AddDefaultView
             step={step}
             setStep={setStep}
+            title={title}
+            setTitle={setTitle}
             description={description}
             setDescription={setDescription}
             date={date}
@@ -176,6 +161,8 @@ export function AddEventView() {
             category={category}
             setCategory={setCategory}
             preferences={false}
+            categoryId={categoryId}
+            setCategoryId={setCategoryId}
           />
         )}
 

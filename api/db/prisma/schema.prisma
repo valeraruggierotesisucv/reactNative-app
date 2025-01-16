@@ -62,7 +62,7 @@ model Event {
   eventId           String              @id @default(cuid())
   userId            String
   eventImage        String
-  eventMusic        String?
+  eventMusic        String
   categoryId        Int
   locationId        String
   title             String
@@ -75,7 +75,7 @@ model Event {
   createdAt         DateTime         @default(now())
   user              User             @relation(fields: [userId], references: [userId])
   category          Category         @relation(fields: [categoryId], references: [categoryId])
-  location          Location?         @relation(fields: [locationId], references: [locationId])
+  location          Location         @relation(fields: [locationId], references: [locationId])
   comments          Comment[]
   socialInteractions SocialInteraction[]
 }
@@ -104,7 +104,8 @@ model SocialInteraction {
 
 model Category {
   categoryId        Int              @id @default(autoincrement())
-  name              String
+  nameEs            String
+  nameEn            String
   description       String?
   
   events            Event[]

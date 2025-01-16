@@ -59,8 +59,25 @@ Content-Type: application/json
   "description": "A grand celebration to welcome the new year.",
   "date": "2025-01-01T00:00:00.000Z",
   "startsAt": "2025-01-01T19:00:00.000Z",
-  "endsAt": "2025-01-01T23:00:00.000Z"
+  "endsAt": "2025-01-01T23:00:00.000Z", 
+  "eventMusic": "https://example.com/image1.jpg"
 } 
+###
+POST http://localhost:5000/api/events
+Content-Type: application/json
+{
+  "categoryId": 42, 
+  "date": "2025-01-21T16:00:00.000Z" , 
+  "description": "aaa", 
+  "endsAt": "2025-01-14T05:12:00.000Z" ,
+  "eventImage": "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventImages/1736910739802", 
+  "eventMusic": "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventMusic/1736910743013", 
+  "latitude": 37.4220936, 
+  "longitude": -122.083922, 
+  "startsAt": "2025-01-14T04:12:00.000Z" , 
+  "title": "aaa", 
+  "userId": "9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7"
+}
 
 ### Get User events
 GET http://localhost:5000/api/users/cm5tzwbk50000ty5c57ia1ca6/events

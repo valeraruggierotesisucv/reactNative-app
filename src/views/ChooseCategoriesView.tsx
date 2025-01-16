@@ -15,6 +15,8 @@ interface ChooseCategoryProps {
   setStep?: (step: StepsEnum) => void;
   category?: CategoriesEnum | null;
   setCategory?: (category: CategoriesEnum) => void;
+  categoryId: number | null; 
+  setCategoryId: (categoryId: number) => void; 
   preferences?: boolean;
 }
 
@@ -24,6 +26,8 @@ export function ChooseCategoriesView({
   setStep,
   category,
   setCategory,
+  categoryId, 
+  setCategoryId, 
   preferences = true,
 }: ChooseCategoryProps) {
   const { t } = useTranslation();
@@ -32,10 +36,11 @@ export function ChooseCategoriesView({
   );
   const navigation = useNavigation<AuthStackNavigationProp>();
 
-  const handlePress = (category: CategoriesEnum) => {
+  const handlePress = (category: CategoriesEnum, categoryId: number) => {
     setSelectedId(category);
     if (setCategory) {
       setCategory(category);
+      setCategoryId(categoryId)
     }
   };
   const categories = [
@@ -79,7 +84,7 @@ export function ChooseCategoriesView({
             label={category.label}
             icon={category.icon as any}
             selected={selectedId === category.label}
-            onPress={() => handlePress(category.label as CategoriesEnum)}
+            onPress={() => handlePress(category.label as CategoriesEnum, parseInt(category.id))}
           />
         ))}
       </View>
