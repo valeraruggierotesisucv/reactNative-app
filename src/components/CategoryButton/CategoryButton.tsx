@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { theme } from "../../../utils/theme";
 
 interface CategoryButtonProps {
   label: string;
@@ -22,7 +23,7 @@ export function CategoryButton({
         <MaterialCommunityIcons
           name={icon}
           size={50}
-          color={selected ? "#050F71" : "#FFFFFF"}
+          color={selected ?  "#FFFFFF" :  theme.colors['primary']}
         />
       </View>
       <Text style={[styles.label]}>{label}</Text>
@@ -42,15 +43,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
-    backgroundColor: "#050F71",
+    backgroundColor: "#F5F5F5",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
     borderWidth: 2,
   },
   selectedIconContainer: {
-    borderColor: "#050F71",
-    backgroundColor: "#F5F5F5",
+    borderColor:"#F5F5F5",
+    backgroundColor:  theme.colors['primary'],
   },
   label: {
     fontSize: 17,
