@@ -94,3 +94,28 @@ GET http://localhost:5000/api/users/cm5tzwbk50000ty5c57ia1ca6/following
 ### Get User profile
 GET http://localhost:5000/api/users/cm5ylssnm0000ty7wb1c36urk
 
+### Update User profile
+PUT http://localhost:5000/api/users/59f8b967-c1f0-42d3-b9b9-e32c11db446c
+Content-Type: application/json
+
+{
+  "fullName": "Test User",
+  "profileImage": "https://example.com/image1.jpg"
+}
+
+### Update User profile
+PUT http://localhost:5000/api/users/59f8b967-c1f0-42d3-b9b9-e32c11db446c
+Content-Type: application/json
+
+{
+  "fullName": "Test User",
+  "profileImage": "https://avatars.githubusercontent.com/u/39514914"
+}
+
+### Update User profile
+PUT http://localhost:5000/api/users/59f8b967-c1f0-42d3-b9b9-e32c11db446c
+Content-Type: application/json
+
+{
+  "fullName": "Test User xd"
+}

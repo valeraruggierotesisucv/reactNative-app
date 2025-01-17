@@ -62,7 +62,6 @@ class UserModel {
         const response = await apiRequest("users/" + userId, "GET");
         if (!response.data) throw new Error('User not found');
         const user = response.data;
-        console.log(user);
         return new UserModel(
             user.userId,
             user.username,
@@ -77,15 +76,19 @@ class UserModel {
         );
     }
 
-    async updateProfile(data: {
-        fullName?: string;
+    static async updateProfile(userId: string, data: {
+        fullName: string;
         profileImage?: string;
         biography?: string;
     }) {
-        const updatedUser = await apiRequest("users", "PUT", data, this.userId);
-        this.fullName = updatedUser.fullName;
-        this.profileImage = updatedUser.profileImage;
-        this.biography = updatedUser.biography;
+        try {
+            const updatedUser = await apiRequest("users/" + userId, "PUT", data);
+            if(!updatedUser.data) throw new Error('Failed to update profile');
+            return updatedUser.data;
+        } catch (error) {
+            throw error;
+        }
+
     }
 
     async getFollowing() {

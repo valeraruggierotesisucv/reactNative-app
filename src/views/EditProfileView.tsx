@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Modal, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal as RNModal, Alert  } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
@@ -12,34 +12,69 @@ import { Avatar } from "../components/Avatar/Avatar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { ProfileRoutes } from "../../utils/routes";
+import { Modal } from "../components/Modal/Modal";
+import { useAuth } from "../contexts/AuthContext";
+import { IMAGE_PLACEHOLDER } from "../../utils/consts";
+import { EditProfileController } from "../controllers/EditProfileController";
+import { Formik } from "formik";
+import { UploadFileController } from "../controllers/UploadFileController";
+import { FileTypeEnum } from "../services/storage";
 
 export function EditProfileView() {
-    
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const { t } = useTranslation();
   const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
   const [image, setImage] = useState<string | null>(null);
   const [fullName, setFullName] = useState<string>("");
   const [biography, setBiography] = useState<string>("");
+  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
 
   useEffect(() => {
-    setImage(imageUri);
-  }, [imageUri]);
+    const getUser = async () => {
+      if (user) {
+        try {
+          setIsLoading(true);
+          const response = await EditProfileController.getProfile(user.id);
+          setImage(response.profileImage);
+          setFullName(response.fullName);
+          setBiography(response.biography || "");
+          setIsLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    getUser();
+  }, []);
 
-  // EditProfileController
+  const initialValues = {
+    fullName: fullName,
+    biography: biography,
+    image: image,
+  };
 
-  const profileImage = () => {
-    return (
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.profileImageContainer}>    
-          <Avatar
-          size={100}
-          source={image ? image : "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1"}
-          />
-          <View style={styles.cameraIcon}>
-            <MaterialCommunityIcons name="camera" size={24} color={theme.colors['white']} />
-          </View>
-      </TouchableOpacity>
-    );
+  const handleSubmit = async (values: {fullName: string, biography: string, image: string| null}) => {
+    try {
+      if (user) {
+        
+        let imageUrl: string | undefined = undefined;
+        if(imageUri){
+          imageUrl = await UploadFileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
+          console.log("imageUrl", imageUrl);
+        }
+        await EditProfileController.updateProfile(user.id, {
+          fullName: values.fullName,
+          profileImage: imageUrl,
+          biography: values.biography,
+        });
+        setSuccessModalVisible(true);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Failed to update profile");
+    }
   };
 
   return (
@@ -49,60 +84,118 @@ export function EditProfileView() {
           title={t("editProfile.title")}
           goBack={() => navigation.goBack()}
         />
-        <View style={styles.content}>
-          {profileImage()}
-          <InputField
-            label={t("editProfile.fullName")}
-            value={fullName}
-            onChangeText={setFullName}
-            icon={"account"}
-            secureTextEntry={false}
-            onPressIcon={() => {}}
-            variant={"grayBackground"}
-          />
-          <InputField
-            label={t("editProfile.biography")}
-            value={biography}
-            onChangeText={setBiography}
-            icon={"book-open"}
-            secureTextEntry={false}
-            onPressIcon={() => {}}
-            variant={"grayBackground"}
-          />
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Button
-              label={t("editProfile.save")}
-              onPress={() => navigation.navigate(ProfileRoutes.Profile)}
-              size={ButtonSize.MEDIUM}
-            />
-          </View>
-        </View>
+        {isLoading ? (
+          <Text style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 20}}>Loading...</Text>
+        ) : ( 
+        <Formik
+          enableReinitialize
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+        >
+          {({ handleChange, handleSubmit, values, setFieldValue, isSubmitting, dirty }) => {
+            useEffect(() => {
+              setFieldValue("image", imageUri);
+            }, [imageUri]);
+          
+          return(
+            <View style={styles.content}>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+                style={styles.profileImageContainer}
+              >
+                <Avatar
+                  size={100}
+                  source={values.image ? values.image : IMAGE_PLACEHOLDER}
+                />
+                <View style={styles.cameraIcon}>
+                  <MaterialCommunityIcons name="camera" size={24} color={theme.colors['white']} />
+                </View>
+              </TouchableOpacity>
+              <InputField
+                label={t("editProfile.fullName")}
+                value={values.fullName}
+                onChangeText={handleChange("fullName")}
+                icon={"account"}
+                secureTextEntry={false}
+                onPressIcon={() => {}}
+                variant={"grayBackground"}
+              />
+              <InputField
+                label={t("editProfile.biography")}
+                value={values.biography}
+                onChangeText={handleChange("biography")}
+                icon={"book-open"}
+                secureTextEntry={false}
+                onPressIcon={() => {}}
+                variant={"grayBackground"}
+              />
+              <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                <Button
+                  label={t("editProfile.save")}
+                  onPress={handleSubmit}
+                  size={ButtonSize.MEDIUM}
+                  disabled={!dirty || isSubmitting} // Deshabilitar si no hay cambios o si está enviando
+                />
+                </View>
+              </View>
+            );
+          }}
+        </Formik>
+        )}
 
-        <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalView}>
-          <View style={styles.modalButtonsContainer}>
-            <TouchableOpacity onPress={openCamera} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>{t("addEvent.take_photo")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={openGallery} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>
-                {t("addEvent.choose_from_gallery")}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={styles.modalButton}
-            >
-              <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+      <Modal 
+        visible={successModalVisible} 
+        onClose={() => {setSuccessModalVisible(false); navigation.goBack()}}
+      >   
+        <Image source={require('../../assets/images/Onboarding.png')} style={{ width: 200, height: 200, marginBottom: 16 }} />  
+        <Text style={{ 
+            fontSize: 18, 
+            fontWeight: '600',
+            textAlign: 'center',
+            marginBottom: 8,
+        }}>
+            {t("editProfile.profile_updated")}
+        </Text>
       </Modal>
+
+
+        <RNModal
+          animationType="slide"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalView}>
+            <View style={styles.modalButtonsContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  openCamera();
+                }}
+                style={styles.modalButton}
+              >
+                <Text style={styles.modalButtonText}>{t("addEvent.take_photo")}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  openGallery();
+                }}
+                style={styles.modalButton}
+              >
+                <Text style={styles.modalButtonText}>
+                  {t("addEvent.choose_from_gallery")}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                style={styles.modalButton}
+              >
+                <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </RNModal>
       </ScrollView>
     </SafeAreaView>
   );
@@ -168,6 +261,5 @@ const styles = StyleSheet.create({
   },
   profileImageContainer: {
     position: "relative",
-
   },
 });
