@@ -7,7 +7,6 @@ import {
   NavigationProp,
 } from "@react-navigation/native";
 import { EventCard, EventCardVariant } from "../components/EventCard/EventCard";
-import { events } from "../../utils/dummyData";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { RouteProp } from "@react-navigation/native";
 import { HomeStackParamList, ProfileStackParamList } from "../../utils/types";
@@ -15,6 +14,10 @@ import { HomeRoutes, ProfileRoutes } from "../../utils/routes";
 import { useTranslation } from "react-i18next";
 import { dummyComments } from "../data/dummyComments";
 import { Button } from "../components/Button/Button";
+import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { EventDetailsController } from "../controllers/EventDetailsController";
+import { EventModel } from "../models/EventModel";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -22,17 +25,24 @@ type EventDetailsRouteProp =
 
 export function EventDetailsView() {
   const { t } = useTranslation();
+  const {session, user } = useAuth(); 
+  const [event, setEvent] = useState<EventModel | null >(null); 
   const navigation = useNavigation<NavigationProp<ProfileStackParamList>>();
   const route = useRoute<EventDetailsRouteProp>();
   const canEdit = route.params?.canEdit || false;
+ 
+  useEffect(() => {
+    async function fetchEventDetails(){
+      if(session && user){
+        console.log("fetching event details..")
+        const result = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId); 
+        console.log(result)
+        setEvent(result)
+      }
+    }
 
-  function getEventDetails(eventId: string){
-      return events.find(event => event.eventId === eventId)
-
-      // EventDetailsController(id)
-  }
-
-  const event = getEventDetails(route.params?.eventId);
+    fetchEventDetails()
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,7 +57,8 @@ export function EventDetailsView() {
           isLiked={event?.isLiked || false}
           date={event?.date || t("common.not_available")}
           variant={EventCardVariant.DETAILS}
-          location={event?.location}
+          latitude={event?.latitude}
+          longitude={event?.longitude}
           startsAt={event?.startsAt}
           endsAt={event?.endsAt}
           category={event?.category}
@@ -55,9 +66,7 @@ export function EventDetailsView() {
           onComment={() => Promise.resolve()}
           onShare={() => console.log("SHARE")}
           fetchComments={() => Promise.resolve(dummyComments)}
-          musicUrl={
-            "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventMusic/1736816688882"
-          }
+          musicUrl={event?.musicUrl}
         />
         {canEdit && (
           <View style={styles.editButtonContainer}>

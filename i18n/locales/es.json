@@ -168,5 +168,8 @@
         "save": "Guardar cambios",
         "fullName": "Nombre completo",
         "biografía": "Biografía"
+    }, 
+    "eventDetails":{
+        "title":  "Detalles"
     }
 }

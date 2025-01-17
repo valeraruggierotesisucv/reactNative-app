@@ -168,5 +168,8 @@
         "save": "Save changes",
         "fullName": "Full Name",
         "biography": "Biography"
+    }, 
+    "eventDetails":{
+        "title":  "Details"
     }
 }

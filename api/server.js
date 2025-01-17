@@ -101,6 +101,25 @@ app.get("/api/events/:eventId", async(req, res) => {
     const eventDetails = await db.event.findFirst({
       where: {
         eventId: eventId
+      }, 
+      include: {
+        user: {
+          select: {
+            username: true, 
+            profileImage: true
+          }
+        }, 
+        location:{
+          select:{
+            latitude: true, 
+            longitude: true
+          }
+        }, 
+        category:{
+          select: {
+            nameEs: true
+          }
+        }
       }
     })
 
@@ -163,14 +182,14 @@ app.get("/api/users/:userId/events", async(req, res) => {
 
 
 // getNotifications
-app.get("/api/users/:userId/notifications", async(req, res) => {
+app.get("/api/users/:userId/notifications", authenticateUser , async(req, res) => {
   try{
     const { userId } = req.params;  
 
     const notifications = await db.notification.findMany({
       where: {
         toUserId: userId
-      }
+      },
     })
 
     const notificationsWithUser = await Promise.all(notifications.map(async (notification) => {
@@ -323,15 +342,15 @@ app.get("/api/categories", authenticateUser, async (req, res) => {
 });
 
 // getHomeEvents
-app.get("/api/home/events", async (req, res) => {
-  const userId = "asd5a4s543x4c5453a2sd"; // This should come from the Supabase token
+app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
+  const { userId } = req.params; 
 
   try {
     const following = await db.followUser.findMany({
       where: { userIdFollows: userId },
       select: { userIdFollowedBy: true },
     });
-
+    
     const followingIds = following.map(f => f.userIdFollowedBy);
 
     let events;
@@ -340,8 +359,21 @@ app.get("/api/home/events", async (req, res) => {
       try {
         events = await db.event.findMany({
           where: { userId: { in: followingIds } },
-          orderBy: { createdAt: "desc" },
-          take: 10,
+          orderBy: { createdAt: "desc" }, 
+          include:{
+             user: {
+              select:{
+                username: true, 
+                profileImage: true
+              }
+             }, 
+             location:{
+              select: {
+                latitude: true, 
+                longitude: true
+              }
+             }
+          }
         });
       } catch (error) {
         console.error("Error fetching events from followed users:", error);
@@ -355,10 +387,18 @@ app.get("/api/home/events", async (req, res) => {
         });
 
         const categoryIds = likedCategories.likedCategories.map(c => c.categoryId);
-
+        
         events = await db.event.findMany({
           where: { categoryId: { in: categoryIds } },
           orderBy: { createdAt: "desc" },
+          include:{
+            user: {
+             select:{
+               username: true, 
+               profileImage: true
+             }
+            }
+         }
         });
       } catch (error) {
         console.error("Error fetching events from liked categories:", error);
