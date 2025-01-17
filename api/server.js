@@ -101,6 +101,25 @@ app.get("/api/events/:eventId", async(req, res) => {
     const eventDetails = await db.event.findFirst({
       where: {
         eventId: eventId
+      }, 
+      include: {
+        user: {
+          select: {
+            username: true, 
+            profileImage: true
+          }
+        }, 
+        location:{
+          select:{
+            latitude: true, 
+            longitude: true
+          }
+        }, 
+        category:{
+          select: {
+            nameEs: true
+          }
+        }
       }
     })
 
@@ -307,7 +326,7 @@ app.get("/api/categories", authenticateUser, async (req, res) => {
 });
 
 // getHomeEvents
-app.get("/api/home/:userId/events", async (req, res) => {
+app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
   const { userId } = req.params; 
 
   try {

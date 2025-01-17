@@ -23,7 +23,8 @@ interface PillsProps {
 }
 
 interface DisplayEventProps {
-  location?: string;
+  latitude?: string;
+  longitude?: string; 
   startsAt?: string;
   endsAt?: string;
   date?: string;
@@ -58,7 +59,8 @@ const Pills = ({ startsAt, endsAt, date }: PillsProps) => {
 };
 
 export function DisplayEvent({
-  location,
+  latitude,
+  longitude, 
   startsAt,
   endsAt,
   date,
@@ -71,7 +73,7 @@ export function DisplayEvent({
     <View>
       <DisplayInput
         label={t("common.location").toUpperCase()}
-        data={location}
+        data={`${latitude}, ${longitude}`}
       />
 
       <DisplayInput
@@ -102,7 +104,8 @@ export function EventCard({
   description,
   isLiked,
   date,
-  location,
+  latitude,
+  longitude, 
   startsAt,
   category,
   endsAt,
@@ -192,7 +195,8 @@ export function EventCard({
         </TouchableOpacity>
       ) : (
         <DisplayEvent
-          location={location}
+          latitude={latitude}
+          longitude={longitude}
           startsAt={startsAt}
           endsAt={endsAt}
           date={date}

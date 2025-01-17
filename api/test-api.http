@@ -43,7 +43,7 @@ GET http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j/comments
 
 
 ### GET event details 
-GET http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j
+GET http://localhost:5000/api/events/cm5zvv4fm0002golor990x1i7
 
 ### ADD event 
 POST http://localhost:5000/api/events

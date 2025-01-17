@@ -1,4 +1,6 @@
 import { apiRequest } from "../../utils/apiRequest";
+import { formatHour } from "../../utils/formatHour";
+import { truncateString } from "../../utils/formatString";
 export class EventModel {
     eventId: string; 
     profileImage: string; 
@@ -47,6 +49,7 @@ export class EventModel {
         this.isLiked = isLiked
     }
 
+    // POST api/events
     static async createEvent(token: string, event: object){
         return await apiRequest(
             "events", 
@@ -58,39 +61,70 @@ export class EventModel {
 
     // GET api/home/:userId/events
     static async getHomeEvents(token: string, userId: string){
-        const { data } = await apiRequest(
-            `home/${userId}/events`, 
-            "GET", 
-            undefined, 
-            token            
-        )
-        
-        const events = data.map((event : any) => {
-            const date = new Date(event.date).toLocaleDateString(); 
-            
-            return new EventModel(
-                event.eventId, 
-                event.user.profileImage, 
-                event.user.username, 
-                event.eventImage, 
-                event.title,  
-                event.description, 
-                event.location.latitude, 
-                event.location.longitude, 
-                event.startsAt, 
-                event.endsAt, 
-                date, 
-                event.category, 
-                event.eventMusic, 
-                false, // TODO: FALTA LIKE 
+        try{
+            const { data } = await apiRequest(
+                `home/${userId}/events`, 
+                "GET", 
+                undefined, 
+                token            
             )
-        })
+            
+            const events = data.map((event : any) => {
+                const date = new Date(event.date).toLocaleDateString(); 
+                
+                return new EventModel(
+                    event.eventId, 
+                    event.user.profileImage, 
+                    event.user.username, 
+                    event.eventImage, 
+                    event.title,  
+                    event.description, 
+                    event.location.latitude, 
+                    event.location.longitude, 
+                    event.startsAt, 
+                    event.endsAt, 
+                    date, 
+                    event.category, 
+                    event.eventMusic, 
+                    false, // TODO: FALTA LIKE 
+                )
+            })
+            
+            return events
+        }catch(error){
+            console.error("Error fetching events: ", error);
+            return null; 
+        }
         
-        return events
     }
 
     // GET api/events/:eventId
-    static getEventDetails(){}
-
-    
+    static async getEventDetails(token: string, eventId: string) {
+        try {
+          const { data: event } = await apiRequest(`events/${eventId}`, "GET", undefined, token);
+          const date = new Date(event.date).toLocaleDateString();
+          const startsAt = formatHour(new Date(event.startsAt)); 
+          const endsAt = formatHour(new Date(event.endsAt)); 
+                
+          return new EventModel(
+            event.eventId,
+            event.user.profileImage,
+            event.user.username,
+            event.eventImage,
+            event.title,
+            event.description,
+            event.location.latitude,
+            event.location.longitude,
+            startsAt,
+            endsAt,
+            date,
+            event.category.nameEs,
+            event.eventMusic,
+            false // TODO: FALTA LIKE
+          );
+        } catch (error) {
+          console.error("Error fetching event details:", error);
+          return null; 
+        }
+    }    
 }
