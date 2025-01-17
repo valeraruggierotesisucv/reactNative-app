@@ -1,5 +1,5 @@
 import { View, StyleSheet, ScrollView, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { ProfileRoutes } from "../../utils/routes";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,7 +9,7 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { user as dummyUser } from "../../utils/dummyData";
 import { theme } from "../../utils/theme";
 import { Event, ProfileController } from "../controllers/ProfileController";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UserModel from "../models/UserModel";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -20,10 +20,11 @@ export function ProfileView() {
   const { user: authUser } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   // ProfileController
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchProfile = async () => {
-      const user = await ProfileController.getProfile(
+  useFocusEffect(
+    useCallback(() => {
+      setIsLoading(true);
+      const fetchProfile = async () => {
+        const user = await ProfileController.getProfile(
         authUser?.id || ""
       );
       setUser(user);
@@ -33,20 +34,26 @@ export function ProfileView() {
       setEvents(events);
       setIsLoading(false);
     };
-
+    console.log("fsasdauser", user);
     fetchProfile();
-  }, []);
+
+    return () => {
+      setIsLoading(false);
+      setUser(null);
+      setEvents([]);
+    }
+  }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <AppHeader />
         {isLoading ? <Text style={{flex: 1, justifyContent: "center", alignItems: "center"}}>Loading...</Text> : (
           <>
           <ProfileCard
             profileImage={user?.profileImage || undefined}
-            username={user?.username || ""}
+            username={user?.fullName || ""}
             biography={user?.biography || ""}
             events={events.length}
             followers={user?.followersCounter || 0}
@@ -80,7 +87,6 @@ export function ProfileView() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -99,3 +105,4 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+

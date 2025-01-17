@@ -40,9 +40,16 @@ const signUpSchema = z.object({
   language: z.enum(["ENGLISH", "SPANISH"]),
 });
 
+const editProfileSchema = z.object({
+  fullName: z.string().nonempty("fullName is required"),
+  biography: z.string().optional(),
+  profileImage: z.string().optional(),
+});
+
 module.exports = {
   eventSchema,
   likeEventSchema,
   commentEventSchema,
   signUpSchema,
+  editProfileSchema,
 };

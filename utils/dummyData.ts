@@ -1,5 +1,18 @@
 import { NotificationType } from "../src/components/NotificationItem/NotificationItem";
-import { CategoriesEnum } from "../src/views/SearchView";
+
+enum CategoriesEnum {
+    ALL = "Todos",
+    CONFERENCES = "Conferencias",
+    PARTIES = "Fiestas",
+    CONCERTS = "Conciertos",
+    CLUBS = "Clubs", 
+    FESTIVALS = "Festivales",
+    SPORTS = "Deporte",
+    THEATER = "Teatro",
+    EXHIBITIONS = "Exhibición",
+    EDUCATION = "Educativo",
+    CULTURE = "Cultura"
+  }
 
 export const events = [
     {

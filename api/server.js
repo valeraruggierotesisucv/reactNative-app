@@ -1,4 +1,4 @@
-const { likeEventSchema, commentEventSchema, signUpSchema, eventSchema } = require("./validationSchemas.js");
+const { likeEventSchema, commentEventSchema, signUpSchema, eventSchema, editProfileSchema } = require("./validationSchemas.js");
 const authenticateUser = require("./authenticateUser.js"); 
 const express = require("express");
 const cors = require("cors");
@@ -155,6 +155,33 @@ app.get("/api/users/:userId", async(req, res) => {
   }catch(error){
     console.error(error); 
     res.status(500).json({ error: "FAILED to get user profile" });
+  }
+})
+
+//updateProfile
+app.put("/api/users/:userId", async(req, res) => {
+  try{
+    const { userId } = req.params;
+    const { fullName, biography, profileImage } = req.body;
+    const validationResult = editProfileSchema.safeParse(req.body);
+
+    console.log(fullName, biography, profileImage);
+    console.log(validationResult);
+
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        errors: validationResult.error.errors,
+      });
+    }
+    const user = await db.user.update({
+      where: { userId },
+      data: { fullName, biography, profileImage }
+    });
+    res.json({ data: user, success: true });
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to update user profile" });
   }
 })
 

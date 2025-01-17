@@ -20,6 +20,7 @@ interface ButtonProps {
   variant?: ButtonVariant;
   style?: ViewStyle;
   fontSize?: number;
+  disabled?: boolean;
 }
 
 export function Button({
@@ -29,13 +30,15 @@ export function Button({
   variant = ButtonVariant.PRIMARY,
   fontSize = 17,
   style,
+  disabled = false,
 }: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.container, styles[size], styles[variant], style]}
+      style={[styles.container, styles[size], styles[variant], style, disabled && styles.disabled]}
       onPress={onPress}
+      disabled={disabled}
     >
-      <Text style={[styles.label, { fontSize }]}>{label}</Text>
+      <Text style={[styles.label, { fontSize }, disabled && styles.disabledLabel]}>{label}</Text>
     </TouchableOpacity>
   );
 }
@@ -71,5 +74,11 @@ const styles = StyleSheet.create({
   },
   primary: {
     backgroundColor: theme.colors["primary"],
+  },
+  disabled: {
+    backgroundColor: theme.colors["disabled"],
+  },
+  disabledLabel: {
+    color: theme.colors["darkGray"],
   },
 });
