@@ -37,7 +37,6 @@ const signUpSchema = z.object({
   fullName: z.string().nonempty("fullName is required"),
   email: z.string().email("email must be a valid email"),
   birthDate: z.string().refine((val) => !isNaN(Date.parse(val)), "birthDate must be a valid date"),
-  language: z.enum(["ENGLISH", "SPANISH"]),
 });
 
 const editProfileSchema = z.object({

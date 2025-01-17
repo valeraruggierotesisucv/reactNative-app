@@ -18,6 +18,24 @@
         "liked_your_event": "Le gustó tu evento",
         "commented_on_your_event": "Comentó en tu evento"
     },
+    "login": {
+        "email_invalid": "Correo electrónico inválido",
+        "email_required": "Correo electrónico es requerido",
+        "password_min": "La contraseña debe tener al menos 6 caracteres",
+        "password_required": "Contraseña es requerida"
+    },
+    "signup": {
+        "username_required": "Nombre de usuario es requerido",
+        "fullname_required": "Nombre completo es requerido",
+        "email_invalid": "Correo electrónico inválido",
+        "email_required": "Correo electrónico es requerido",
+        "birthdate_past": "Fecha de nacimiento debe ser en el pasado",
+        "birthdate_required": "Fecha de nacimiento es requerida",
+        "password_min": "La contraseña debe tener al menos 6 caracteres",
+        "password_required": "Contraseña es requerida",
+        "confirm_password_required": "Confirmar contraseña es requerida",
+        "passwords_match": "Las contraseñas deben coincidir"
+    },
     "auth": {
         "get_started": "Comenzar",
         "forgotPassword": "¿Olvidaste tu contraseña?",
@@ -95,8 +113,8 @@
         "accounts": "Cuentas",
         "not_available": "No disponible",
         "next": "Siguiente",
-        "send": "Enviar", 
-        "loading": "cargando"
+        "send": "Enviar",
+        "loading": "Cargando..."
     },
     "comments": {
         "comment_placeholder": "Escribe un comentario...",

@@ -336,7 +336,7 @@ app.post("/api/signup", async (req, res) => {
     });
   }
 
-  const { userId, username, fullName, email, birthDate, language } = req.body;
+  const { userId, username, fullName, email, birthDate } = req.body;
 
   try {
     const newUser = await db.user.create({
@@ -346,7 +346,6 @@ app.post("/api/signup", async (req, res) => {
         fullName,
         email,
         birthDate: new Date(birthDate),
-        language,
       },
     });
 

@@ -23,6 +23,11 @@ interface InputFieldProps {
   iconColor?: string;
 }
 
+export enum InputFieldVariant {
+  DEFAULT = "default",
+  GRAY_BACKGROUND = "grayBackground",
+}
+
 export function InputField({
   label,
   value,
@@ -32,7 +37,7 @@ export function InputField({
   secureTextEntry,
   icon,
   onPressIcon,
-  variant = "default",
+  variant = InputFieldVariant.DEFAULT,
   style,
   iconColor,
 }: InputFieldProps) {
@@ -42,7 +47,7 @@ export function InputField({
       <View
         style={[
           styles.inputContainer,
-          variant === "grayBackground" && styles.grayBackground,
+          variant === InputFieldVariant.GRAY_BACKGROUND && styles.grayBackground,
           error && styles.inputError,
         ]}
       >

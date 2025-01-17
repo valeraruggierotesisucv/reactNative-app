@@ -4,7 +4,14 @@ import { AddRoutes, AuthRoutes, HomeRoutes, ProfileRoutes, SearchRoutes } from "
 export type AuthStackParamList = {
     [AuthRoutes.Auth]: undefined;
     [AuthRoutes.Onboarding]: undefined;
-    [AuthRoutes.ChooseCategories]: undefined;
+    [AuthRoutes.ChooseCategories]: {
+        username: string;
+        fullname: string;
+        email: string;
+        birthdate: string;
+        password: string;
+        confirmPassword: string;
+    };
     [AuthRoutes.ForgotPassword]: undefined;
     [AuthRoutes.ForgotPasswordLogin]: undefined;
     [AuthRoutes.Success]: undefined;
