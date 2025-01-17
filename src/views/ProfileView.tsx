@@ -45,7 +45,7 @@ export function ProfileView() {
         {isLoading ? <Text style={{flex: 1, justifyContent: "center", alignItems: "center"}}>Loading...</Text> : (
           <>
           <ProfileCard
-            profileImage={user?.profileImage || "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventImages/user.jpg"}
+            profileImage={user?.profileImage || undefined}
             username={user?.username || ""}
             biography={user?.biography || ""}
             events={events.length}
@@ -69,7 +69,7 @@ export function ProfileView() {
           events={events}
           onPressEvent={(eventId) => {
             navigation.navigate(ProfileRoutes.EventDetails, {
-              eventId: "1",         //cambiar a eventId
+              eventId: eventId,
               canEdit: true,
             });
           }}

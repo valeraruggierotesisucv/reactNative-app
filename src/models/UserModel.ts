@@ -78,16 +78,12 @@ class UserModel {
     }
 
     async updateProfile(data: {
-        username?: string;
         fullName?: string;
-        email?: string;
         profileImage?: string;
         biography?: string;
     }) {
         const updatedUser = await apiRequest("users", "PUT", data, this.userId);
-        this.username = updatedUser.username;
         this.fullName = updatedUser.fullName;
-        this.email = updatedUser.email;
         this.profileImage = updatedUser.profileImage;
         this.biography = updatedUser.biography;
     }
