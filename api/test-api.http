@@ -18,7 +18,7 @@ Content-Type: application/json
 GET http://localhost:5000/api/categories
 
 ### GET home events
-GET http://localhost:5000/api/home/events
+GET http://localhost:5000/api/home/9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7/events
 
 
 ### LIKE a post

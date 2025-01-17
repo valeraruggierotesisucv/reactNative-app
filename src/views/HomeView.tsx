@@ -1,54 +1,39 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StyleSheet, FlatList, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { EventCard } from "../components/EventCard/EventCard";
 import { events } from "../../utils/dummyData";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { getServer } from "../../utils/getServer";
 import { theme } from "../../utils/theme";
 import { dummyComments } from "../data/dummyComments";
 import { onShare } from "../../utils/share";
 import { useTranslation } from "react-i18next";
+import { ListEventsController } from "../controllers/ListEventsController";
 
 
 export function HomeView() {
   const navigation = useNavigation<HomeStackNavigationProp>();
   const { user, session } = useAuth();
   const { t } = useTranslation();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [events, setEvents] = useState(); 
 
-
-  // ListEventController 
-  
-  // Solo para testing
-  useEffect(() => {
-    const server = getServer();
-    const token = session?.access_token;
-
-    fetch(`http://${server}:5000/api/protected`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Fetch error:", error);
-      });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchEvents (){
+        if(session && user){
+          const result = await ListEventsController.getHomeEvents(session.access_token, user.id)
+          setEvents(result)
+        }            
+      }    
+      fetchEvents()
+      return () => {
+      };
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>

@@ -27,8 +27,6 @@ export function NotificationsView() {
   
         fetchNotifications()
         return () => {
-          // Do something when the screen is unfocused
-          console.log("Out Notifications")
         };
       }, [])
     );

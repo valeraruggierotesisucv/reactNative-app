@@ -15,6 +15,9 @@ import { HomeRoutes, ProfileRoutes } from "../../utils/routes";
 import { useTranslation } from "react-i18next";
 import { dummyComments } from "../data/dummyComments";
 import { Button } from "../components/Button/Button";
+import { useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { EventDetailsController } from "../controllers/EventDetailsController";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -22,6 +25,7 @@ type EventDetailsRouteProp =
 
 export function EventDetailsView() {
   const { t } = useTranslation();
+  const {session, user } = useAuth(); 
   const navigation = useNavigation<NavigationProp<ProfileStackParamList>>();
   const route = useRoute<EventDetailsRouteProp>();
   const canEdit = route.params?.canEdit || false;
@@ -33,6 +37,15 @@ export function EventDetailsView() {
   }
 
   const event = getEventDetails(route.params?.eventId);
+  useEffect(() => {
+    async function fetchEventDetails(){
+      if(session && user){
+        const result = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId); 
+      }
+    }
+
+    fetchEventDetails()
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>

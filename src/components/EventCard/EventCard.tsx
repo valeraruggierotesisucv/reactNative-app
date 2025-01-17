@@ -8,8 +8,8 @@ import { DisplayInput } from "../DisplayInput/DisplayInput";
 import { useTranslation } from "react-i18next";
 import { CommentsSection } from "../CommentsSection/CommentsSection";
 import { Comment } from "../CommentsSection/CommentsSection";
-import { Portal, PortalHost } from "@gorhom/portal";
 import { AudioPlayer } from "../AudioPlayer/AudioPlayer";
+import React from "react";
 
 export enum EventCardVariant {
   DEFAULT = "default",
