@@ -95,7 +95,8 @@
         "accounts": "Cuentas",
         "not_available": "No disponible",
         "next": "Siguiente",
-        "send": "Enviar"
+        "send": "Enviar", 
+        "loading": "cargando"
     },
     "comments": {
         "comment_placeholder": "Escribe un comentario...",
