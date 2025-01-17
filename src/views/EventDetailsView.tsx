@@ -18,6 +18,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { EventDetailsController } from "../controllers/EventDetailsController";
 import { EventModel } from "../models/EventModel";
+import { Loading } from "../components/Loading/Loading";
+import React from "react";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -30,14 +32,15 @@ export function EventDetailsView() {
   const navigation = useNavigation<NavigationProp<ProfileStackParamList>>();
   const route = useRoute<EventDetailsRouteProp>();
   const canEdit = route.params?.canEdit || false;
+  const [isLoading, setIsLoading] = useState(true);
  
   useEffect(() => {
     async function fetchEventDetails(){
       if(session && user){
-        console.log("fetching event details..")
+        setIsLoading(true); 
         const result = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId); 
-        console.log(result)
         setEvent(result)
+        setIsLoading(false); 
       }
     }
 
@@ -48,38 +51,43 @@ export function EventDetailsView() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <AppHeader title={t("eventDetails.title")} goBack={navigation.goBack} />
-        <EventCard
-          profileImage={event?.profileImage || IMAGE_PLACEHOLDER}
-          username={event?.username || t("common.not_available")}
-          eventImage={event?.eventImage || IMAGE_PLACEHOLDER}
-          title={event?.title || t("common.not_available")}
-          description={event?.description || t("common.not_available")}
-          isLiked={event?.isLiked || false}
-          date={event?.date || t("common.not_available")}
-          variant={EventCardVariant.DETAILS}
-          latitude={event?.latitude}
-          longitude={event?.longitude}
-          startsAt={event?.startsAt}
-          endsAt={event?.endsAt}
-          category={event?.category}
-          onPressUser={() => console.log("USER")}
-          onComment={() => Promise.resolve()}
-          onShare={() => console.log("SHARE")}
-          fetchComments={() => Promise.resolve(dummyComments)}
-          musicUrl={event?.musicUrl}
-        />
-        {canEdit && (
-          <View style={styles.editButtonContainer}>
-            <Button
-              label={t("eventDetails.edit")}
-              onPress={() =>
-                navigation.navigate(ProfileRoutes.EditEvent, {
-                  eventId: event?.eventId || "",
-                })
-              }
-            />
-          </View>
-        )}
+        { isLoading
+          ? <Loading/>
+          : (<>
+              <EventCard
+                profileImage={event?.profileImage || IMAGE_PLACEHOLDER}
+                username={event?.username || t("common.not_available")}
+                eventImage={event?.eventImage || IMAGE_PLACEHOLDER}
+                title={event?.title || t("common.not_available")}
+                description={event?.description || t("common.not_available")}
+                isLiked={event?.isLiked || false}
+                date={event?.date || t("common.not_available")}
+                variant={EventCardVariant.DETAILS}
+                latitude={event?.latitude}
+                longitude={event?.longitude}
+                startsAt={event?.startsAt}
+                endsAt={event?.endsAt}
+                category={event?.category}
+                onPressUser={() => console.log("USER")}
+                onComment={() => Promise.resolve()}
+                onShare={() => console.log("SHARE")}
+                fetchComments={() => Promise.resolve(dummyComments)}
+                musicUrl={event?.musicUrl}
+              />
+                {canEdit && (
+                  <View style={styles.editButtonContainer}>
+                    <Button
+                      label={t("eventDetails.edit")}
+                      onPress={() =>
+                        navigation.navigate(ProfileRoutes.EditEvent, {
+                          eventId: event?.eventId || "",
+                        })
+                      }
+                    />
+                  </View>
+                )}
+            </>)
+        }        
       </ScrollView>
     </SafeAreaView>
   );

@@ -6,12 +6,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ProfileCard } from "../components/ProfileCard/ProfileCard";
 import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbnailList";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { user as dummyUser } from "../../utils/dummyData";
 import { theme } from "../../utils/theme";
 import { Event, ProfileController } from "../controllers/ProfileController";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import UserModel from "../models/UserModel";
 import { useAuth } from "../contexts/AuthContext";
+import React from "react";
+import { Loading } from "../components/Loading/Loading";
 
 export function ProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
@@ -19,7 +20,7 @@ export function ProfileView() {
   const [events, setEvents] = useState<Event[]>([]);
   const { user: authUser } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
-  // ProfileController
+
   useFocusEffect(
     useCallback(() => {
       setIsLoading(true);
@@ -34,7 +35,7 @@ export function ProfileView() {
       setEvents(events);
       setIsLoading(false);
     };
-    console.log("fsasdauser", user);
+    
     fetchProfile();
 
     return () => {
@@ -49,7 +50,8 @@ export function ProfileView() {
     <SafeAreaView style={styles.container}>
       <AppHeader />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {isLoading ? <Text style={{flex: 1, justifyContent: "center", alignItems: "center"}}>Loading...</Text> : (
+        {isLoading 
+          ? <Loading /> : (
           <>
           <ProfileCard
             profileImage={user?.profileImage || undefined}

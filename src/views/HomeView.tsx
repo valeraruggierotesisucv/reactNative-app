@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { StyleSheet, FlatList, View} from "react-native";
+import { StyleSheet, FlatList, View, Text, ActivityIndicator} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
@@ -13,6 +13,7 @@ import { dummyComments } from "../data/dummyComments";
 import { onShare } from "../../utils/share";
 import { useTranslation } from "react-i18next";
 import { ListEventsController } from "../controllers/ListEventsController";
+import { Loading } from "../components/Loading/Loading";
 
 
 export function HomeView() {
@@ -20,17 +21,22 @@ export function HomeView() {
   const { user, session } = useAuth();
   const { t } = useTranslation();
   const [events, setEvents] = useState(); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
       async function fetchEvents (){
+        setIsLoading(true); 
         if(session && user){
           const result = await ListEventsController.getHomeEvents(session.access_token, user.id)
-          setEvents(result)
+          setEvents(result); 
+          setIsLoading(false)
         }            
       }    
+
       fetchEvents()
       return () => {
+
       };
     }, [])
   );
@@ -39,37 +45,42 @@ export function HomeView() {
     <SafeAreaView style={styles.container}>
       <View style={styles.view}>
         <AppHeader />
-        <FlatList
-          data={events}
-          renderItem={({ item }) => {
-            return (
-              <EventCard
-                profileImage={item.profileImage}
-                username={item.username}
-                eventImage={item.eventImage}
-                title={item.title}
-                description={item.description}
-                isLiked={item.isLiked}
-                date={item.date}
-                onPressUser={() =>
-                  navigation.navigate(HomeRoutes.ProfileDetails, {
-                    userId: item.userId,
-                  })
-                }
-                onComment={() => Promise.resolve()}
-                fetchComments={() => Promise.resolve(dummyComments)}
-                onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
-                onMoreDetails={() =>
-                  navigation.navigate(HomeRoutes.EventDetails, {
-                    eventId: item.eventId,
-                    canEdit: false
-                  })
-                }
-              />
-            );
-          }}
-          contentContainerStyle={{ paddingBottom: 70 }}
-        />
+        { isLoading 
+          ? <Loading />
+          : (
+            <FlatList
+              data={events}
+              renderItem={({ item }) => {
+                return (
+                  <EventCard
+                    profileImage={item.profileImage}
+                    username={item.username}
+                    eventImage={item.eventImage}
+                    title={item.title}
+                    description={item.description}
+                    isLiked={item.isLiked}
+                    date={item.date}
+                    onPressUser={() =>
+                      navigation.navigate(HomeRoutes.ProfileDetails, {
+                        userId: item.userId,
+                      })
+                    }
+                    onComment={() => Promise.resolve()}
+                    fetchComments={() => Promise.resolve(dummyComments)}
+                    onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
+                    onMoreDetails={() =>
+                      navigation.navigate(HomeRoutes.EventDetails, {
+                        eventId: item.eventId,
+                        canEdit: false
+                      })
+                    }
+                  />
+                );
+              }}
+              contentContainerStyle={{ paddingBottom: 70 }}
+            />
+        )}
+        
       </View>
     </SafeAreaView>
   );
@@ -84,4 +95,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },   
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: theme.colors.black,
+  },
 });
