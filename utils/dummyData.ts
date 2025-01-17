@@ -3,7 +3,7 @@ import { CategoriesEnum } from "../src/views/SearchView";
 
 export const events = [
     {
-        userId: "1", 
+        userId: "cm5ylssnm0000ty7wb1c36urk", 
         eventId: "1", 
         profileImage: "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
         username: "John Doe",
@@ -18,7 +18,7 @@ export const events = [
         category: CategoriesEnum.CLUBS,
     },
     {
-        userId: "2", 
+        userId: "cm5ylsuiv0005ty7wst3p92p3", 
         eventId: "2", 
         profileImage: "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
         username: "Jane Smith",
@@ -33,7 +33,7 @@ export const events = [
         category: CategoriesEnum.CONCERTS,
     },
     {
-        userId: "3", 
+        userId: "cm5ylsvds0008ty7wx6ypebvi", 
         eventId: "3", 
         profileImage: "https://variety.com/wp-content/uploads/2021/04/Avatar.jpg?w=800&h=533&crop=1",
         username: "Alice Johnson",

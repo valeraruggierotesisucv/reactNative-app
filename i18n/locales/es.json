@@ -38,6 +38,10 @@
         "check_inbox_for_verification": "¡Por favor, revisa tu bandeja de entrada para la verificación por correo electrónico!",
         "forgot_password": "¿Olvidaste tu contraseña?"
     },
+    "eventDetails": {
+        "title": "Detalles del evento",
+        "edit": "Editar"
+    },
     "addEvent": {
         "new_event": "Nuevo Evento",
         "description": "Descripción",

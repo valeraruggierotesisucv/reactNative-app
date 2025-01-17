@@ -123,6 +123,22 @@ app.get("/api/events/:eventId", async(req, res) => {
  
 })
 
+//getProfile
+app.get("/api/users/:userId", async(req, res) => {
+  try{
+    const { userId } = req.params; 
+    const user = await db.user.findFirst({
+      where: {
+        userId: userId
+      }
+    })
+    res.json({ data: user, success: true });
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to get user profile" });
+  }
+})
+
 // getProfileEvents 
 app.get("/api/users/:userId/events", async(req, res) => {
   try{

@@ -101,6 +101,10 @@
         "title": "Add date and time",
         "error": "Please provide the date and time of your event"
     },
+    "eventDetails": {
+        "title": "Event Details",
+        "edit": "Edit"
+    },
     "categories": {
         "title": "Category",
         "description": "Select the category that best fits your event",

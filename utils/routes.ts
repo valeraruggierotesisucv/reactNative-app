@@ -12,7 +12,9 @@ export enum AuthRoutes {
 export enum HomeRoutes {
     Home = "Home",
     EventDetails = "EventDetails",
-    ProfileDetails = "ProfileDetails"
+    ProfileDetails = "ProfileDetails",
+    Followers = "Followers",
+    Followed = "Followed"
 }
 
 // Search
@@ -43,7 +45,8 @@ export enum ProfileRoutes {
     ChangeLanguage = "ChangeLanguage",
     Followers = "Followers",
     Followed = "Followed",
-    EventDetails = "EventDetails"
+    EventDetails = "EventDetails",
+    ProfileDetails = "ProfileDetails"
 }
 
 // Notifications

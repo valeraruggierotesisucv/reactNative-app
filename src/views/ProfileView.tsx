@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { ProfileRoutes } from "../../utils/routes";
@@ -8,27 +8,49 @@ import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbn
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { user as dummyUser } from "../../utils/dummyData";
 import { theme } from "../../utils/theme";
+import { Event, ProfileController } from "../controllers/ProfileController";
+import { useEffect, useState } from "react";
+import UserModel from "../models/UserModel";
+import { useAuth } from "../contexts/AuthContext";
 
 export function ProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
+  const [user, setUser] = useState<UserModel | null>(null);
+  const [events, setEvents] = useState<Event[]>([]);
+  const { user: authUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  // ProfileController
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchProfile = async () => {
+      const user = await ProfileController.getProfile(
+        authUser?.id || ""
+      );
+      setUser(user);
+      const events = await ProfileController.getUserEvents(
+        authUser?.id || ""
+      );
+      setEvents(events);
+      setIsLoading(false);
+    };
 
-  const mockEvents = Array.from({ length: 22 }, (_, index) => ({
-    id: `event-${index + 1}`,
-    imageUrl: `https://picsum.photos/400/400?random=${index + 1}`,
-  }));
-  // ProfileController 
-  
+    fetchProfile();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <ProfileCard
-          profileImage={dummyUser.profileImage}
-          username={dummyUser.username}
-          biography={dummyUser.biography}
-          events={dummyUser.events}
-          followers={dummyUser.followers}
-          following={dummyUser.following}
+        <AppHeader />
+        {isLoading ? <Text style={{flex: 1, justifyContent: "center", alignItems: "center"}}>Loading...</Text> : (
+          <>
+          <ProfileCard
+            profileImage={user?.profileImage || undefined}
+            username={user?.username || ""}
+            biography={user?.biography || ""}
+            events={events.length}
+            followers={user?.followersCounter || 0}
+            following={user?.followingCounter || 0}
           onFollowers={() => {
             navigation.navigate(ProfileRoutes.Followers);
           }}
@@ -44,14 +66,16 @@ export function ProfileView() {
         />
         <View style={styles.separator} />
         <EventThumbnailList
-          events={mockEvents}
+          events={events}
           onPressEvent={(eventId) => {
             navigation.navigate(ProfileRoutes.EventDetails, {
-              eventId: "1",
+              eventId: eventId,
               canEdit: true,
             });
           }}
-        />
+          />
+        </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
