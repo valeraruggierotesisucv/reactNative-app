@@ -44,6 +44,7 @@ interface EventCardProps extends DisplayEventProps {
   musicUrl?: string;
   onPressUser: () => void;
   onComment: (eventId: string, comment: string) => Promise<void>;
+  userComment: { username: string, profileImage: string}; 
   onShare: () => void;
   onMoreDetails?: () => void;
   fetchComments: () => Promise<Comment[]>;
@@ -112,6 +113,7 @@ export function EventCard({
   category,
   endsAt,
   variant = EventCardVariant.DEFAULT,
+  userComment, 
   onPressUser,
   onComment,
   onShare,
@@ -139,9 +141,9 @@ export function EventCard({
     setComments([
       ...comments,
       {
-        username: username,
+        username: userComment.username,
         comment: comment,
-        profileImage: profileImage,
+        profileImage: userComment.profileImage,
         timestamp: new Date(),
       },
     ]);

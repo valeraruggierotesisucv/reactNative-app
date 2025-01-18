@@ -18,13 +18,18 @@ export class CommentModel{
         text: string 
         }){
             try{
-                const createdComment = await apiRequest(
+                const { data: createdComment} = await apiRequest(
                     `events/${eventId}/comment`, 
                     "POST", 
                     data, 
                     token
                 )
-                return createdComment
+                return new CommentModel(
+                    createdComment.user.username, 
+                    createdComment.text,
+                    createdComment.user.profileImage,
+                    new Date(createdComment.createdAt)
+                )
             }catch(error){
                 console.log(error)
             }

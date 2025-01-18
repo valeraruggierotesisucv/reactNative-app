@@ -21,6 +21,7 @@ import { EventModel } from "../models/EventModel";
 import { Loading } from "../components/Loading/Loading";
 import React from "react";
 import { CommentEventController } from "../controllers/CommentEventController";
+import { ProfileController } from "../controllers/ProfileController";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -34,7 +35,8 @@ export function EventDetailsView() {
   const route = useRoute<EventDetailsRouteProp>();
   const canEdit = route.params?.canEdit || false;
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [ userComment, setUserComment] = useState<{username: string, profileImage:string}>({ "username": "", "profileImage": IMAGE_PLACEHOLDER}); 
+
   const fetchComments = async (eventId: string) => {
     try {
       if(session){
@@ -67,7 +69,16 @@ export function EventDetailsView() {
       }
     }
 
+    async function fetchProfile(){
+      const profile = await ProfileController.getProfile(user?.id || "");
+      setUserComment({
+        "username": profile.username, 
+        "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
+      })
+    }
+
     fetchEventDetails()
+    fetchProfile()
   }, [])
 
   return (
@@ -94,6 +105,7 @@ export function EventDetailsView() {
                 category={event?.category}
                 onPressUser={() => console.log("USER")}
                 onComment={onComment}
+                userComment={userComment}
                 onShare={() => console.log("SHARE")}
                 fetchComments={() => fetchComments(event?.eventId || "")}
                 musicUrl={event?.musicUrl}

@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { ListEventsController } from "../controllers/ListEventsController";
 import { Loading } from "../components/Loading/Loading";
 import { CommentEventController } from "../controllers/CommentEventController";
+import { ProfileController } from "../controllers/ProfileController";
+import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 
 
 export function HomeView() {
@@ -21,6 +23,7 @@ export function HomeView() {
   const { t } = useTranslation();
   const [events, setEvents] = useState(); 
   const [isLoading, setIsLoading] = useState(true);
+  const [ userComment, setUserComment] = useState<{username: string, profileImage:string}>({ "username": "", "profileImage": IMAGE_PLACEHOLDER}); 
 
   const fetchComments = async (eventId: string) => {
     try {
@@ -54,8 +57,16 @@ export function HomeView() {
           setIsLoading(false)
         }            
       }    
+      async function fetchProfile(){
+        const profile = await ProfileController.getProfile(user?.id || "");
+        setUserComment({
+          "username": profile.username, 
+          "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
+        })
+      }
 
       fetchEvents()
+      fetchProfile()
       return () => {
 
       };
@@ -88,6 +99,7 @@ export function HomeView() {
                       })
                     }
                     onComment={onComment}
+                    userComment={userComment}
                     fetchComments={() => fetchComments(item.eventId)}
                     onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
                     onMoreDetails={() =>
