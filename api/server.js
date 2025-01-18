@@ -509,6 +509,7 @@ app.get("/api/events/:eventId/comments", async (req, res) => {
       }
     });
 
+    console.log(comments)
     res.json({ data: comments, success: true });
   } catch (error) {
     console.error(error);

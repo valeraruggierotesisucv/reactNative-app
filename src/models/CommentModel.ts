@@ -30,6 +30,32 @@ export class CommentModel{
             }
             
         }
-
+    
     // GET /api/events/:eventId/comments
+    static async getEventComments(token: string, eventId: string) {
+        try {
+            const { data } = await apiRequest(
+                `events/${eventId}/comments`,
+                "GET",
+                undefined,
+                token
+            );
+    
+            const comments = data.map((comment: any) => {
+                return new CommentModel(
+                    comment.user.username,
+                    comment.text,
+                    comment.user.profileImage,
+                    new Date(comment.createdAt)
+                );
+            });
+    
+            return comments; 
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+            return []; 
+        }
+    }
+    
+    
 }

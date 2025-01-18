@@ -5,10 +5,9 @@ import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { EventCard } from "../components/EventCard/EventCard";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { theme } from "../../utils/theme";
-import { dummyComments } from "../data/dummyComments";
 import { onShare } from "../../utils/share";
 import { useTranslation } from "react-i18next";
 import { ListEventsController } from "../controllers/ListEventsController";
@@ -22,6 +21,18 @@ export function HomeView() {
   const { t } = useTranslation();
   const [events, setEvents] = useState(); 
   const [isLoading, setIsLoading] = useState(true);
+
+  const fetchComments = async (eventId: string) => {
+    try {
+      if(session){
+        const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
+        return comments;
+      }      
+    } catch (error) {
+      console.error("Error fetching comments for event:", eventId, error);
+      return []; 
+    }
+  };
 
   const onComment = async (eventId: string, comment: string) => {
     if(session && user){
@@ -77,7 +88,7 @@ export function HomeView() {
                       })
                     }
                     onComment={onComment}
-                    fetchComments={() => Promise.resolve(dummyComments)}
+                    fetchComments={() => fetchComments(item.eventId)}
                     onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
                     onMoreDetails={() =>
                       navigation.navigate(HomeRoutes.EventDetails, {

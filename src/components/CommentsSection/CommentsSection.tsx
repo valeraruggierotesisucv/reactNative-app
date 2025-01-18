@@ -1,24 +1,15 @@
-import { useRef, useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetTextInput,
-} from "@gorhom/bottom-sheet";
+import { useRef, useEffect } from "react";
+import { StyleSheet, View, ScrollView } from "react-native";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { CommentItem } from "../CommentItem/CommentItem";
 import { CommentInput } from "../CommentInput/CommentInput";
 import { Portal } from "@gorhom/portal";
-
+import React from "react";
 export interface Comment {
   username: string;
   comment: string;
   timestamp: Date;
-  userAvatar?: string;
+  profileImage?: string;
 }
 
 interface CommentsSectionProps {
@@ -67,7 +58,7 @@ export function CommentsSection({
                 username={comment.username}
                 comment={comment.comment}
                 timestamp={comment.timestamp}
-                userAvatar={comment.userAvatar}
+                userAvatar={comment.profileImage}
               />
             ))}
           </BottomSheetScrollView>

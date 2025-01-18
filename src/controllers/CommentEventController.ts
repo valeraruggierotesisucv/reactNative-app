@@ -9,4 +9,8 @@ export class CommentEventController{
         }){
         return await CommentModel.createComment(token, eventId, data); 
     }
+
+    static async getEventComments(token: string, eventId: string){
+        return await CommentModel.getEventComments(token, eventId); 
+    }
 }

@@ -141,7 +141,7 @@ export function EventCard({
       {
         username: username,
         comment: comment,
-        userAvatar: profileImage,
+        profileImage: profileImage,
         timestamp: new Date(),
       },
     ]);
@@ -156,8 +156,11 @@ export function EventCard({
         console.error(error);
       }
     };
-
-    getComments();
+    
+    if(commentsVisible){
+      getComments();
+    }
+  
   }, [commentsVisible]);
 
   return (
@@ -204,7 +207,7 @@ export function EventCard({
           musicUrl={musicUrl}
         />
       )}
-      {commentsVisible && (
+      {commentsVisible && comments && (
         <CommentsSection
           comments={comments}
           onAddComment={handleAddComment}
