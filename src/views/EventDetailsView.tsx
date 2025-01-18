@@ -1,18 +1,13 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import {
-  useNavigation,
-  useRoute,
-  NavigationProp,
-} from "@react-navigation/native";
+import { useNavigation, useRoute, NavigationProp } from "@react-navigation/native";
 import { EventCard, EventCardVariant } from "../components/EventCard/EventCard";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { RouteProp } from "@react-navigation/native";
 import { HomeStackParamList, ProfileStackParamList } from "../../utils/types";
 import { HomeRoutes, ProfileRoutes } from "../../utils/routes";
 import { useTranslation } from "react-i18next";
-import { dummyComments } from "../data/dummyComments";
 import { Button } from "../components/Button/Button";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
