@@ -129,8 +129,6 @@ export function EventCard({
   };
 
   const handleAddComment = (comment: string) => {
-    console.log("comment", comment);
-
     try {
       onComment(eventId, comment);
     } catch (error) {

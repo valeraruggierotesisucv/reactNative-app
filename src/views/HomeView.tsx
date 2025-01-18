@@ -24,15 +24,13 @@ export function HomeView() {
   const [isLoading, setIsLoading] = useState(true);
 
   const onComment = async (eventId: string, comment: string) => {
-    console.log("on commnent "); 
     if(session && user){
       const result = await CommentEventController.createComment(session?.access_token, eventId, {
         userId: user?.id, 
         text: comment
       })
-      console.log("result--> ", result)
-    }
-    
+      console.log(result)
+    }    
   }
 
   useFocusEffect(
