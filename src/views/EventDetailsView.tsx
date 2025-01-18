@@ -35,6 +35,18 @@ export function EventDetailsView() {
   const canEdit = route.params?.canEdit || false;
   const [isLoading, setIsLoading] = useState(true);
   
+  const fetchComments = async (eventId: string) => {
+    try {
+      if(session){
+        const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
+        return comments;
+      }      
+    } catch (error) {
+      console.error("Error fetching comments for event:", eventId, error);
+      return []; 
+    }
+  };
+
   const onComment = async (eventId: string, comment: string) => {
     if(session && user){
       const result = await CommentEventController.createComment(session?.access_token, eventId, {
@@ -83,7 +95,7 @@ export function EventDetailsView() {
                 onPressUser={() => console.log("USER")}
                 onComment={onComment}
                 onShare={() => console.log("SHARE")}
-                fetchComments={() => Promise.resolve(dummyComments)}
+                fetchComments={() => fetchComments(event?.eventId || "")}
                 musicUrl={event?.musicUrl}
               />
                 {canEdit && (
