@@ -55,6 +55,7 @@ export function EventDetailsView() {
           ? <Loading/>
           : (<>
               <EventCard
+                eventId={event?.eventId || t("common.not_available")}
                 profileImage={event?.profileImage || IMAGE_PLACEHOLDER}
                 username={event?.username || t("common.not_available")}
                 eventImage={event?.eventImage || IMAGE_PLACEHOLDER}

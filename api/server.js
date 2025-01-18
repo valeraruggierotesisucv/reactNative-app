@@ -467,9 +467,9 @@ app.post("/api/events/:eventId/like", async (req, res) => {
 });
 
 // commentEvent
-app.post("/api/events/:eventId/comment", async (req, res) => {
+app.post("/api/events/:eventId/comment", authenticateUser , async (req, res) => {
   const validationResult = commentEventSchema.safeParse(req.body);
-
+  
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,
@@ -499,6 +499,14 @@ app.get("/api/events/:eventId/comments", async (req, res) => {
   try {
     const comments = await db.comment.findMany({
       where: { eventId: eventId },
+      include: {
+        user: {
+          select: {
+            username: true, 
+            profileImage: true
+          }
+        }
+      }
     });
 
     res.json({ data: comments, success: true });

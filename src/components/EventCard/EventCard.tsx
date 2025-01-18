@@ -32,6 +32,7 @@ interface DisplayEventProps {
   musicUrl?: string;
 }
 interface EventCardProps extends DisplayEventProps {
+  eventId: string, 
   profileImage: string;
   username: string;
   eventImage: string;
@@ -42,7 +43,7 @@ interface EventCardProps extends DisplayEventProps {
   variant?: EventCardVariant;
   musicUrl?: string;
   onPressUser: () => void;
-  onComment: (comment: string) => Promise<void>;
+  onComment: (eventId: string, comment: string) => Promise<void>;
   onShare: () => void;
   onMoreDetails?: () => void;
   fetchComments: () => Promise<Comment[]>;
@@ -97,6 +98,7 @@ export function DisplayEvent({
 }
 
 export function EventCard({
+  eventId, 
   profileImage,
   username,
   eventImage,
@@ -130,7 +132,7 @@ export function EventCard({
     console.log("comment", comment);
 
     try {
-      onComment(comment);
+      onComment(eventId, comment);
     } catch (error) {
       console.error("Error adding comment", error);
       return;
