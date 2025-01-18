@@ -30,11 +30,15 @@ interface AddDefaultViewProps {
   description: string | null;
   setDescription: (text: string | null) => void;
   date: Date | null;
+  setDate: (date: Date | null) => void; 
   startsAt: Date | null;
+  setStartsAt: (date: Date | null) => void; 
   endsAt: Date | null;
+  setEndsAt: (date: Date | null) => void; 
   category: CategoriesEnum | null;
+  setCategory: (category: CategoriesEnum | null) => void; 
   location: LatLng | null;
-  setLocation: (location: LatLng) => void;
+  setLocation: (location: LatLng | null) => void;
   musicFile: { nameFile: string; uri: string } | null;
   setMusicFile: (file: { nameFile: string; uri: string } | null) => void;
   onAddEvent: () => void;
@@ -50,10 +54,15 @@ export function AddDefaultView({
   description,
   setDescription,
   date,
+  setDate, 
   startsAt,
+  setStartsAt, 
   endsAt,
+  setEndsAt, 
   category,
+  setCategory, 
   location,
+  setLocation, 
   musicFile,
   setMusicFile,
   onAddEvent,
@@ -71,47 +80,106 @@ export function AddDefaultView({
     const end = formatHour(endsAt);
     const formattedDate = date?.toLocaleDateString();
 
+    function onClear(){
+      setDate(null); 
+      setStartsAt(null); 
+      setEndsAt(null); 
+    }
+
     return (
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        <Chip
-          label={start}
-          variant={ChipVariant.LIGHT}
-          onPress={() => setStep(StepsEnum.DATE)}
-        />
-        <Chip
-          label={end}
-          variant={ChipVariant.LIGHT}
-          onPress={() => setStep(StepsEnum.DATE)}
-        />
-        <Chip
-          label={formattedDate}
-          variant={ChipVariant.LIGHT}
-          onPress={() => setStep(StepsEnum.DATE)}
-        />
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Chip
+            label={start}
+            variant={ChipVariant.LIGHT}
+            onPress={() => setStep(StepsEnum.DATE)}
+          />
+          <Chip
+            label={end}
+            variant={ChipVariant.LIGHT}
+            onPress={() => setStep(StepsEnum.DATE)}
+          />
+          <Chip
+            label={formattedDate}
+            variant={ChipVariant.LIGHT}
+            onPress={() => setStep(StepsEnum.DATE)}
+          />
+        </View>
+        <TouchableOpacity onPress={onClear} style={styles.clear}>
+          <MaterialCommunityIcons name="close" size={16} color={theme.colors["secondary"]} />
+        </TouchableOpacity>
       </View>
+      
     );
   };
 
   const LocationPills = () => {
     if (!location) return;
+
+    function onClear(){
+      setLocation(null)
+    }
     const latitude = location.latitude.toFixed(3);
     const longitude = location.longitude.toFixed(3);
 
     return (
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        <Chip
-          label={latitude}
-          variant={ChipVariant.LIGHT}
-          onPress={() => setStep(StepsEnum.DATE)}
-        />
-        <Chip
-          label={longitude}
-          variant={ChipVariant.LIGHT}
-          onPress={() => setStep(StepsEnum.DATE)}
-        />
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Chip
+            label={latitude}
+            variant={ChipVariant.LIGHT}
+            onPress={() => setStep(StepsEnum.DATE)}
+          />
+          <Chip
+            label={longitude}
+            variant={ChipVariant.LIGHT}
+            onPress={() => setStep(StepsEnum.DATE)}
+          />
+        </View>
+        <TouchableOpacity onPress={onClear} style={styles.clear}>
+          <MaterialCommunityIcons name="close" size={16} color={theme.colors["secondary"]} />
+        </TouchableOpacity>
       </View>
+      
     );
   };
+
+  const CategoryPill = () => {
+    function onClear(){
+      setCategory(null)
+    }
+
+    return(
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <Chip
+          label={category?.toUpperCase() || ""}
+          variant={ChipVariant.LIGHT}
+          onPress={() => setStep(StepsEnum.CATEGORY)}
+        />
+        <TouchableOpacity onPress={onClear} style={styles.clear}>
+          <MaterialCommunityIcons name="close" size={16} color={theme.colors["secondary"]} />
+        </TouchableOpacity>
+      </View>      
+    )
+  }
+
+  const MusicPill = () => {
+    function onClear(){
+      setMusicFile(null)
+    }
+
+    return(
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+        <Chip 
+          label={truncateString(musicFile?.nameFile || "", 30)} 
+          variant={ChipVariant.LIGHT} 
+        />
+        <TouchableOpacity onPress={onClear} style={styles.clear}>
+          <MaterialCommunityIcons name="close" size={16} color={theme.colors["secondary"]} />
+        </TouchableOpacity>
+      </View>      
+    )
+  }
 
   useEffect(() => {
     if (imageUri) {
@@ -149,6 +217,7 @@ export function AddDefaultView({
         variant={InputVariant.DEFAULT}
         value={title ?? ""}
         onChangeValue={setTitle}
+        required={title ? false : true}
       />
 
       {/* Descripción */}
@@ -158,6 +227,7 @@ export function AddDefaultView({
         variant={InputVariant.DEFAULT}
         value={description ?? ""}
         onChangeValue={setDescription}
+        required={description ? false : true}
       />
 
       {/* FECHA Y HORA */}
@@ -165,7 +235,6 @@ export function AddDefaultView({
         <DisplayInput
           label={t("addEvent.when").toUpperCase()}
           data={<DatePills />}
-          onPress={() => setStep(StepsEnum.DATE)}
         />
       ) : (
         <Input
@@ -180,14 +249,7 @@ export function AddDefaultView({
       {category ? (
         <DisplayInput
           label={t("addEvent.category").toUpperCase()}
-          data={
-            <Chip
-              label={category.toUpperCase()}
-              variant={ChipVariant.LIGHT}
-              onPress={() => setStep(StepsEnum.CATEGORY)}
-            />
-          }
-          onPress={() => setStep(StepsEnum.CATEGORY)}
+          data={<CategoryPill/>}
         />
       ) : (
         <Input
@@ -202,12 +264,8 @@ export function AddDefaultView({
        { musicFile
             ? <DisplayInput
                 label={t("addEvent.music").toUpperCase()}
-                data={<Chip 
-                    label={truncateString(musicFile.nameFile, 30)} 
-                    variant={ChipVariant.LIGHT} 
-                    onPress={pickMusicFile} />}
-                    onPress={pickMusicFile}
-                />
+                data={<MusicPill />}
+               />
             : <Input 
                 label={t("addEvent.music").toUpperCase()}
                 placeholder={t("addEvent.add_music")}
@@ -222,7 +280,6 @@ export function AddDefaultView({
         <DisplayInput
           label={t("addEvent.location").toUpperCase()}
           data={<LocationPills />}
-          onPress={() => setStep(StepsEnum.LOCATION)}
         />
       ) : (
         <Input
@@ -332,4 +389,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: "left",
   },
+  clear:{
+    backgroundColor: theme.colors["gray"],
+    alignItems: "center",
+    alignContent: "center", 
+    justifyContent: "center",
+    width: 30,
+    height: 29,
+    padding: 5,
+    borderRadius: 6,
+  }
 });

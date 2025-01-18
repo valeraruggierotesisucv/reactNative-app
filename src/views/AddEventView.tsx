@@ -127,9 +127,13 @@ export function AddEventView() {
             description={description}
             setDescription={setDescription}
             date={date}
+            setDate={setDate}
             category={category}
+            setCategory={setCategory}
             startsAt={startTime}
+            setStartsAt={setStartTime}
             endsAt={endTime}
+            setEndsAt={setEndTime}
             musicFile={musicFile}
             setMusicFile={setMusicFile}
             location={location}
