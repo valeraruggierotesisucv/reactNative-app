@@ -7,13 +7,22 @@ export interface Event {
 
 export class ProfileController {
     static async getProfile(userId: string) {
-        const user = await UserModel.getUserById(userId);
-
-        return user;
+        try {
+            const user = await UserModel.getUserById(userId);
+            return user;
+        } catch (error) {
+            console.error("Error fetching profile", error);
+            throw error;
+        }
     }
 
     static async getUserEvents(userId: string) {
-        const events: Event[] = await UserModel.getUserEvents(userId);
-        return events;
+        try {
+            const events: Event[] = await UserModel.getUserEvents(userId);
+            return events;
+        } catch (error) {
+            console.error("Error fetching events", error);
+            throw error;
+        }
     }
 }

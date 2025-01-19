@@ -21,6 +21,7 @@ export interface UserCardProps {
   onPressUser?: () => void;
   onPressButton?: () => void;
   actionLabel?: string;
+  disabled?: boolean;
 }
 
 export function UserCard({
@@ -30,6 +31,7 @@ export function UserCard({
   onPressUser,
   onPressButton,
   actionLabel,
+  disabled,
 }: UserCardProps) {
   return (
     <View style={styles.container}>
@@ -44,6 +46,7 @@ export function UserCard({
             onPress={onPressButton ?? (() => {})}
             size={ButtonSize.EXTRA_SMALL}
             fontSize={14}
+            disabled={disabled}
           />
         </View>
       )}

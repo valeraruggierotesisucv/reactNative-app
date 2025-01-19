@@ -125,3 +125,10 @@ GET http://localhost:5000/api/users/59f8b967-c1f0-42d3-b9b9-e32c11db446c/followe
 
 ### Get User followers
 GET http://localhost:5000/api/users/cm5ylssnm0000ty7wb1c36urk/followers
+
+
+### Follow User
+POST http://localhost:5000/api/users/cm5ylsvds0008ty7wx6ypebvi/follow/59f8b967-c1f0-42d3-b9b9-e32c11db446c
+
+### Unfollow User
+DELETE http://localhost:5000/api/users/cm5ylsvds0008ty7wx6ypebvi/unfollow/59f8b967-c1f0-42d3-b9b9-e32c11db446c  

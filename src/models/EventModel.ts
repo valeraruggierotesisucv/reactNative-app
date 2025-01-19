@@ -17,6 +17,7 @@ export class EventModel {
     categoryId: string; 
     musicUrl: string; 
     isLiked: boolean; 
+    userId: string;
 
     constructor(
         eventId: string, 
@@ -34,6 +35,7 @@ export class EventModel {
         categoryId: string, 
         musicUrl: string, 
         isLiked: boolean, 
+        userId: string
     ){
         this.eventId = eventId, 
         this.profileImage = profileImage, 
@@ -49,7 +51,8 @@ export class EventModel {
         this.category = category, 
         this.categoryId = categoryId, 
         this.musicUrl = musicUrl, 
-        this.isLiked = isLiked
+        this.isLiked = isLiked,
+        this.userId = userId
     }
 
     // POST api/events
@@ -87,7 +90,6 @@ export class EventModel {
             
             const events = data.map((event : any) => {
                 const date = new Date(event.date).toLocaleDateString(); 
-                
                 return new EventModel(
                     event.eventId, 
                     event.user.profileImage, 
@@ -104,6 +106,7 @@ export class EventModel {
                     event.categoryId, 
                     event.eventMusic, 
                     false, // TODO: FALTA LIKE 
+                    event.user.userId
                 )
             })
             
@@ -138,7 +141,8 @@ export class EventModel {
             event.category.nameEs,
             event.categoryId, 
             event.eventMusic,
-            false // TODO: FALTA LIKE
+            false, // TODO: FALTA LIKE
+            event.user.userId
           );
         } catch (error) {
           console.error("Error fetching event details:", error);

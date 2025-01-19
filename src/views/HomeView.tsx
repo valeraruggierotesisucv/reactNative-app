@@ -104,7 +104,7 @@ export function HomeView() {
                     description={item.description}
                     isLiked={item.isLiked}
                     date={item.date}
-                    onPressUser={() =>
+                    onPressUser={() =>{
                       navigation.navigate(HomeRoutes.ProfileDetails, {
                         userId: item.userId,
                       })
