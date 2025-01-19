@@ -1,13 +1,13 @@
 import { apiRequest } from "../../utils/apiRequest";
 
-class UserModel {
+export class UserModel {
     public userId: string;
     public username: string;
     public fullName: string;
     public email: string;
-    public profileImage: string | null;
+    public profileImage: string | undefined;
     public birthDate: Date;
-    public biography: string | null;
+    public biography: string | undefined;
     public followersCounter: number;
     public followingCounter: number;
     public eventsCounter: number;
@@ -16,9 +16,9 @@ class UserModel {
         username: string,
         fullName: string,
         email: string,
-        profileImage: string | null,
+        profileImage: string | undefined,
         birthDate: Date,
-        biography: string | null,
+        biography: string | undefined,
         followersCounter: number,
         followingCounter: number,
         eventsCounter: number
@@ -36,14 +36,14 @@ class UserModel {
     }
 
     static async createUser(data: {
+        userId: string;
         username: string;
         fullName: string;
         email: string;
-        profileImage?: string;
         birthDate: Date;
-        biography?: string;
     }) {
-        const user = await apiRequest("users", "POST", data)
+        const response = await apiRequest("signup", "POST", data)
+        const user = response.data
         return new UserModel(
             user.userId,
             user.username,

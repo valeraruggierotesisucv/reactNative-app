@@ -10,6 +10,7 @@ interface AuthContextType {
     login: (email:string, password: string) => void;
     logout: () => void;
     resetPassword: (email:string) => void
+    signup: (email:string, password: string, fullname: string, username: string) => Promise<AuthUser | null | undefined>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -17,6 +18,30 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<AuthUser | null>(null);
     const [session, setSession] = useState<Session | null>(null);
+
+    const signup = async(email: string, password: string, fullname: string, username: string) => {
+        
+        try {
+            const { error, data} = await supabase.auth.signUp({
+                    email: email, 
+                    password: password,
+                options: {
+                    data: {
+                        full_name: fullname,
+                        username: username,           
+                    }
+                }
+            })
+            if(error) Alert.alert(error.message)
+            setUser(data.user);
+            setSession(data.session)
+            return data.user
+
+        } catch (error: any) {
+            Alert.alert(error.message)
+            console.error("Error signing up:", error);
+        }
+    }
 
     const login = async(email: string, password: string) => {
         const { error, data} = await supabase.auth.signInWithPassword({
@@ -70,7 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, session, login, logout, resetPassword }}>
+        <AuthContext.Provider value={{ user, session, login, logout, resetPassword, signup }}>
             {children}
         </AuthContext.Provider>
     );

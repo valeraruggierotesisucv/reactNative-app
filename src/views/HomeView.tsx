@@ -27,6 +27,7 @@ export function HomeView() {
 
   const fetchComments = async (eventId: string) => {
     try {
+     
       if(session){
         const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
         return comments;

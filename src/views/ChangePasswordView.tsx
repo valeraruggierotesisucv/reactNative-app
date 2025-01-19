@@ -3,7 +3,7 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
-import { InputField } from "../components/InputField/InputField";
+import { InputField, InputFieldVariant } from "../components/InputField/InputField";
 import { useState } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { theme } from "../../utils/theme";
@@ -47,7 +47,7 @@ export function ChangePasswordView() {
             icon={visibility.password ? "eye" : "eye-off"}
             secureTextEntry={!visibility.password}
             onPressIcon={() => togleVisibility("password")}
-            variant="grayBackground"
+            variant={InputFieldVariant.GRAY_BACKGROUND}
           />
           <InputField
             label={t("changePassword.new_password").toUpperCase()}
@@ -58,7 +58,7 @@ export function ChangePasswordView() {
             icon={visibility.newPassword ? "eye" : "eye-off"}
             secureTextEntry={!visibility.newPassword}
             onPressIcon={() => togleVisibility("newPassword")}
-            variant="grayBackground"
+            variant={InputFieldVariant.GRAY_BACKGROUND}
           />
           <InputField
             label={t("changePassword.confirm_password").toUpperCase()}
@@ -69,7 +69,7 @@ export function ChangePasswordView() {
             icon={visibility.confirmPassword ? "eye" : "eye-off"}
             secureTextEntry={!visibility.confirmPassword}
             onPressIcon={() => togleVisibility("confirmPassword")}
-            variant="grayBackground"
+            variant={InputFieldVariant.GRAY_BACKGROUND}
           />
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <Button
