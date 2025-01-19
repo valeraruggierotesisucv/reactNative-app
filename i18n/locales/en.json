@@ -170,5 +170,14 @@
         "fullName": "Full Name",
         "biography": "Biography",
         "profile_updated": "Your profile has been updated successfully"
+    },
+    "editEvent":{
+        "title": "Edit Event",
+        "save": "Save changes",
+        "when": "When",
+        "category": "Category",
+        "location": "Location",
+        "music": "Music",
+        "description": "Description"
     }
 }
