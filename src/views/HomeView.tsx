@@ -1,19 +1,20 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { StyleSheet, FlatList, View, Text, ActivityIndicator} from "react-native";
+import { StyleSheet, FlatList, View, Text, ActivityIndicator, Alert} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { EventCard } from "../components/EventCard/EventCard";
-import { events } from "../../utils/dummyData";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { theme } from "../../utils/theme";
-import { dummyComments } from "../data/dummyComments";
 import { onShare } from "../../utils/share";
 import { useTranslation } from "react-i18next";
 import { ListEventsController } from "../controllers/ListEventsController";
 import { Loading } from "../components/Loading/Loading";
+import { CommentEventController } from "../controllers/CommentEventController";
+import { ProfileController } from "../controllers/ProfileController";
+import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 
 
 export function HomeView() {
@@ -22,19 +23,60 @@ export function HomeView() {
   const { t } = useTranslation();
   const [events, setEvents] = useState(); 
   const [isLoading, setIsLoading] = useState(true);
+  const [ userComment, setUserComment] = useState<{username: string, profileImage:string}>({ "username": "", "profileImage": IMAGE_PLACEHOLDER}); 
+
+  const fetchComments = async (eventId: string) => {
+    try {
+      if(session){
+        const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
+        return comments;
+      }      
+    } catch (error) {
+      console.error("Error fetching comments for event:", eventId, error);
+      return []; 
+    }
+  };
+
+  const onComment = async (eventId: string, comment: string) => {
+    if(session && user){
+      try {
+        const result = await CommentEventController.createComment(session?.access_token, eventId, {
+          userId: user?.id, 
+          text: comment
+        })
+        console.log(result)
+      } catch (error) {
+        console.error("Error adding comment", error);
+        Alert.alert("Error adding comment");
+      }
+    }    
+  }
 
   useFocusEffect(
     useCallback(() => {
       async function fetchEvents (){
         setIsLoading(true); 
         if(session && user){
-          const result = await ListEventsController.getHomeEvents(session.access_token, user.id)
-          setEvents(result); 
-          setIsLoading(false)
+          try {
+            const result = await ListEventsController.getHomeEvents(session.access_token, user.id)
+            setEvents(result); 
+            setIsLoading(false)
+          } catch (error) {
+            console.error("Error fetching events", error);
+            setIsLoading(false)
+          }
         }            
       }    
+      async function fetchProfile(){
+        const profile = await ProfileController.getProfile(user?.id || "");
+        setUserComment({
+          "username": profile.username, 
+          "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
+        })
+      }
 
       fetchEvents()
+      fetchProfile()
       return () => {
 
       };
@@ -53,6 +95,7 @@ export function HomeView() {
               renderItem={({ item }) => {
                 return (
                   <EventCard
+                    eventId={item.eventId}
                     profileImage={item.profileImage}
                     username={item.username}
                     eventImage={item.eventImage}
@@ -65,8 +108,9 @@ export function HomeView() {
                         userId: item.userId,
                       })
                     }
-                    onComment={() => Promise.resolve()}
-                    fetchComments={() => Promise.resolve(dummyComments)}
+                    onComment={onComment}
+                    userComment={userComment}
+                    fetchComments={() => fetchComments(item.eventId)}
                     onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
                     onMoreDetails={() =>
                       navigation.navigate(HomeRoutes.EventDetails, {

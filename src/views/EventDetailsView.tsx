@@ -20,6 +20,8 @@ import { EventDetailsController } from "../controllers/EventDetailsController";
 import { EventModel } from "../models/EventModel";
 import { Loading } from "../components/Loading/Loading";
 import React from "react";
+import { CommentEventController } from "../controllers/CommentEventController";
+import { ProfileController } from "../controllers/ProfileController";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -33,7 +35,30 @@ export function EventDetailsView() {
   const route = useRoute<EventDetailsRouteProp>();
   const canEdit = route.params?.canEdit || false;
   const [isLoading, setIsLoading] = useState(true);
- 
+  const [ userComment, setUserComment] = useState<{username: string, profileImage:string}>({ "username": "", "profileImage": IMAGE_PLACEHOLDER}); 
+
+  const fetchComments = async (eventId: string) => {
+    try {
+      if(session){
+        const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
+        return comments;
+      }      
+    } catch (error) {
+      console.error("Error fetching comments for event:", eventId, error);
+      return []; 
+    }
+  };
+
+  const onComment = async (eventId: string, comment: string) => {
+    if(session && user){
+      const result = await CommentEventController.createComment(session?.access_token, eventId, {
+        userId: user?.id, 
+        text: comment
+      })
+      console.log(result)
+    }    
+  }
+
   useEffect(() => {
     async function fetchEventDetails(){
       if(session && user){
@@ -44,7 +69,16 @@ export function EventDetailsView() {
       }
     }
 
+    async function fetchProfile(){
+      const profile = await ProfileController.getProfile(user?.id || "");
+      setUserComment({
+        "username": profile.username, 
+        "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
+      })
+    }
+
     fetchEventDetails()
+    fetchProfile()
   }, [])
 
   return (
@@ -55,6 +89,7 @@ export function EventDetailsView() {
           ? <Loading/>
           : (<>
               <EventCard
+                eventId={event?.eventId || t("common.not_available")}
                 profileImage={event?.profileImage || IMAGE_PLACEHOLDER}
                 username={event?.username || t("common.not_available")}
                 eventImage={event?.eventImage || IMAGE_PLACEHOLDER}
@@ -69,9 +104,10 @@ export function EventDetailsView() {
                 endsAt={event?.endsAt}
                 category={event?.category}
                 onPressUser={() => console.log("USER")}
-                onComment={() => Promise.resolve()}
+                onComment={onComment}
+                userComment={userComment}
                 onShare={() => console.log("SHARE")}
-                fetchComments={() => Promise.resolve(dummyComments)}
+                fetchComments={() => fetchComments(event?.eventId || "")}
                 musicUrl={event?.musicUrl}
               />
                 {canEdit && (

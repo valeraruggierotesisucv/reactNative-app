@@ -1,4 +1,4 @@
-import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { UserCard, UserCardVariant } from "../UserCard/UserCard";
 import { SocialInteractions } from "../SocialInteractions/SocialInteractions";
 import { useState, useEffect } from "react";
@@ -32,6 +32,7 @@ interface DisplayEventProps {
   musicUrl?: string;
 }
 interface EventCardProps extends DisplayEventProps {
+  eventId: string, 
   profileImage: string;
   username: string;
   eventImage: string;
@@ -42,7 +43,8 @@ interface EventCardProps extends DisplayEventProps {
   variant?: EventCardVariant;
   musicUrl?: string;
   onPressUser: () => void;
-  onComment: (comment: string) => Promise<void>;
+  onComment: (eventId: string, comment: string) => Promise<void>;
+  userComment: { username: string, profileImage: string}; 
   onShare: () => void;
   onMoreDetails?: () => void;
   fetchComments: () => Promise<Comment[]>;
@@ -97,6 +99,7 @@ export function DisplayEvent({
 }
 
 export function EventCard({
+  eventId, 
   profileImage,
   username,
   eventImage,
@@ -110,6 +113,7 @@ export function EventCard({
   category,
   endsAt,
   variant = EventCardVariant.DEFAULT,
+  userComment, 
   onPressUser,
   onComment,
   onShare,
@@ -126,25 +130,22 @@ export function EventCard({
     setLike(!like);
   };
 
-  const handleAddComment = (comment: string) => {
-    console.log("comment", comment);
-
+  const handleAddComment = async (comment: string) => {
     try {
-      onComment(comment);
+      await onComment(eventId, comment);
+      setComments([
+        ...comments,
+        {
+          username: userComment.username,
+          comment: comment,
+          profileImage: userComment.profileImage,
+          timestamp: new Date(),
+        },
+      ]);
     } catch (error) {
       console.error("Error adding comment", error);
       return;
     }
-
-    setComments([
-      ...comments,
-      {
-        username: username,
-        comment: comment,
-        userAvatar: profileImage,
-        timestamp: new Date(),
-      },
-    ]);
   };
 
   useEffect(() => {
@@ -156,8 +157,11 @@ export function EventCard({
         console.error(error);
       }
     };
-
-    getComments();
+    
+    if(commentsVisible){
+      getComments();
+    }
+  
   }, [commentsVisible]);
 
   return (
@@ -204,7 +208,7 @@ export function EventCard({
           musicUrl={musicUrl}
         />
       )}
-      {commentsVisible && (
+      {commentsVisible && comments && (
         <CommentsSection
           comments={comments}
           onAddComment={handleAddComment}
