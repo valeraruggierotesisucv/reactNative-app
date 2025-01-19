@@ -1,6 +1,6 @@
 import { apiRequest } from "../../utils/apiRequest";
 
-class UserModel {
+export class UserModel {
     public userId: string;
     public username: string;
     public fullName: string;
