@@ -186,6 +186,16 @@
         "title": "Editar perfil",
         "save": "Guardar cambios",
         "fullName": "Nombre completo",
-        "biography": "Biografía"
+        "biography": "Biografía",
+        "profile_updated": "Tu perfil se ha actualizado con éxito"
+    },
+    "editEvent":{
+        "title": "Editar evento",
+        "save": "Guardar cambios",
+        "when": "Cuando",
+        "category": "Categoría",
+        "location": "Ubicación",
+        "music": "Música",
+        "description": "Descripción"
     }
 }

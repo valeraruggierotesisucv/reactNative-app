@@ -19,12 +19,13 @@ import { EditProfileController } from "../controllers/EditProfileController";
 import { Formik } from "formik";
 import { UploadFileController } from "../controllers/UploadFileController";
 import { FileTypeEnum } from "../services/storage";
+import { Loading } from "../components/Loading/Loading";
 
 export function EditProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const { t } = useTranslation();
   const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
-  const [image, setImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [fullName, setFullName] = useState<string>("");
   const [biography, setBiography] = useState<string>("");
   const { user } = useAuth();
@@ -37,7 +38,8 @@ export function EditProfileView() {
         try {
           setIsLoading(true);
           const response = await EditProfileController.getProfile(user.id);
-          setImage(response.profileImage);
+          console.log("response", response);
+          setProfileImage(response.profileImage);
           setFullName(response.fullName);
           setBiography(response.biography || "");
           setIsLoading(false);
@@ -49,11 +51,7 @@ export function EditProfileView() {
     getUser();
   }, []);
 
-  const initialValues = {
-    fullName: fullName,
-    biography: biography,
-    image: image,
-  };
+
 
   const handleSubmit = async (values: {fullName: string, biography: string, image: string| null}) => {
     try {
@@ -85,16 +83,23 @@ export function EditProfileView() {
           goBack={() => navigation.goBack()}
         />
         {isLoading ? (
-          <Text style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 20}}>Loading...</Text>
+          <Loading />
         ) : ( 
         <Formik
           enableReinitialize
-          initialValues={initialValues}
+          initialValues={{
+            fullName: fullName,
+            biography: biography,
+            image: profileImage,
+          }}
           onSubmit={handleSubmit}
         >
           {({ handleChange, handleSubmit, values, setFieldValue, isSubmitting, dirty }) => {
+            console.log("values", values);
             useEffect(() => {
-              setFieldValue("image", imageUri);
+              if(imageUri){
+                setFieldValue("image", imageUri);
+              }
             }, [imageUri]);
           
           return(

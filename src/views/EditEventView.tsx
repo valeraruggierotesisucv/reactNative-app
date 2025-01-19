@@ -24,6 +24,7 @@ import { theme } from "../../utils/theme";
 */
 
 interface Event {
+  title: string;
   description: string;
   date: Date;
   startTime: Date;
@@ -44,6 +45,7 @@ export function EditEventView() {
   const route = useRoute<RouteProp<ProfileStackParamList, ProfileRoutes.EditEvent>>();
   const eventId = route.params.eventId;
   const [event, setEvent] = useState<Event>({
+    title: "Evento de prueba",
     description: "Evento de prueba",
     date: new Date(),
     startTime: new Date(),
@@ -83,6 +85,7 @@ export function EditEventView() {
   const [category, setCategory] = useState<CategoriesEnum | null>(event.category);
   const [location, setLocation] = useState<LatLng | null>(event.location);
   const [image, setImage] = useState<string | null>(event.image);
+  const [title, setTitle] = useState<string | null>(event.title);
   const [musicFile, setMusicFile] = useState<{
     nameFile: string;
     uri: string;
@@ -135,7 +138,7 @@ export function EditEventView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <AppHeader title={step === StepsEnum.DEFAULT ? t("editEvent.edit_event") : step === StepsEnum.DATE ? t("editEvent.when") : step === StepsEnum.CATEGORY ? t("editEvent.category") : step === StepsEnum.LOCATION ? t("editEvent.location") : ""} goBack={() => step === StepsEnum.DEFAULT ? navigation.goBack() : setStep(StepsEnum.DEFAULT)} />
+        <AppHeader title={step === StepsEnum.DEFAULT ? t("editEvent.title") : step === StepsEnum.DATE ? t("editEvent.when") : step === StepsEnum.CATEGORY ? t("editEvent.category") : step === StepsEnum.LOCATION ? t("editEvent.location") : ""} goBack={() => step === StepsEnum.DEFAULT ? navigation.goBack() : setStep(StepsEnum.DEFAULT)} />
         {step === StepsEnum.DEFAULT && (
           <AddDefaultView
             step={step}
@@ -153,7 +156,9 @@ export function EditEventView() {
             image={image}
             setImage={setImage}
             onAddEvent={handleAddEvent}
-            buttonLabel={t("save_changes")}
+            buttonLabel={t("editEvent.save")}
+            title={title}
+            setTitle={setTitle}
           />
         )}
 
@@ -177,6 +182,8 @@ export function EditEventView() {
             category={category}
             setCategory={setCategory}
             preferences={false}
+            categoryId={1}
+            setCategoryId={() => {}}
           />
         )}
 

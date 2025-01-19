@@ -5,39 +5,38 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 import { SearchBar } from "../components/SearchBar/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ListUsersController } from "../controllers/ListUsersController";
+import { useAuth } from "../contexts/AuthContext";
 
 export function FollowersView() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
+  const { user } = useAuth();
+  const [followers, setFollowers] = useState<{ followerId: string, followerName: string, followerProfileImage: string, followed: boolean }[] | null>(null);
 
-  // ListUsersController
-  const followersDummyData = [
-    {
-      id: 1,
-      name: "John Doe",
-      profileImage: "https://picsum.photos/200/200",
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      profileImage: "https://picsum.photos/200/200",
-    },
-    {
-      id: 3,
-      name: "John Smith",
-      profileImage: "https://picsum.photos/200/200",
-    },
-  ];
+
+  const getFollowers = async () => {
+    try {
+      const response = await ListUsersController.getFollowers(user!.id);
+      setFollowers(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getFollowers();
+  }, []);
 
   const handleSearchChange = (text: string) => {
     setSearch(text);
   };
 
-  const filteredFollowers = followersDummyData.filter((follower) =>
-    follower.name.toLowerCase().includes(search.toLowerCase())
+  const filteredFollowers = followers?.filter((follower) =>
+    follower.followerName.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -48,14 +47,14 @@ export function FollowersView() {
           onChangeText={handleSearchChange}
           value={search}
         />
-        {filteredFollowers.map((follower) => (
+        {filteredFollowers?.map((follower) => (
           <UserCard
-            key={follower.id}
-            profileImage={follower.profileImage}
-            username={follower.name}
+            key={follower.followerId}
+            profileImage={follower.followerProfileImage}
+            username={follower.followerName}
             onPressButton={() => {}}
             variant={UserCardVariant.WITH_BUTTON}
-            actionLabel="Seguir"
+            actionLabel={follower.followed ? "Dejar de seguir" : "Seguir"}
           />
         ))}
       </ScrollView>
