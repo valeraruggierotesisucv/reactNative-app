@@ -93,6 +93,79 @@ app.post("/api/events", authenticateUser, async(req, res) => {
   }
 })
 
+// updateEvent 
+app.post("/api/events/:eventId", async(req, res) => {
+  const validationResult = eventSchema.safeParse(req.body);
+  const { eventId } = req.params; 
+
+  if (!validationResult.success) {
+    return res.status(400).json({
+      data: validationResult.error.errors,
+      success: false      
+    });
+  }
+
+  const { 
+    userId, 
+    eventImage, 
+    categoryId, 
+    latitude, 
+    longitude, 
+    title, 
+    description, 
+    date, 
+    startsAt, 
+    endsAt, 
+    eventMusic, 
+    updateLocation, 
+  } = req.body; 
+
+    // Create location
+    try{
+      let location; 
+      if(updateLocation){
+        location = await db.location.create({
+          data: {
+            latitude:  parseFloat(latitude), 
+            longitude: parseFloat(longitude), 
+          }
+        }); 
+      }
+     
+      try{
+        const event = await db.event.update({
+          where: {
+            eventId: eventId
+          }, 
+          data:{
+            userId: userId, 
+            eventImage: eventImage, 
+            categoryId: parseInt(categoryId), 
+            locationId: updateLocation ? location.locationId : undefined, 
+            title: title, 
+            description: description, 
+            date: date, 
+            startsAt: startsAt, 
+            endsAt: endsAt, 
+            eventMusic: eventMusic
+          }
+        }); 
+
+        res.json({
+          data: event, 
+          success: true
+        })
+  
+      }catch(error){
+        console.error(error); 
+        res.status(500).json({ error: "FAILED to create event" });
+      }
+    }catch(error){
+      console.error(error); 
+      res.status(500).json({ error: "FAILED to create location" });
+    }
+
+})
 // getEventDetails
 app.get("/api/events/:eventId", async(req, res) => { 
   try{
@@ -112,12 +185,14 @@ app.get("/api/events/:eventId", async(req, res) => {
         location:{
           select:{
             latitude: true, 
-            longitude: true
+            longitude: true, 
+            locationId: true
           }
         }, 
         category:{
           select: {
-            nameEs: true
+            nameEs: true, 
+            categoryId: true
           }
         }
       }
@@ -461,7 +536,8 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
              location:{
               select: {
                 latitude: true, 
-                longitude: true
+                longitude: true, 
+                locationId: true
               }
              }
           }

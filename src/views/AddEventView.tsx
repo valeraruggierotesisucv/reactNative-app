@@ -48,7 +48,6 @@ export function AddEventView() {
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
 
-  // Agregar evento 
   async function handleAddEvent() {     
     if (title && description && date && startTime && endTime && category && image && musicFile && location) {
       setModalVisible(true);
@@ -70,9 +69,7 @@ export function AddEventView() {
         longitude: location?.longitude,       
       }
 
-    
       if(session){
-        console.log("Evento creado: "); 
         const result = await AddEventController.postEvent(session?.access_token, eventData); 
         console.log(result);
       }      
@@ -127,9 +124,13 @@ export function AddEventView() {
             description={description}
             setDescription={setDescription}
             date={date}
+            setDate={setDate}
             category={category}
+            setCategory={setCategory}
             startsAt={startTime}
+            setStartsAt={setStartTime}
             endsAt={endTime}
+            setEndsAt={setEndTime}
             musicFile={musicFile}
             setMusicFile={setMusicFile}
             location={location}
@@ -195,6 +196,7 @@ export function AddEventView() {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

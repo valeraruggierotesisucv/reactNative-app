@@ -52,3 +52,7 @@ export function formatDate(date: Date, locale: string = "en-US"): string {
     return `${diffInYears}${t.year}`;
 }
 
+
+export function getDate(date: string){
+    return new Date(date.split("/").reverse().join("-") + "T16:00:00.000Z");
+}

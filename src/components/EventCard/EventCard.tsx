@@ -22,6 +22,10 @@ interface PillsProps {
   date: string;
 }
 
+interface LocationPillsProps {
+  latitude: string;
+  longitude: string; 
+}
 interface DisplayEventProps {
   latitude?: string;
   longitude?: string; 
@@ -60,6 +64,23 @@ const Pills = ({ startsAt, endsAt, date }: PillsProps) => {
   );
 };
 
+const LocationPills = ( { latitude, longitude }: LocationPillsProps) => {
+  const lat = parseFloat(latitude).toFixed(3);
+  const long = parseFloat(longitude).toFixed(3);
+  return(
+    <View style={{ flexDirection: "row", gap: 8 }}>
+      <Chip
+        label={lat}
+        variant={ChipVariant.LIGHT}
+      />
+      <Chip
+        label={long}
+        variant={ChipVariant.LIGHT}
+      />
+    </View>    
+  )
+}
+
 export function DisplayEvent({
   latitude,
   longitude, 
@@ -73,9 +94,10 @@ export function DisplayEvent({
 
   return (
     <View>
+      {musicUrl && <AudioPlayer uri={musicUrl} />}
       <DisplayInput
         label={t("common.location").toUpperCase()}
-        data={`${latitude}, ${longitude}`}
+        data={<LocationPills latitude={latitude || ""} longitude={longitude || ""}/>}
       />
 
       <DisplayInput
@@ -92,8 +114,7 @@ export function DisplayEvent({
       <DisplayInput
         label={t("common.category").toUpperCase()}
         data={<Chip label={category || ""} variant={ChipVariant.LIGHT} />}
-      />
-      {musicUrl && <AudioPlayer uri={musicUrl} />}
+      />      
     </View>
   );
 }

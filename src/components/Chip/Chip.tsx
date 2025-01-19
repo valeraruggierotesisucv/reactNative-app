@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { theme } from "../../../utils/theme";
 
 export enum ChipVariant {
@@ -17,9 +17,9 @@ export function Chip({
   variant = ChipVariant.DEFAULT,
 }: ChipProps) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <View style={styles.container}>
       <Text style={[styles.label, styles[variant]]}>{label}</Text>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors["gray"],
     alignItems: "center",
     justifyContent: "center",
-    minWidth: 80,
+    minWidth: 70,
     height: 30,
     padding: 5,
     borderRadius: 6,

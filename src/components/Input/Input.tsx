@@ -34,8 +34,7 @@ export function Input({
         {label}{" "}
         {required && <Text style={styles.required}>*</Text>}
       </Text>
-      <Text></Text>
-
+      
       {variant === InputVariant.DEFAULT 
        ? (<TextInput 
             multiline={multiline}

@@ -5,15 +5,14 @@ import { useTranslation } from "react-i18next";
 interface DisplayInputProps {
   label: string;
   data: React.ReactNode;
-  onPress?: () => void
 }
 
-export function DisplayInput({ label, data, onPress }: DisplayInputProps) {
+export function DisplayInput({ label, data }: DisplayInputProps) {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <Text style={styles.data}>{data}</Text>
-    </TouchableOpacity>
+      <View style={styles.data}>{data}</View>
+    </View>
   );
 }
 

@@ -14,6 +14,7 @@ export class EventModel {
     endsAt: string; 
     date: string; 
     category: string; 
+    categoryId: string; 
     musicUrl: string; 
     isLiked: boolean; 
 
@@ -30,6 +31,7 @@ export class EventModel {
         endsAt: string, 
         date: string, 
         category: string, 
+        categoryId: string, 
         musicUrl: string, 
         isLiked: boolean, 
     ){
@@ -45,6 +47,7 @@ export class EventModel {
         this.endsAt = endsAt, 
         this.date = date, 
         this.category = category, 
+        this.categoryId = categoryId, 
         this.musicUrl = musicUrl, 
         this.isLiked = isLiked
     }
@@ -57,6 +60,19 @@ export class EventModel {
             event, 
             token
         )
+    }
+
+    static async updateEvent(token: string, event: object, eventId: string){
+        try{
+            return await apiRequest(
+                `events/${eventId}`, 
+                "POST", 
+                event, 
+                token
+            ); 
+        }catch(error){
+            console.log(error)
+        }
     }
 
     // GET api/home/:userId/events
@@ -78,13 +94,14 @@ export class EventModel {
                     event.user.username, 
                     event.eventImage, 
                     event.title,  
-                    event.description, 
+                    event.description,  
                     event.location.latitude, 
                     event.location.longitude, 
                     event.startsAt, 
                     event.endsAt, 
                     date, 
                     event.category, 
+                    event.categoryId, 
                     event.eventMusic, 
                     false, // TODO: FALTA LIKE 
                 )
@@ -119,6 +136,7 @@ export class EventModel {
             endsAt,
             date,
             event.category.nameEs,
+            event.categoryId, 
             event.eventMusic,
             false // TODO: FALTA LIKE
           );

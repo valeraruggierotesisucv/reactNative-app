@@ -187,16 +187,28 @@
         "title": "Edit Profile",
         "save": "Save changes",
         "fullName": "Full Name",
-        "biography": "Biography",
-        "profile_updated": "Your profile has been updated successfully"
-    },
+        "biography": "Biography"
+    }, 
     "editEvent":{
-        "title": "Edit Event",
-        "save": "Save changes",
-        "when": "When",
+        "title": "Edit event", 
+        "description": "Description",
+        "add_description": "Add a description of your event",
+        "add_title": "Add title", 
         "category": "Category",
-        "location": "Location",
+        "add_category": "Add category",
         "music": "Music",
-        "description": "Description"
+        "add_music": "Add music",
+        "location": "Location",
+        "add_location": "Add location",
+        "publish": "Save changes",
+        "date": "Date and time",
+        "add_date": "Add date and time",
+        "success": "Success!",
+        "success_description": "Your registration has been completed successfully",
+        "choose_categories": "Choose at least 3 categories of your preference:",
+        "next": "Next",
+        "take_photo": "Take Photo",
+        "choose_from_gallery": "Choose from Gallery",
+        "when": "When"
     }
 }

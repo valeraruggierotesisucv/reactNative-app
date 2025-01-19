@@ -1,7 +1,7 @@
 import { Text, ScrollView, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import { AddDateView } from "./AddDateView";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import { ChooseCategoriesView } from "./ChooseCategoriesView";
@@ -18,6 +18,19 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { useTranslation } from "react-i18next";
 import React from "react";
 import { theme } from "../../utils/theme";
+import { EventDetailsController } from "../controllers/EventDetailsController";
+import { useAuth } from "../contexts/AuthContext";
+import { ProfileController } from "../controllers/ProfileController";
+import { IMAGE_PLACEHOLDER } from "../../utils/consts";
+import { Loading } from "../components/Loading/Loading";
+import { truncateString } from "../../utils/formatString";
+import { getDate } from "../../utils/formatDate";
+import { convertTimeToDate } from "../../utils/formatHour";
+import { EventModel } from "../models/EventModel";
+import { UploadFileController } from "../controllers/UploadFileController";
+import { FileTypeEnum } from "../services/storage";
+import { EditEventController } from "../controllers/EditEventController";
+
 
 /* TODO
     Description debe tener max caracteres 
@@ -42,26 +55,22 @@ export function EditEventView() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const route = useRoute<RouteProp<ProfileStackParamList, ProfileRoutes.EditEvent>>();
-  const eventId = route.params.eventId;
-  const [event, setEvent] = useState<Event>({
-    title: "Evento de prueba",
-    description: "Evento de prueba",
-    date: new Date(),
-    startTime: new Date(),
-    endTime: new Date(),
-    category: CategoriesEnum.EDUCATION,
-    location: {
-      latitude: 0,
-      longitude: 0
-    },
-    image: "https://dancingastronaut.com/wp-content/uploads/2022/06/imgonline-com-ua-twotoone-3h3siEMcoQW7.jpg",
-    musicFile: {
-      nameFile: "music.mp3",
-      uri: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdancingastronaut.com%2F2022%2F06%2Fmartin-garrix-debuts-sentio-in-south-america-during-newest-the-martin-garrix-show-epsiode%2F&psig=AOvVaw1I9aaqLIf5nQsalRaCP_Sb&ust=1736561346130000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMiiyK2J6ooDFQAAAAAdAAAAABAE"
-    }
+  const [ isLoading, setIsLoading ] = useState(true); 
+  const { session, user } = useAuth(); 
+  const route = useRoute<RouteProp<ProfileStackParamList, ProfileRoutes.EditEvent>>(); 
+  const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
+  const [prevEvent, setPrevEvent] = useState<EventModel | null >(null); 
 
-  })
+  const [title, setTitle] = useState<string | null>(null); 
+  const [description, setDescription] = useState<string | null>(null);
+  const [date, setDate] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [endTime, setEndTime] = useState<Date | null>(null);
+  const [category, setCategory] = useState<CategoriesEnum | null>(null);
+  const [categoryId, setCategoryId] = useState<number|null>(null); 
+  const [location, setLocation] = useState<LatLng | null>(null);
+  const [image, setImage] = useState<string | null>(null);
+  const [musicFile, setMusicFile] = useState<{ nameFile: string; uri: string} | null>(null);
   const [origin, setOrigin] = useState<Location.LocationObject | null>(null);
 
   useEffect(() => {
@@ -78,125 +87,155 @@ export function EditEventView() {
     getCurrentLocation();
   }, []);
 
-  const [description, setDescription] = useState<string | null>(event.description);
-  const [date, setDate] = useState<Date | null>(event.date);
-  const [startTime, setStartTime] = useState<Date | null>(event.startTime);
-  const [endTime, setEndTime] = useState<Date | null>(event.endTime);
-  const [category, setCategory] = useState<CategoriesEnum | null>(event.category);
-  const [location, setLocation] = useState<LatLng | null>(event.location);
-  const [image, setImage] = useState<string | null>(event.image);
-  const [title, setTitle] = useState<string | null>(event.title);
-  const [musicFile, setMusicFile] = useState<{
-    nameFile: string;
-    uri: string;
-  } | null>(event.musicFile);
+  useEffect(() => {
+      async function fetchEventDetails(){
+        if(session && user){
+          setIsLoading(true); 
+          const event = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId); 
+          const formattedDate = getDate(event?.date || ""); 
+          const formattedStarsAt = convertTimeToDate(event?.startsAt || ""); 
+          const formattedEndsAt = convertTimeToDate(event?.endsAt || "");
+          setPrevEvent(event); 
 
-  const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
-
-  function handleAddEvent() {
-    setModalVisible(true);
-    if (description && date && startTime && endTime && category && location) {
-      // agregar evento
-    }
-    console.log("Publicando evento...");
-    console.log("Descripcion: ", description);
-    console.log("Date: ", date);
-    console.log("Starts at: ", startTime);
-    console.log("Ends at ", endTime);
-    console.log("Category ", category);
-    console.log("Location ", location);
-  }
-  // EditEventController
-  // EditImageController
-  // DeleteMusicController
+          if(event){
+            setTitle(event?.title); 
+            setDescription(event.description); 
+            setDate(formattedDate); 
+            setStartTime(formattedStarsAt); 
+            setEndTime(formattedEndsAt); 
+            setCategory(event.category as CategoriesEnum); 
+            setCategoryId(parseInt(event.categoryId)); 
+            setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  /* TODO: falta guardar nombre del file */
+            setImage(event.eventImage); 
+            setLocation({ latitude: parseFloat(event.latitude), longitude: parseFloat(event.longitude)})
+          }
+          
+          setIsLoading(false); 
+        }
+      }
   
-  function cleanForm() {
-    setDescription(null);
-    setDate(null);
-    setStartTime(null);
-    setMusicFile(null), 
-    setEndTime(null);
-    setCategory(null);
-    setLocation(null);
-  }
+      fetchEventDetails()
+  }, [])
 
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        cleanForm();
-      };
-    }, [])
-  );
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        cleanForm();
-      };
-    }, [])
-  );
+
+
+  async function handleEditEvent() {
+    setModalVisible(true);
+    if (title && description && date && startTime && endTime && category && image && musicFile && location) {
+      let imageUrl = prevEvent?.eventImage; 
+      let musicUrl = prevEvent?.musicUrl; 
+      let updateLocation = false; 
+     
+      if(musicFile.uri !== prevEvent?.musicUrl){
+        console.log("Upload new music"); 
+        musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
+        // TODO: DeleteMusicController
+      }
+
+      if(image !== prevEvent?.eventImage){
+        console.log("Upload new Image"); 
+        imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE); 
+        // TODO: EditImageController
+      }
+
+      if(prevEvent && (location.latitude !== parseFloat(prevEvent?.latitude) || location.longitude !== parseFloat(prevEvent?.longitude))){
+        updateLocation = true; 
+      }     
+
+      const eventData = {
+        userId: user?.id,
+        title: title,
+        description: description,
+        date: date.toISOString(),
+        startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
+        endsAt: endTime.toISOString(), 
+        eventImage: imageUrl,
+        eventMusic: musicUrl, 
+        categoryId: categoryId,                                
+        latitude: location?.latitude,
+        longitude: location?.longitude,    
+        updateLocation: updateLocation   
+      }
+
+       if(session && prevEvent){        
+          const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
+          console.log("Evento actualizado: ", result);
+        }   
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <AppHeader title={step === StepsEnum.DEFAULT ? t("editEvent.title") : step === StepsEnum.DATE ? t("editEvent.when") : step === StepsEnum.CATEGORY ? t("editEvent.category") : step === StepsEnum.LOCATION ? t("editEvent.location") : ""} goBack={() => step === StepsEnum.DEFAULT ? navigation.goBack() : setStep(StepsEnum.DEFAULT)} />
-        {step === StepsEnum.DEFAULT && (
-          <AddDefaultView
-            step={step}
-            setStep={setStep}
-            description={description}
-            setDescription={setDescription}
-            date={date}
-            category={category}
-            startsAt={startTime}
-            endsAt={endTime}
-            musicFile={musicFile}
-            setMusicFile={setMusicFile}
-            location={location}
-            setLocation={setLocation}
-            image={image}
-            setImage={setImage}
-            onAddEvent={handleAddEvent}
-            buttonLabel={t("editEvent.save")}
-            title={title}
-            setTitle={setTitle}
-          />
-        )}
+        { isLoading 
+          ? <Loading/>
+          : (<>
+            {step === StepsEnum.DEFAULT && (
+              <AddDefaultView
+                step={step}
+                setStep={setStep}
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                date={date}
+                setDate={setDate}
+                category={category}
+                setCategory={setCategory}
+                startsAt={startTime}
+                setStartsAt={setStartTime}
+                endsAt={endTime}
+                setEndsAt={setEndTime}
+                musicFile={musicFile}
+                setMusicFile={setMusicFile}
+                location={location}
+                setLocation={setLocation}
+                image={image}
+                setImage={setImage}
+                onAddEvent={handleEditEvent}
+                buttonLabel={t("save_changes")}
+                edit={true}
+              />
+            )}
 
-        {step === StepsEnum.DATE && (
-          <AddDateView
-            step={step}
-            setStep={setStep}
-            date={date}
-            setDate={setDate}
-            startTime={startTime}
-            setStartTime={setStartTime}
-            endTime={endTime}
-            setEndTime={setEndTime}
-          />
-        )}
+            {step === StepsEnum.DATE && (
+              <AddDateView
+                step={step}
+                setStep={setStep}
+                date={date}
+                setDate={setDate}
+                startTime={startTime}
+                setStartTime={setStartTime}
+                endTime={endTime}
+                setEndTime={setEndTime}
+              />
+            )}
 
-        {step === StepsEnum.CATEGORY && (
-          <ChooseCategoriesView
-            step={step}
-            setStep={setStep}
-            category={category}
-            setCategory={setCategory}
-            preferences={false}
-            categoryId={1}
-            setCategoryId={() => {}}
-          />
-        )}
+            {step === StepsEnum.CATEGORY && (
+              <ChooseCategoriesView
+                step={step}
+                setStep={setStep}
+                category={category}
+                setCategory={setCategory}
+                categoryId={categoryId}
+                setCategoryId={setCategoryId}
+                preferences={false}
+              />
+            )}
 
-        {step === StepsEnum.LOCATION && (
-          <>
-            <AddLocationView
-              origin={origin}
-              location={location}
-              setLocation={setLocation}
-              setStep={setStep}
-            />
+            {step === StepsEnum.LOCATION && (
+              <>
+                <AddLocationView
+                  origin={origin}
+                  location={location}
+                  setLocation={setLocation}
+                  setStep={setStep}
+                />
+              </>
+            )}
           </>
-        )}
+        )}  
       </ScrollView>
 
       <Modal 
