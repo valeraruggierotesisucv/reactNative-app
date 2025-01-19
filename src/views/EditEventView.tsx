@@ -26,6 +26,10 @@ import { Loading } from "../components/Loading/Loading";
 import { truncateString } from "../../utils/formatString";
 import { getDate } from "../../utils/formatDate";
 import { convertTimeToDate } from "../../utils/formatHour";
+import { EventModel } from "../models/EventModel";
+import { UploadFileController } from "../controllers/UploadFileController";
+import { FileTypeEnum } from "../services/storage";
+import { EditEventController } from "../controllers/EditEventController";
 
 
 /* TODO
@@ -53,9 +57,9 @@ export function EditEventView() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [ isLoading, setIsLoading ] = useState(true); 
   const { session, user } = useAuth(); 
-  const route = useRoute<RouteProp<ProfileStackParamList, ProfileRoutes.EditEvent>>();
-  const [ userComment, setUserComment] = useState<{username: string, profileImage:string}>({ "username": "", "profileImage": IMAGE_PLACEHOLDER}); 
+  const route = useRoute<RouteProp<ProfileStackParamList, ProfileRoutes.EditEvent>>(); 
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
+  const [prevEvent, setPrevEvent] = useState<EventModel | null >(null); 
 
   const [title, setTitle] = useState<string | null>(null); 
   const [description, setDescription] = useState<string | null>(null);
@@ -90,9 +94,8 @@ export function EditEventView() {
           const event = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId); 
           const formattedDate = getDate(event?.date || ""); 
           const formattedStarsAt = convertTimeToDate(event?.startsAt || ""); 
-          const formattedEndsAt = convertTimeToDate(event?.endsAt || ""); 
-          console.log("Editando el siguiente evento"); 
-          console.log(event)
+          const formattedEndsAt = convertTimeToDate(event?.endsAt || "");
+          setPrevEvent(event); 
 
           if(event){
             setTitle(event?.title); 
@@ -101,7 +104,8 @@ export function EditEventView() {
             setStartTime(formattedStarsAt); 
             setEndTime(formattedEndsAt); 
             setCategory(event.category as CategoriesEnum); 
-            setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  /* TODO: falta gaurdar nombre del file */
+            setCategoryId(parseInt(event.categoryId)); 
+            setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  /* TODO: falta guardar nombre del file */
             setImage(event.eventImage); 
             setLocation({ latitude: parseFloat(event.latitude), longitude: parseFloat(event.longitude)})
           }
@@ -110,42 +114,49 @@ export function EditEventView() {
         }
       }
   
-      async function fetchProfile(){
-        const profile = await ProfileController.getProfile(user?.id || "");
-        setUserComment({
-          "username": profile.username, 
-          "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
-        })
-      }
-  
       fetchEventDetails()
-      fetchProfile()
   }, [])
 
 
 
-  function handleAddEvent() {
+  async function handleEditEvent() {
     setModalVisible(true);
-    if (description && date && startTime && endTime && category && location) {
-      // agregar evento
+    if (title && description && date && startTime && endTime && category && image && musicFile && location) {
+      let imageUrl = prevEvent?.eventImage; 
+      let musicUrl = prevEvent?.musicUrl; 
+     
+      if(musicFile.uri !== prevEvent?.musicUrl){
+        console.log("Upload new music"); 
+        musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
+        // TODO: DeleteMusicController
+      }
+
+      if(image !== prevEvent?.eventImage){
+        console.log("Upload new Image"); 
+        imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE); 
+        // TODO: EditImageController
+      }
+
+      const eventData = {
+        userId: user?.id,
+        title: title,
+        description: description,
+        date: date.toISOString(),
+        startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
+        endsAt: endTime.toISOString(), 
+        eventImage: imageUrl,
+        eventMusic: musicUrl, 
+        categoryId: categoryId,                                
+        latitude: location?.latitude,
+        longitude: location?.longitude,       
+      }
+
+       if(session && prevEvent){
+          const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
+          console.log("Evento actualizado: ", result);
+        }   
     }
-    console.log("Publicando evento...");
-    console.log("Descripcion: ", description);
-    console.log("Date: ", date);
-    console.log("Starts at: ", startTime);
-    console.log("Ends at ", endTime);
-    console.log("Category ", category);
-    console.log("Location ", location);
   }
-
-  // EditEventController
-  // EditImageController
-  // DeleteMusicController
-
-  useEffect(() => {
-    console.log("Editar evento")
-  }, [])
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -176,7 +187,7 @@ export function EditEventView() {
                 setLocation={setLocation}
                 image={image}
                 setImage={setImage}
-                onAddEvent={handleAddEvent}
+                onAddEvent={handleEditEvent}
                 buttonLabel={t("save_changes")}
                 edit={true}
               />
