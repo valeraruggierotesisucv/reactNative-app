@@ -97,7 +97,7 @@ app.post("/api/events", authenticateUser, async(req, res) => {
 app.post("/api/events/:eventId", async(req, res) => {
   const validationResult = eventSchema.safeParse(req.body);
   const { eventId } = req.params; 
-  console.log("updating event: ", req.body)
+
   if (!validationResult.success) {
     return res.status(400).json({
       data: validationResult.error.errors,
@@ -116,18 +116,22 @@ app.post("/api/events/:eventId", async(req, res) => {
     date, 
     startsAt, 
     endsAt, 
-    eventMusic
+    eventMusic, 
+    updateLocation, 
   } = req.body; 
 
     // Create location
     try{
-      const location = await db.location.create({
-        data: {
-          latitude:  parseFloat(latitude), 
-          longitude: parseFloat(longitude), 
-        }
-      }); 
-      console.log("location created ", location)
+      let location; 
+      if(updateLocation){
+        location = await db.location.create({
+          data: {
+            latitude:  parseFloat(latitude), 
+            longitude: parseFloat(longitude), 
+          }
+        }); 
+      }
+     
       try{
         const event = await db.event.update({
           where: {
@@ -137,7 +141,7 @@ app.post("/api/events/:eventId", async(req, res) => {
             userId: userId, 
             eventImage: eventImage, 
             categoryId: parseInt(categoryId), 
-            locationId: location.locationId, 
+            locationId: updateLocation ? location.locationId : undefined, 
             title: title, 
             description: description, 
             date: date, 
@@ -146,7 +150,6 @@ app.post("/api/events/:eventId", async(req, res) => {
             eventMusic: eventMusic
           }
         }); 
-        console.log("updated event: ", event); 
 
         res.json({
           data: event, 
@@ -182,7 +185,8 @@ app.get("/api/events/:eventId", async(req, res) => {
         location:{
           select:{
             latitude: true, 
-            longitude: true
+            longitude: true, 
+            locationId: true
           }
         }, 
         category:{
@@ -532,7 +536,8 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
              location:{
               select: {
                 latitude: true, 
-                longitude: true
+                longitude: true, 
+                locationId: true
               }
              }
           }

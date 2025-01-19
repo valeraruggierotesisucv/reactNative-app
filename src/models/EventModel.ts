@@ -94,7 +94,7 @@ export class EventModel {
                     event.user.username, 
                     event.eventImage, 
                     event.title,  
-                    event.description, 
+                    event.description,  
                     event.location.latitude, 
                     event.location.longitude, 
                     event.startsAt, 

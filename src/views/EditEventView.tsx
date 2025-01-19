@@ -124,6 +124,7 @@ export function EditEventView() {
     if (title && description && date && startTime && endTime && category && image && musicFile && location) {
       let imageUrl = prevEvent?.eventImage; 
       let musicUrl = prevEvent?.musicUrl; 
+      let updateLocation = false; 
      
       if(musicFile.uri !== prevEvent?.musicUrl){
         console.log("Upload new music"); 
@@ -137,6 +138,10 @@ export function EditEventView() {
         // TODO: EditImageController
       }
 
+      if(prevEvent && (location.latitude !== parseFloat(prevEvent?.latitude) || location.longitude !== parseFloat(prevEvent?.longitude))){
+        updateLocation = true; 
+      }     
+
       const eventData = {
         userId: user?.id,
         title: title,
@@ -148,10 +153,11 @@ export function EditEventView() {
         eventMusic: musicUrl, 
         categoryId: categoryId,                                
         latitude: location?.latitude,
-        longitude: location?.longitude,       
+        longitude: location?.longitude,    
+        updateLocation: updateLocation   
       }
 
-       if(session && prevEvent){
+       if(session && prevEvent){        
           const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
           console.log("Evento actualizado: ", result);
         }   
