@@ -1,4 +1,4 @@
-import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { UserCard, UserCardVariant } from "../UserCard/UserCard";
 import { SocialInteractions } from "../SocialInteractions/SocialInteractions";
 import { useState, useEffect } from "react";
@@ -130,23 +130,22 @@ export function EventCard({
     setLike(!like);
   };
 
-  const handleAddComment = (comment: string) => {
+  const handleAddComment = async (comment: string) => {
     try {
-      onComment(eventId, comment);
+      await onComment(eventId, comment);
+      setComments([
+        ...comments,
+        {
+          username: userComment.username,
+          comment: comment,
+          profileImage: userComment.profileImage,
+          timestamp: new Date(),
+        },
+      ]);
     } catch (error) {
       console.error("Error adding comment", error);
       return;
     }
-
-    setComments([
-      ...comments,
-      {
-        username: userComment.username,
-        comment: comment,
-        profileImage: userComment.profileImage,
-        timestamp: new Date(),
-      },
-    ]);
   };
 
   useEffect(() => {

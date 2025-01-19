@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { StyleSheet, FlatList, View, Text, ActivityIndicator} from "react-native";
+import { StyleSheet, FlatList, View, Text, ActivityIndicator, Alert} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
@@ -39,11 +39,16 @@ export function HomeView() {
 
   const onComment = async (eventId: string, comment: string) => {
     if(session && user){
-      const result = await CommentEventController.createComment(session?.access_token, eventId, {
-        userId: user?.id, 
-        text: comment
-      })
-      console.log(result)
+      try {
+        const result = await CommentEventController.createComment(session?.access_token, eventId, {
+          userId: user?.id, 
+          text: comment
+        })
+        console.log(result)
+      } catch (error) {
+        console.error("Error adding comment", error);
+        Alert.alert("Error adding comment");
+      }
     }    
   }
 
@@ -52,9 +57,14 @@ export function HomeView() {
       async function fetchEvents (){
         setIsLoading(true); 
         if(session && user){
-          const result = await ListEventsController.getHomeEvents(session.access_token, user.id)
-          setEvents(result); 
-          setIsLoading(false)
+          try {
+            const result = await ListEventsController.getHomeEvents(session.access_token, user.id)
+            setEvents(result); 
+            setIsLoading(false)
+          } catch (error) {
+            console.error("Error fetching events", error);
+            setIsLoading(false)
+          }
         }            
       }    
       async function fetchProfile(){

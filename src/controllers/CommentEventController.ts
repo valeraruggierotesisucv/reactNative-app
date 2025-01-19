@@ -7,10 +7,20 @@ export class CommentEventController{
         userId: string, 
         text: string 
         }){
-        return await CommentModel.createComment(token, eventId, data); 
+        try {
+            return await CommentModel.createComment(token, eventId, data); 
+        } catch (error) {
+            console.error("Error creating comment", error);
+            throw error;
+        }
     }
 
     static async getEventComments(token: string, eventId: string){
-        return await CommentModel.getEventComments(token, eventId); 
+        try {
+            return await CommentModel.getEventComments(token, eventId); 
+        } catch (error) {
+            console.error("Error getting event comments", error);
+            throw error;
+        }
     }
 }
