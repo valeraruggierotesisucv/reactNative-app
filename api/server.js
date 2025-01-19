@@ -185,6 +185,71 @@ app.put("/api/users/:userId", async(req, res) => {
   }
 })
 
+// getFollowers
+app.get("/api/users/:userId/followers", async(req, res) => {
+  const { userId } = req.params;
+
+  try{
+    const response = await db.followUser.findMany({
+      where: { userIdFollowedBy: userId },
+      include: {
+        userFollows: {
+          select: { username: true, profileImage: true }
+        }
+      }
+    });
+
+    const followers = await Promise.all(response.map(async (follower) => {
+      const user = await db.followUser.findFirst({
+        where: { userIdFollows: userId , userIdFollowedBy: follower.userIdFollows }
+      });
+
+      return {
+        followerId: follower.userIdFollows,
+        followerName: follower.userFollows.username,
+        followerProfileImage: follower.userFollows.profileImage,  
+        followed: user ? true : false};
+    }));
+    
+    res.json({ data: followers, success: true });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "FAILED to get followers" });
+  }
+})
+
+// getFollowed
+app.get("/api/users/:userId/followed", async(req, res) => {
+  const { userId } = req.params;
+
+  try{
+    const response = await db.followUser.findMany({
+      where: { userIdFollows: userId },
+      include: {
+        userFollowedBy: {
+          select: { username: true, profileImage: true }
+        }
+      }
+    });
+    
+    const followed = response.map((follow) => {
+      const response = {
+        followedId: follow.userIdFollowedBy, 
+        followedName: follow.userFollowedBy.username, 
+        followedProfileImage: follow.userFollowedBy.profileImage, 
+        followed: true
+      }
+      console.log(response);
+      return response;
+    });
+
+    res.json({ data: followed, success: true });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "FAILED to get following" });
+  }
+})
+
 // getProfileEvents 
 app.get("/api/users/:userId/events", async(req, res) => {
   try{

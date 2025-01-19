@@ -5,42 +5,39 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { UserCard, UserCardVariant } from "../components/UserCard/UserCard";
 import { SearchBar } from "../components/SearchBar/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ListUsersController } from "../controllers/ListUsersController";
+import { useAuth } from "../contexts/AuthContext";
 
 export function FollowedView() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
-  // ListUsersController
-  const followedDummyData = [
-    {
-      id: 1,
-      name: "John Doe",
-      profileImage: "https://picsum.photos/200/200",
-      followed: true,
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      profileImage: "https://picsum.photos/200/200",
-      followed: true,
-    },
-    {
-      id: 3,
-      name: "John Smith",
-      profileImage: "https://picsum.photos/200/200",
-      followed: true,
-    },
-  ];
+  const [followed, setFollowed] = useState<{ followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] | null>(null);
+  const { user } = useAuth();
+
+  const getFollowed = async () => {
+    try {
+      const response: { followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] = await ListUsersController.getFollowed(user!.id);
+      setFollowed(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getFollowed();
+  }, []);
 
   const handleSearchChange = (text: string) => {
     setSearch(text);
   };
 
-  const filteredFollowed = followedDummyData.filter((followed) =>
-    followed.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredFollowed = followed?.filter((follow) => {
+    console.log(follow)
+    return follow.followedName.toLowerCase().includes(search.toLowerCase())
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,11 +47,11 @@ export function FollowedView() {
           onChangeText={handleSearchChange}
           value={search}
         />
-        {filteredFollowed.map((followed) => (
+        {filteredFollowed?.map((followed) => (
           <UserCard
-            key={followed.id}
-            profileImage={followed.profileImage}
-            username={followed.name}
+            key={followed.followedId}
+            profileImage={followed.followedProfileImage}
+            username={followed.followedName}
             onPressButton={() => {}}
             variant={UserCardVariant.WITH_BUTTON}
             actionLabel={followed.followed ? t("common.unfollow") : t("common.follow")}

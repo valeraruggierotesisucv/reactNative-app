@@ -91,12 +91,34 @@ class UserModel {
 
     }
 
-    async getFollowing() {
-        return await apiRequest("users", "GET", { userId: this.userId, following: true });
+    static async getFollowed(userId: string) {
+        try {
+            const response = await apiRequest("users/" + userId + "/followed", "GET");
+            const followed = response.data.map((follow: any) => ({
+                followedId: follow.followedId,
+                followedName: follow.followedName,
+                followedProfileImage: follow.followedProfileImage,
+                followed: follow.followed
+            }));
+            return followed;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async getFollowers() {
-        return await apiRequest("users", "GET", { userId: this.userId, followers: true })
+    static async getFollowers(userId: string) {
+        try {
+            const response = await apiRequest("users/" + userId + "/followers", "GET");
+            const followers = response.data.map((follower: any) => ({
+                followerId: follower.followerId,
+                followerName: follower.followerName,
+                followerProfileImage: follower.followerProfileImage,
+                followed: follower.followed
+            }));
+            return followers;
+        } catch (error) {
+            throw error;
+        }
     }
 
     static async getUserEvents(userId: string) {

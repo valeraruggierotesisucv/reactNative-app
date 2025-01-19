@@ -168,6 +168,7 @@
         "title": "Edit Profile",
         "save": "Save changes",
         "fullName": "Full Name",
-        "biography": "Biography"
+        "biography": "Biography",
+        "profile_updated": "Your profile has been updated successfully"
     }
 }
