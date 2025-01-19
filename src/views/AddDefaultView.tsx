@@ -45,6 +45,7 @@ interface AddDefaultViewProps {
   image: string | null;
   setImage: (image: string | null) => void;
   buttonLabel: string;
+  edit?: boolean
 }
 
 export function AddDefaultView({
@@ -68,6 +69,7 @@ export function AddDefaultView({
   onAddEvent,
   image,
   setImage,
+  edit = false
 }: AddDefaultViewProps) {
   const { t } = useTranslation();
   const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
@@ -75,9 +77,11 @@ export function AddDefaultView({
 
   const DatePills = () => {
     if (startsAt === null || endsAt === null || date === null) return;
+
     const start = formatHour(startsAt);
-    const end = formatHour(endsAt);
-    const formattedDate = date?.toLocaleDateString();
+    const end= formatHour(endsAt);
+    const formattedDate = date?.toLocaleDateString();    
+    
 
     function onClear(){
       setDate(null); 
@@ -291,7 +295,7 @@ export function AddDefaultView({
 
       <View style={styles.footer}>
         <Button
-          label={t("addEvent.publish")}
+          label={ edit ? t("editEvent.publish") : t("addEvent.publish")}
           size={ButtonSize.MEDIUM}
           onPress={onAddEvent}
         />

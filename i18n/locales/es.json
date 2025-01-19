@@ -186,16 +186,28 @@
         "title": "Editar perfil",
         "save": "Guardar cambios",
         "fullName": "Nombre completo",
-        "biography": "Biografía",
-        "profile_updated": "Tu perfil se ha actualizado con éxito"
-    },
+        "biography": "Biografía"
+    }, 
     "editEvent":{
-        "title": "Editar evento",
-        "save": "Guardar cambios",
-        "when": "Cuando",
+        "title": "Editar evento", 
+        "description": "Descripción",
+        "add_description": "Agrega una descripción de tu evento",
+        "add_title": "Agregar título", 
         "category": "Categoría",
-        "location": "Ubicación",
+        "add_category": "Agrega categoría",
         "music": "Música",
-        "description": "Descripción"
+        "add_music": "Agrega música",
+        "location": "Ubicación",
+        "add_location": "Agrega ubicación",
+        "publish": "Guardar cambios",
+        "date": "Fecha y hora",
+        "add_date": "Agrega fecha y hora",
+        "success": "¡Felicidades!",
+        "success_description": "Tu registro se ha completado exitosamente",
+        "choose_categories": "Selecciona al menos 3 categorías de tu preferencia:",
+        "next": "Siguiente",
+        "take_photo": "Tomar foto",
+        "choose_from_gallery": "Elegir de la galería",
+        "when": "Cuando"
     }
 }

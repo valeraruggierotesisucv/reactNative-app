@@ -11,7 +11,6 @@ import { useImagePicker } from "../hooks/useImagePicker";
 import { Avatar } from "../components/Avatar/Avatar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { ProfileRoutes } from "../../utils/routes";
 import { Modal } from "../components/Modal/Modal";
 import { useAuth } from "../contexts/AuthContext";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
