@@ -9,19 +9,20 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ListUsersController } from "../controllers/ListUsersController";
 import { useAuth } from "../contexts/AuthContext";
+import { FollowUserController } from "../controllers/FollowUserController";
 
 export function FollowersView() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
   const { user } = useAuth();
-  const [followers, setFollowers] = useState<{ followerId: string, followerName: string, followerProfileImage: string, followed: boolean }[] | null>(null);
+  const [followers, setFollowers] = useState<{ followerId: string, followerName: string, followerProfileImage: string, followed: boolean, isFollowingLoading: boolean }[] | null>(null);
 
 
   const getFollowers = async () => {
     try {
       const response = await ListUsersController.getFollowers(user!.id);
-      setFollowers(response);
+      setFollowers(response.map((follower) => ({ ...follower, isFollowingLoading: false })));
     } catch (error) {
       console.error(error);
     }
@@ -34,6 +35,35 @@ export function FollowersView() {
   const handleSearchChange = (text: string) => {
     setSearch(text);
   };
+  
+  const handleFollow = async (userId: string) => {
+    setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: true } : follower) : null);
+    try{
+      const response = await FollowUserController.followUser(user!.id, userId);
+      if(response.success){
+        setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, followed: true } : follower) : null);
+      }
+    }catch(error){
+      console.log("Error al seguir al usuario", error);
+    }finally{
+      setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: false } : follower) : null);
+    }
+  }
+
+  const handleUnfollow = async (userId: string) => {
+    setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: true } : follower) : null);
+    try{
+      const response = await FollowUserController.unfollowUser(user!.id, userId);
+      if(response.success){
+        setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, followed: false } : follower) : null);
+      }
+    }catch(error){
+      console.log("Error al dejar de seguir al usuario", error);
+    }finally{
+      setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: false } : follower) : null);
+    }
+  }
+
 
   const filteredFollowers = followers?.filter((follower) =>
     follower.followerName.toLowerCase().includes(search.toLowerCase())
@@ -52,9 +82,10 @@ export function FollowersView() {
             key={follower.followerId}
             profileImage={follower.followerProfileImage}
             username={follower.followerName}
-            onPressButton={() => {}}
+            onPressButton={() => {follower.followed ? handleUnfollow(follower.followerId) : handleFollow(follower.followerId)}}
             variant={UserCardVariant.WITH_BUTTON}
             actionLabel={follower.followed ? "Dejar de seguir" : "Seguir"}
+            disabled={follower.isFollowingLoading}
           />
         ))}
       </ScrollView>

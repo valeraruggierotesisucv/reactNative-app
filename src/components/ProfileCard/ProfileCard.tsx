@@ -15,6 +15,7 @@ interface ProfileCardProps {
   onEvents?: () => void;
   onFollowers?: () => void;
   onFollowed?: () => void;
+  disableFollowButton?: boolean;
 }
 
 export function ProfileCard({
@@ -31,6 +32,7 @@ export function ProfileCard({
   onEvents,
   onFollowers,
   onFollowed,
+  disableFollowButton = false,
 }: ProfileCardProps) {
   const { t } = useTranslation();
 
@@ -67,6 +69,7 @@ export function ProfileCard({
                 isFollowing && styles.unfollowButton,
               ]}
               onPress={onFollow}
+              disabled={disableFollowButton}
             >
               <Text
                 style={[

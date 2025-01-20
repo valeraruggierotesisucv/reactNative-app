@@ -179,7 +179,8 @@ app.get("/api/events/:eventId", async(req, res) => {
         user: {
           select: {
             username: true, 
-            profileImage: true
+            profileImage: true,
+            userId: true
           }
         }, 
         location:{
@@ -260,13 +261,87 @@ app.put("/api/users/:userId", async(req, res) => {
   }
 })
 
+//isFollowing 
+app.get("/api/users/:userId/isFollowing/:targetUserId", async(req, res) => {
+  try{
+    const { userId, targetUserId } = req.params;
+    const isFollowing = await db.followUser.findFirst({
+      where: { userIdFollows: userId, userIdFollowedBy: targetUserId }
+    });
+    res.json({ data: isFollowing, success: true });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "FAILED to get isFollowing" });
+  }
+})
+
+// followUser
+app.post("/api/users/:userId/follow/:targetUserId", async(req, res) => {
+  const { userId, targetUserId } = req.params;
+  
+  try{
+    const follow = await db.followUser.upsert({
+      where: { userIdFollows_userIdFollowedBy: {
+        userIdFollows: userId, userIdFollowedBy: targetUserId 
+      }},
+      update: { isActive: true },
+      create: { userIdFollows: userId, userIdFollowedBy: targetUserId, isActive: true }
+    });
+
+    await db.user.update({
+      where: { userId: userId },
+      data: { following_counter: { increment: 1 } }
+    });
+
+    await db.user.update({
+      where: { userId: targetUserId },
+      data: { followers_counter: { increment: 1 } }
+    });
+
+    res.json({ data: follow, success: true });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "FAILED to follow user" });
+  }
+})
+
+// unfollowUser
+app.delete("/api/users/:userId/unfollow/:targetUserId", async(req, res) => {
+  const { userId, targetUserId } = req.params;
+  try{
+    const follow = await db.followUser.update({
+      where: { 
+        userIdFollows_userIdFollowedBy: {
+          userIdFollows: userId, userIdFollowedBy: targetUserId 
+        }
+      }, 
+      data: { isActive: false } 
+    });
+
+    await db.user.update({
+      where: { userId: userId },
+      data: { following_counter: { decrement: 1 } }
+    });
+
+    await db.user.update({
+      where: { userId: targetUserId },
+      data: { followers_counter: { decrement: 1 } }
+    });
+
+    res.json({ data: follow, success: true });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "FAILED to unfollow user" });
+  }
+})
+
 // getFollowers
 app.get("/api/users/:userId/followers", async(req, res) => {
   const { userId } = req.params;
 
   try{
     const response = await db.followUser.findMany({
-      where: { userIdFollowedBy: userId },
+      where: { userIdFollowedBy: userId, isActive: true },
       include: {
         userFollows: {
           select: { username: true, profileImage: true }
@@ -276,7 +351,7 @@ app.get("/api/users/:userId/followers", async(req, res) => {
 
     const followers = await Promise.all(response.map(async (follower) => {
       const user = await db.followUser.findFirst({
-        where: { userIdFollows: userId , userIdFollowedBy: follower.userIdFollows }
+        where: { userIdFollows: userId , userIdFollowedBy: follower.userIdFollows, isActive: true }
       });
 
       return {
@@ -299,7 +374,7 @@ app.get("/api/users/:userId/followed", async(req, res) => {
 
   try{
     const response = await db.followUser.findMany({
-      where: { userIdFollows: userId },
+      where: { userIdFollows: userId, isActive: true },
       include: {
         userFollowedBy: {
           select: { username: true, profileImage: true }
@@ -513,10 +588,12 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
 
   try {
     const following = await db.followUser.findMany({
-      where: { userIdFollows: userId },
+      where: { userIdFollows: userId, isActive: true },
       select: { userIdFollowedBy: true },
     });
-    
+
+    console.log("following", following)
+
     const followingIds = following.map(f => f.userIdFollowedBy);
 
     let events;
@@ -530,7 +607,8 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
              user: {
               select:{
                 username: true, 
-                profileImage: true
+                profileImage: true,
+                userId: true
               }
              }, 
              location:{
@@ -562,7 +640,8 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
             user: {
              select:{
                username: true, 
-               profileImage: true
+               profileImage: true,
+               userId: true
              }
             }
          }

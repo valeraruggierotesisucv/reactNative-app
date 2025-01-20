@@ -16,24 +16,33 @@ import { useAuth } from "../contexts/AuthContext";
 import { HomeStackParamList } from "../../utils/types";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
+import { FollowUserController } from "../controllers/FollowUserController";
 
 export function ProfileDetailsView() {
   const { t } = useTranslation();
   const navigation = useNavigation<HomeStackNavigationProp>();
   const route = useRoute<RouteProp<HomeStackParamList, HomeRoutes.ProfileDetails>>();
   const {userId} = route.params;
+  const [isFollowing, setIsFollowing] = useState(false);
   const [user, setUser] = useState<UserModel | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
-  
+  const {user: authUser} = useAuth();
   const [isLoading, setIsLoading] = useState(true);
+  const [isFollowingLoading, setIsFollowingLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
     const fetchProfile = async () => {
+      
       const user = await ProfileController.getProfile(
         userId
       );
-      setUser(user);
+      
+      setUser(user) ;
       const events = await ProfileController.getUserEvents(userId);
+      
+      const followResponse = await FollowUserController.isFollowing( authUser!.id, userId);
+      console.log("followResponse", followResponse);
+      setIsFollowing(followResponse.isFollowing);
       setEvents(events);
       setIsLoading(false);
     };
@@ -43,7 +52,33 @@ export function ProfileDetailsView() {
 
   // FollowUserController
   // TODO: En la tarjeta de perfil, agregar variacion con el boton de seguir | dejar de seguir
+  const handleFollow = async () => {
+    setIsFollowingLoading(true);
+    try{
+      const response = await FollowUserController.followUser(authUser!.id, userId);
+      if(response.success){
+        setIsFollowing(true);
+      }
+    }catch(error){
+      console.log("Error al seguir al usuario", error);
+    }finally{
+      setIsFollowingLoading(false);
+    }
+  }
 
+  const handleUnfollow = async () => {
+    setIsFollowingLoading(true);
+    try{
+      const response = await FollowUserController.unfollowUser(authUser!.id, userId);
+      if(response.success){
+        setIsFollowing(false);
+      }
+    }catch(error){
+      console.log("Error al dejar de seguir al usuario", error);
+    }finally{
+      setIsFollowingLoading(false);
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -62,6 +97,15 @@ export function ProfileDetailsView() {
             }}
             onFollowed={() => {
               console.log("Followed");
+            }}
+            isFollowing={isFollowing}
+            disableFollowButton={isFollowingLoading}
+            onFollow={() => {
+              if(isFollowing){
+                handleUnfollow();
+              }else{
+                handleFollow();
+              }
             }}
           />
           <View style={styles.separator} />

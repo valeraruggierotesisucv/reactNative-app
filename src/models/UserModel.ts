@@ -123,7 +123,6 @@ export class UserModel {
 
     static async getUserEvents(userId: string) {
         const response = await apiRequest("users/" + userId + "/events", "GET")
-        console.log(response.data);
         return response.data.map((event: any) => ({
             id: event.eventId,
             imageUrl: event.eventImage,

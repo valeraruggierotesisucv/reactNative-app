@@ -39,6 +39,7 @@ model FollowUser {
   userIdFollows     String
   userIdFollowedBy  String
   createdAt         DateTime         @default(now())
+  isActive          Boolean          @default(true)
 
   userFollows       User             @relation("Following", fields: [userIdFollows], references: [userId])
   userFollowedBy    User             @relation("Followers", fields: [userIdFollowedBy], references: [userId])

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ListUsersController } from "../controllers/ListUsersController";
 import { useAuth } from "../contexts/AuthContext";
+import { FollowUserController } from "../controllers/FollowUserController";
 
 export function FollowedView() {
   const { t } = useTranslation();
@@ -34,6 +35,13 @@ export function FollowedView() {
     setSearch(text);
   };
 
+  const handleUnfollow = async (userId: string) => {
+    const response = await FollowUserController.unfollowUser(user!.id, userId);
+    if(response.success){
+      getFollowed();
+    }
+  };
+
   const filteredFollowed = followed?.filter((follow) => {
     console.log(follow)
     return follow.followedName.toLowerCase().includes(search.toLowerCase())
@@ -52,7 +60,7 @@ export function FollowedView() {
             key={followed.followedId}
             profileImage={followed.followedProfileImage}
             username={followed.followedName}
-            onPressButton={() => {}}
+            onPressButton={() => {handleUnfollow(followed.followedId)}}
             variant={UserCardVariant.WITH_BUTTON}
             actionLabel={followed.followed ? t("common.unfollow") : t("common.follow")}
           />
