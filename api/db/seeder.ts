@@ -179,12 +179,15 @@ async function main() {
         Array.from({ length: NUM_NOTIFICATIONS }).map(() => {
             const fromUser = faker.helpers.arrayElement(users);
             const toUser = faker.helpers.arrayElement(users);
+            const image = faker.image.url(); 
+
             return prisma.notification.create({
                 data: {
                     fromUserId: fromUser.userId,
                     toUserId: toUser.userId,
                     type: faker.helpers.arrayElement(['LIKE', 'COMMENT', 'FOLLOW']),
                     message: faker.lorem.sentence(),
+                    eventImage: image
                 },
             });
         })
