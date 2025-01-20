@@ -209,6 +209,7 @@
         "next": "Next",
         "take_photo": "Take Photo",
         "choose_from_gallery": "Choose from Gallery",
-        "when": "When"
+        "when": "When", 
+        "event_edited": "Your event has been successfully updated"
     }
 }

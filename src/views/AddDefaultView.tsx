@@ -45,7 +45,8 @@ interface AddDefaultViewProps {
   image: string | null;
   setImage: (image: string | null) => void;
   buttonLabel: string;
-  edit?: boolean
+  edit?: boolean; 
+  disable: boolean
 }
 
 export function AddDefaultView({
@@ -69,7 +70,8 @@ export function AddDefaultView({
   onAddEvent,
   image,
   setImage,
-  edit = false
+  edit = false, 
+  disable = false
 }: AddDefaultViewProps) {
   const { t } = useTranslation();
   const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
@@ -298,6 +300,7 @@ export function AddDefaultView({
           label={ edit ? t("editEvent.publish") : t("addEvent.publish")}
           size={ButtonSize.MEDIUM}
           onPress={onAddEvent}
+          disabled={disable}
         />
       </View>
 

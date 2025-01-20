@@ -22,6 +22,7 @@ import { UploadFileController } from "../controllers/UploadFileController";
 import { AddEventController } from "../controllers/AddEventController";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "react-native-toast-notifications";
+import { LocationController } from "../controllers/LocationController";
 
 /* TODO
     Description debe tener max caracteres 
@@ -46,14 +47,21 @@ export function AddEventView() {
   const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
+  const [disable, setDisable] = useState(false); 
 
   async function handleAddEvent() {     
-    if (title && description && date && startTime && endTime && category && image && musicFile && location) {
-      setModalVisible(true);
-      
+    if (title && description && date && startTime && endTime && category && image && musicFile && location && session) {
+      setDisable(true);      
+
+      const locationData = {
+        latitude: location?.latitude,
+        longitude: location?.longitude, 
+      }
       const imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE); 
       const musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
-       
+      const locationId = await LocationController.addLocation(session?.access_token, locationData); 
+      console.log("Location created ", locationId); 
+
       const eventData = {
         userId: user?.id,
         title: title,
@@ -64,15 +72,13 @@ export function AddEventView() {
         eventImage: imageUrl,
         eventMusic: musicUrl, 
         categoryId: categoryId,                                
-        latitude: location?.latitude,
-        longitude: location?.longitude,       
+        locationId: locationId      
       }
-
-      if(session){
-        const result = await AddEventController.postEvent(session?.access_token, eventData); 
-        console.log(result);
-      }      
-      
+      console.log("eventData ", eventData); 
+      const result = await AddEventController.postEvent(session?.access_token, eventData); 
+      console.log(result);          
+      setModalVisible(true);
+      setDisable(false); 
     }else{
       
       toast.show(t("addEvent.require_fields"), {
@@ -138,6 +144,7 @@ export function AddEventView() {
             setImage={setImage}
             onAddEvent={handleAddEvent}
             buttonLabel={t("publish")}
+            disable={disable}
           />
         )}
 

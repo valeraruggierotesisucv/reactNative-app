@@ -208,6 +208,7 @@
         "next": "Siguiente",
         "take_photo": "Tomar foto",
         "choose_from_gallery": "Elegir de la galería",
-        "when": "Cuando"
+        "when": "Cuando", 
+        "event_edited": "Tu evento se ha actualizado exitosamente"
     }
 }

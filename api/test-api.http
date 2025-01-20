@@ -120,6 +120,16 @@ Content-Type: application/json
   "fullName": "Test User xd"
 }
 
+### Create location
+POST http://localhost:5000/api/locations
+Content-Type: application/json
+
+{
+  "latitude": 10.2, 
+  "longitude": 66.2
+}
+
+
 ### Get User followed
 GET http://localhost:5000/api/users/59f8b967-c1f0-42d3-b9b9-e32c11db446c/followed
 
@@ -132,3 +142,6 @@ POST http://localhost:5000/api/users/cm5ylsvds0008ty7wx6ypebvi/follow/59f8b967-c
 
 ### Unfollow User
 DELETE http://localhost:5000/api/users/cm5ylsvds0008ty7wx6ypebvi/unfollow/59f8b967-c1f0-42d3-b9b9-e32c11db446c  
+
+####
+DELETE http://localhost:5000/api/locations/cm65ap24y0000tykk9zseji6o

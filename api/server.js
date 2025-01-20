@@ -1,4 +1,4 @@
-const { likeEventSchema, commentEventSchema, signUpSchema, eventSchema, editProfileSchema } = require("./validationSchemas.js");
+const { likeEventSchema, commentEventSchema, signUpSchema, eventSchema, editProfileSchema, locationSchema } = require("./validationSchemas.js");
 const authenticateUser = require("./authenticateUser.js"); 
 const express = require("express");
 const cors = require("cors");
@@ -25,7 +25,62 @@ app.get('/api/protected', authenticateUser, (req, res) => {
   });
 });
 
+// addLocation
+app.post("/api/locations", async(req, res) => {
+  const validationResult = locationSchema.safeParse(req.body);
 
+  if (!validationResult.success) {
+    return res.status(400).json({
+      data: validationResult.error.errors,
+      success: false      
+    });
+  }
+
+  try{
+    const {
+      latitude, 
+      longitude
+    } = req.body; 
+
+    const location = await db.location.create({
+      data: {
+        latitude:  parseFloat(latitude), 
+        longitude: parseFloat(longitude), 
+      }
+    }); 
+
+    res.json({
+      data: location, 
+      success: true
+    })
+
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to create location" });
+  }
+})
+
+// deleteLocation
+app.delete("/api/locations/:locationId", async(req, res) => {
+  try{
+    const { locationId } = req.params; 
+
+    const location = await db.location.delete({
+      where: {
+        locationId: locationId
+      }
+    })
+    console.log("Se ha eliminado exitosamente la location ", location); 
+    res.json({
+      data: location, 
+      success: true
+    })
+
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to delete location" });
+  }
+})
 // addEvent 
 app.post("/api/events", authenticateUser, async(req, res) => {
   const validationResult = eventSchema.safeParse(req.body);
@@ -43,54 +98,41 @@ app.post("/api/events", authenticateUser, async(req, res) => {
     userId, 
     eventImage, 
     categoryId, 
-    latitude, 
-    longitude, 
+    locationId, 
     title, 
     description, 
     date, 
     startsAt, 
     endsAt, 
     eventMusic
-  } = req.body; 
+  } = req.body;   
 
-  // Create location
   try{
-    const location = await db.location.create({
-      data: {
-        latitude:  parseFloat(latitude), 
-        longitude: parseFloat(longitude), 
+    const event = await db.event.create({
+      data:{
+        userId: userId, 
+        eventImage: eventImage, 
+        categoryId: parseInt(categoryId), 
+        locationId: locationId, 
+        title: title, 
+        description: description, 
+        date: date, 
+        startsAt: startsAt, 
+        endsAt: endsAt, 
+        eventMusic: eventMusic
       }
     }); 
+    
+    res.json({
+      data: event, 
+      success: true
+    })
 
-    try{
-      const event = await db.event.create({
-        data:{
-          userId: userId, 
-          eventImage: eventImage, 
-          categoryId: parseInt(categoryId), 
-          locationId: location.locationId, 
-          title: title, 
-          description: description, 
-          date: date, 
-          startsAt: startsAt, 
-          endsAt: endsAt, 
-          eventMusic: eventMusic
-        }
-      }); 
-      
-      res.json({
-        data: event, 
-        success: true
-      })
-
-    }catch(error){
-      console.error(error); 
-      res.status(500).json({ error: "FAILED to create event" });
-    }
   }catch(error){
     console.error(error); 
-    res.status(500).json({ error: "FAILED to create location" });
+    res.status(500).json({ error: "FAILED to create event" });
   }
+  
 })
 
 // updateEvent 
@@ -117,52 +159,36 @@ app.post("/api/events/:eventId", async(req, res) => {
     startsAt, 
     endsAt, 
     eventMusic, 
-    updateLocation, 
+    locationId, 
   } = req.body; 
-
-    // Create location
-    try{
-      let location; 
-      if(updateLocation){
-        location = await db.location.create({
-          data: {
-            latitude:  parseFloat(latitude), 
-            longitude: parseFloat(longitude), 
-          }
-        }); 
-      }
      
-      try{
-        const event = await db.event.update({
-          where: {
-            eventId: eventId
-          }, 
-          data:{
-            userId: userId, 
-            eventImage: eventImage, 
-            categoryId: parseInt(categoryId), 
-            locationId: updateLocation ? location.locationId : undefined, 
-            title: title, 
-            description: description, 
-            date: date, 
-            startsAt: startsAt, 
-            endsAt: endsAt, 
-            eventMusic: eventMusic
-          }
-        }); 
+    try{
+      const event = await db.event.update({
+        where: {
+          eventId: eventId
+        }, 
+        data:{
+          userId: userId, 
+          eventImage: eventImage, 
+          categoryId: parseInt(categoryId), 
+          locationId: locationId, 
+          title: title, 
+          description: description, 
+          date: date, 
+          startsAt: startsAt, 
+          endsAt: endsAt, 
+          eventMusic: eventMusic
+        }
+      }); 
 
-        res.json({
-          data: event, 
-          success: true
-        })
-  
-      }catch(error){
-        console.error(error); 
-        res.status(500).json({ error: "FAILED to create event" });
-      }
+      res.json({
+        data: event, 
+        success: true
+      })
+
     }catch(error){
       console.error(error); 
-      res.status(500).json({ error: "FAILED to create location" });
+      res.status(500).json({ error: "FAILED to create event" });
     }
 
 })

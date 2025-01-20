@@ -8,6 +8,7 @@ export class EventModel {
     eventImage: string; 
     title: string; 
     description: string; 
+    locationId: string; 
     latitude: string; 
     longitude: string; 
     startsAt: string; 
@@ -26,6 +27,7 @@ export class EventModel {
         eventImage: string, 
         title: string, 
         description: string, 
+        locationId: string, 
         latitude: string, 
         longitude: string, 
         startsAt: string, 
@@ -43,6 +45,7 @@ export class EventModel {
         this.eventImage = eventImage, 
         this.title = title, 
         this.description = description, 
+        this.locationId = locationId, 
         this.latitude = latitude, 
         this.longitude = longitude, 
         this.startsAt = startsAt,
@@ -57,12 +60,17 @@ export class EventModel {
 
     // POST api/events
     static async createEvent(token: string, event: object){
-        return await apiRequest(
-            "events", 
-            "POST", 
-            event, 
-            token
-        )
+        try{
+            return await apiRequest(
+                "events", 
+                "POST", 
+                event, 
+                token
+            )
+        }catch(error){
+            console.log(error)
+        }
+        
     }
 
     static async updateEvent(token: string, event: object, eventId: string){
@@ -96,7 +104,8 @@ export class EventModel {
                     event.user.username, 
                     event.eventImage, 
                     event.title,  
-                    event.description,  
+                    event.description, 
+                    event.locationId,  
                     event.location.latitude, 
                     event.location.longitude, 
                     event.startsAt, 
@@ -133,6 +142,7 @@ export class EventModel {
             event.eventImage,
             event.title,
             event.description,
+            event.locationId, 
             event.location.latitude,
             event.location.longitude,
             startsAt,
