@@ -588,10 +588,12 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
 
   try {
     const following = await db.followUser.findMany({
-      where: { userIdFollows: userId },
+      where: { userIdFollows: userId, isActive: true },
       select: { userIdFollowedBy: true },
     });
-    
+
+    console.log("following", following)
+
     const followingIds = following.map(f => f.userIdFollowedBy);
 
     let events;

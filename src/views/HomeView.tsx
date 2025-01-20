@@ -108,7 +108,7 @@ export function HomeView() {
                       navigation.navigate(HomeRoutes.ProfileDetails, {
                         userId: item.userId,
                       })
-                    }
+                    }}
                     onComment={onComment}
                     userComment={userComment}
                     fetchComments={() => fetchComments(item.eventId)}
