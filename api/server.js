@@ -583,7 +583,7 @@ app.get("/api/categories", authenticateUser, async (req, res) => {
 });
 
 // getHomeEvents
-app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
+app.get("/api/home/:userId/events", async (req, res) => {
   const { userId } = req.params; 
 
   try {

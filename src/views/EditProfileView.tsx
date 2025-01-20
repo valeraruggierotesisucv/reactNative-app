@@ -38,7 +38,7 @@ export function EditProfileView() {
           setIsLoading(true);
           const response = await EditProfileController.getProfile(user.id);
           console.log("response", response);
-          setProfileImage(response.profileImage);
+          setProfileImage(response.profileImage || IMAGE_PLACEHOLDER);
           setFullName(response.fullName);
           setBiography(response.biography || "");
           setIsLoading(false);

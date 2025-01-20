@@ -21,7 +21,6 @@ import { FileTypeEnum, uploadFile } from "../services/storage";
 import { UploadFileController } from "../controllers/UploadFileController";
 import { AddEventController } from "../controllers/AddEventController";
 import { useAuth } from "../contexts/AuthContext";
-import { apiRequest } from "../../utils/apiRequest";
 import { useToast } from "react-native-toast-notifications";
 
 /* TODO
