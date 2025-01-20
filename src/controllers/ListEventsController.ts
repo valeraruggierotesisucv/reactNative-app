@@ -1,5 +1,3 @@
-// EventModel.getEvents
-
 import { EventModel } from "../models/EventModel";
 
 export class ListEventsController{

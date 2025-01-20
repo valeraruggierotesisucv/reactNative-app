@@ -1,6 +1,3 @@
-// FollowUserModel.follow
-// FollowUserModel.unfollow
-
 import { FollowUserModel } from "../models/FollowUserModel";
 
 export class FollowUserController {

@@ -1,2 +1,0 @@
-// UserModel.getFollowers
-// UserModel.getFollowing

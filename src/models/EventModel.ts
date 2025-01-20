@@ -1,6 +1,5 @@
 import { apiRequest } from "../../utils/apiRequest";
 import { formatHour } from "../../utils/formatHour";
-import { truncateString } from "../../utils/formatString";
 export class EventModel {
     eventId: string; 
     profileImage: string; 
@@ -73,6 +72,7 @@ export class EventModel {
         
     }
 
+    // POST api/events/:eventId
     static async updateEvent(token: string, event: object, eventId: string){
         try{
             return await apiRequest(

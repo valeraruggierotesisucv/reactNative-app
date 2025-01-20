@@ -1,7 +1,6 @@
 import { apiRequest } from "../../utils/apiRequest";
 import { NotificationType } from "../components/NotificationItem/NotificationItem";
 
-// GET /api/users/:userId/notifications
 export class NotificationModel{
     user: string;
     userAvatar: string;
@@ -16,6 +15,7 @@ export class NotificationModel{
         this.type = type;
     }
 
+    // GET /api/users/:userId/notifications
     static async getNotifications(token: string, userId: string){       
         const { data } = await apiRequest(
             `users/${userId}/notifications`, 

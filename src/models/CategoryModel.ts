@@ -13,6 +13,7 @@ export class CategoryModel{
         this.icon = icon;
     }
 
+    // GET api/categories
     static async getCategories(token: string ){
         return await apiRequest(
             "categories", 

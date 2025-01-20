@@ -131,10 +131,4 @@ export class UserModel {
 
 }
 
-// getProfile
-// editProfile 
-// getFollowers
-// getFollowing 
-// createUser
-
 export default UserModel;
