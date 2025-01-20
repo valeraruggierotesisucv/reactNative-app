@@ -6,13 +6,14 @@ export class NotificationModel{
     userAvatar: string;
     timestamp: Date;
     type: NotificationType;
-    // TODO: falta imageUrl 
+    eventImage?: string; 
     
-    constructor(user: string, userAvatar: string, timestamp: Date, type: NotificationType) {
+    constructor(user: string, userAvatar: string, timestamp: Date, type: NotificationType, eventImage: string) {
         this.user = user;
         this.timestamp = timestamp;
         this.userAvatar = userAvatar;
         this.type = type;
+        this.eventImage = eventImage
     }
 
     // POST api/notifications
@@ -46,7 +47,8 @@ export class NotificationModel{
                 userData.username,                                
                 userData.profileImage,              
                 new Date(notification.createdAt),  
-                notification.type                   
+                notification.type, 
+                notification.eventImage                  
             );
         });
 
