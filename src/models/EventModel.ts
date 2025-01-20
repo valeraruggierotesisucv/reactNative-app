@@ -57,12 +57,17 @@ export class EventModel {
 
     // POST api/events
     static async createEvent(token: string, event: object){
-        return await apiRequest(
-            "events", 
-            "POST", 
-            event, 
-            token
-        )
+        try{
+            return await apiRequest(
+                "events", 
+                "POST", 
+                event, 
+                token
+            )
+        }catch(error){
+            console.log(error)
+        }
+        
     }
 
     static async updateEvent(token: string, event: object, eventId: string){

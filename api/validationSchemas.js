@@ -1,17 +1,20 @@
 const { z } = require("zod");
 
+const locationSchema = z.object({
+  latitude: z
+  .number()
+  .refine((val) => !isNaN(parseFloat(val)), "latitude must be a valid number"),
+  longitude: z
+    .number()
+    .refine((val) => !isNaN(parseFloat(val)), "longitude must be a valid number"),
+})
 const eventSchema = z.object({
     userId: z.string().nonempty("userId is required"),
     eventImage: z.string().url("eventImage must be a valid URL"),
     categoryId: z.number(),
-    latitude: z
-      .number()
-      .refine((val) => !isNaN(parseFloat(val)), "latitude must be a valid number"),
-    longitude: z
-      .number()
-      .refine((val) => !isNaN(parseFloat(val)), "longitude must be a valid number"),
     title: z.string().nonempty("title is required"),
     description: z.string().nonempty("description is required"),
+    locationId: z.string().nonempty("locationId is required"), 
     date: z.string().refine((val) => !isNaN(Date.parse(val)), "date must be a valid ISO date"),
     startsAt: z
       .string()
@@ -19,7 +22,7 @@ const eventSchema = z.object({
     endsAt: z
       .string()
       .refine((val) => !isNaN(Date.parse(val)), "endsAt must be a valid ISO date"), 
-      eventMusic: z.string().url("eventMusic must be a valid URL").optional(),
+    eventMusic: z.string().url("eventMusic must be a valid URL").optional(),
 });
 
 const likeEventSchema = z.object({
@@ -46,6 +49,7 @@ const editProfileSchema = z.object({
 });
 
 module.exports = {
+  locationSchema, 
   eventSchema,
   likeEventSchema,
   commentEventSchema,
