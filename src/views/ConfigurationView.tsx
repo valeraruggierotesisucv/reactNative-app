@@ -15,8 +15,10 @@ export function ConfigurationView() {
   const { logout } = useAuth();
   const { t , i18n } = useTranslation();
   const [isPickerVisible, setPickerVisible] = useState(false);
+
   // ChangeLanguageController 
   // LogOutController 
+  
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader />

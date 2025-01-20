@@ -4,7 +4,7 @@ import { AppHeader } from "../components/AppHeader/AppHeader";
 import { NotificationItem } from "../components/NotificationItem/NotificationItem";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { NotificationsController } from "../controllers/NotificationsController";
 import { useAuth } from "../contexts/AuthContext";
 import { useFocusEffect } from "@react-navigation/native";

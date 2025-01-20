@@ -20,8 +20,6 @@ import React from "react";
 import { theme } from "../../utils/theme";
 import { EventDetailsController } from "../controllers/EventDetailsController";
 import { useAuth } from "../contexts/AuthContext";
-import { ProfileController } from "../controllers/ProfileController";
-import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { Loading } from "../components/Loading/Loading";
 import { truncateString } from "../../utils/formatString";
 import { getDate } from "../../utils/formatDate";
@@ -35,21 +33,6 @@ import { EditEventController } from "../controllers/EditEventController";
 /* TODO
     Description debe tener max caracteres 
 */
-
-interface Event {
-  title: string;
-  description: string;
-  date: Date;
-  startTime: Date;
-  endTime: Date;
-  category: CategoriesEnum;
-  location: LatLng;
-  image: string;
-  musicFile: {
-    nameFile: string;
-    uri: string;
-  }
-}
 
 export function EditEventView() {
   const { t } = useTranslation();

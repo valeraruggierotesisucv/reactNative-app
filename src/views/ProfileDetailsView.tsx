@@ -1,10 +1,8 @@
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
-import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EventThumbnailList } from "../components/EventThumbnailList/EventThumbnailList";
-import { ProfileRoutes } from "../../utils/routes";
 import { ProfileCard } from "../components/ProfileCard/ProfileCard";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
@@ -17,6 +15,7 @@ import { HomeStackParamList } from "../../utils/types";
 import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { FollowUserController } from "../controllers/FollowUserController";
+import React from "react";
 
 export function ProfileDetailsView() {
   const { t } = useTranslation();
@@ -29,6 +28,7 @@ export function ProfileDetailsView() {
   const {user: authUser} = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowingLoading, setIsFollowingLoading] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
     const fetchProfile = async () => {
@@ -38,10 +38,9 @@ export function ProfileDetailsView() {
       );
       
       setUser(user) ;
-      const events = await ProfileController.getUserEvents(userId);
-      
+      const events = await ProfileController.getUserEvents(userId);      
       const followResponse = await FollowUserController.isFollowing( authUser!.id, userId);
-      console.log("followResponse", followResponse);
+
       setIsFollowing(followResponse.isFollowing);
       setEvents(events);
       setIsLoading(false);
@@ -50,8 +49,7 @@ export function ProfileDetailsView() {
     fetchProfile();
   }, []);
 
-  // FollowUserController
-  // TODO: En la tarjeta de perfil, agregar variacion con el boton de seguir | dejar de seguir
+
   const handleFollow = async () => {
     setIsFollowingLoading(true);
     try{
