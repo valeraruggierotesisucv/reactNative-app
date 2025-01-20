@@ -28,6 +28,8 @@ import { EventModel } from "../models/EventModel";
 import { UploadFileController } from "../controllers/UploadFileController";
 import { FileTypeEnum } from "../services/storage";
 import { EditEventController } from "../controllers/EditEventController";
+import { LocationController } from "../controllers/LocationController";
+import { access } from "fs";
 
 
 /* TODO
@@ -43,6 +45,7 @@ export function EditEventView() {
   const route = useRoute<RouteProp<ProfileStackParamList, ProfileRoutes.EditEvent>>(); 
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
   const [prevEvent, setPrevEvent] = useState<EventModel | null >(null); 
+  const [disable, setDisable] = useState(false); 
 
   const [title, setTitle] = useState<string | null>(null); 
   const [description, setDescription] = useState<string | null>(null);
@@ -53,6 +56,7 @@ export function EditEventView() {
   const [categoryId, setCategoryId] = useState<number|null>(null); 
   const [location, setLocation] = useState<LatLng | null>(null);
   const [image, setImage] = useState<string | null>(null);
+  const [locationId, setLocationId] = useState<string | null> (null); 
   const [musicFile, setMusicFile] = useState<{ nameFile: string; uri: string} | null>(null);
   const [origin, setOrigin] = useState<Location.LocationObject | null>(null);
 
@@ -91,6 +95,7 @@ export function EditEventView() {
             setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  /* TODO: falta guardar nombre del file */
             setImage(event.eventImage); 
             setLocation({ latitude: parseFloat(event.latitude), longitude: parseFloat(event.longitude)})
+            setLocationId(event.locationId)
           }
           
           setIsLoading(false); 
@@ -103,11 +108,13 @@ export function EditEventView() {
 
 
   async function handleEditEvent() {
-    setModalVisible(true);
-    if (title && description && date && startTime && endTime && category && image && musicFile && location) {
+   
+    if (title && description && date && startTime && endTime && category && image && musicFile && location && session) {
+      setDisable(true); 
       let imageUrl = prevEvent?.eventImage; 
       let musicUrl = prevEvent?.musicUrl; 
       let updateLocation = false; 
+      let locationId = prevEvent?.locationId; 
      
       if(musicFile.uri !== prevEvent?.musicUrl){
         console.log("Upload new music"); 
@@ -118,11 +125,17 @@ export function EditEventView() {
       if(image !== prevEvent?.eventImage){
         console.log("Upload new Image"); 
         imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE); 
-        // TODO: EditImageController
+        // TODO: EditImageController 
       }
 
       if(prevEvent && (location.latitude !== parseFloat(prevEvent?.latitude) || location.longitude !== parseFloat(prevEvent?.longitude))){
-        updateLocation = true; 
+        updateLocation = true;              
+
+        locationId = await LocationController.addLocation(session?.access_token, {
+          latitude: location.latitude, 
+          longitude: location.longitude
+        })   
+          
       }     
 
       const eventData = {
@@ -137,13 +150,22 @@ export function EditEventView() {
         categoryId: categoryId,                                
         latitude: location?.latitude,
         longitude: location?.longitude,    
-        updateLocation: updateLocation   
+        locationId: locationId  
       }
+      
+      if(prevEvent){
+        const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
+        console.log("Evento actualizado: ", result);
 
-       if(session && prevEvent){        
-          const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
-          console.log("Evento actualizado: ", result);
-        }   
+        if(updateLocation){
+          await LocationController.deleteLocation(session.access_token, prevEvent?.locationId)
+          console.log("Se eliminó la location previa")
+        }      
+        
+      }
+      
+      setModalVisible(true);
+      setDisable(false);
     }
   }
 
@@ -179,6 +201,7 @@ export function EditEventView() {
                 onAddEvent={handleEditEvent}
                 buttonLabel={t("save_changes")}
                 edit={true}
+                disable={disable}
               />
             )}
 
@@ -223,7 +246,7 @@ export function EditEventView() {
 
       <Modal 
         visible={modalVisible} 
-        onClose={() => {setModalVisible(false); navigation.goBack()}}
+        onClose={() => {setModalVisible(false); navigation.navigate(ProfileRoutes.Profile)}}
       >   
         <Text style={{ 
             fontSize: 18, 
@@ -231,7 +254,7 @@ export function EditEventView() {
             textAlign: 'center',
             marginBottom: 8,
         }}>
-            {t("event_edited")}
+            {t("editEvent.event_edited")}
         </Text>
         <Image source={require('../../assets/images/Onboarding.png')} style={{ width: 200, height: 200, marginBottom: 16 }} />
       </Modal>

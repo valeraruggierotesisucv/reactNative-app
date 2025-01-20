@@ -60,6 +60,27 @@ app.post("/api/locations", async(req, res) => {
   }
 })
 
+// deleteLocation
+app.delete("/api/locations/:locationId", async(req, res) => {
+  try{
+    const { locationId } = req.params; 
+
+    const location = await db.location.delete({
+      where: {
+        locationId: locationId
+      }
+    })
+    console.log("Se ha eliminado exitosamente la location ", location); 
+    res.json({
+      data: location, 
+      success: true
+    })
+
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to delete location" });
+  }
+})
 // addEvent 
 app.post("/api/events", authenticateUser, async(req, res) => {
   const validationResult = eventSchema.safeParse(req.body);
@@ -138,52 +159,36 @@ app.post("/api/events/:eventId", async(req, res) => {
     startsAt, 
     endsAt, 
     eventMusic, 
-    updateLocation, 
+    locationId, 
   } = req.body; 
-
-    // Create location
-    try{
-      let location; 
-      if(updateLocation){
-        location = await db.location.create({
-          data: {
-            latitude:  parseFloat(latitude), 
-            longitude: parseFloat(longitude), 
-          }
-        }); 
-      }
      
-      try{
-        const event = await db.event.update({
-          where: {
-            eventId: eventId
-          }, 
-          data:{
-            userId: userId, 
-            eventImage: eventImage, 
-            categoryId: parseInt(categoryId), 
-            locationId: updateLocation ? location.locationId : undefined, 
-            title: title, 
-            description: description, 
-            date: date, 
-            startsAt: startsAt, 
-            endsAt: endsAt, 
-            eventMusic: eventMusic
-          }
-        }); 
+    try{
+      const event = await db.event.update({
+        where: {
+          eventId: eventId
+        }, 
+        data:{
+          userId: userId, 
+          eventImage: eventImage, 
+          categoryId: parseInt(categoryId), 
+          locationId: locationId, 
+          title: title, 
+          description: description, 
+          date: date, 
+          startsAt: startsAt, 
+          endsAt: endsAt, 
+          eventMusic: eventMusic
+        }
+      }); 
 
-        res.json({
-          data: event, 
-          success: true
-        })
-  
-      }catch(error){
-        console.error(error); 
-        res.status(500).json({ error: "FAILED to create event" });
-      }
+      res.json({
+        data: event, 
+        success: true
+      })
+
     }catch(error){
       console.error(error); 
-      res.status(500).json({ error: "FAILED to create location" });
+      res.status(500).json({ error: "FAILED to create event" });
     }
 
 })

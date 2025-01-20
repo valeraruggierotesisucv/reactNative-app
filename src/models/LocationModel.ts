@@ -22,4 +22,13 @@ export class LocationModel {
 
         return data.locationId
     }
+
+    static async deleteLocation(token: string, locationId: string){
+        await apiRequest(
+            `locations/${locationId}`, 
+            "DELETE", 
+            undefined, 
+            token
+        )
+    }
 }

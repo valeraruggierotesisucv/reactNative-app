@@ -47,10 +47,11 @@ export function AddEventView() {
   const [image, setImage] = useState<string | null>(null);
   const [musicFile, setMusicFile] = useState<{nameFile: string; uri: string;} | null>(null);
   const [step, setStep] = useState<StepsEnum>(StepsEnum.DEFAULT);
+  const [disable, setDisable] = useState(false); 
 
   async function handleAddEvent() {     
     if (title && description && date && startTime && endTime && category && image && musicFile && location && session) {
-      setModalVisible(true);
+      setDisable(true);      
 
       const locationData = {
         latitude: location?.latitude,
@@ -76,7 +77,8 @@ export function AddEventView() {
       console.log("eventData ", eventData); 
       const result = await AddEventController.postEvent(session?.access_token, eventData); 
       console.log(result);          
-      
+      setModalVisible(true);
+      setDisable(false); 
     }else{
       
       toast.show(t("addEvent.require_fields"), {
@@ -142,6 +144,7 @@ export function AddEventView() {
             setImage={setImage}
             onAddEvent={handleAddEvent}
             buttonLabel={t("publish")}
+            disable={disable}
           />
         )}
 
