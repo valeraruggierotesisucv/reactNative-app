@@ -448,6 +448,36 @@ app.get("/api/users/:userId/events", async(req, res) => {
   }
 })
 
+app.post("/api/notifications", authenticateUser, async(req, res) => {
+  try{  
+    const { 
+      fromUserId, 
+      toUserId, 
+      type, 
+      message, 
+      eventImage
+     } = req.body; 
+    const notification = await db.notification.create({
+      data: {
+        fromUserId: fromUserId, 
+        toUserId: toUserId, 
+        type: type, 
+        message: message, 
+        eventImage: eventImage? eventImage : undefined
+      }
+    })
+
+    console.log("notification created ", notification)
+    res.json({
+      data: notification, 
+      success: true
+    })
+
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to create notification" });
+  }
+})
 
 // getNotifications
 app.get("/api/users/:userId/notifications", authenticateUser , async(req, res) => {

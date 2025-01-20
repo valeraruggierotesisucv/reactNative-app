@@ -16,6 +16,8 @@ import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { FollowUserController } from "../controllers/FollowUserController";
 import React from "react";
+import { NotificationsController } from "../controllers/NotificationsController";
+import { NotificationType } from "../components/NotificationItem/NotificationItem";
 
 export function ProfileDetailsView() {
   const { t } = useTranslation();
@@ -25,7 +27,7 @@ export function ProfileDetailsView() {
   const [isFollowing, setIsFollowing] = useState(false);
   const [user, setUser] = useState<UserModel | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
-  const {user: authUser} = useAuth();
+  const {user: authUser, session} = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isFollowingLoading, setIsFollowingLoading] = useState(false);
 
@@ -57,6 +59,20 @@ export function ProfileDetailsView() {
       if(response.success){
         setIsFollowing(true);
       }
+
+      // Send notification      
+      const notificationData = {
+        fromUserId: authUser?.id, 
+        toUserId: userId, 
+        type:  NotificationType.FOLLOW, 
+        message: t("notifications.FOLLOW")
+      }
+
+      if(session){
+        const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
+        console.log("Notificación enviada: " , notificationResult);
+      }       
+
     }catch(error){
       console.log("Error al seguir al usuario", error);
     }finally{
