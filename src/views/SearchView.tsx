@@ -1,4 +1,5 @@
 import React from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, FlatList, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -36,7 +37,6 @@ export function SearchView() {
   const navigation = useNavigation<SearchStackNavigationProp>();
   const [activeTab, setActiveTab] = useState<string>(SearchTabsEnum.EVENTS);
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const { user, session} = useAuth();
   const [activeCategories, setActiveCategories] = useState<string[] | string>(
     []
   );
@@ -48,6 +48,7 @@ export function SearchView() {
     profileImage: string;
   }>({ username: "", profileImage: IMAGE_PLACEHOLDER });
   const [users, setUsers] = useState<UserModel[] | null>(null);
+  const {session, user} = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
   const searchTabs = [
@@ -93,7 +94,17 @@ export function SearchView() {
 
   const handleSearchChange = async (text: string) => {
     setSearch(text);
-    fetchEvents(text);
+
+    if (text.length > 0) {
+      if (activeTab === SearchTabsEnum.EVENTS) {
+        const events = await SearchEventController.searchEvents(session!.access_token, text);
+        console.log("events", events);
+        setAllEvents(events);
+      } else {
+        const users = await SearchUserController.searchUsers(session!.access_token, text);
+        setUsers(users);
+      }
+    }
   };
 
   useEffect(() => {
@@ -127,6 +138,8 @@ export function SearchView() {
       }
     }    
   }
+
+  
 
   function filteredCategories() {
     if (allEvents) {

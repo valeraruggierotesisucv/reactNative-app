@@ -762,6 +762,9 @@ app.post("/api/events/:eventId/comment", authenticateUser , async (req, res) => 
   }
 });
 
+
+
+
 // getCommentsByPostId
 app.get("/api/events/:eventId/comments", authenticateUser , async (req, res) => {
   const { eventId } = req.params;
