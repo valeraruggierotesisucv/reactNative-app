@@ -18,11 +18,11 @@ import { useCurrentLocation } from "../hooks/useCurrentLocation";
 import React from "react";
 import { theme } from "../../utils/theme";
 import { FileTypeEnum, uploadFile } from "../services/storage";
-import { UploadFileController } from "../controllers/UploadFileController";
 import { AddEventController } from "../controllers/AddEventController";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "react-native-toast-notifications";
 import { LocationController } from "../controllers/LocationController";
+import { FileController } from "../controllers/FileController";
 
 /* TODO
     Description debe tener max caracteres 
@@ -57,8 +57,9 @@ export function AddEventView() {
         latitude: location?.latitude,
         longitude: location?.longitude, 
       }
-      const imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE); 
-      const musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
+      console.log("updating files...")
+      const imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
+      const musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
       const locationId = await LocationController.addLocation(session?.access_token, locationData); 
       console.log("Location created ", locationId); 
 

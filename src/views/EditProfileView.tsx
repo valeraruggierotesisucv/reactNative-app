@@ -16,9 +16,9 @@ import { useAuth } from "../contexts/AuthContext";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { EditProfileController } from "../controllers/EditProfileController";
 import { Formik } from "formik";
-import { UploadFileController } from "../controllers/UploadFileController";
 import { FileTypeEnum } from "../services/storage";
 import { Loading } from "../components/Loading/Loading";
+import { FileController } from "../controllers/FileController";
 
 export function EditProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
@@ -58,7 +58,7 @@ export function EditProfileView() {
         
         let imageUrl: string | undefined = undefined;
         if(imageUri){
-          imageUrl = await UploadFileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
+          imageUrl = await FileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
           console.log("imageUrl", imageUrl);
         }
         await EditProfileController.updateProfile(user.id, {
