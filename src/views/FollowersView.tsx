@@ -10,12 +10,14 @@ import { useTranslation } from "react-i18next";
 import { ListUsersController } from "../controllers/ListUsersController";
 import { useAuth } from "../contexts/AuthContext";
 import { FollowUserController } from "../controllers/FollowUserController";
+import { NotificationType } from "../components/NotificationItem/NotificationItem";
+import { NotificationsController } from "../controllers/NotificationsController";
 
 export function FollowersView() {
   const { t } = useTranslation();
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [followers, setFollowers] = useState<{ followerId: string, followerName: string, followerProfileImage: string, followed: boolean, isFollowingLoading: boolean }[] | null>(null);
 
 
@@ -43,6 +45,19 @@ export function FollowersView() {
       if(response.success){
         setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, followed: true } : follower) : null);
       }
+
+      // Send notification      
+      const notificationData = {
+        fromUserId: user?.id, 
+        toUserId: userId, 
+        type:  NotificationType.FOLLOW, 
+        message: t("notifications.FOLLOW")
+      }
+
+      if(session){
+        const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
+        console.log("Notificación enviada: " , notificationResult);
+      }  
     }catch(error){
       console.log("Error al seguir al usuario", error);
     }finally{
