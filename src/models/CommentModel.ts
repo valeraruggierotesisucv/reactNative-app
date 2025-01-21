@@ -12,6 +12,7 @@ export class CommentModel{
         this.profileImage = profileImage, 
         this.timestamp = timestamp
     }
+    
     // POST api/events/:eventId/comment
     static async createComment(token: string, eventId: string, data: {
         userId: string, 

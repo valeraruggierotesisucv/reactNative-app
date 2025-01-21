@@ -54,9 +54,12 @@ model Notification {
   type              NotificationType
   message           String
   createdAt         DateTime         @default(now())
+  eventImage        String? 
+
 
   fromUser          User             @relation("NotificationsFromUser", fields: [fromUserId], references: [userId])
   toUser            User             @relation("NotificationsToUser", fields: [toUserId], references: [userId])
+
 }
 
 model Event {

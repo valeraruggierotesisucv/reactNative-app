@@ -85,6 +85,16 @@ GET http://localhost:5000/api/users/cm5ylssnm0000ty7wb1c36urk/events
 ### Get User notifications
 GET http://localhost:5000/api/users/9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7/notifications
 
+### POST notification
+POST http://localhost:5000/api/notifications
+Content-Type: application/json
+
+{
+  "fromUserId": "9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7", 
+  "toUserId": "59f8b967-c1f0-42d3-b9b9-e32c11db446c", 
+  "type":  "FOLLOW", 
+  "message": "TESTING NOTIFICATION"
+}
 ### Get User followers
 GET http://localhost:5000/api/users/cm5tzwbk50000ty5c57ia1ca6/followers
 

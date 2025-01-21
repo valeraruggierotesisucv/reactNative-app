@@ -1,21 +1,37 @@
 import { apiRequest } from "../../utils/apiRequest";
 import { NotificationType } from "../components/NotificationItem/NotificationItem";
 
-// GET /api/users/:userId/notifications
 export class NotificationModel{
     user: string;
     userAvatar: string;
     timestamp: Date;
     type: NotificationType;
-    // TODO: falta imageUrl 
+    eventImage?: string; 
     
-    constructor(user: string, userAvatar: string, timestamp: Date, type: NotificationType) {
+    constructor(user: string, userAvatar: string, timestamp: Date, type: NotificationType, eventImage: string) {
         this.user = user;
         this.timestamp = timestamp;
         this.userAvatar = userAvatar;
         this.type = type;
+        this.eventImage = eventImage
     }
 
+    // POST api/notifications
+    static async createNotification(token: string, data: object){
+        try{
+            return await apiRequest(
+                `notifications`, 
+                "POST", 
+                data, 
+                token
+            ) 
+        }catch(error){
+            console.log(error)
+        }
+        
+    }
+
+    // GET /api/users/:userId/notifications
     static async getNotifications(token: string, userId: string){       
         const { data } = await apiRequest(
             `users/${userId}/notifications`, 
@@ -31,7 +47,8 @@ export class NotificationModel{
                 userData.username,                                
                 userData.profileImage,              
                 new Date(notification.createdAt),  
-                notification.type                   
+                notification.type, 
+                notification.eventImage                  
             );
         });
 

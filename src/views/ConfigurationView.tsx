@@ -28,13 +28,15 @@ export function ConfigurationView() {
           placeholder={i18n.language === "en-US" ? "English" : "Español"}
           variant={InputVariant.ARROW}
           onPress={() => setPickerVisible(true)}
+          required={false}
         />
         <Input
           label={t("configuration.change_password").toUpperCase()}
           variant={InputVariant.ARROW}
           onPress={() => navigation.navigate(ProfileRoutes.ChangePassword)}
+          required={false}
         />
-        <Input label={t("configuration.logout").toUpperCase()} onPress={logout} />
+        <Input label={t("configuration.logout").toUpperCase()} onPress={logout}  required={false}/>
       </View>
 
       <Modal
