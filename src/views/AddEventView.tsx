@@ -57,6 +57,7 @@ export function AddEventView() {
         latitude: location?.latitude,
         longitude: location?.longitude, 
       }
+      console.log("updating files...")
       const imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
       const musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
       const locationId = await LocationController.addLocation(session?.access_token, locationData); 

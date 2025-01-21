@@ -52,6 +52,8 @@ export async function uploadFile(uri: string, type: FileTypeEnum){
       console.error('Error uploading file: ', error);
     }
 
+    console.log("path-->", data?.path); 
+
     // Get the public URL of the uploaded file
     if(data){
       const { data: { publicUrl} } = await supabase
@@ -66,4 +68,31 @@ export async function uploadFile(uri: string, type: FileTypeEnum){
     console.error('Error in uploadFile:', error);
   }  
 
+}
+
+export async function deleteFile(uri: string, type: FileTypeEnum) {
+  let name = uri.split('EventImages/')[1]; 
+  let bucket = 'EventImages'; 
+
+  if(type === FileTypeEnum.AUDIO){
+    name = uri.split('EventMusic/')[1]; 
+    bucket = 'EventMusic'
+  }
+
+  try{
+    const { data, error } = await supabase
+    .storage
+    .from(bucket)
+    .remove([name])
+
+    if (error) {
+      throw error; 
+    }
+
+    console.log("ARCHIVO ELIMINADO-->", data)
+    return name
+  }catch(error){
+    console.error('Error deleting file', error);
+  }
+  
 }

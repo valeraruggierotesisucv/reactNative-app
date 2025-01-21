@@ -116,16 +116,16 @@ export function EditEventView() {
       let updateLocation = false; 
       let locationId = prevEvent?.locationId; 
      
-      if(musicFile.uri !== prevEvent?.musicUrl){
+      if(musicFile.uri !== prevEvent?.musicUrl && prevEvent){
         console.log("Upload new music"); 
         musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
-        // TODO: DeleteMusicController
+        await FileController.deleteFile(prevEvent?.musicUrl, FileTypeEnum.AUDIO); 
       }
 
-      if(image !== prevEvent?.eventImage){
+      if(image !== prevEvent?.eventImage && prevEvent){
         console.log("Upload new Image"); 
         imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
-        // TODO: EditImageController 
+        await FileController.deleteFile(prevEvent?.eventImage, FileTypeEnum.IMAGE); 
       }
 
       if(prevEvent && (location.latitude !== parseFloat(prevEvent?.latitude) || location.longitude !== parseFloat(prevEvent?.longitude))){
