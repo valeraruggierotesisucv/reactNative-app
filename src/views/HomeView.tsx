@@ -8,13 +8,13 @@ import { EventCard } from "../components/EventCard/EventCard";
 import { useCallback, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { theme } from "../../utils/theme";
-import { onShare } from "../../utils/share";
 import { useTranslation } from "react-i18next";
 import { ListEventsController } from "../controllers/ListEventsController";
 import { Loading } from "../components/Loading/Loading";
 import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
+import { ShareEventController } from "../controllers/ShareEventController";
 
 
 export function HomeView() {
@@ -113,7 +113,9 @@ export function HomeView() {
                     onComment={onComment}
                     userComment={userComment}
                     fetchComments={() => fetchComments(item.eventId)}
-                    onShare={() => onShare(t('shareMessage', { eventName: item.title, eventDate: item.date }))}
+                    onShare={() => 
+                      ShareEventController.shareEvent(t('common.share_message', { eventName: item.title, eventDate: item.date }))
+                    }
                     onMoreDetails={() =>
                       navigation.navigate(HomeRoutes.EventDetails, {
                         eventId: item.eventId,

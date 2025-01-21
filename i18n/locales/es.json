@@ -118,7 +118,8 @@
         "not_available": "No disponible",
         "next": "Siguiente",
         "send": "Enviar",
-        "loading": "Cargando..."
+        "loading": "Cargando...",
+        "share_message": "¡Revisa este evento: {{eventName}} el {{eventDate}}!\nDescarga nuestra aplicación Eventify desde la App Store.\nhttps://www.eventify.com"
     },
     "comments": {
         "comment_placeholder": "Escribe un comentario...",

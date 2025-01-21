@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { Tabs, Tab } from "../components/Tabs/Tabs";
 import { Pills } from "../components/Pills/Pills";
 import { theme } from "../../utils/theme";
-import { onShare } from "../../utils/share";
 import { useTranslation } from "react-i18next";
 import { SearchEventController } from "../controllers/SearchEventController";
 import { EventModel } from "../models/EventModel";
@@ -24,6 +23,7 @@ import { CategoriesController } from "../controllers/CategoriesController";
 import { useAuth } from "../contexts/AuthContext";
 import { CategoryModel } from "../models/CategoryModel";
 import { Loading } from "../components/Loading/Loading";
+import { ShareEventController } from "../controllers/ShareEventController";
 import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
 
@@ -255,8 +255,8 @@ export function SearchView() {
                           }}
                           onComment={onComment}
                           onShare={() =>
-                            onShare(
-                              t("shareMessage", {
+                            ShareEventController.shareEvent(
+                              t("common.share_message", {
                                 eventName: item.title,
                                 eventDate: item.date,
                               })
