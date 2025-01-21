@@ -25,11 +25,11 @@ import { truncateString } from "../../utils/formatString";
 import { getDate } from "../../utils/formatDate";
 import { convertTimeToDate } from "../../utils/formatHour";
 import { EventModel } from "../models/EventModel";
-import { UploadFileController } from "../controllers/UploadFileController";
 import { FileTypeEnum } from "../services/storage";
 import { EditEventController } from "../controllers/EditEventController";
 import { LocationController } from "../controllers/LocationController";
 import { access } from "fs";
+import { FileController } from "../controllers/FileController";
 
 
 /* TODO
@@ -118,13 +118,13 @@ export function EditEventView() {
      
       if(musicFile.uri !== prevEvent?.musicUrl){
         console.log("Upload new music"); 
-        musicUrl = await UploadFileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
+        musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
         // TODO: DeleteMusicController
       }
 
       if(image !== prevEvent?.eventImage){
         console.log("Upload new Image"); 
-        imageUrl = await UploadFileController.uploadFile(image, FileTypeEnum.IMAGE); 
+        imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
         // TODO: EditImageController 
       }
 
