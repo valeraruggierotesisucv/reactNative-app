@@ -2,6 +2,11 @@ import { CategoryModel } from "../models/CategoryModel";
 
 export class CategoriesController {
     static async getCategories(token:string){
-        return await CategoryModel.getCategories(token); 
+        try {
+            return await CategoryModel.getCategories(token); 
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+            return [];
+        }
     }
 }

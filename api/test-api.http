@@ -155,3 +155,19 @@ DELETE http://localhost:5000/api/users/cm5ylsvds0008ty7wx6ypebvi/unfollow/59f8b9
 
 ####
 DELETE http://localhost:5000/api/locations/cm65ap24y0000tykk9zseji6o
+
+### Search Users
+POST http://localhost:5000/api/search/users
+Content-Type: application/json
+
+{
+  "search": "ruggieroDaniela"
+}
+
+### Search Events
+POST http://localhost:5000/api/search/events
+Content-Type: application/json
+
+{
+  "search": "Prueba"
+}

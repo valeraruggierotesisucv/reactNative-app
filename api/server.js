@@ -1,4 +1,4 @@
-const { likeEventSchema, commentEventSchema, signUpSchema, eventSchema, editProfileSchema, locationSchema } = require("./validationSchemas.js");
+const { likeEventSchema, commentEventSchema, signUpSchema, eventSchema, editProfileSchema, locationSchema, searchEventSchema, searchUserSchema } = require("./validationSchemas.js");
 const authenticateUser = require("./authenticateUser.js"); 
 const express = require("express");
 const cors = require("cors");
@@ -775,6 +775,9 @@ app.post("/api/events/:eventId/comment", authenticateUser , async (req, res) => 
   }
 });
 
+
+
+
 // getCommentsByPostId
 app.get("/api/events/:eventId/comments", async (req, res) => {
   const { eventId } = req.params;
@@ -797,6 +800,73 @@ app.get("/api/events/:eventId/comments", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to get comments" });
+  }
+});
+
+// searchEvents
+app.post("/api/search/events", async (req, res) => {
+  try{
+    const { search } = req.body;
+    const validationResult = searchEventSchema.safeParse(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        errors: validationResult.error.errors,
+      });
+    }
+    const events = await db.event.findMany({
+      where: { title: { contains: search } },
+      include: {
+        user: {
+          select: {
+            username: true, 
+            profileImage: true,
+            userId: true
+          }
+        },
+        location: {
+          select: {
+            latitude: true, 
+            longitude: true, 
+            locationId: true
+          }
+        }
+      }
+    });
+    res.json({ data: events, success: true });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "Failed to search events" });
+  }
+});
+
+// searchUsers
+app.post("/api/search/users", async (req, res) => {
+  try{
+    const { search } = req.body;
+    
+    const validationResult = searchUserSchema.safeParse(req.body);
+    
+
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        errors: validationResult.error.errors,
+      });
+    }
+
+    const users = await db.user.findMany({
+      where: { username: { contains: search } },
+      select: {
+        username: true, 
+        profileImage: true,
+        userId: true
+      }
+    });
+    res.json({ data: users, success: true });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "Failed to search users" });
   }
 });
 

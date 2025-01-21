@@ -2,24 +2,31 @@ import { apiRequest } from "../../utils/apiRequest";
 
 export class CategoryModel{
     public id: number;
-    public name: string;
+    public nameEs: string;
+    public nameEn: string;
     public description: string;
-    public icon: string;
 
-    constructor(id: number, name: string, description: string, icon: string){
+
+    constructor(id: number, nameEs: string, nameEn: string, description: string){
         this.id = id;
-        this.name = name;
+        this.nameEs = nameEs;
+        this.nameEn = nameEn;
         this.description = description;
-        this.icon = icon;
     }
 
-    // GET api/categories
-    static async getCategories(token: string ){
-        return await apiRequest(
-            "categories", 
-            "GET", 
-            undefined, 
-            token
-        )
+    static async getCategories(token: string ): Promise<CategoryModel[]>{
+        try {
+            const response = await apiRequest(
+                "categories", 
+                "GET", 
+                undefined, 
+                token
+            )
+            console.log("response del model", response.data)
+            return response.data.map((category: any) => new CategoryModel(category.categoryId, category.nameEs, category.nameEn, category.description));
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+            return [];
+        }
     }
 }
