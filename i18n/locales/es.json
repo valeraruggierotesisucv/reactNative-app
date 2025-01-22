@@ -7,7 +7,11 @@
         "tabs": {
             "events": "Eventos",
             "accounts": "Cuentas"
-        }
+        },
+        "search_events": "Ingresa el nombre de un evento",
+        "search_users": "Ingresa el nombre de un usuario",
+        "no_events_found": "No se encontraron eventos",
+        "no_users_found": "No se encontraron usuarios"
     },
     "user": {
         "edit_profile": "Editar perfil",

@@ -159,4 +159,36 @@ export class EventModel {
           return null; 
         }
     }    
+
+    static async searchEvents(search: string) {
+        try {
+            const { data } = await apiRequest("search/events", "POST", { search });
+            const events = data.map((event: any) => {
+                return new EventModel(
+                    event.eventId, 
+                    event.user.profileImage, 
+                    event.user.username, 
+                    event.eventImage, 
+                    event.title, 
+                    event.description, 
+                    event.locationId, 
+                    event.location.latitude, 
+                    event.location.longitude, 
+                    event.startsAt, 
+                    event.endsAt, 
+                    event.date, 
+                    event.category, 
+                    event.categoryId, 
+                    event.eventMusic, 
+                    false,
+                    event.user.userId
+                )
+            })
+            return events;
+
+        } catch (error) {
+            console.error("Error searching events:", error);
+            throw error;
+        }
+    }
 }

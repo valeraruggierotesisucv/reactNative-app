@@ -129,6 +129,18 @@ export class UserModel {
         }));
     }
 
+    static async searchUsers(search: string) {
+        try {
+            const response = await apiRequest("search/users", "POST", { search })
+            return response.data.map((user: any) => ({
+                userId: user.userId,
+                username: user.username,
+                profileImage: user.profileImage,
+            }));
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default UserModel;

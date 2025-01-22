@@ -48,6 +48,14 @@ const editProfileSchema = z.object({
   profileImage: z.string().optional(),
 });
 
+const searchUserSchema = z.object({
+  search: z.string().nonempty("search is required"),
+});
+
+const searchEventSchema = z.object({
+  search: z.string().nonempty("search is required"),
+});
+
 module.exports = {
   locationSchema, 
   eventSchema,
@@ -55,4 +63,6 @@ module.exports = {
   commentEventSchema,
   signUpSchema,
   editProfileSchema,
+  searchUserSchema,
+  searchEventSchema,
 };

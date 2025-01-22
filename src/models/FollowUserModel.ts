@@ -14,11 +14,10 @@ export class FollowUserModel {
     static async isFollowing(userId: string, targetUserId: string) {
         try {
             const response = await apiRequest(`users/${userId}/isFollowing/${targetUserId}`, "GET");
-            console.log("response del model", response.data.isActive)
             return {
-                userIdFollows: response.data.userIdFollows,
-                userIdFollowedBy: response.data.userIdFollowedBy,
-                isActive: response.data ? response.data.isActive : false,
+                userIdFollows: response?.data?.userIdFollows,
+                userIdFollowedBy: response?.data?.userIdFollowedBy,
+                isActive: response?.data?.isActive,
             };
         } catch (error) {
             console.error(error);
@@ -29,7 +28,6 @@ export class FollowUserModel {
     static async followUser(userIdFollows: string, userIdFollowedBy: string) {
         try {
             const response = await apiRequest(`users/${userIdFollows}/follow/${userIdFollowedBy}`, "POST");
-            console.log("response del model follow", response)
             return response;
         } catch (error) {
             console.error(error);
@@ -40,7 +38,6 @@ export class FollowUserModel {
     static async unfollowUser(userIdFollows: string, userIdFollowedBy: string) {
         try {
             const response = await apiRequest(`users/${userIdFollows}/unfollow/${userIdFollowedBy}`, "DELETE");
-            console.log("response del model unfollow", response)
             return response;
         } catch (error) {
             console.error(error);
