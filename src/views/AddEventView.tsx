@@ -61,7 +61,6 @@ export function AddEventView() {
       const imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
       const musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
       const locationId = await LocationController.addLocation(session?.access_token, locationData); 
-      console.log("Location created ", locationId); 
 
       const eventData = {
         userId: user?.id,

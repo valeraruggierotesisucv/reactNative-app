@@ -133,7 +133,7 @@ export class UserModel {
         try {
             const response = await apiRequest("search/users", "POST", { search })
             return response.data.map((user: any) => ({
-                id: user.userId,
+                userId: user.userId,
                 username: user.username,
                 profileImage: user.profileImage,
             }));

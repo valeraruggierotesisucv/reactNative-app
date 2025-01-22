@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, StyleSheet, FlatList, Text } from "react-native";
+import { View, StyleSheet, FlatList, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchStackNavigationProp } from "../navigators/SearchStack";
 import { SearchRoutes } from "../../utils/routes";
@@ -24,6 +24,8 @@ import { CategoriesController } from "../controllers/CategoriesController";
 import { useAuth } from "../contexts/AuthContext";
 import { CategoryModel } from "../models/CategoryModel";
 import { Loading } from "../components/Loading/Loading";
+import { CommentEventController } from "../controllers/CommentEventController";
+import { ProfileController } from "../controllers/ProfileController";
 
 export enum SearchTabsEnum {
   EVENTS = "Eventos",
@@ -35,6 +37,7 @@ export function SearchView() {
   const navigation = useNavigation<SearchStackNavigationProp>();
   const [activeTab, setActiveTab] = useState<string>(SearchTabsEnum.EVENTS);
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
+  const { user } = useAuth();
   const [activeCategories, setActiveCategories] = useState<string[] | string>(
     []
   );
@@ -61,13 +64,20 @@ export function SearchView() {
       setCategories(response);
       setIsLoading(false);
     }
+
+    async function fetchProfile(){
+      const profile = await ProfileController.getProfile(user?.id || "");
+      setUserComment({
+        "username": profile.username, 
+        "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
+      })
+    }
+
     fetchCategories();
+    fetchProfile();
   }, []);
 
-
-  const handleSearchChange = async (text: string) => {
-    setSearch(text);
-
+  async function fetchEvents(text: string){ 
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
         const events = await SearchEventController.searchEvents(text);
@@ -78,7 +88,44 @@ export function SearchView() {
         setUsers(users);
       }
     }
+  }
+
+  const handleSearchChange = async (text: string) => {
+    setSearch(text);
+    fetchEvents(text);
   };
+
+  useEffect(() => {
+    fetchEvents(search);
+  }, [activeTab]);
+
+  const fetchComments = async (eventId: string) => {
+    try {
+     
+      if(session){
+        const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
+        return comments;
+      }      
+    } catch (error) {
+      console.error("Error fetching comments for event:", eventId, error);
+      return []; 
+    }
+  };
+
+  const onComment = async (eventId: string, comment: string) => {
+    if(session && user){
+      try {
+        const result = await CommentEventController.createComment(session?.access_token, eventId, {
+          userId: user?.id, 
+          text: comment
+        })
+        console.log(result)
+      } catch (error) {
+        console.error("Error adding comment", error);
+        Alert.alert("Error adding comment");
+      }
+    }    
+  }
 
   function filteredCategories() {
     if (allEvents) {
@@ -99,9 +146,7 @@ export function SearchView() {
     }
   }, [activeCategories, allEvents, activeTab]);
 
-  useEffect(() => {
-    setSearch("");
-  }, [activeTab]);
+ 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -144,19 +189,25 @@ export function SearchView() {
                           profileImage={item.profileImage || IMAGE_PLACEHOLDER}
                           username={item.username}
                           onPressButton={() => {}}
+                          onPressUser={() => {
+                            console.log("item", item);
+                            navigation.navigate(SearchRoutes.ProfileDetails, {
+                              userId: item.userId,
+                            })
+                          }}
                         />
                       );
                     }}
                   />
                 ) : (
                   <View style={styles.searchContainer}>
-                    <Text style={styles.searchText}>No users found</Text>
+                    <Text style={styles.searchText}>{t('search.no_users_found')}</Text>
                   </View>
                 )}
               </>
             ) : (
               <View style={styles.searchContainer}>
-                <Text style={styles.searchText}>Busca usuarios</Text>
+                <Text style={styles.searchText}>{t('search.search_users')}</Text>
               </View>
             )}
           </>
@@ -182,12 +233,13 @@ export function SearchView() {
                           description={item.description}
                           isLiked={item.isLiked}
                           date={item.date}
-                          onPressUser={() =>
+                          onPressUser={() => {
+                            console.log("item", item.userId);
                             navigation.navigate(SearchRoutes.ProfileDetails, {
                               userId: item.userId,
                             })
-                          }
-                          onComment={(comment: string) => Promise.resolve()}
+                          }}
+                          onComment={onComment}
                           onShare={() =>
                             onShare(
                               t("shareMessage", {
@@ -202,7 +254,7 @@ export function SearchView() {
                               canEdit: false,
                             })
                           }
-                          fetchComments={() => Promise.resolve(dummyComments)}
+                          fetchComments={() => fetchComments(item.eventId)}
                         />
                       );
                     }}
@@ -210,13 +262,13 @@ export function SearchView() {
                   />
                 ) : (
                   <View style={styles.searchContainer}>
-                    <Text style={styles.searchText}>No events found</Text>
+                    <Text style={styles.searchText}>{t('search.no_events_found')}</Text>
                   </View>
                 )}
               </>
             ) : (
               <View style={styles.searchContainer}>
-                <Text style={styles.searchText}>Busca eventos</Text>
+                <Text style={styles.searchText}>{t('search.search_events')}</Text>
               </View>
             )}
           </>

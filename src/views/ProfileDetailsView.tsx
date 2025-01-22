@@ -18,6 +18,7 @@ import { FollowUserController } from "../controllers/FollowUserController";
 import React from "react";
 import { NotificationsController } from "../controllers/NotificationsController";
 import { NotificationType } from "../components/NotificationItem/NotificationItem";
+import { Loading } from "../components/Loading/Loading";
 
 export function ProfileDetailsView() {
   const { t } = useTranslation();
@@ -97,7 +98,7 @@ export function ProfileDetailsView() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <AppHeader title={t("profile.details")} goBack={navigation.goBack} />
-        {isLoading ? <Text style={{flex: 1, justifyContent: "center", alignItems: "center"}}>Loading...</Text> : (
+        {isLoading ? <Loading /> : (
         <>
           <ProfileCard
             profileImage={user?.profileImage || ""}
