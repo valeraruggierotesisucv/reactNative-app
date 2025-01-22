@@ -54,7 +54,7 @@ function Login() {
               onChangeText={handleChange("password")}
               placeholder={t("auth.password_placeholder")}
               secureTextEntry={!showPassword}
-              icon={showPassword ? "eye-off" : "eye"}
+              icon={showPassword ? "eye" : "eye-off"}
               iconColor={theme.colors['primary']}
               onPressIcon={() => setShowPassword(!showPassword)}
               style={{ marginBottom: 9 }}
@@ -192,7 +192,7 @@ const Signup = () => {
               value={values.password}
               onChangeText={handleChange("password")}
               placeholder={t("auth.password_placeholder")}
-              icon={showPassword ? "eye-off" : "eye"}
+              icon={showPassword ? "eye" : "eye-off"}
               iconColor={theme.colors['primary']}
               secureTextEntry={!showPassword}
               onPressIcon={() => setShowPassword(!showPassword)}
@@ -204,7 +204,7 @@ const Signup = () => {
               value={values.confirmPassword}
               onChangeText={handleChange("confirmPassword")}
               placeholder={t("auth.confirm_password_placeholder")}
-              icon={showConfirmPassword ? "eye-off" : "eye"}
+              icon={showConfirmPassword ? "eye" : "eye-off"}
               iconColor={theme.colors['primary']}
               secureTextEntry={!showConfirmPassword}
               onPressIcon={() => setShowConfirmPassword(!showConfirmPassword)}

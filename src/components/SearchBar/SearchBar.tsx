@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Platform } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +11,7 @@ interface SearchBarProps {
 export function SearchBar({ onChangeText, value }: SearchBarProps) {
   const { t } = useTranslation();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, Platform.OS === "ios" && styles.containerIOS]}>
       <AntDesign name="search1" size={20} color="gray" style={styles.icon} />
       <TextInput
         style={styles.input}
@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 10,
     width: "100%",
+  },
+  containerIOS: {
+    paddingVertical: 10,
   },
   icon: {
     marginRight: 5,
