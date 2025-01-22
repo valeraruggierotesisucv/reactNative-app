@@ -171,3 +171,11 @@ Content-Type: application/json
 {
   "search": "Prueba"
 }
+
+### Like Event
+POST http://localhost:5000/api/events/cm63thitt0002ty7okfbjungo/like
+Content-Type: application/json
+
+{
+  "userId": "59f8b967-c1f0-42d3-b9b9-e32c11db446c"
+}

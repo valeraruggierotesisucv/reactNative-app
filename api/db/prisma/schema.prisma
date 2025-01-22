@@ -99,6 +99,7 @@ model SocialInteraction {
   userId            String
   eventId           String
   createdAt         DateTime         @default(now())
+  isActive          Boolean          @default(true)
 
   user              User             @relation(fields: [userId], references: [userId])
   event             Event            @relation(fields: [eventId], references: [eventId])

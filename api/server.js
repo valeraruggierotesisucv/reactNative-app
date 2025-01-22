@@ -413,6 +413,59 @@ app.get("/api/users/:userId/followed", authenticateUser , async(req, res) => {
   }
 })
 
+// likeEvent - Toggle like status
+app.post("/api/events/:eventId/like", async (req, res) => {
+  const { eventId } = req.params;
+  const { userId } = req.body;
+
+  console.log(userId, eventId);
+
+  try {
+    const existingInteraction = await db.socialInteraction.findUnique({
+      where: {
+        userId_eventId: {
+          userId: userId,
+          eventId: eventId
+        }
+      }
+    });
+
+    const interaction = await db.socialInteraction.upsert({
+      where: {
+        userId_eventId: {
+          userId: userId,
+          eventId: eventId
+        }
+      },
+      update: {
+        isActive: existingInteraction ? !existingInteraction.isActive : true
+      },
+      create: {
+        userId: userId,
+        eventId: eventId,
+        isActive: true
+      }
+    });
+
+    await db.event.update({
+      where: { eventId: eventId },
+      data: { 
+        likesCounter: {
+          [interaction.isActive ? 'increment' : 'decrement']: 1
+        }
+      }
+    });
+
+    res.json({ 
+      data: interaction,
+      success: true 
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to toggle like status" });
+  }
+});
+
 // getProfileEvents 
 app.get("/api/users/:userId/events", authenticateUser , async(req, res) => {
   try{
@@ -699,32 +752,6 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
   } catch (error) {
     console.error("Error fetching following users:", error);
     res.status(500).json({ error: "Failed to get home events" });
-  }
-});
-
-// likeEvent
-app.post("/api/events/:eventId/like", authenticateUser , async (req, res) => {
-  const validationResult = likeEventSchema.safeParse(req.body);
-
-  if (!validationResult.success) {
-    return res.status(400).json({
-      success: false,
-      errors: validationResult.error.errors,
-    });
-  }
-
-  const { eventId } = req.params;
-  const userId = req.body.userId;
-
-  try {
-    await db.socialInteraction.create({
-      data: { userId, eventId: eventId },
-    });
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to like event" });
   }
 });
 
