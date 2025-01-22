@@ -2,9 +2,9 @@ import { FollowUserModel } from "../models/FollowUserModel";
 
 export class FollowUserController {
   
-  static async isFollowing(userId: string, targetUserId: string) {
+  static async isFollowing(token: string, userId: string, targetUserId: string) {
     try {
-      const response = await FollowUserModel.isFollowing(userId, targetUserId);
+      const response = await FollowUserModel.isFollowing(token, userId, targetUserId);
       console.log("response del controller", response);
       return {
         isFollowing: response.isActive,
@@ -18,9 +18,9 @@ export class FollowUserController {
     }
   }
 
-  static async followUser(userId: string, targetUserId: string) {
+  static async followUser(token:string, userId: string, targetUserId: string) {
     try {
-      const response = await FollowUserModel.followUser(userId, targetUserId);
+      const response = await FollowUserModel.followUser(token, userId, targetUserId);
       let message = "Usuario seguido correctamente";
       let success = true;
       
@@ -38,9 +38,9 @@ export class FollowUserController {
     }
   }
 
-  static async unfollowUser(userId: string, targetUserId: string) {
+  static async unfollowUser(token:string, userId: string, targetUserId: string) {
     try {
-      const response = await FollowUserModel.unfollowUser(userId, targetUserId);
+      const response = await FollowUserModel.unfollowUser(token, userId, targetUserId);
       let message = "Usuario dejado de seguir correctamente";
       let success = true;
       if(!response.success){

@@ -35,14 +35,15 @@ export function ProfileDetailsView() {
   useEffect(() => {
     setIsLoading(true);
     const fetchProfile = async () => {
-      
+      if (!session) return
       const user = await ProfileController.getProfile(
+        session?.access_token, 
         userId
       );
       
       setUser(user) ;
-      const events = await ProfileController.getUserEvents(userId);      
-      const followResponse = await FollowUserController.isFollowing( authUser!.id, userId);
+      const events = await ProfileController.getUserEvents(session?.access_token, userId);      
+      const followResponse = await FollowUserController.isFollowing(session?.access_token, authUser!.id, userId);
 
       setIsFollowing(followResponse.isFollowing);
       setEvents(events);
@@ -56,7 +57,8 @@ export function ProfileDetailsView() {
   const handleFollow = async () => {
     setIsFollowingLoading(true);
     try{
-      const response = await FollowUserController.followUser(authUser!.id, userId);
+      if (!session) return
+      const response = await FollowUserController.followUser(session?.access_token, authUser!.id, userId);
       if(response.success){
         setIsFollowing(true);
       }
@@ -84,7 +86,8 @@ export function ProfileDetailsView() {
   const handleUnfollow = async () => {
     setIsFollowingLoading(true);
     try{
-      const response = await FollowUserController.unfollowUser(authUser!.id, userId);
+      if (!session) return
+      const response = await FollowUserController.unfollowUser(session?.access_token, authUser!.id, userId);
       if(response.success){
         setIsFollowing(false);
       }

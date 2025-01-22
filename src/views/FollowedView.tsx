@@ -16,11 +16,12 @@ export function FollowedView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [search, setSearch] = useState("");
   const [followed, setFollowed] = useState<{ followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] | null>(null);
-  const { user } = useAuth();
+  const { user, session } = useAuth();
 
   const getFollowed = async () => {
     try {
-      const response: { followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] = await ListUsersController.getFollowed(user!.id);
+      if (!session) return
+      const response: { followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] = await ListUsersController.getFollowed(session?.access_token, user!.id);
       setFollowed(response);
     } catch (error) {
       console.error(error);
@@ -36,7 +37,8 @@ export function FollowedView() {
   };
 
   const handleUnfollow = async (userId: string) => {
-    const response = await FollowUserController.unfollowUser(user!.id, userId);
+    if (!session) return
+    const response = await FollowUserController.unfollowUser(session?.access_token, user!.id, userId);
     if(response.success){
       getFollowed();
     }

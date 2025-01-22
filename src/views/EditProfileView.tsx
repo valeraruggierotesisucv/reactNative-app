@@ -27,16 +27,16 @@ export function EditProfileView() {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [fullName, setFullName] = useState<string>("");
   const [biography, setBiography] = useState<string>("");
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
-      if (user) {
+      if (user && session) {
         try {
           setIsLoading(true);
-          const response = await EditProfileController.getProfile(user.id);
+          const response = await EditProfileController.getProfile(session?.access_token, user.id);
           console.log("response", response);
           setProfileImage(response.profileImage || IMAGE_PLACEHOLDER);
           setFullName(response.fullName);
@@ -54,14 +54,14 @@ export function EditProfileView() {
 
   const handleSubmit = async (values: {fullName: string, biography: string, image: string| null}) => {
     try {
-      if (user) {
+      if (user && session) {
         
         let imageUrl: string | undefined = undefined;
         if(imageUri){
           imageUrl = await FileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
           console.log("imageUrl", imageUrl);
         }
-        await EditProfileController.updateProfile(user.id, {
+        await EditProfileController.updateProfile(session?.access_token, user.id, {
           fullName: values.fullName,
           profileImage: imageUrl,
           biography: values.biography,

@@ -13,7 +13,6 @@ import { Pills } from "../components/Pills/Pills";
 import { theme } from "../../utils/theme";
 import { onShare } from "../../utils/share";
 import { useTranslation } from "react-i18next";
-import { dummyComments } from "../data/dummyComments";
 import { SearchEventController } from "../controllers/SearchEventController";
 import { EventModel } from "../models/EventModel";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
@@ -37,7 +36,7 @@ export function SearchView() {
   const navigation = useNavigation<SearchStackNavigationProp>();
   const [activeTab, setActiveTab] = useState<string>(SearchTabsEnum.EVENTS);
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const { user } = useAuth();
+  const { user, session} = useAuth();
   const [activeCategories, setActiveCategories] = useState<string[] | string>(
     []
   );
@@ -49,7 +48,6 @@ export function SearchView() {
     profileImage: string;
   }>({ username: "", profileImage: IMAGE_PLACEHOLDER });
   const [users, setUsers] = useState<UserModel[] | null>(null);
-  const {session} = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
   const searchTabs = [
@@ -58,6 +56,7 @@ export function SearchView() {
   ];
 
   useEffect(() => {
+    
     async function fetchCategories(){
       const response = await CategoriesController.getCategories(session!.access_token);
       console.log(response);
@@ -66,7 +65,8 @@ export function SearchView() {
     }
 
     async function fetchProfile(){
-      const profile = await ProfileController.getProfile(user?.id || "");
+      if (!session) return
+      const profile = await ProfileController.getProfile(session?.access_token, user?.id || "");
       setUserComment({
         "username": profile.username, 
         "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
@@ -78,13 +78,14 @@ export function SearchView() {
   }, []);
 
   async function fetchEvents(text: string){ 
+    if (!session) return
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
-        const events = await SearchEventController.searchEvents(text);
+        const events = await SearchEventController.searchEvents(session?.access_token, text);
         console.log("events", events);
         setAllEvents(events);
       } else {
-        const users = await SearchUserController.searchUsers(text);
+        const users = await SearchUserController.searchUsers(session.access_token, text);
         setUsers(users);
       }
     }

@@ -18,18 +18,22 @@ export function ProfileView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
   const [user, setUser] = useState<UserModel | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
-  const { user: authUser } = useAuth();
+  const { user: authUser, session } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
+      if (!session) return
+      
       setIsLoading(true);
       const fetchProfile = async () => {
         const user = await ProfileController.getProfile(
+        session?.access_token, 
         authUser?.id || ""
       );
       setUser(user);
       const events = await ProfileController.getUserEvents(
+        session?.access_token, 
         authUser?.id || ""
       );
       setEvents(events);

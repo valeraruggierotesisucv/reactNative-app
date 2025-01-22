@@ -58,8 +58,8 @@ export class UserModel {
         );
     }
 
-    static async getUserById(userId: string) {
-        const response = await apiRequest("users/" + userId, "GET");
+    static async getUserById(token:string, userId: string) {
+        const response = await apiRequest("users/" + userId, "GET", undefined, token);
         if (!response.data) throw new Error('User not found');
         const user = response.data;
         return new UserModel(
@@ -76,13 +76,13 @@ export class UserModel {
         );
     }
 
-    static async updateProfile(userId: string, data: {
+    static async updateProfile(token:string, userId: string, data: {
         fullName: string;
         profileImage?: string;
         biography?: string;
     }) {
         try {
-            const updatedUser = await apiRequest("users/" + userId, "PUT", data);
+            const updatedUser = await apiRequest("users/" + userId, "PUT", data, token);
             if(!updatedUser.data) throw new Error('Failed to update profile');
             return updatedUser.data;
         } catch (error) {
@@ -91,9 +91,9 @@ export class UserModel {
 
     }
 
-    static async getFollowed(userId: string) {
+    static async getFollowed(token:string, userId: string) {
         try {
-            const response = await apiRequest("users/" + userId + "/followed", "GET");
+            const response = await apiRequest("users/" + userId + "/followed", "GET", undefined, token);
             const followed = response.data.map((follow: any) => ({
                 followedId: follow.followedId,
                 followedName: follow.followedName,
@@ -106,9 +106,9 @@ export class UserModel {
         }
     }
 
-    static async getFollowers(userId: string) {
+    static async getFollowers(token:string, userId: string) {
         try {
-            const response = await apiRequest("users/" + userId + "/followers", "GET");
+            const response = await apiRequest("users/" + userId + "/followers", "GET", undefined, token);
             const followers = response.data.map((follower: any) => ({
                 followerId: follower.followerId,
                 followerName: follower.followerName,
@@ -121,17 +121,17 @@ export class UserModel {
         }
     }
 
-    static async getUserEvents(userId: string) {
-        const response = await apiRequest("users/" + userId + "/events", "GET")
+    static async getUserEvents(token:string, userId: string) {
+        const response = await apiRequest("users/" + userId + "/events", "GET", undefined, token)
         return response.data.map((event: any) => ({
             id: event.eventId,
             imageUrl: event.eventImage,
         }));
     }
 
-    static async searchUsers(search: string) {
+    static async searchUsers(token:string, search: string) {
         try {
-            const response = await apiRequest("search/users", "POST", { search })
+            const response = await apiRequest("search/users", "POST", { search }, token)
             return response.data.map((user: any) => ({
                 userId: user.userId,
                 username: user.username,

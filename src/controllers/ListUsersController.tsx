@@ -1,9 +1,9 @@
 import UserModel from "../models/UserModel";
 
 export class ListUsersController {
-  static async getFollowers(userId: string) {
+  static async getFollowers(token:string, userId: string) {
     try {
-      const response: { followerId: string, followerName: string, followerProfileImage: string, followed: boolean }[] = await UserModel.getFollowers(userId);
+      const response: { followerId: string, followerName: string, followerProfileImage: string, followed: boolean }[] = await UserModel.getFollowers(token, userId);
       return response;
     } catch (error) {
       console.error(error);
@@ -11,9 +11,9 @@ export class ListUsersController {
     }
   }
 
-  static async getFollowed(userId: string) {
+  static async getFollowed(token:string, userId: string) {
     try {
-      const response: { followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] = await UserModel.getFollowed(userId);
+      const response: { followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] = await UserModel.getFollowed(token, userId);
       return response;
     } catch (error) {
       console.error(error);
