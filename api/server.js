@@ -12,21 +12,8 @@ app.use(cors());
 // Middleware para parsear JSON
 app.use(express.json());
 
-// Ejemplo: Endpoint de test para obtener usuarios
-app.get("/api/users", async(req, res) => {
-  const users = await db.user.findMany(); 
-  res.json(users);
-});
-
-// Ejemplo ruta protegida
-app.get('/api/protected', authenticateUser, (req, res) => {
-  res.json({ 
-      message: `Hola,  ${req.user.email} Accediste a una ruta protegida.` 
-  });
-});
-
 // addLocation
-app.post("/api/locations", async(req, res) => {
+app.post("/api/locations", authenticateUser , async(req, res) => {
   const validationResult = locationSchema.safeParse(req.body);
 
   if (!validationResult.success) {
@@ -61,7 +48,7 @@ app.post("/api/locations", async(req, res) => {
 })
 
 // deleteLocation
-app.delete("/api/locations/:locationId", async(req, res) => {
+app.delete("/api/locations/:locationId", authenticateUser , async(req, res) => {
   try{
     const { locationId } = req.params; 
 
@@ -136,7 +123,7 @@ app.post("/api/events", authenticateUser, async(req, res) => {
 })
 
 // updateEvent 
-app.post("/api/events/:eventId", async(req, res) => {
+app.post("/api/events/:eventId", authenticateUser , async(req, res) => {
   const validationResult = eventSchema.safeParse(req.body);
   const { eventId } = req.params; 
 
@@ -193,7 +180,7 @@ app.post("/api/events/:eventId", async(req, res) => {
 
 })
 // getEventDetails
-app.get("/api/events/:eventId", async(req, res) => { 
+app.get("/api/events/:eventId", authenticateUser , async(req, res) => { 
   try{
     const { eventId } = req.params;
 
@@ -245,7 +232,7 @@ app.get("/api/events/:eventId", async(req, res) => {
 })
 
 //getProfile
-app.get("/api/users/:userId", async(req, res) => {
+app.get("/api/users/:userId", authenticateUser , async(req, res) => {
   try{
     const { userId } = req.params; 
     const user = await db.user.findFirst({
@@ -261,7 +248,7 @@ app.get("/api/users/:userId", async(req, res) => {
 })
 
 //updateProfile
-app.put("/api/users/:userId", async(req, res) => {
+app.put("/api/users/:userId", authenticateUser , async(req, res) => {
   try{
     const { userId } = req.params;
     const { fullName, biography, profileImage } = req.body;
@@ -288,7 +275,7 @@ app.put("/api/users/:userId", async(req, res) => {
 })
 
 //isFollowing 
-app.get("/api/users/:userId/isFollowing/:targetUserId", async(req, res) => {
+app.get("/api/users/:userId/isFollowing/:targetUserId", authenticateUser , async(req, res) => {
   try{
     const { userId, targetUserId } = req.params;
     const isFollowing = await db.followUser.findFirst({
@@ -302,7 +289,7 @@ app.get("/api/users/:userId/isFollowing/:targetUserId", async(req, res) => {
 })
 
 // followUser
-app.post("/api/users/:userId/follow/:targetUserId", async(req, res) => {
+app.post("/api/users/:userId/follow/:targetUserId", authenticateUser , async(req, res) => {
   const { userId, targetUserId } = req.params;
   
   try{
@@ -332,7 +319,7 @@ app.post("/api/users/:userId/follow/:targetUserId", async(req, res) => {
 })
 
 // unfollowUser
-app.delete("/api/users/:userId/unfollow/:targetUserId", async(req, res) => {
+app.delete("/api/users/:userId/unfollow/:targetUserId", authenticateUser , async(req, res) => {
   const { userId, targetUserId } = req.params;
   try{
     const follow = await db.followUser.update({
@@ -362,7 +349,7 @@ app.delete("/api/users/:userId/unfollow/:targetUserId", async(req, res) => {
 })
 
 // getFollowers
-app.get("/api/users/:userId/followers", async(req, res) => {
+app.get("/api/users/:userId/followers", authenticateUser , async(req, res) => {
   const { userId } = req.params;
 
   try{
@@ -395,7 +382,7 @@ app.get("/api/users/:userId/followers", async(req, res) => {
 })
 
 // getFollowed
-app.get("/api/users/:userId/followed", async(req, res) => {
+app.get("/api/users/:userId/followed", authenticateUser , async(req, res) => {
   const { userId } = req.params;
 
   try{
@@ -427,7 +414,7 @@ app.get("/api/users/:userId/followed", async(req, res) => {
 })
 
 // getProfileEvents 
-app.get("/api/users/:userId/events", async(req, res) => {
+app.get("/api/users/:userId/events", authenticateUser , async(req, res) => {
   try{
     const { userId } = req.params; 
 
@@ -515,7 +502,7 @@ app.get("/api/users/:userId/notifications", authenticateUser , async(req, res) =
 })
 
 // getUserFollowers
-app.get("/api/users/:userId/followers", async(req, res) => {
+app.get("/api/users/:userId/followers", authenticateUser , async(req, res) => {
   try{
     const { userId } = req.params; 
     const followers = await db.followUser.findMany({
@@ -556,7 +543,7 @@ app.get("/api/users/:userId/followers", async(req, res) => {
 })
 
 // getUserFollowing
-app.get("/api/users/:userId/following", async(req, res) => {
+app.get("/api/users/:userId/following", authenticateUser , async(req, res) => {
   try{
     const { userId } = req.params; 
     const following = await db.followUser.findMany({
@@ -639,7 +626,7 @@ app.get("/api/categories", authenticateUser, async (req, res) => {
 });
 
 // getHomeEvents
-app.get("/api/home/:userId/events", async (req, res) => {
+app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
   const { userId } = req.params; 
 
   try {
@@ -716,7 +703,7 @@ app.get("/api/home/:userId/events", async (req, res) => {
 });
 
 // likeEvent
-app.post("/api/events/:eventId/like", async (req, res) => {
+app.post("/api/events/:eventId/like", authenticateUser , async (req, res) => {
   const validationResult = likeEventSchema.safeParse(req.body);
 
   if (!validationResult.success) {
@@ -775,11 +762,8 @@ app.post("/api/events/:eventId/comment", authenticateUser , async (req, res) => 
   }
 });
 
-
-
-
 // getCommentsByPostId
-app.get("/api/events/:eventId/comments", async (req, res) => {
+app.get("/api/events/:eventId/comments", authenticateUser , async (req, res) => {
   const { eventId } = req.params;
 
   try {
@@ -804,7 +788,7 @@ app.get("/api/events/:eventId/comments", async (req, res) => {
 });
 
 // searchEvents
-app.post("/api/search/events", async (req, res) => {
+app.post("/api/search/events", authenticateUser , async (req, res) => {
   try{
     const { search } = req.body;
     const validationResult = searchEventSchema.safeParse(req.body);
@@ -841,7 +825,7 @@ app.post("/api/search/events", async (req, res) => {
 });
 
 // searchUsers
-app.post("/api/search/users", async (req, res) => {
+app.post("/api/search/users", authenticateUser, async (req, res) => {
   try{
     const { search } = req.body;
     

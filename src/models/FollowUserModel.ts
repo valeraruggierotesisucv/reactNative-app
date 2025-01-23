@@ -11,9 +11,9 @@ export class FollowUserModel {
         this.createdAt = createdAt;
     }
 
-    static async isFollowing(userId: string, targetUserId: string) {
+    static async isFollowing(token:string, userId: string, targetUserId: string) {
         try {
-            const response = await apiRequest(`users/${userId}/isFollowing/${targetUserId}`, "GET");
+            const response = await apiRequest(`users/${userId}/isFollowing/${targetUserId}`, "GET", undefined, token);
             return {
                 userIdFollows: response?.data?.userIdFollows,
                 userIdFollowedBy: response?.data?.userIdFollowedBy,
@@ -25,9 +25,9 @@ export class FollowUserModel {
         }
     }
 
-    static async followUser(userIdFollows: string, userIdFollowedBy: string) {
+    static async followUser(token:string, userIdFollows: string, userIdFollowedBy: string) {
         try {
-            const response = await apiRequest(`users/${userIdFollows}/follow/${userIdFollowedBy}`, "POST");
+            const response = await apiRequest(`users/${userIdFollows}/follow/${userIdFollowedBy}`, "POST", undefined, token);
             return response;
         } catch (error) {
             console.error(error);
@@ -35,9 +35,9 @@ export class FollowUserModel {
         }
     }
 
-    static async unfollowUser(userIdFollows: string, userIdFollowedBy: string) {
+    static async unfollowUser(token:string, userIdFollows: string, userIdFollowedBy: string) {
         try {
-            const response = await apiRequest(`users/${userIdFollows}/unfollow/${userIdFollowedBy}`, "DELETE");
+            const response = await apiRequest(`users/${userIdFollows}/unfollow/${userIdFollowedBy}`, "DELETE", undefined, token);
             return response;
         } catch (error) {
             console.error(error);

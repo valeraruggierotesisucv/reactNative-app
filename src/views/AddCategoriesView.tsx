@@ -3,7 +3,7 @@ import { Button } from "../components/Button/Button";
 import { useState } from "react";
 import { StepsEnum } from "./AddDefaultView";
 import { CategoryButton } from "../components/CategoryButton/CategoryButton";
-import { CategoriesEnum } from "./SearchView";
+import { CategoriesEnum } from "../../utils/shareEnums";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";

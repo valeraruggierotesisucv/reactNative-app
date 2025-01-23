@@ -3,12 +3,12 @@ import { Button } from "../components/Button/Button";
 import { useState } from "react";
 import { StepsEnum } from "./AddDefaultView";
 import { CategoryButton } from "../components/CategoryButton/CategoryButton";
-import { CategoriesEnum } from "./SearchView";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { AuthRoutes } from "../../utils/routes";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
+import { CategoriesEnum } from "../../utils/shareEnums";
 import React from "react";
 interface ChooseCategoryProps {
   step?: StepsEnum;

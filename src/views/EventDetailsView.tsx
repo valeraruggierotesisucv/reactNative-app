@@ -65,7 +65,8 @@ export function EventDetailsView() {
     }
 
     async function fetchProfile(){
-      const profile = await ProfileController.getProfile(user?.id || "");
+      if(!session) return
+      const profile = await ProfileController.getProfile(session?.access_token, user?.id || "");
       setUserComment({
         "username": profile.username, 
         "profileImage": profile.profileImage || IMAGE_PLACEHOLDER

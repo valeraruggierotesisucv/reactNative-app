@@ -23,7 +23,8 @@ export function FollowersView() {
 
   const getFollowers = async () => {
     try {
-      const response = await ListUsersController.getFollowers(user!.id);
+      if (!session) return
+      const response = await ListUsersController.getFollowers(session?.access_token, user!.id);
       setFollowers(response.map((follower) => ({ ...follower, isFollowingLoading: false })));
     } catch (error) {
       console.error(error);
@@ -41,7 +42,8 @@ export function FollowersView() {
   const handleFollow = async (userId: string) => {
     setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: true } : follower) : null);
     try{
-      const response = await FollowUserController.followUser(user!.id, userId);
+      if (!session) return
+      const response = await FollowUserController.followUser(session?.access_token, user!.id, userId);
       if(response.success){
         setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, followed: true } : follower) : null);
       }
@@ -68,7 +70,8 @@ export function FollowersView() {
   const handleUnfollow = async (userId: string) => {
     setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: true } : follower) : null);
     try{
-      const response = await FollowUserController.unfollowUser(user!.id, userId);
+      if (!session) return
+      const response = await FollowUserController.unfollowUser(session?.access_token, user!.id, userId);
       if(response.success){
         setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, followed: false } : follower) : null);
       }

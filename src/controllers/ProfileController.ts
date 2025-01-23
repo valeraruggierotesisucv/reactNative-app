@@ -6,9 +6,9 @@ export interface Event {
 }
 
 export class ProfileController {
-    static async getProfile(userId: string) {
+    static async getProfile(token: string, userId: string) {
         try {
-            const user = await UserModel.getUserById(userId);
+            const user = await UserModel.getUserById(token, userId);
             return user;
         } catch (error) {
             console.error("Error fetching profile", error);
@@ -16,9 +16,9 @@ export class ProfileController {
         }
     }
 
-    static async getUserEvents(userId: string) {
+    static async getUserEvents(token:string, userId: string) {
         try {
-            const events: Event[] = await UserModel.getUserEvents(userId);
+            const events: Event[] = await UserModel.getUserEvents(token, userId);
             return events;
         } catch (error) {
             console.error("Error fetching events", error);
