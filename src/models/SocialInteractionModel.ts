@@ -4,13 +4,45 @@
 import { apiRequest } from "../../utils/apiRequest";
 
 export class SocialInteractionModel {
-    static async likeEvent(eventId: string, userId: string) {
-        try {
-            const response = await apiRequest(`events/${eventId}/like`, "POST", { userId });
-            return response;
-        } catch (error) {
-            console.error("Error in likeEvent:", error);
-            throw error; // Just throw the original error
-        }
+  userId: string;
+  eventId: string;
+  createdAt: Date;
+  isActive: boolean;
+
+  constructor(
+    userId: string,
+    eventId: string,
+    createdAt: Date,
+    isActive: boolean
+  ) {
+    this.userId = userId;
+    this.eventId = eventId;
+    this.createdAt = createdAt;
+    this.isActive = isActive;
+  }
+
+  static async likeEvent(
+    accessToken: string,
+    eventId: string,
+    userId: string
+  ): Promise<SocialInteractionModel> {
+    try {
+      const response = await apiRequest(
+        `events/${eventId}/like`,
+        "POST",
+        { userId },
+        accessToken
+      );
+      console.log("response del Model", response)
+      return new SocialInteractionModel(
+        response.data.userId,
+        response.data.eventId,
+        response.data.createdAt,
+        response.data.isActive
+      );
+    } catch (error) {
+      console.error("Error in likeEvent:", error);
+      throw error; 
     }
+  }
 }

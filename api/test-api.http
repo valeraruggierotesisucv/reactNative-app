@@ -18,7 +18,7 @@ Content-Type: application/json
 GET http://localhost:5000/api/categories
 
 ### GET home events
-GET http://localhost:5000/api/home/9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7/events
+GET http://localhost:5000/api/home/59f8b967-c1f0-42d3-b9b9-e32c11db446c/events
 
 
 ### LIKE a post
@@ -43,7 +43,7 @@ GET http://localhost:5000/api/events/cm5tzwj6l001sty5czanqsk4j/comments
 
 
 ### GET event details 
-GET http://localhost:5000/api/events/cm5zvv4fm0002golor990x1i7
+GET http://localhost:5000/api/events/cm5zvv4fm0002golor990x1i7/59f8b967-c1f0-42d3-b9b9-e32c11db446c
 
 ### ADD event 
 POST http://localhost:5000/api/events
@@ -169,7 +169,8 @@ POST http://localhost:5000/api/search/events
 Content-Type: application/json
 
 {
-  "search": "Prueba"
+  "search": "Prueba",
+  "userId": "59f8b967-c1f0-42d3-b9b9-e32c11db446c"
 }
 
 ### Like Event

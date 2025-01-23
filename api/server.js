@@ -180,15 +180,19 @@ app.post("/api/events/:eventId", authenticateUser , async(req, res) => {
 
 })
 // getEventDetails
-app.get("/api/events/:eventId", authenticateUser , async(req, res) => { 
+app.get("/api/events/:eventId/:userId", authenticateUser, async(req, res) => { 
   try{
-    const { eventId } = req.params;
+    const { eventId, userId } = req.params;
 
     const eventDetails = await db.event.findFirst({
       where: {
         eventId: eventId
       }, 
       include: {
+        socialInteractions: {
+          where: { userId: userId, isActive: true },
+          select: { isActive: true }
+        },
         user: {
           select: {
             username: true, 
@@ -415,12 +419,10 @@ app.get("/api/users/:userId/followed", authenticateUser , async(req, res) => {
 
 // likeEvent - Toggle like status
 app.post("/api/events/:eventId/like", async (req, res) => {
-  const { eventId } = req.params;
-  const { userId } = req.body;
-
-  console.log(userId, eventId);
-
+  
   try {
+    const { eventId } = req.params;
+    const { userId } = req.body;
     const existingInteraction = await db.socialInteraction.findUnique({
       where: {
         userId_eventId: {
@@ -700,6 +702,10 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
           where: { userId: { in: followingIds } },
           orderBy: { createdAt: "desc" }, 
           include:{
+            socialInteractions: {
+              where: { userId: userId, isActive: true },
+              select: { isActive: true }
+            },
              user: {
               select:{
                 username: true, 
@@ -820,7 +826,7 @@ app.get("/api/events/:eventId/comments", authenticateUser , async (req, res) => 
 // searchEvents
 app.post("/api/search/events", authenticateUser , async (req, res) => {
   try{
-    const { search } = req.body;
+    const { search, userId } = req.body;
     const validationResult = searchEventSchema.safeParse(req.body);
     if (!validationResult.success) {
       return res.status(400).json({
@@ -831,6 +837,10 @@ app.post("/api/search/events", authenticateUser , async (req, res) => {
     const events = await db.event.findMany({
       where: { title: { contains: search } },
       include: {
+        socialInteractions: {
+          where: { userId: userId, isActive: true },
+          select: { isActive: true }
+        },
         user: {
           select: {
             username: true, 

@@ -3,9 +3,9 @@
 import { SocialInteractionModel } from "../models/SocialInteractionModel";
 
 export class LikeEventController {
-    static async likeEvent(eventId: string, userId: string) {
+    static async likeEvent(accessToken: string, eventId: string, userId: string) {
         try {
-            const response = await SocialInteractionModel.likeEvent(eventId, userId);
+            const response = await SocialInteractionModel.likeEvent(accessToken, eventId, userId);
             return response;
         } catch (error) {
             console.error("Error in likeEvent:", error);

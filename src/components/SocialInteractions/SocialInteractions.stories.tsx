@@ -17,11 +17,14 @@ const meta = {
 export default meta; 
 type Story = StoryObj<typeof meta>; 
 
-export const Default: Story = {
-    args: {
-        isLiked: false,
-        onLike: () => console.log("LIKE"),
-        onComment: () => console.log("COMMENT"),
-        onShare: () => console.log("SHARE")
-    }
+export const Default = () => {
+    const [isLiked, setIsLiked] = useState(false);
+    return (
+        <SocialInteractions
+            isLiked={isLiked}
+            onLike={() => setIsLiked(!isLiked)}
+            onComment={() => console.log("COMMENT")}
+            onShare={() => console.log("SHARE")}
+        />
+    )
 }
