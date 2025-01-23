@@ -930,19 +930,32 @@ app.put("/api/users/:userId/notifications/:notificationToken", async(req, res) =
   try{
     const { userId, notificationToken } = req.params; 
 
-    const validToken = await db.user.findFirst({
+    const user = await db.user.findFirst({
       where: {
         userId: userId
       }
     })
 
-    if(validToken === notificationToken){
+    if(user.notificationToken === notificationToken){
       console.log("No need to update ", notificationToken)
+      res.status(200).json({ message: `No need to update ---> ${notificationToken}`})
     }else{
-      console.log("Token must be upadted ", notificationToken)
+      console.log("Token must be updated ", notificationToken); 
+      const userUpdated = await db.user.update({
+        where: {
+          userId: userId, 
+        }, 
+        data: {
+          notificationToken: notificationToken
+        }
+      })
+      res.status(200).json({ 
+        message: `Token updated updated ---> ${notificationToken}`, 
+        data: userUpdated, 
+        success: true
+      })
     }
-    
-    res.status(200).json({ message: "Token actualizado"})
+  
   }catch(error){
     console.error(error);
     res.status(500).json({ error: "Failed to send notification" });

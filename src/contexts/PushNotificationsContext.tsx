@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect, useRef, ReactNod
 import * as Notifications from "expo-notifications";
  // import { Subscription } from "expo-modules-core";
 import { registerForPushNotificationsAsync } from "../../utils/registerPushNotification";
+import { useAuth } from "./AuthContext";
+import { NotificationsController } from "../controllers/NotificationsController";
   
   interface NotificationContextType {
     expoPushToken: string | null;
@@ -34,10 +36,18 @@ import { registerForPushNotificationsAsync } from "../../utils/registerPushNotif
     const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
     const [notification, setNotification] = useState<Notifications.Notification | null>(null);
     const [error, setError] = useState<Error | null>(null);
+    const { user, session} = useAuth()
   
     const notificationListener = useRef<Notifications.EventSubscription>();
     const responseListener = useRef<Notifications.EventSubscription>();
-  
+    
+    async function updateToken(userId: string){
+      if (!user || !session || !expoPushToken) return
+      console.log("Actualizando user token de -->", userId);
+      console.log("Token-->", expoPushToken)
+      const result = await NotificationsController.updateNotificationToken(session.access_token, userId, expoPushToken); 
+      console.log(result)
+    }
     useEffect(() => {
       registerForPushNotificationsAsync().then(
         (token) => setExpoPushToken(token),
@@ -71,6 +81,12 @@ import { registerForPushNotificationsAsync } from "../../utils/registerPushNotif
         }
       };
     }, []);
+
+    useEffect(() => {
+      if(user){
+        updateToken(user.id)
+      }
+    }, [expoPushToken])
   
     return (
       <NotificationContext.Provider
