@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
+import { DisplayInput } from "../components/DisplayInput/DisplayInput";
 
 export function ConfigurationView() {
   const navigation = useNavigation<ProfileStackNavigationProp>();
@@ -36,7 +37,10 @@ export function ConfigurationView() {
           onPress={() => navigation.navigate(ProfileRoutes.ChangePassword)}
           required={false}
         />
-        <Input label={t("configuration.logout").toUpperCase()} onPress={logout}  required={false}/>
+        <TouchableOpacity onPress={logout}>
+        <DisplayInput label={t("configuration.logout").toUpperCase()} data={<></>}/>
+        </TouchableOpacity>
+        
       </View>
 
       <Modal

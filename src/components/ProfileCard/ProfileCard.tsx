@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Avatar } from "../Avatar/Avatar";
 interface ProfileCardProps {
@@ -84,7 +84,7 @@ export function ProfileCard({
 
           {onEditProfile && (
             <TouchableOpacity
-              style={[styles.profileButton]}
+              style={[styles.profileButton,  Platform.OS === "ios" && styles.containerIOS]}
               onPress={onEditProfile}
             >
               <Text style={[styles.buttonText]}>{t("profile.edit_profile")}</Text>
@@ -112,6 +112,9 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 400,
   },
+  containerIOS: {
+    paddingVertical: 6,
+  }, 
   content: {
     alignItems: "center",
   },
