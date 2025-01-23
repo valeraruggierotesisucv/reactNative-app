@@ -54,4 +54,18 @@ export class NotificationModel{
 
         return notifications
     }
+
+    // POST /api/users/:userId/notifications/:notificationToken
+    static async updateNotificationToken(token: string, userId: string, notificationToken: string){
+        try{
+            return await apiRequest(
+                `users/${userId}/notifications/${notificationToken}`, 
+                "PUT", 
+                undefined, 
+                token
+            )
+        }catch(error){
+            console.log(error)
+        }
+    }
 }

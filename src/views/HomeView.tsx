@@ -16,11 +16,13 @@ import { ProfileController } from "../controllers/ProfileController";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
+import { useNotification } from "../contexts/PushNotificationsContext";
 
 
 export function HomeView() {
   const navigation = useNavigation<HomeStackNavigationProp>();
   const { user, session } = useAuth();
+  const { expoPushToken } = useNotification(); 
   const { t } = useTranslation();
   const [events, setEvents] = useState<any[]>([]); 
   const [isLoading, setIsLoading] = useState(true);
@@ -125,6 +127,7 @@ export function HomeView() {
     <SafeAreaView style={styles.container}>
       <View style={styles.view}>
         <AppHeader />
+        <Text>{expoPushToken}</Text>
         { isLoading 
           ? <Loading />
           : (

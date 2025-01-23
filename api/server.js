@@ -895,12 +895,12 @@ app.post("/api/search/users", authenticateUser, async (req, res) => {
   }
 });
 
-app.post("/api/sendNotification/:token", async (req, res) => {
+app.post("/api/notifications/:notificationToken", async (req, res) => {
   try{
-    const { token } = req.params; 
+    const { notificationToken } = req.params; 
     const { title, body} = req.body; 
     const message = {
-      to: token,
+      to: notificationToken,
       sound: "default",
       title: title,
       body: body,
@@ -925,6 +925,30 @@ app.post("/api/sendNotification/:token", async (req, res) => {
     res.status(500).json({ error: "Failed to send notification" });
   }
 })
+
+app.put("/api/users/:userId/notifications/:notificationToken", async(req, res) => {
+  try{
+    const { userId, notificationToken } = req.params; 
+
+    const validToken = await db.user.findFirst({
+      where: {
+        userId: userId
+      }
+    })
+
+    if(validToken === notificationToken){
+      console.log("No need to update ", notificationToken)
+    }else{
+      console.log("Token must be upadted ", notificationToken)
+    }
+    
+    res.status(200).json({ message: "Token actualizado"})
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "Failed to send notification" });
+  }
+})
+
 // Iniciar el servidor
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

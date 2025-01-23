@@ -24,6 +24,7 @@ model User {
   biography         String?
   followers_counter Int              @default(0)
   following_counter Int              @default(0)
+  notificationToken String? 
 
   events            Event[]
   followers         FollowUser[]     @relation("Followers")
@@ -55,11 +56,10 @@ model Notification {
   message           String
   createdAt         DateTime         @default(now())
   eventImage        String? 
-
+  toUserDeviceToken String          @default("")
 
   fromUser          User             @relation("NotificationsFromUser", fields: [fromUserId], references: [userId])
   toUser            User             @relation("NotificationsToUser", fields: [toUserId], references: [userId])
-
 }
 
 model Event {

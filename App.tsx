@@ -34,20 +34,21 @@ export function App() {
   }
 
   return (
-    <NotificationProvider>
+    
       <FontLoader>
         <ToastProvider>
           <AuthProvider>
+          <NotificationProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
-              <PortalProvider>
-                <Navigation />
-              </PortalProvider>
-            </GestureHandlerRootView>
+                <PortalProvider>
+                  <Navigation />
+                </PortalProvider>
+              </GestureHandlerRootView>
+          </NotificationProvider>
+            
           </AuthProvider>
         </ToastProvider>      
-      </FontLoader>
-    </NotificationProvider>
-    
+      </FontLoader>   
   );
 }
 

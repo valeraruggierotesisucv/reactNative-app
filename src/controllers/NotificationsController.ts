@@ -8,4 +8,8 @@ export class NotificationsController{
     static async createNotification(token: string, data: object){
         return await NotificationModel.createNotification(token, data);        
     }
+
+    static async updateNotificationToken(token:string, userId: string, notificationToken: string){
+        return await NotificationModel.updateNotificationToken(token, userId, notificationToken)
+    }
 }
