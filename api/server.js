@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { PrismaClient } = require("@prisma/client"); 
+const { date } = require("yup");
 
 const db = new PrismaClient(); 
 // Middleware para permitir CORS
@@ -506,7 +507,7 @@ app.post("/api/notifications", authenticateUser, async(req, res) => {
         toUserId: toUserId, 
         type: type, 
         message: message, 
-        eventImage: eventImage? eventImage : undefined
+        eventImage: eventImage? eventImage : undefined, 
       }
     })
 
@@ -551,6 +552,24 @@ app.get("/api/users/:userId/notifications", authenticateUser , async(req, res) =
       success: true
     })
 
+  }catch(error){
+    console.error(error); 
+    res.status(500).json({ error: "FAILED to get user notifications" });
+  }
+})
+
+app.get("/api/users/:userId/push-notification", async(req, res) => {
+  try{
+    const { userId } = req.params; 
+    const user = await db.user.findFirst({
+      where: {
+        userId: userId
+      }
+    })
+    res.json({
+      data: user.notificationToken, 
+      success: true
+    })
   }catch(error){
     console.error(error); 
     res.status(500).json({ error: "FAILED to get user notifications" });
@@ -895,7 +914,7 @@ app.post("/api/search/users", authenticateUser, async (req, res) => {
   }
 });
 
-app.post("/api/notifications/:notificationToken", async (req, res) => {
+app.post("/api/push-notifications/:notificationToken", async (req, res) => {
   try{
     const { notificationToken } = req.params; 
     const { title, body} = req.body; 

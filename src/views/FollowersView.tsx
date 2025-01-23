@@ -48,6 +48,8 @@ export function FollowersView() {
         setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, followed: true } : follower) : null);
       }
 
+      if (!user) return
+      
       // Send notification      
       const notificationData = {
         fromUserId: user?.id, 
