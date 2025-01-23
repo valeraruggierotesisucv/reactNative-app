@@ -7,6 +7,16 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalProvider } from "@gorhom/portal";
 import { FontLoader } from "./FontLoader";
 import { ToastProvider } from 'react-native-toast-notifications';
+import { NotificationProvider } from './src/contexts/PushNotificationsContext';
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export function App() {
   const [isI18nInitialized, setIsI18nInitialized] = useState(false);
@@ -24,17 +34,20 @@ export function App() {
   }
 
   return (
-    <FontLoader>
-      <ToastProvider>
-        <AuthProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <PortalProvider>
-              <Navigation />
-            </PortalProvider>
-          </GestureHandlerRootView>
-        </AuthProvider>
-      </ToastProvider>      
-    </FontLoader>
+    <NotificationProvider>
+      <FontLoader>
+        <ToastProvider>
+          <AuthProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <PortalProvider>
+                <Navigation />
+              </PortalProvider>
+            </GestureHandlerRootView>
+          </AuthProvider>
+        </ToastProvider>      
+      </FontLoader>
+    </NotificationProvider>
+    
   );
 }
 
