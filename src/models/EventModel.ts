@@ -162,7 +162,7 @@ export class EventModel {
 
     static async searchEvents(token:string, search: string) {
         try {
-            const { data } = await apiRequest("search/events", "POST", { search });
+            const { data } = await apiRequest("search/events", "POST", { search }, token);
             const events = data.map((event: any) => {
                 return new EventModel(
                     event.eventId, 
