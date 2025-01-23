@@ -895,6 +895,36 @@ app.post("/api/search/users", authenticateUser, async (req, res) => {
   }
 });
 
+app.post("/api/sendNotification/:token", async (req, res) => {
+  try{
+    const { token } = req.params; 
+    const { title, body} = req.body; 
+    const message = {
+      to: token,
+      sound: "default",
+      title: title,
+      body: body,
+    };
+
+    console.log(message);
+
+    const result = await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        "host": "exp.host", 
+        "accept": "application/json",
+        "accept-encoding": "gzip, deflate",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+    
+    res.status(200).json({ message: "Notificacion enviada"})
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "Failed to send notification" });
+  }
+})
 // Iniciar el servidor
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
