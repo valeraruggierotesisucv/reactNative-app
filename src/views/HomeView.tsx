@@ -131,9 +131,6 @@ export function HomeView() {
             <FlatList
               data={events}
               renderItem={({ item }) => {
-                if(item.eventId === "cm5ylt8rt001rty7wuvrvf9e4"){
-                  console.log("item", item)
-                }
                 return (
                   <EventCard
                     eventId={item.eventId}

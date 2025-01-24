@@ -22,7 +22,7 @@ export class SocialInteractionModel {
   }
 
   static async likeEvent(
-    accessToken: string,
+    token: string,
     eventId: string,
     userId: string
   ): Promise<SocialInteractionModel> {
@@ -31,7 +31,7 @@ export class SocialInteractionModel {
         `events/${eventId}/like`,
         "POST",
         { userId },
-        accessToken
+        token
       );
       console.log("response del Model", response)
       return new SocialInteractionModel(
