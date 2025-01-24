@@ -192,7 +192,8 @@
         "title": "Edit Profile",
         "save": "Save changes",
         "fullName": "Full Name",
-        "biography": "Biography"
+        "biography": "Biography",
+        "profile_updated": "Profile updated successfully"
     }, 
     "editEvent":{
         "title": "Edit event", 

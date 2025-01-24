@@ -78,7 +78,7 @@ export function EditEventView() {
       async function fetchEventDetails(){
         if(session && user){
           setIsLoading(true); 
-          const event = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId); 
+          const event = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId, user.id); 
           const formattedDate = getDate(event?.date || ""); 
           const formattedStarsAt = convertTimeToDate(event?.startsAt || ""); 
           const formattedEndsAt = convertTimeToDate(event?.endsAt || "");
