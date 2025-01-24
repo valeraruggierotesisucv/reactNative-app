@@ -82,7 +82,7 @@ export function SearchView() {
     if (!session) return
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
-        const events = await SearchEventController.searchEvents(session.access_token, text, user.id);
+        const events = await SearchEventController.searchEvents(session.access_token, text, user!.id);
         console.log("events", events);
         setAllEvents(events);
       } else {
@@ -132,7 +132,7 @@ export function SearchView() {
 
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
-        const events = await SearchEventController.searchEvents(session!.access_token, text);
+        const events = await SearchEventController.searchEvents(session!.access_token, text, user!.id);
         console.log("events", events);
         setAllEvents(events);
       } else {
