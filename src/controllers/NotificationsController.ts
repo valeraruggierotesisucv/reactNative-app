@@ -13,7 +13,7 @@ export class NotificationsController{
         message: string
     }){
         const toNotificationToken = await NotificationModel.getNotificationToken(token, data.toUserId); 
-        const fromUserProfile = await UserModel.getUserById(data.fromUserId); 
+        const fromUserProfile = await UserModel.getUserById(token, data.fromUserId); 
 
         console.log("Receiver notification token-->", toNotificationToken.data); 
 
