@@ -180,15 +180,20 @@ app.post("/api/events/:eventId", authenticateUser , async(req, res) => {
 
 })
 // getEventDetails
-app.get("/api/events/:eventId", authenticateUser , async(req, res) => { 
+app.get("/api/events/:eventId/:userId", authenticateUser, async(req, res) => { 
   try{
-    const { eventId } = req.params;
+    console.log("getEventDetails")
+    const { eventId, userId } = req.params;
 
     const eventDetails = await db.event.findFirst({
       where: {
         eventId: eventId
       }, 
       include: {
+        socialInteractions: {
+          where: { userId: userId, isActive: true },
+          select: { isActive: true }
+        },
         user: {
           select: {
             username: true, 
@@ -412,6 +417,57 @@ app.get("/api/users/:userId/followed", authenticateUser , async(req, res) => {
     res.status(500).json({ error: "FAILED to get following" });
   }
 })
+
+// likeEvent - Toggle like status
+app.post("/api/events/:eventId/like", async (req, res) => {
+  
+  try {
+    const { eventId } = req.params;
+    const { userId } = req.body;
+    const existingInteraction = await db.socialInteraction.findUnique({
+      where: {
+        userId_eventId: {
+          userId: userId,
+          eventId: eventId
+        }
+      }
+    });
+
+    const interaction = await db.socialInteraction.upsert({
+      where: {
+        userId_eventId: {
+          userId: userId,
+          eventId: eventId
+        }
+      },
+      update: {
+        isActive: existingInteraction ? !existingInteraction.isActive : true
+      },
+      create: {
+        userId: userId,
+        eventId: eventId,
+        isActive: true
+      }
+    });
+
+    await db.event.update({
+      where: { eventId: eventId },
+      data: { 
+        likesCounter: {
+          [interaction.isActive ? 'increment' : 'decrement']: 1
+        }
+      }
+    });
+
+    res.json({ 
+      data: interaction,
+      success: true 
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to toggle like status" });
+  }
+});
 
 // getProfileEvents 
 app.get("/api/users/:userId/events", authenticateUser , async(req, res) => {
@@ -647,6 +703,10 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
           where: { userId: { in: followingIds } },
           orderBy: { createdAt: "desc" }, 
           include:{
+            socialInteractions: {
+              where: { userId: userId, isActive: true },
+              select: { isActive: true }
+            },
              user: {
               select:{
                 username: true, 
@@ -699,32 +759,6 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
   } catch (error) {
     console.error("Error fetching following users:", error);
     res.status(500).json({ error: "Failed to get home events" });
-  }
-});
-
-// likeEvent
-app.post("/api/events/:eventId/like", authenticateUser , async (req, res) => {
-  const validationResult = likeEventSchema.safeParse(req.body);
-
-  if (!validationResult.success) {
-    return res.status(400).json({
-      success: false,
-      errors: validationResult.error.errors,
-    });
-  }
-
-  const { eventId } = req.params;
-  const userId = req.body.userId;
-
-  try {
-    await db.socialInteraction.create({
-      data: { userId, eventId: eventId },
-    });
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to like event" });
   }
 });
 
@@ -793,7 +827,7 @@ app.get("/api/events/:eventId/comments", authenticateUser , async (req, res) => 
 // searchEvents
 app.post("/api/search/events", authenticateUser , async (req, res) => {
   try{
-    const { search } = req.body;
+    const { search, userId } = req.body;
     const validationResult = searchEventSchema.safeParse(req.body);
     if (!validationResult.success) {
       return res.status(400).json({
@@ -804,6 +838,10 @@ app.post("/api/search/events", authenticateUser , async (req, res) => {
     const events = await db.event.findMany({
       where: { title: { contains: search } },
       include: {
+        socialInteractions: {
+          where: { userId: userId, isActive: true },
+          select: { isActive: true }
+        },
         user: {
           select: {
             username: true, 

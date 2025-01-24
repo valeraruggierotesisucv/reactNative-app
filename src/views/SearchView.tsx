@@ -25,6 +25,7 @@ import { Loading } from "../components/Loading/Loading";
 import { ShareEventController } from "../controllers/ShareEventController";
 import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
+import { LikeEventController } from "../controllers/LikeEventController";
 
 export enum SearchTabsEnum {
   EVENTS = "Eventos",
@@ -81,7 +82,7 @@ export function SearchView() {
     if (!session) return
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
-        const events = await SearchEventController.searchEvents(session?.access_token, text);
+        const events = await SearchEventController.searchEvents(session.access_token, text, user!.id);
         console.log("events", events);
         setAllEvents(events);
       } else {
@@ -91,12 +92,47 @@ export function SearchView() {
     }
   }
 
+  const handleLike = async (eventId: string) => {
+    if (session && user) {
+      try {
+        setEvents(currentEvents => {
+          if(!currentEvents) return [];
+          const newEvents = currentEvents.map(event => 
+            event.eventId === eventId 
+              ? { ...event, isLiked: !event.isLiked }
+              : event
+          );
+          
+          return newEvents;
+        });
+        const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
+        
+        
+        if(result.isActive){
+          setEvents(currentEvents => {
+            if(!currentEvents) return [];
+            const newEvents = currentEvents.map(event => 
+              event.eventId === eventId 
+                ? { ...event, isLiked: result.isActive }
+                : event
+            );
+            return newEvents;
+          });
+        }
+        
+      } catch (error) {
+        console.error("Error handling like:", error);
+        Alert.alert("Error updating like status");
+      }
+    }
+  };
+
   const handleSearchChange = async (text: string) => {
     setSearch(text);
 
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
-        const events = await SearchEventController.searchEvents(session!.access_token, text);
+        const events = await SearchEventController.searchEvents(session!.access_token, text, user!.id);
         console.log("events", events);
         setAllEvents(events);
       } else {
@@ -245,6 +281,7 @@ export function SearchView() {
                           title={item.title}
                           description={item.description}
                           isLiked={item.isLiked}
+                          handleLike={() => handleLike(item.eventId)}
                           date={item.date}
                           onPressUser={() => {
                             console.log("item", item.userId);

@@ -52,6 +52,7 @@ interface EventCardProps extends DisplayEventProps {
   onShare: () => void;
   onMoreDetails?: () => void;
   fetchComments: () => Promise<Comment[]>;
+  handleLike: () => void;
 }
 
 const Pills = ({ startsAt, endsAt, date }: PillsProps) => {
@@ -141,15 +142,13 @@ export function EventCard({
   onMoreDetails,
   fetchComments,
   musicUrl,
+  handleLike,
 }: EventCardProps) {
   const { t } = useTranslation();
-  const [like, setLike] = useState(isLiked);
   const [commentsVisible, setCommentsVisible] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
 
-  const handleLike = () => {
-    setLike(!like);
-  };
+  
 
   const handleAddComment = async (comment: string) => {
     try {
@@ -198,7 +197,7 @@ export function EventCard({
         style={{ height: 277, width: "100%" }}
       />
       <SocialInteractions
-        isLiked={like}
+        isLiked={isLiked}
         onLike={handleLike}
         onComment={() => setCommentsVisible(true)}
         onShare={onShare}

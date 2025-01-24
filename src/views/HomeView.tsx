@@ -5,7 +5,7 @@ import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { EventCard } from "../components/EventCard/EventCard";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,7 @@ import { Loading } from "../components/Loading/Loading";
 import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
+import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
 
 
@@ -21,9 +22,10 @@ export function HomeView() {
   const navigation = useNavigation<HomeStackNavigationProp>();
   const { user, session } = useAuth();
   const { t } = useTranslation();
-  const [events, setEvents] = useState(); 
+  const [events, setEvents] = useState<any[]>([]); 
   const [isLoading, setIsLoading] = useState(true);
   const [ userComment, setUserComment] = useState<{username: string, profileImage:string}>({ "username": "", "profileImage": IMAGE_PLACEHOLDER}); 
+  
 
   const fetchComments = async (eventId: string) => {
     try {
@@ -52,6 +54,40 @@ export function HomeView() {
       }
     }    
   }
+
+  const handleLike = async (eventId: string) => {
+    if (session && user) {
+      try {
+        setEvents(currentEvents => {
+          const newEvents = currentEvents.map(event => 
+            event.eventId === eventId 
+              ? { ...event, isLiked: !event.isLiked }
+              : event
+          );
+          
+          return newEvents;
+        });
+        const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
+        
+        
+        if(result.isActive){
+          setEvents(currentEvents => {
+            const newEvents = currentEvents.map(event => 
+              event.eventId === eventId 
+                ? { ...event, isLiked: result.isActive }
+                : event
+            );
+            return newEvents;
+          });
+        }
+        
+      } catch (error) {
+        console.error("Error handling like:", error);
+        Alert.alert("Error updating like status");
+      }
+    }
+  };
+  
 
   useFocusEffect(
     useCallback(() => {
@@ -104,6 +140,7 @@ export function HomeView() {
                     title={item.title}
                     description={item.description}
                     isLiked={item.isLiked}
+                    handleLike={() => handleLike(item.eventId)}
                     date={item.date}
                     onPressUser={() =>{
                       navigation.navigate(HomeRoutes.ProfileDetails, {

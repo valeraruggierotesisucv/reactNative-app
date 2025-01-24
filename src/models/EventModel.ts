@@ -98,6 +98,7 @@ export class EventModel {
             
             const events = data.map((event : any) => {
                 const date = new Date(event.date).toLocaleDateString(); 
+                
                 return new EventModel(
                     event.eventId, 
                     event.user.profileImage, 
@@ -114,7 +115,7 @@ export class EventModel {
                     event.category, 
                     event.categoryId, 
                     event.eventMusic, 
-                    false, // TODO: FALTA LIKE 
+                    event.socialInteractions.length > 0 && event.socialInteractions[0].isActive,
                     event.user.userId
                 )
             })
@@ -128,13 +129,12 @@ export class EventModel {
     }
 
     // GET api/events/:eventId
-    static async getEventDetails(token: string, eventId: string) {
+    static async getEventDetails(token: string, eventId: string, userId: string) {
         try {
-          const { data: event } = await apiRequest(`events/${eventId}`, "GET", undefined, token);
+          const { data: event } = await apiRequest(`events/${eventId}/${userId}`, "GET", undefined, token);
           const date = new Date(event.date).toLocaleDateString();
           const startsAt = formatHour(new Date(event.startsAt)); 
           const endsAt = formatHour(new Date(event.endsAt)); 
-                
           return new EventModel(
             event.eventId,
             event.user.profileImage,
@@ -151,7 +151,7 @@ export class EventModel {
             event.category.nameEs,
             event.categoryId, 
             event.eventMusic,
-            false, // TODO: FALTA LIKE
+            event.socialInteractions.length > 0 && event.socialInteractions[0].isActive,
             event.user.userId
           );
         } catch (error) {
@@ -160,9 +160,9 @@ export class EventModel {
         }
     }    
 
-    static async searchEvents(token:string, search: string) {
+    static async searchEvents(token: string, search: string, userId: string) {
         try {
-            const { data } = await apiRequest("search/events", "POST", { search }, token);
+            const { data } = await apiRequest("search/events", "POST", { search, userId }, token);
             const events = data.map((event: any) => {
                 return new EventModel(
                     event.eventId, 
@@ -180,7 +180,7 @@ export class EventModel {
                     event.category, 
                     event.categoryId, 
                     event.eventMusic, 
-                    false,
+                    event.socialInteractions.length > 0 && event.socialInteractions[0].isActive,
                     event.user.userId
                 )
             })

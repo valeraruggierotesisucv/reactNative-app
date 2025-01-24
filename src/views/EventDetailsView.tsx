@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { useNavigation, useRoute, NavigationProp } from "@react-navigation/native";
@@ -17,6 +17,7 @@ import { Loading } from "../components/Loading/Loading";
 import React from "react";
 import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
+import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
 
 type EventDetailsRouteProp =
@@ -59,7 +60,7 @@ export function EventDetailsView() {
     async function fetchEventDetails(){
       if(session && user){
         setIsLoading(true); 
-        const result = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId); 
+        const result = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId, user.id); 
         setEvent(result)
         setIsLoading(false); 
       }
@@ -78,13 +79,30 @@ export function EventDetailsView() {
     fetchProfile()
   }, [])
 
+  const handleLike = async (eventId: string) => {
+    if (session && user) {
+      try {
+        setEvent(prevEvent => prevEvent ? { ...prevEvent, isLiked: !prevEvent.isLiked } : prevEvent);
+        const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
+
+        if(result.isActive){
+          setEvent(prevEvent => prevEvent ? { ...prevEvent, isLiked: result.isActive } : prevEvent);
+        }
+        
+      } catch (error) {
+        console.error("Error handling like:", error);
+        Alert.alert("Error updating like status");
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <AppHeader title={t("eventDetails.title")} goBack={navigation.goBack} />
         { isLoading
           ? <Loading/>
-          : (<>
+          : ( <>
               <EventCard
                 eventId={event?.eventId || t("common.not_available")}
                 profileImage={event?.profileImage || IMAGE_PLACEHOLDER}
@@ -93,6 +111,7 @@ export function EventDetailsView() {
                 title={event?.title || t("common.not_available")}
                 description={event?.description || t("common.not_available")}
                 isLiked={event?.isLiked || false}
+                handleLike={() => handleLike(event?.eventId || "")}
                 date={event?.date || t("common.not_available")}
                 variant={EventCardVariant.DETAILS}
                 latitude={event?.latitude}
