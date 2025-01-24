@@ -115,7 +115,8 @@
         "not_available": "Not available",
         "next": "Next",
         "send": "Send", 
-        "loading": "loading"
+        "loading": "loading",
+        "share_message": "Check out this event: {{eventName}} on {{eventDate}}!\nDownload our Eventify app from the App Store.\nhttps://www.eventify.com"
     },
     "comments": {
         "comment_placeholder": "Write a comment...",
@@ -216,4 +217,5 @@
         "when": "When", 
         "event_edited": "Your event has been successfully updated"
     }
+    
 }

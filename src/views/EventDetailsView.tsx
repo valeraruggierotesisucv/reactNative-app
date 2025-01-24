@@ -17,6 +17,7 @@ import { Loading } from "../components/Loading/Loading";
 import React from "react";
 import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
+import { ShareEventController } from "../controllers/ShareEventController";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -102,7 +103,7 @@ export function EventDetailsView() {
                 onPressUser={() => console.log("USER")}
                 onComment={onComment}
                 userComment={userComment}
-                onShare={() => console.log("SHARE")}
+                onShare={() => ShareEventController.shareEvent(t('common.share_message', { eventName: event?.title, eventDate: event?.date }))}
                 fetchComments={() => fetchComments(event?.eventId || "")}
                 musicUrl={event?.musicUrl}
               />

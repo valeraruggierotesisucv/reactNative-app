@@ -52,14 +52,14 @@ export function NotificationItem({
         <Text style={styles.description}>{t(notificationMessages[type])}</Text>
       </View>
       <View style={styles.actions}>
-        {type === NotificationType.FOLLOW && (
+        {/* {type === NotificationType.FOLLOW && (
           <Button
             label={t("common.follow")}
             onPress={onFollow}
             size={ButtonSize.EXTRA_SMALL}
             fontSize={14}
           />
-        )}
+        )} */}
         {(type === NotificationType.LIKE_EVENT ||
           type === NotificationType.COMMENT_EVENT) && (
           <Image source={{ uri: eventImage }} style={styles.eventImage} />
