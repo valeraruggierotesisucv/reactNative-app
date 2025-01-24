@@ -1,5 +1,4 @@
 import React from "react";
-import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, FlatList, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
