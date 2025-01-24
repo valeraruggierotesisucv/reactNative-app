@@ -185,7 +185,13 @@
         "title": "Cambiar contraseña",
         "current_password": "Contraseña actual",
         "new_password": "Nueva contraseña",
-        "confirm_password": "Confirmar contraseña"
+        "confirm_password": "Confirmar contraseña",
+        "new_password_required": "Nueva contraseña es requerida",
+        "confirm_password_required": "Confirmar contraseña es requerida",
+        "passwords_must_match": "Las contraseñas deben coincidir",
+        "password_min": "La contraseña debe tener al menos 6 caracteres",
+        "success": "Contraseña actualizada exitosamente",
+        "error": "Error al actualizar contraseña"
     },
     "editProfile": {
         "title": "Editar perfil",
