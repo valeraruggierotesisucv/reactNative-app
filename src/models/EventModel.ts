@@ -164,6 +164,7 @@ export class EventModel {
         try {
             const { data } = await apiRequest("search/events", "POST", { search, userId }, token);
             const events = data.map((event: any) => {
+                const date = new Date(event.date).toLocaleDateString();
                 return new EventModel(
                     event.eventId, 
                     event.user.profileImage, 
@@ -176,7 +177,7 @@ export class EventModel {
                     event.location.longitude, 
                     event.startsAt, 
                     event.endsAt, 
-                    event.date, 
+                    date, 
                     event.category, 
                     event.categoryId, 
                     event.eventMusic, 
