@@ -87,7 +87,10 @@
         "choose_from_gallery": "Elegir de la galería",
         "when": "Cuando", 
         "event_published": "Tu evento se ha publicado con éxito", 
-        "require_fields": "Por favor complete todos los campos obligatorios"
+        "require_fields": "Por favor complete todos los campos obligatorios",
+        "choose_from_files": "Elegir de archivos",
+        "record_audio": "Grabar audio",
+        "stop_recording": "Detener grabación"
     },
     "addLocation": {
         "title": "Ubicación",
@@ -198,6 +201,7 @@
         "save": "Guardar cambios",
         "fullName": "Nombre completo",
         "biography": "Biografía",
+        "record_audio": "Grabar audio",
         "profile_updated": "Perfil actualizado exitosamente"
     }, 
     "editEvent":{

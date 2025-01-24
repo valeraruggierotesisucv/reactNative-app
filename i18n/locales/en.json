@@ -84,7 +84,10 @@
         "choose_from_gallery": "Choose from Gallery",
         "when": "When", 
         "event_published": "Your event has been successfully published", 
-        "require_fields": "Please complete all required fields"
+        "require_fields": "Please complete all required fields",
+        "choose_from_files": "Choose from files",
+        "record_audio": "Record Audio",
+        "stop_recording": "Stop Recording"
     },
     "addLocation": {
         "title": "Location",

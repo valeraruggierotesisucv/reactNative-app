@@ -22,6 +22,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    uri: "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventMusic/1736816688882",
+    uri: "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/EventMusic/1737756414228",
   },
 };
