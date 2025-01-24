@@ -173,6 +173,15 @@ Content-Type: application/json
   "userId": "59f8b967-c1f0-42d3-b9b9-e32c11db446c"
 }
 
+### Send Notification
+POST http://localhost:5000/api/push-notifications/ExponentPushToken[xV4qAGHCCQjDDJN9R1s-g8]
+Content-Type: application/json
+
+{
+  "title": "Eventify", 
+  "body": "Le ha dado like a tu evento"
+}
+
 ### Like Event
 POST http://localhost:5000/api/events/cm63thitt0002ty7okfbjungo/like
 Content-Type: application/json
@@ -180,3 +189,9 @@ Content-Type: application/json
 {
   "userId": "59f8b967-c1f0-42d3-b9b9-e32c11db446c"
 }
+
+### Get notification token
+GET http://localhost:500/api/help
+
+###
+GET http://localhost:5000/api/users/9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7/push-notification

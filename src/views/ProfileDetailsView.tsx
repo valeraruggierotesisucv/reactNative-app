@@ -63,6 +63,8 @@ export function ProfileDetailsView() {
         setIsFollowing(true);
       }
 
+      if(!authUser) return
+      
       // Send notification      
       const notificationData = {
         fromUserId: authUser?.id, 

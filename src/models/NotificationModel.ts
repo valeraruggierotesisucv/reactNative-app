@@ -54,4 +54,53 @@ export class NotificationModel{
 
         return notifications
     }
+
+    // GET /api/users/:userId/push-notification
+    static async getNotificationToken(token: string, toUserId: string){
+        try{
+            const toNotificationToken = await apiRequest(
+                `users/${toUserId}/push-notification`, 
+                "GET", 
+                undefined, 
+                token
+            )
+
+            return toNotificationToken
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    // POST /api/users/:userId/notifications/:notificationToken
+    static async updateNotificationToken(token: string, userId: string, notificationToken: string){
+        try{
+            return await apiRequest(
+                `users/${userId}/notifications/${notificationToken}`, 
+                "PUT", 
+                undefined, 
+                token
+            )
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    // api/notifications/:notificationToken
+    static async sendNotification(token: string, toNotificationToken: string, data: {
+        title: string, 
+        body: string
+    }){
+        try{
+            console.log(" this is the data" , data); 
+            console.log(" this is the request-->",`push-notifications/${toNotificationToken}` )
+            return await apiRequest(
+                `push-notifications/${toNotificationToken}`, 
+                "POST", 
+                data, 
+                token
+            )
+        }catch(error){
+            console.log(error)
+        }
+    }
 }

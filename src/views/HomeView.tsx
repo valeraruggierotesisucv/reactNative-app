@@ -16,6 +16,7 @@ import { ProfileController } from "../controllers/ProfileController";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
+import { useNotification } from "../contexts/PushNotificationsContext";
 
 
 export function HomeView() {
