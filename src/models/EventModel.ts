@@ -135,7 +135,6 @@ export class EventModel {
           const date = new Date(event.date).toLocaleDateString();
           const startsAt = formatHour(new Date(event.startsAt)); 
           const endsAt = formatHour(new Date(event.endsAt)); 
-            console.log("event", event)
           return new EventModel(
             event.eventId,
             event.user.profileImage,

@@ -182,6 +182,7 @@ app.post("/api/events/:eventId", authenticateUser , async(req, res) => {
 // getEventDetails
 app.get("/api/events/:eventId/:userId", authenticateUser, async(req, res) => { 
   try{
+    console.log("getEventDetails")
     const { eventId, userId } = req.params;
 
     const eventDetails = await db.event.findFirst({
