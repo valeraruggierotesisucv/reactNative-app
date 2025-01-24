@@ -17,7 +17,7 @@ import { Modal } from "../components/Modal/Modal";
 import { useCurrentLocation } from "../hooks/useCurrentLocation";
 import React from "react";
 import { theme } from "../../utils/theme";
-import { FileTypeEnum, uploadFile } from "../services/storage";
+import { FileTypeEnum } from "../services/storage";
 import { AddEventController } from "../controllers/AddEventController";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "react-native-toast-notifications";

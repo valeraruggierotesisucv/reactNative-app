@@ -9,7 +9,7 @@ import { theme } from "../../utils/theme";
 import { InputField } from "../components/InputField/InputField";
 import { useImagePicker } from "../hooks/useImagePicker";
 import { Avatar } from "../components/Avatar/Avatar";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { Modal } from "../components/Modal/Modal";
 import { useAuth } from "../contexts/AuthContext";
@@ -30,6 +30,7 @@ export function EditProfileView() {
   const { user, session } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [originalImage, setOriginalImage] = useState<string | null>(null);
 
   useEffect(() => {
     const getUser = async () => {
@@ -39,6 +40,7 @@ export function EditProfileView() {
           const response = await EditProfileController.getProfile(session?.access_token, user.id);
           console.log("response", response);
           setProfileImage(response.profileImage || IMAGE_PLACEHOLDER);
+          setOriginalImage(response.profileImage || IMAGE_PLACEHOLDER);
           setFullName(response.fullName);
           setBiography(response.biography || "");
           setIsLoading(false);
@@ -55,11 +57,10 @@ export function EditProfileView() {
   const handleSubmit = async (values: {fullName: string, biography: string, image: string| null}) => {
     try {
       if (user && session) {
-        
         let imageUrl: string | undefined = undefined;
-        if(imageUri){
-          imageUrl = await FileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
-          console.log("imageUrl", imageUrl);
+        if(imageUri && originalImage){
+            await FileController.deleteFile(originalImage, FileTypeEnum.IMAGE);
+            imageUrl = await FileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
         }
         await EditProfileController.updateProfile(session?.access_token, user.id, {
           fullName: values.fullName,
@@ -94,7 +95,6 @@ export function EditProfileView() {
           onSubmit={handleSubmit}
         >
           {({ handleChange, handleSubmit, values, setFieldValue, isSubmitting, dirty }) => {
-            console.log("values", values);
             useEffect(() => {
               if(imageUri){
                 setFieldValue("image", imageUri);
@@ -114,7 +114,7 @@ export function EditProfileView() {
                   source={values.image ? values.image : IMAGE_PLACEHOLDER}
                 />
                 <View style={styles.cameraIcon}>
-                  <MaterialCommunityIcons name="camera" size={24} color={theme.colors['white']} />
+                  <AntDesign name="camera" size={24}  color="white"/>
                 </View>
               </TouchableOpacity>
               <InputField
@@ -257,8 +257,8 @@ const styles = StyleSheet.create({
   },
   cameraIcon: {
     position: "absolute",
-    bottom: 0,
-    right: 0,
+    bottom: -5,
+    right: -5,
     backgroundColor: theme.colors["primary"],
     borderRadius: 500,
     padding: 10,
