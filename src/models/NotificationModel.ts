@@ -26,19 +26,21 @@ export class NotificationModel{
                 token
             ) 
         }catch(error){
-            console.log(error)
+            console.error("Error creating notification: ", error);
+            throw new Error("Failed to create notification.");
         }
         
     }
 
     // GET /api/users/:userId/notifications
     static async getNotifications(token: string, userId: string){       
-        const { data } = await apiRequest(
-            `users/${userId}/notifications`, 
-            "GET", 
-            undefined, 
-            token
-        )
+        try {
+            const { data } = await apiRequest(
+                `users/${userId}/notifications`, 
+                "GET", 
+                undefined, 
+                token
+            )
 
         const notifications = data.map((item: any) => {
             const { notification, userData } = item;
@@ -49,10 +51,14 @@ export class NotificationModel{
                 new Date(notification.createdAt),  
                 notification.type, 
                 notification.eventImage                  
-            );
-        });
+                );
+            });
 
-        return notifications
+            return notifications
+        } catch (error) {
+            console.error("Error fetching notifications: ", error);
+            throw new Error("Failed to fetch notifications.");
+        }
     }
 
     // GET /api/users/:userId/push-notification
@@ -67,7 +73,8 @@ export class NotificationModel{
 
             return toNotificationToken
         }catch(error){
-            console.log(error)
+            console.error("Error fetching notification token: ", error);
+            throw new Error("Failed to fetch notification token.");
         }
     }
 
@@ -81,7 +88,8 @@ export class NotificationModel{
                 token
             )
         }catch(error){
-            console.log(error)
+            console.error("Error updating notification token: ", error);
+            throw new Error("Failed to update notification token.");
         }
     }
 
@@ -91,8 +99,6 @@ export class NotificationModel{
         body: string
     }){
         try{
-            console.log(" this is the data" , data); 
-            console.log(" this is the request-->",`push-notifications/${toNotificationToken}` )
             return await apiRequest(
                 `push-notifications/${toNotificationToken}`, 
                 "POST", 
@@ -100,7 +106,8 @@ export class NotificationModel{
                 token
             )
         }catch(error){
-            console.log(error)
+            console.error("Error sending notification: ", error);
+            throw new Error("Failed to send notification.");
         }
     }
 }

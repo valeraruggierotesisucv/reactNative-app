@@ -11,15 +11,15 @@ const resources = {
 };
 
 const initI18n = async () => {
-  // let savedLanguage = await AsyncStorage.getItem("language");
-
-  // if (!savedLanguage) {
-  //   savedLanguage = "es-ES";
-  // }
+  let savedLanguage = await AsyncStorage.getItem("language");
+  
+  if (!savedLanguage) {
+    savedLanguage = "es-ES";
+  }
 
   await i18n.use(initReactI18next).init({
     resources,
-    lng: "es-ES",
+    lng: savedLanguage,
     fallbackLng: "es-ES",
     interpolation: {
       escapeValue: false,

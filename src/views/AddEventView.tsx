@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { Alert, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
@@ -57,28 +57,33 @@ export function AddEventView() {
         latitude: location?.latitude,
         longitude: location?.longitude, 
       }
-      console.log("updating files...")
-      const imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
-      const musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
-      const locationId = await LocationController.addLocation(session?.access_token, locationData); 
+      
+      try{
+        const imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
+        const musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
+        const locationId = await LocationController.addLocation(session?.access_token, locationData); 
 
-      const eventData = {
-        userId: user?.id,
-        title: title,
-        description: description,
-        date: date.toISOString(),
-        startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
-        endsAt: endTime.toISOString(), 
-        eventImage: imageUrl,
-        eventMusic: musicUrl, 
-        categoryId: categoryId,                                
-        locationId: locationId      
+        const eventData = {
+          userId: user?.id,
+          title: title,
+          description: description,
+          date: date.toISOString(),
+          startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
+          endsAt: endTime.toISOString(), 
+          eventImage: imageUrl,
+          eventMusic: musicUrl, 
+          categoryId: categoryId,                                
+            locationId: locationId      
+        }
+        
+        await AddEventController.postEvent(session?.access_token, eventData); 
+        
+        setModalVisible(true);
+        setDisable(false); 
+      }catch(error){
+        console.error("Error in AddEventView:", error);
+        Alert.alert("Error", (error as Error).message);
       }
-      console.log("eventData ", eventData); 
-      const result = await AddEventController.postEvent(session?.access_token, eventData); 
-      console.log(result);          
-      setModalVisible(true);
-      setDisable(false); 
     }else{
       
       toast.show(t("addEvent.require_fields"), {

@@ -1,4 +1,4 @@
-import { Text, ScrollView, StyleSheet, Image } from "react-native";
+import { Text, ScrollView, StyleSheet, Image, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -78,27 +78,32 @@ export function EditEventView() {
       async function fetchEventDetails(){
         if(session && user){
           setIsLoading(true); 
-          const event = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId, user.id); 
-          const formattedDate = getDate(event?.date || ""); 
-          const formattedStarsAt = convertTimeToDate(event?.startsAt || ""); 
-          const formattedEndsAt = convertTimeToDate(event?.endsAt || "");
-          setPrevEvent(event); 
+          try{
+              const event = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId, user.id); 
+              const formattedDate = getDate(event?.date || ""); 
+              const formattedStarsAt = convertTimeToDate(event?.startsAt || ""); 
+              const formattedEndsAt = convertTimeToDate(event?.endsAt || "");
+            setPrevEvent(event); 
 
-          if(event){
-            setTitle(event?.title); 
-            setDescription(event.description); 
-            setDate(formattedDate); 
-            setStartTime(formattedStarsAt); 
-            setEndTime(formattedEndsAt); 
-            setCategory(event.category as CategoriesEnum); 
-            setCategoryId(parseInt(event.categoryId)); 
-            setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  /* TODO: falta guardar nombre del file */
-            setImage(event.eventImage); 
-            setLocation({ latitude: parseFloat(event.latitude), longitude: parseFloat(event.longitude)})
-            setLocationId(event.locationId)
+            if(event){
+              setTitle(event?.title); 
+              setDescription(event.description); 
+              setDate(formattedDate); 
+              setStartTime(formattedStarsAt); 
+              setEndTime(formattedEndsAt); 
+              setCategory(event.category as CategoriesEnum); 
+              setCategoryId(parseInt(event.categoryId)); 
+              setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  /* TODO: falta guardar nombre del file */
+              setImage(event.eventImage); 
+              setLocation({ latitude: parseFloat(event.latitude), longitude: parseFloat(event.longitude)})
+              setLocationId(event.locationId)
+            }
+            
+            setIsLoading(false); 
+          }catch(error){  
+            console.error("Error in EditEventView:", error);
+            Alert.alert("Error", (error as Error).message);
           }
-          
-          setIsLoading(false); 
         }
       }
   
@@ -108,64 +113,68 @@ export function EditEventView() {
 
 
   async function handleEditEvent() {
-   
     if (title && description && date && startTime && endTime && category && image && musicFile && location && session) {
-      setDisable(true); 
-      let imageUrl = prevEvent?.eventImage; 
-      let musicUrl = prevEvent?.musicUrl; 
-      let updateLocation = false; 
-      let locationId = prevEvent?.locationId; 
-     
-      if(musicFile.uri !== prevEvent?.musicUrl && prevEvent){
-        console.log("Upload new music"); 
-        musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
-        await FileController.deleteFile(prevEvent?.musicUrl, FileTypeEnum.AUDIO); 
-      }
-
-      if(image !== prevEvent?.eventImage && prevEvent){
-        console.log("Upload new Image"); 
-        imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
-        await FileController.deleteFile(prevEvent?.eventImage, FileTypeEnum.IMAGE); 
-      }
-
-      if(prevEvent && (location.latitude !== parseFloat(prevEvent?.latitude) || location.longitude !== parseFloat(prevEvent?.longitude))){
-        updateLocation = true;              
-
-        locationId = await LocationController.addLocation(session?.access_token, {
-          latitude: location.latitude, 
-          longitude: location.longitude
-        })   
-          
-      }     
-
-      const eventData = {
-        userId: user?.id,
-        title: title,
-        description: description,
-        date: date.toISOString(),
-        startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
-        endsAt: endTime.toISOString(), 
-        eventImage: imageUrl,
-        eventMusic: musicUrl, 
-        categoryId: categoryId,                                
-        latitude: location?.latitude,
-        longitude: location?.longitude,    
-        locationId: locationId  
-      }
+      try{
+        setDisable(true); 
+        let imageUrl = prevEvent?.eventImage; 
+        let musicUrl = prevEvent?.musicUrl; 
+        let updateLocation = false; 
+        let locationId = prevEvent?.locationId; 
       
-      if(prevEvent){
-        const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
-        console.log("Evento actualizado: ", result);
+        if(musicFile.uri !== prevEvent?.musicUrl && prevEvent){
+          console.log("Upload new music"); 
+          musicUrl = await FileController.uploadFile(musicFile.uri, FileTypeEnum.AUDIO); 
+          await FileController.deleteFile(prevEvent?.musicUrl, FileTypeEnum.AUDIO); 
+        }
 
-        if(updateLocation){
-          await LocationController.deleteLocation(session.access_token, prevEvent?.locationId)
-          console.log("Se eliminó la location previa")
-        }      
+        if(image !== prevEvent?.eventImage && prevEvent){
+          console.log("Upload new Image"); 
+          imageUrl = await FileController.uploadFile(image, FileTypeEnum.IMAGE); 
+          await FileController.deleteFile(prevEvent?.eventImage, FileTypeEnum.IMAGE); 
+        }
+
+        if(prevEvent && (location.latitude !== parseFloat(prevEvent?.latitude) || location.longitude !== parseFloat(prevEvent?.longitude))){
+          updateLocation = true;              
+
+          locationId = await LocationController.addLocation(session?.access_token, {
+            latitude: location.latitude, 
+            longitude: location.longitude
+          })   
+            
+        }     
+
+        const eventData = {
+          userId: user?.id,
+          title: title,
+          description: description,
+          date: date.toISOString(),
+          startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
+          endsAt: endTime.toISOString(), 
+          eventImage: imageUrl,
+          eventMusic: musicUrl, 
+          categoryId: categoryId,                                
+          latitude: location?.latitude,
+          longitude: location?.longitude,    
+          locationId: locationId  
+        }
         
+        if(prevEvent){
+          const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
+          console.log("Evento actualizado: ", result);
+
+          if(updateLocation){
+            await LocationController.deleteLocation(session.access_token, prevEvent?.locationId)
+            console.log("Se eliminó la location previa")
+          }      
+          
+        }
+        
+        setModalVisible(true);
+        setDisable(false);
+      }catch(error){
+        console.error("Error in EditEventView:", error);
+        Alert.alert("Error", (error as Error).message);
       }
-      
-      setModalVisible(true);
-      setDisable(false);
     }
   }
 

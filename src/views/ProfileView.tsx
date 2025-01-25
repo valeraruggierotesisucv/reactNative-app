@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import { View, StyleSheet, ScrollView, Text, Alert } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { ProfileRoutes } from "../../utils/routes";
@@ -27,18 +27,23 @@ export function ProfileView() {
       
       setIsLoading(true);
       const fetchProfile = async () => {
-        const user = await ProfileController.getProfile(
-        session?.access_token, 
-        authUser?.id || ""
-      );
-      setUser(user);
-      const events = await ProfileController.getUserEvents(
-        session?.access_token, 
-        authUser?.id || ""
-      );
-      setEvents(events);
-      setIsLoading(false);
-    };
+        try{
+          const user = await ProfileController.getProfile(
+            session?.access_token, 
+            authUser?.id || ""
+          );
+          setUser(user);
+          const events = await ProfileController.getUserEvents(
+            session?.access_token, 
+            authUser?.id || ""
+          );
+          setEvents(events);
+          setIsLoading(false);
+        }catch(error){
+          console.error("Error in fetchProfile:", error);
+          Alert.alert("Error", (error as Error).message);
+        }
+      };
     
     fetchProfile();
 

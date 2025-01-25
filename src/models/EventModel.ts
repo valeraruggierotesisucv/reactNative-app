@@ -67,9 +67,9 @@ export class EventModel {
                 token
             )
         }catch(error){
-            console.log(error)
+            console.error("Error creating event: ", error);
+            throw new Error("Failed to create event.");
         }
-        
     }
 
     // POST api/events/:eventId
@@ -82,7 +82,8 @@ export class EventModel {
                 token
             ); 
         }catch(error){
-            console.log(error)
+            console.error("Error updating event: ", error);
+            throw new Error("Failed to update event.");
         }
     }
 
@@ -122,8 +123,8 @@ export class EventModel {
             
             return events
         }catch(error){
-            console.error("Error fetching events: ", error);
-            throw error;
+            console.error("Error fetching home events: ", error);
+            throw new Error("Failed to fetch home events.");
         }
         
     }
@@ -131,32 +132,32 @@ export class EventModel {
     // GET api/events/:eventId
     static async getEventDetails(token: string, eventId: string, userId: string) {
         try {
-          const { data: event } = await apiRequest(`events/${eventId}/${userId}`, "GET", undefined, token);
-          const date = new Date(event.date).toLocaleDateString();
-          const startsAt = formatHour(new Date(event.startsAt)); 
-          const endsAt = formatHour(new Date(event.endsAt)); 
-          return new EventModel(
-            event.eventId,
-            event.user.profileImage,
-            event.user.username,
-            event.eventImage,
-            event.title,
-            event.description,
-            event.locationId, 
-            event.location.latitude,
-            event.location.longitude,
-            startsAt,
-            endsAt,
-            date,
-            event.category.nameEs,
-            event.categoryId, 
-            event.eventMusic,
-            event.socialInteractions.length > 0 && event.socialInteractions[0].isActive,
-            event.user.userId
-          );
+            const { data: event } = await apiRequest(`events/${eventId}/${userId}`, "GET", undefined, token);
+            const date = new Date(event.date).toLocaleDateString();
+            const startsAt = formatHour(new Date(event.startsAt)); 
+            const endsAt = formatHour(new Date(event.endsAt)); 
+            return new EventModel(
+                event.eventId,
+                event.user.profileImage,
+                event.user.username,
+                event.eventImage,
+                event.title,
+                event.description,
+                event.locationId, 
+                event.location.latitude,
+                event.location.longitude,
+                startsAt,
+                endsAt,
+                date,
+                event.category.nameEs,
+                event.categoryId, 
+                event.eventMusic,
+                event.socialInteractions.length > 0 && event.socialInteractions[0].isActive,
+                event.user.userId
+            );
         } catch (error) {
-          console.error("Error fetching event details:", error);
-          return null; 
+            console.error("Error fetching event details:", error);
+            throw new Error("Failed to fetch event details.");
         }
     }    
 
@@ -189,7 +190,7 @@ export class EventModel {
 
         } catch (error) {
             console.error("Error searching events:", error);
-            throw error;
+            throw new Error("Failed to search events.");
         }
     }
 }

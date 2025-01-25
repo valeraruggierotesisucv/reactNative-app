@@ -61,19 +61,28 @@ export function SearchView() {
   useEffect(() => {
     
     async function fetchCategories(){
-      const response = await CategoriesController.getCategories(session!.access_token);
-      console.log(response);
-      setCategories(response);
-      setIsLoading(false);
+      try{
+        const response = await CategoriesController.getCategories(session!.access_token);
+        setCategories(response);
+        setIsLoading(false);
+      }catch(error){
+        console.error("Error in fetchCategories:", error);
+        Alert.alert("Error", (error as Error).message);
+      }
     }
 
     async function fetchProfile(){
       if (!session) return
-      const profile = await ProfileController.getProfile(session?.access_token, user?.id || "");
-      setUserComment({
-        "username": profile.username, 
-        "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
-      })
+      try{
+        const profile = await ProfileController.getProfile(session?.access_token, user?.id || "");
+        setUserComment({
+          "username": profile.username, 
+          "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
+        })
+      }catch(error){
+        console.error("Error in fetchProfile:", error);
+        Alert.alert("Error", (error as Error).message);
+      }
     }
 
     fetchCategories();
@@ -84,12 +93,22 @@ export function SearchView() {
     if (!session) return
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
-        const events = await SearchEventController.searchEvents(session.access_token, text, user!.id);
-        console.log("events", events);
-        setAllEvents(events);
+        try{
+          const events = await SearchEventController.searchEvents(session.access_token, text, user!.id);
+          console.log("events", events);
+          setAllEvents(events);
+        }catch(error){
+          console.error("Error in fetchEvents:", error);
+          Alert.alert("Error", (error as Error).message);
+        }
       } else {
-        const users = await SearchUserController.searchUsers(session.access_token, text);
-        setUsers(users);
+        try{
+          const users = await SearchUserController.searchUsers(session.access_token, text);
+          setUsers(users);
+        }catch(error){
+          console.error("Error in fetchUsers:", error);
+          Alert.alert("Error", (error as Error).message);
+        }
       }
     }
   }
@@ -139,7 +158,7 @@ export function SearchView() {
         
       } catch (error) {
         console.error("Error handling like:", error);
-        Alert.alert("Error updating like status");
+        Alert.alert("Error", (error as Error).message);
       }
     }
   };
@@ -149,12 +168,22 @@ export function SearchView() {
 
     if (text.length > 0) {
       if (activeTab === SearchTabsEnum.EVENTS) {
-        const events = await SearchEventController.searchEvents(session!.access_token, text, user!.id);
-        console.log("events", events);
-        setAllEvents(events);
+        try{  
+          const events = await SearchEventController.searchEvents(session!.access_token, text, user!.id);
+          console.log("events", events);
+          setAllEvents(events);
+        }catch(error){
+          console.error("Error in handleSearchChange:", error);
+          Alert.alert("Error", (error as Error).message);
+        }
       } else {
-        const users = await SearchUserController.searchUsers(session!.access_token, text);
-        setUsers(users);
+        try{
+          const users = await SearchUserController.searchUsers(session!.access_token, text);
+          setUsers(users);
+        }catch(error){
+          console.error("Error in handleSearchChange:", error);
+          Alert.alert("Error", (error as Error).message);
+        }
       }
     }
   };
@@ -172,6 +201,7 @@ export function SearchView() {
       }      
     } catch (error) {
       console.error("Error fetching comments for event:", eventId, error);
+      Alert.alert("Error", (error as Error).message);
       return []; 
     }
   };
@@ -179,7 +209,7 @@ export function SearchView() {
   const onComment = async (eventId: string, comment: string) => {
     if(session && user){
       try {
-        const result = await CommentEventController.createComment(session?.access_token, eventId, {
+        await CommentEventController.createComment(session?.access_token, eventId, {
           userId: user?.id, 
           text: comment
         })
@@ -202,7 +232,7 @@ export function SearchView() {
         console.log(result)
       } catch (error) {
         console.error("Error adding comment", error);
-        Alert.alert("Error adding comment");
+        Alert.alert("Error", (error as Error).message);
       }
     }    
   }

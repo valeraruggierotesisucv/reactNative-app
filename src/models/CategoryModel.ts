@@ -22,11 +22,10 @@ export class CategoryModel{
                 undefined, 
                 token
             )
-            console.log("response del model", response.data)
             return response.data.map((category: any) => new CategoryModel(category.categoryId, category.nameEs, category.nameEn, category.description));
         } catch (error) {
             console.error("Error fetching categories:", error);
-            return [];
+            throw new Error("Failed to fetch categories.");
         }
     }
 }

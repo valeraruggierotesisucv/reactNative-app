@@ -20,8 +20,8 @@ export class FollowUserModel {
                 isActive: response?.data?.isActive,
             };
         } catch (error) {
-            console.error(error);
-            throw error;
+            console.error("Error checking if user is following: ", error);
+            throw new Error("Failed to check if user is following.");
         }
     }
 
@@ -30,8 +30,8 @@ export class FollowUserModel {
             const response = await apiRequest(`users/${userIdFollows}/follow/${userIdFollowedBy}`, "POST", undefined, token);
             return response;
         } catch (error) {
-            console.error(error);
-            throw error;
+            console.error("Error following user: ", error);
+            throw new Error("Failed to follow user.");
         }
     }
 
@@ -40,8 +40,8 @@ export class FollowUserModel {
             const response = await apiRequest(`users/${userIdFollows}/unfollow/${userIdFollowedBy}`, "DELETE", undefined, token);
             return response;
         } catch (error) {
-            console.error(error);
-            throw error;
+            console.error("Error unfollowing user: ", error);
+            throw new Error("Failed to unfollow user.");
         }
     }
 }

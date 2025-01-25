@@ -1,5 +1,5 @@
 import { Share } from "react-native";
-
+import { t } from "i18next";
 export class ShareEventController {
 
     static async shareEvent(message: string) {
@@ -7,17 +7,10 @@ export class ShareEventController {
             const result = await Share.share({
               message: message,
             });
-            if (result.action === Share.sharedAction) {
-              if (result.activityType) {
-                // shared with activity type of result.activityType
-              } else {
-                // shared
-              }
-            } else if (result.action === Share.dismissedAction) {
-              // dismissed
-            }
+            return result;
           } catch (error: any) {
-            console.log(error);
+            console.error("Error in ShareEventController:", error);
+            throw new Error(t("error.error_sharing_event"));
           }
     }
 }

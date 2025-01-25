@@ -42,9 +42,10 @@ export class UserModel {
         email: string;
         birthDate: Date;
     }) {
-        const response = await apiRequest("signup", "POST", data)
-        const user = response.data
-        return new UserModel(
+        try {
+            const response = await apiRequest("signup", "POST", data)
+            const user = response.data
+            return new UserModel(
             user.userId,
             user.username,
             user.fullName,
@@ -52,17 +53,22 @@ export class UserModel {
             user.profileImage,
             user.birthDate,
             user.biography,
-            user.followers_counter,
-            user.following_counter,
-            user.events_counter
-        );
+                user.followers_counter,
+                user.following_counter,
+                user.events_counter
+            );
+        } catch (error) {
+            console.error("Error creating user: ", error);
+            throw new Error("Failed to create user.");
+        }
     }
 
     static async getUserById(token:string, userId: string) {
-        const response = await apiRequest("users/" + userId, "GET", undefined, token);
-        if (!response.data) throw new Error('User not found');
-        const user = response.data;
-        return new UserModel(
+        try {
+            const response = await apiRequest(`users/${userId}`, "GET", undefined, token);
+            if (!response.data) throw new Error('User not found');
+            const user = response.data;
+            return new UserModel(
             user.userId,
             user.username,
             user.fullName,
@@ -73,7 +79,11 @@ export class UserModel {
             user.followers_counter,
             user.following_counter,
             user.events_counter
-        );
+            );
+        } catch (error) {
+            console.error("Error fetching user by id: ", error);
+            throw new Error("Failed to fetch user by id.");
+        }
     }
 
     static async updateProfile(token:string, userId: string, data: {
@@ -82,18 +92,19 @@ export class UserModel {
         biography?: string;
     }) {
         try {
-            const updatedUser = await apiRequest("users/" + userId, "PUT", data, token);
+            const updatedUser = await apiRequest(`users/${userId}`, "PUT", data, token);
             if(!updatedUser.data) throw new Error('Failed to update profile');
             return updatedUser.data;
         } catch (error) {
-            throw error;
+            console.error("Error updating profile: ", error);
+            throw new Error("Failed to update profile.");
         }
 
     }
 
     static async getFollowed(token:string, userId: string) {
         try {
-            const response = await apiRequest("users/" + userId + "/followed", "GET", undefined, token);
+            const response = await apiRequest(`users/${userId}/followed`, "GET", undefined, token);
             const followed = response.data.map((follow: any) => ({
                 followedId: follow.followedId,
                 followedName: follow.followedName,
@@ -102,13 +113,14 @@ export class UserModel {
             }));
             return followed;
         } catch (error) {
-            throw error;
+            console.error("Error fetching followed: ", error);
+            throw new Error("Failed to fetch followed.");
         }
     }
 
     static async getFollowers(token:string, userId: string) {
         try {
-            const response = await apiRequest("users/" + userId + "/followers", "GET", undefined, token);
+            const response = await apiRequest(`users/${userId}/followers`, "GET", undefined, token);
             const followers = response.data.map((follower: any) => ({
                 followerId: follower.followerId,
                 followerName: follower.followerName,
@@ -117,16 +129,22 @@ export class UserModel {
             }));
             return followers;
         } catch (error) {
-            throw error;
+            console.error("Error fetching followers: ", error);
+            throw new Error("Failed to fetch followers.");
         }
     }
 
     static async getUserEvents(token:string, userId: string) {
-        const response = await apiRequest("users/" + userId + "/events", "GET", undefined, token)
-        return response.data.map((event: any) => ({
-            id: event.eventId,
-            imageUrl: event.eventImage,
-        }));
+        try {
+            const response = await apiRequest(`users/${userId}/events`, "GET", undefined, token)
+            return response.data.map((event: any) => ({
+                id: event.eventId,
+                imageUrl: event.eventImage,
+            }));
+        } catch (error) {
+            console.error("Error fetching user events: ", error);
+            throw new Error("Failed to fetch user events.");
+        }
     }
 
     static async searchUsers(token:string, search: string) {
@@ -138,7 +156,8 @@ export class UserModel {
                 profileImage: user.profileImage,
             }));
         } catch (error) {
-            throw error;
+            console.error("Error searching users: ", error);
+            throw new Error("Failed to search users.");
         }
     }
 

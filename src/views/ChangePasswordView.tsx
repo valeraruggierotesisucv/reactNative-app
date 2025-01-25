@@ -1,3 +1,4 @@
+import React from "react";
 import { View, ScrollView, StyleSheet, Alert, Image, Text } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -92,7 +93,7 @@ export function ChangePasswordView() {
       </ScrollView>
       <Modal 
         visible={isModalVisible} 
-        onClose={() => {setModalVisible(false); navigation.goBack()}}
+        onClose={handleCloseModal}
       >   
         <Image source={require('../../assets/images/Onboarding.png')} style={{ width: 200, height: 200, marginBottom: 16 }} />  
         <Text style={{ 

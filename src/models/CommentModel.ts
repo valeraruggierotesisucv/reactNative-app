@@ -32,8 +32,8 @@ export class CommentModel{
                     new Date(createdComment.createdAt)
                 )
             }catch(error){
-                console.log(error)
-                throw error;
+                console.error("Error creating comment: ", error);
+                throw new Error("Failed to create comment.");
             }
             
         }
@@ -60,7 +60,7 @@ export class CommentModel{
             return comments; 
         } catch (error) {
             console.error("Error fetching comments:", error);
-            return []; 
+            throw new Error("Failed to fetch comments.");
         }
     }
     

@@ -1,5 +1,5 @@
 import { FollowUserModel } from "../models/FollowUserModel";
-
+import { t } from "i18next";
 export class FollowUserController {
   
   static async isFollowing(token: string, userId: string, targetUserId: string) {
@@ -13,8 +13,8 @@ export class FollowUserController {
       }
       
     } catch (error) {
-      console.error(error);
-      throw error;
+      console.error("Error in FollowUserController:", error);
+      throw new Error(t("error.error_fetching_profile"));
     }
   }
 
@@ -33,8 +33,8 @@ export class FollowUserController {
         success,
       };
     } catch (error) {
-      console.error(error);
-      throw error;
+      console.error("Error in FollowUserController:", error);
+      throw new Error(t("error.error_following_user"));
     }
   }
 
@@ -52,8 +52,8 @@ export class FollowUserController {
         success,
       };
     } catch (error) {
-      console.error(error);
-      throw error;
+      console.error("Error in FollowUserController:", error);
+      throw new Error(t("error.error_unfollowing_user"));
     }
   }
 }

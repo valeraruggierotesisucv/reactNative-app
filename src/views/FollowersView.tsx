@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView, StyleSheet } from "react-native";
+import { Alert, ScrollView, StyleSheet } from "react-native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,7 +27,8 @@ export function FollowersView() {
       const response = await ListUsersController.getFollowers(session?.access_token, user!.id);
       setFollowers(response.map((follower) => ({ ...follower, isFollowingLoading: false })));
     } catch (error) {
-      console.error(error);
+      console.error("Error in getFollowers:", error);
+      Alert.alert("Error", (error as Error).message);
     }
   };
 
@@ -59,11 +60,11 @@ export function FollowersView() {
       }
 
       if(session){
-        const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
-        console.log("Notificación enviada: " , notificationResult);
+         await NotificationsController.createNotification(session?.access_token, notificationData); 
       }  
     }catch(error){
-      console.log("Error al seguir al usuario", error);
+      console.error("Error in handleFollow:", error);
+      Alert.alert("Error", (error as Error).message);
     }finally{
       setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: false } : follower) : null);
     }
@@ -78,7 +79,8 @@ export function FollowersView() {
         setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, followed: false } : follower) : null);
       }
     }catch(error){
-      console.log("Error al dejar de seguir al usuario", error);
+      console.error("Error in handleUnfollow:", error);
+      Alert.alert("Error", (error as Error).message);
     }finally{
       setFollowers(prevFollowers => prevFollowers ? prevFollowers.map(follower => follower.followerId === userId ? { ...follower, isFollowingLoading: false } : follower) : null);
     }
