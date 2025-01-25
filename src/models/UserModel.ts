@@ -141,6 +141,14 @@ export class UserModel {
             throw error;
         }
     }
+
+    static async getUserId(token:string, eventId:string){
+        try{
+            return await apiRequest(`user-event/${eventId}`, "GET", undefined, token)
+        }catch(error){
+            throw error;
+        }
+    }
 }
 
 export default UserModel;

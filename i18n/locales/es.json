@@ -61,7 +61,7 @@
         "forgot_password": "¿Olvidaste tu contraseña?"
     },
     "eventDetails": {
-        "title": "Detalles del evento",
+        "title": "Detalles",
         "edit": "Editar"
     },
     "addEvent": {
@@ -157,7 +157,7 @@
         "description": "Tu registro se ha completado exitosamente"
     },
     "profile": {
-        "details": "Detalles del perfil",
+        "details": "Detalles",
         "followed": "Seguidos",
         "followers": "Seguidores",
         "following": "Seguidos",

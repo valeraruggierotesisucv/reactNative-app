@@ -19,6 +19,8 @@ import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
 import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
+import { NotificationType } from "../components/NotificationItem/NotificationItem";
+import { NotificationsController } from "../controllers/NotificationsController";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -84,7 +86,21 @@ export function EventDetailsView() {
       try {
         setEvent(prevEvent => prevEvent ? { ...prevEvent, isLiked: !prevEvent.isLiked } : prevEvent);
         const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
+        const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
+        console.log("toUserId-->", toUserId); 
 
+        // Send notification      
+        const notificationData = {
+          fromUserId: user.id, 
+          toUserId: toUserId.data,  
+          type:  NotificationType.LIKE_EVENT, 
+          message: t("notifications.LIKE")
+        }
+  
+        if(session){
+          const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
+          console.log("Notificación enviada: " , notificationResult);
+        } 
         if(result.isActive){
           setEvent(prevEvent => prevEvent ? { ...prevEvent, isLiked: result.isActive } : prevEvent);
         }

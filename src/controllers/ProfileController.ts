@@ -25,4 +25,13 @@ export class ProfileController {
             throw error;
         }
     }
+
+    static async getUserId(token:string, eventId: string){
+        try{
+            return await UserModel.getUserId(token, eventId)
+        }catch(error){
+            console.error("Error getting user Id", error);
+            throw error;
+        }
+    }
 }

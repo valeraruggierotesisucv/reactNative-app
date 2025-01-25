@@ -981,6 +981,25 @@ app.put("/api/users/:userId/notifications/:notificationToken", async(req, res) =
   }
 })
 
+app.get("/api/user-event/:eventId", async(req, res) => {
+  try{
+    const { eventId } = req.params; 
+    const event = await db.event.findFirst({
+      where: {
+        eventId: eventId
+      }, 
+    })
+    console.log("to-->", event.userId)
+    res.status(200).json({ 
+      data: event.userId, 
+      success: true
+    })
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "Failed to get UserId" });
+  }
+})
+
 // Iniciar el servidor
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
