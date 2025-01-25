@@ -751,25 +751,8 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
       }
     } else {
       try {
-        const likedCategories = await db.user.findUnique({
-          where: { userId },
-          select: { likedCategories: { select: { categoryId: true } } },
-        });
-
-        const categoryIds = likedCategories.likedCategories.map(c => c.categoryId);
-        
         events = await db.event.findMany({
-          where: { categoryId: { in: categoryIds } },
-          orderBy: { createdAt: "desc" },
-          include:{
-            user: {
-             select:{
-               username: true, 
-               profileImage: true,
-               userId: true
-             }
-            }
-         }
+          take: 10
         });
       } catch (error) {
         console.error("Error fetching events from liked categories:", error);
