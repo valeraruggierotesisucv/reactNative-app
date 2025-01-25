@@ -54,6 +54,22 @@ export function EventDetailsView() {
         userId: user?.id, 
         text: comment
       })
+      const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
+      console.log("toUserId-->", toUserId); 
+
+      // Send notification      
+      const notificationData = {
+        fromUserId: user.id, 
+        toUserId: toUserId.data,  
+        type:  NotificationType.COMMENT_EVENT, 
+        message: t("notifications.COMMENT")
+      }
+
+      if(session){
+        const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
+        console.log("Notificación enviada: " , notificationResult);
+      } 
+      
       console.log(result)
     }    
   }

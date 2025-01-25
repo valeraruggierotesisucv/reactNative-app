@@ -42,7 +42,7 @@ export class CommentModel{
     static async getEventComments(token: string, eventId: string) {
         try {
             const { data } = await apiRequest(
-                `events/${eventId}/comments`,
+                `comments/events/${eventId}`,
                 "GET",
                 undefined,
                 token

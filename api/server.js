@@ -532,6 +532,9 @@ app.get("/api/users/:userId/notifications", authenticateUser , async(req, res) =
       where: {
         toUserId: userId
       },
+      orderBy: {
+        createdAt: "desc"
+      }
     })
 
     const notificationsWithUser = await Promise.all(notifications.map(async (notification) => {
@@ -816,10 +819,8 @@ app.post("/api/events/:eventId/comment", authenticateUser , async (req, res) => 
 });
 
 
-
-
 // getCommentsByPostId
-app.get("/api/events/:eventId/comments", authenticateUser , async (req, res) => {
+app.get("/api/comments/events/:eventId", authenticateUser , async (req, res) => {
   const { eventId } = req.params;
 
   try {
