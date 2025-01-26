@@ -77,7 +77,7 @@ export class EventModel {
         try{
             return await apiRequest(
                 `events/${eventId}`, 
-                "POST", 
+                "PUT", 
                 event, 
                 token
             ); 
