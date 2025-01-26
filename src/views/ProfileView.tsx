@@ -69,18 +69,18 @@ export function ProfileView() {
             events={events.length}
             followers={user?.followersCounter || 0}
             following={user?.followingCounter || 0}
-          onFollowers={() => {
-            navigation.navigate(ProfileRoutes.Followers);
-          }}
-          onFollowed={() => {
-            navigation.navigate(ProfileRoutes.Followed);
-          }}
-          onConfigureProfile={() => {
-            navigation.navigate(ProfileRoutes.Configuration);
-          }}
-          onEditProfile={() => {
-            navigation.navigate(ProfileRoutes.EditProfile);
-          }}
+            onFollowers={() => {
+              navigation.navigate(ProfileRoutes.Followers);
+            }}
+            onFollowed={() => {
+              navigation.navigate(ProfileRoutes.Followed);
+            }}
+            onConfigureProfile={() => {
+              navigation.navigate(ProfileRoutes.Configuration);
+            }}
+            onEditProfile={() => {
+              navigation.navigate(ProfileRoutes.EditProfile);
+            }}
         />
         <View style={styles.separator} />
         <EventThumbnailList

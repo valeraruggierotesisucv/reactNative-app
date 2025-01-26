@@ -13,9 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthStackNavigationProp } from "../navigators/AuthStackNavigator";
 import { theme } from "../../utils/theme";
 import { DateTimePickerField } from "../components/DateTimePickerField/DateTimePickerField";
-import * as Yup from "yup";
 import { SignUpController } from "../controllers/SignUpController";
-
+import * as Yup from "yup";
 
 function Login() {
   const navigation = useNavigation<AuthStackNavigationProp>();
@@ -79,7 +78,6 @@ function Login() {
 }
 
 const Signup = () => {
-  const navigation = useNavigation<AuthStackNavigationProp>();
   const { t } = useTranslation();
   const oldEnough = new Date(new Date().getFullYear() - 18, 0, 0);
   const [showPassword, setShowPassword] = useState(false);
@@ -112,14 +110,13 @@ const Signup = () => {
         return
       }
 
-      const registeredUser = await SignUpController.signUp({
+      await SignUpController.signUp({
         userId: signedUp.id,
         email: values.email,
         fullName: values.fullname,
         username: values.username,
         birthDate: values.birthdate
-      })
-      
+      })      
       
     } catch (error) {
       console.error("Error signing up:", error);
@@ -226,7 +223,6 @@ const Signup = () => {
 
 export function AuthView() {
   const { t } = useTranslation();
-  const navigation = useNavigation<AuthStackNavigationProp>();
   const insets = useSafeAreaInsets();
 
   const tabs = [

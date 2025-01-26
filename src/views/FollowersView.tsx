@@ -20,7 +20,6 @@ export function FollowersView() {
   const { user, session } = useAuth();
   const [followers, setFollowers] = useState<{ followerId: string, followerName: string, followerProfileImage: string, followed: boolean, isFollowingLoading: boolean }[] | null>(null);
 
-
   const getFollowers = async () => {
     try {
       if (!session) return

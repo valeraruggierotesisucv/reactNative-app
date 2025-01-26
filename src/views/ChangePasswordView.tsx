@@ -11,8 +11,9 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { Formik } from "formik";
 import { Modal } from "../components/Modal/Modal";
-import * as Yup from "yup";
 import { useState } from "react";
+import * as Yup from "yup";
+
 
 export function ChangePasswordView() {
   const { t } = useTranslation();
@@ -57,7 +58,7 @@ export function ChangePasswordView() {
             validationSchema={validationSchema}
             onSubmit={handlePasswordChange}
           >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+            {({ handleChange, handleSubmit, values, errors, touched }) => (
               <>
                 <InputField
                   label={t("changePassword.new_password").toUpperCase()}

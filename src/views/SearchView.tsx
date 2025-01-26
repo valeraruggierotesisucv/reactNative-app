@@ -39,9 +39,7 @@ export function SearchView() {
   const navigation = useNavigation<SearchStackNavigationProp>();
   const [activeTab, setActiveTab] = useState<string>(SearchTabsEnum.EVENTS);
   const [categories, setCategories] = useState<CategoryModel[] | null>(null);
-  const [activeCategories, setActiveCategories] = useState<string[] | string>(
-    []
-  );
+  const [activeCategories, setActiveCategories] = useState<string[] | string>([]);
   const [search, setSearch] = useState("");
   const [allEvents, setAllEvents] = useState<EventModel[] | null>(null);
   const [events, setEvents] = useState<EventModel[] | null>(null);
@@ -129,7 +127,6 @@ export function SearchView() {
         const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
         
         const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
-        console.log("toUserId-->", toUserId); 
 
         // Send notification      
         const notificationData = {
@@ -170,7 +167,6 @@ export function SearchView() {
       if (activeTab === SearchTabsEnum.EVENTS) {
         try{  
           const events = await SearchEventController.searchEvents(session!.access_token, text, user!.id);
-          console.log("events", events);
           setAllEvents(events);
         }catch(error){
           console.error("Error in handleSearchChange:", error);
@@ -214,7 +210,6 @@ export function SearchView() {
           text: comment
         })
         const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
-        console.log("toUserId-->", toUserId); 
 
         // Send notification      
         const notificationData = {
@@ -228,8 +223,7 @@ export function SearchView() {
           const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
           console.log("Notificación enviada: " , notificationResult);
         } 
-        
-        console.log(result)
+      
       } catch (error) {
         console.error("Error adding comment", error);
         Alert.alert("Error", (error as Error).message);

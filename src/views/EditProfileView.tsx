@@ -9,7 +9,7 @@ import { theme } from "../../utils/theme";
 import { InputField } from "../components/InputField/InputField";
 import { useImagePicker } from "../hooks/useImagePicker";
 import { Avatar } from "../components/Avatar/Avatar";
-import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { Modal } from "../components/Modal/Modal";
 import { useAuth } from "../contexts/AuthContext";
@@ -141,7 +141,7 @@ export function EditProfileView() {
                   label={t("editProfile.save")}
                   onPress={handleSubmit}
                   size={ButtonSize.MEDIUM}
-                  disabled={!dirty || isSubmitting} // Deshabilitar si no hay cambios o si está enviando
+                  disabled={!dirty || isSubmitting} 
                 />
                 </View>
               </View>

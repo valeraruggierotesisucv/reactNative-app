@@ -24,17 +24,13 @@ import { useToast } from "react-native-toast-notifications";
 import { LocationController } from "../controllers/LocationController";
 import { FileController } from "../controllers/FileController";
 
-/* TODO
-    Description debe tener max caracteres 
-*/
-
 export function AddEventView() {
   const { t } = useTranslation();
   const toast =  useToast(); 
   const { session, user } = useAuth(); 
   const navigation = useNavigation<AddStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { location: origin, errorMsg, isLoading } = useCurrentLocation();
+  const { location: origin } = useCurrentLocation();
 
   const [title, setTitle] = useState<string| null>(null); 
   const [description, setDescription] = useState<string | null>(null);

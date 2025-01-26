@@ -20,7 +20,6 @@ interface ChooseCategoryProps {
   preferences?: boolean;
 }
 
-// TODO limitar a poder seleccionar una sola categoria
 export function ChooseCategoriesView({
   step,
   setStep,
@@ -64,17 +63,7 @@ export function ChooseCategoriesView({
     }
   }
 
-  function handleGoBack() {
-    if (setStep) {
-      setStep(StepsEnum.DEFAULT);
-    }
-
-    if (preferences) {
-      navigation.goBack();
-    }
-  }
   return (
-    //TODO: falta agregar mensaje de error
     <>
       <Text>{t("categories.description")}</Text>
       <View style={styles.grid}>

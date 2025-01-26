@@ -14,13 +14,13 @@ import { useAuth } from "../contexts/AuthContext";
 import { EventDetailsController } from "../controllers/EventDetailsController";
 import { EventModel } from "../models/EventModel";
 import { Loading } from "../components/Loading/Loading";
-import React from "react";
 import { CommentEventController } from "../controllers/CommentEventController";
 import { ProfileController } from "../controllers/ProfileController";
 import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
 import { NotificationType } from "../components/NotificationItem/NotificationItem";
 import { NotificationsController } from "../controllers/NotificationsController";
+import React from "react";
 
 type EventDetailsRouteProp =
   | RouteProp<ProfileStackParamList, ProfileRoutes.EventDetails>
@@ -57,7 +57,6 @@ export function EventDetailsView() {
           text: comment
         })
         const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
-        console.log("toUserId-->", toUserId); 
   
         // Send notification      
         const notificationData = {

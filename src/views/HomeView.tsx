@@ -5,7 +5,7 @@ import { HomeStackNavigationProp } from "../navigators/HomeStack";
 import { HomeRoutes } from "../../utils/routes";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { EventCard } from "../components/EventCard/EventCard";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
@@ -16,11 +16,8 @@ import { ProfileController } from "../controllers/ProfileController";
 import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
-import { useNotification } from "../contexts/PushNotificationsContext";
 import { NotificationType } from "../components/NotificationItem/NotificationItem";
 import { NotificationsController } from "../controllers/NotificationsController";
-import { EventDetailsController } from "../controllers/EventDetailsController";
-
 
 export function HomeView() {
   const navigation = useNavigation<HomeStackNavigationProp>();
@@ -52,7 +49,6 @@ export function HomeView() {
         })
 
         const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
-        console.log("toUserId-->", toUserId); 
 
         // Send notification      
         const notificationData = {
@@ -67,7 +63,6 @@ export function HomeView() {
           console.log("Notificación enviada: " , notificationResult);
         } 
 
-        console.log(result)
       } catch (error) {
         console.error("Error adding comment", error);
         Alert.alert("Error", (error as Error).message);

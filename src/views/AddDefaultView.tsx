@@ -15,7 +15,6 @@ import { useMusicPicker } from "../hooks/useMusicPicker";
 import React from "react";
 import { theme } from "../../utils/theme";
 
-
 export enum StepsEnum {
   DEFAULT = "default",
   DATE = "date",

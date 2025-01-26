@@ -28,13 +28,7 @@ import { EventModel } from "../models/EventModel";
 import { FileTypeEnum } from "../services/storage";
 import { EditEventController } from "../controllers/EditEventController";
 import { LocationController } from "../controllers/LocationController";
-import { access } from "fs";
 import { FileController } from "../controllers/FileController";
-
-
-/* TODO
-    Description debe tener max caracteres 
-*/
 
 export function EditEventView() {
   const { t } = useTranslation();
@@ -159,14 +153,12 @@ export function EditEventView() {
         }
         
         if(prevEvent){
-          const result = await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
-          console.log("Evento actualizado: ", result);
+          await EditEventController.updateEvent(session?.access_token, eventData, prevEvent?.eventId); 
 
           if(updateLocation){
             await LocationController.deleteLocation(session.access_token, prevEvent?.locationId)
             console.log("Se eliminó la location previa")
-          }      
-          
+          }     
         }
         
         setModalVisible(true);

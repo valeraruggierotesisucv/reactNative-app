@@ -20,7 +20,6 @@ interface ChooseCategoryProps {
   preferences?: boolean;
 }
 
-// TODO limitar a poder seleccionar una sola categoria
 export function ChooseCategoriesView({
   step,
   setStep,
