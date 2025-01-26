@@ -59,6 +59,8 @@ async function main() {
                     profileImage: faker.image.avatar(),
                     birthDate: faker.date.birthdate({ min: 18, max: 60, mode: 'age' }),
                     biography: faker.lorem.sentence(),
+                    following_counter: 0,
+                    followers_counter: 0,
                 },
             })
         )
@@ -95,7 +97,7 @@ async function main() {
             const randomCategory = faker.helpers.arrayElement(categories);
             const randomLocation = faker.helpers.arrayElement(locations);
             const randomEventImage = faker.image.url();
-            const randomEventMusic = faker.image.url(); 
+            const eventMusic = "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/DONT%20DELETE/EventsMusic.mp3"; 
             return prisma.event.create({
                 data: {
                     userId: randomUser.userId,
@@ -105,7 +107,7 @@ async function main() {
                     description: faker.lorem.paragraph(),
                     date: faker.date.future(),
                     eventImage: randomEventImage,
-                    eventMusic: randomEventMusic, 
+                    eventMusic: eventMusic, 
                     startsAt: faker.date.future(),
                     endsAt: faker.date.future(),
                 },
@@ -172,8 +174,28 @@ async function main() {
         }
     }
 
-    await Promise.all(followRelations);
+    const followRelationsData = await Promise.all(followRelations);
 
+    const followersCountMap = new Map();
+    const followingCountMap = new Map();
+
+    for (const follow of followRelationsData) {
+        const followerId = follow.userIdFollows;
+        const followedId = follow.userIdFollowedBy;
+
+        followingCountMap.set(followerId, (followingCountMap.get(followerId) || 0) + 1);
+        followersCountMap.set(followedId, (followersCountMap.get(followedId) || 0) + 1);
+    }
+
+    await Promise.all(users.map(user => {
+        return prisma.user.update({
+            where: { userId: user.userId },
+            data: {
+                following_counter: followingCountMap.get(user.userId) || 0,
+                followers_counter: followersCountMap.get(user.userId) || 0,
+            }
+        });
+    }));
 
     const notifications = await Promise.all(
         Array.from({ length: NUM_NOTIFICATIONS }).map(() => {
