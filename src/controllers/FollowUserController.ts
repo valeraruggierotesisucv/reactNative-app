@@ -5,7 +5,6 @@ export class FollowUserController {
   static async isFollowing(token: string, userId: string, targetUserId: string) {
     try {
       const response = await FollowUserModel.isFollowing(token, userId, targetUserId);
-      console.log("response del controller", response);
       return {
         isFollowing: response.isActive,
         userIdFollows: response.userIdFollows,

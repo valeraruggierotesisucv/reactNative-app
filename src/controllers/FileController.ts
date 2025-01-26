@@ -3,8 +3,7 @@ import { t } from "i18next";
 export class FileController {
     static async uploadFile(uri: string, type: FileTypeEnum){        
         try {
-            const url = await uploadFile(uri, type);            
-            return url
+            return await uploadFile(uri, type);            
         } catch (error) {
             console.error("Error in FileController:", error);
             throw new Error(t("error.error_uploading_file"));
@@ -13,8 +12,7 @@ export class FileController {
 
     static async deleteFile(uri: string, type: FileTypeEnum){
         try {
-            const result =  await deleteFile(uri, type); 
-            return result
+            return  await deleteFile(uri, type); 
         } catch (error) {
             console.error("Error in FileController:", error);
             throw new Error(t("error.error_deleting_file"));

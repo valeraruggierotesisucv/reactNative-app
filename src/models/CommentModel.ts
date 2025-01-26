@@ -38,7 +38,7 @@ export class CommentModel{
             
         }
     
-    // GET /api/events/:eventId/comments
+    // GET /api/comments/events/:eventId/
     static async getEventComments(token: string, eventId: string) {
         try {
             const { data } = await apiRequest(

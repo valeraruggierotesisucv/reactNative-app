@@ -1,6 +1,3 @@
-// likeEvent
-// /api/events/:eventId/like
-
 import { apiRequest } from "../../utils/apiRequest";
 
 export class SocialInteractionModel {
