@@ -19,7 +19,7 @@ export async function resolveUri(uri: string){
       to: fileUri,
     });
 
-    return fileUri;                               // Devolver la nueva URI accesible
+    return fileUri;                               
   }
 
   return uri
@@ -51,8 +51,6 @@ export async function uploadFile(uri: string, type: FileTypeEnum){
     if (error) {
       console.error('Error uploading file: ', error);
     }
-
-    console.log("path-->", data?.path); 
 
     // Get the public URL of the uploaded file
     if(data){
