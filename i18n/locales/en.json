@@ -223,6 +223,30 @@
         "choose_from_gallery": "Choose from Gallery",
         "when": "When", 
         "event_edited": "Your event has been successfully updated"
+    },
+    "error": {
+        "error_fetching_event_details": "Error fetching event details",
+        "error_creating_event": "Error creating event",
+        "error_fetching_categories": "Error fetching categories",
+        "error_creating_comment": "Error creating comment",
+        "error_fetching_comments": "Error fetching comments",
+        "error_updating_event": "Error updating event",
+        "error_fetching_profile": "Error fetching profile",
+        "error_updating_profile": "Error updating profile",
+        "error_uploading_file": "Error uploading file",
+        "error_deleting_file": "Error deleting file",
+        "error_following_user": "Error following user",
+        "error_unfollowing_user": "Error unfollowing user",
+        "error_liking_event": "Error liking event",
+        "error_fetching_events": "Error fetching events",
+        "error_getting_followers": "Error getting followers",
+        "error_getting_followed": "Error getting followed",
+        "error_creating_location": "Error creating location",
+        "error_deleting_location": "Error deleting location",
+        "error_creating_notification": "Error creating notification",
+        "error_updating_notification_token": "Error updating notification token",
+        "error_fetching_user_events": "Error fetching user events",
+        "error_fetching_users": "Error fetching users",
+        "error_sharing_event": "Error sharing event"
     }
-    
 }

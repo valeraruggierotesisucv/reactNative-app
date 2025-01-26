@@ -33,7 +33,6 @@ export class SocialInteractionModel {
         { userId },
         token
       );
-      console.log("response del Model", response)
       return new SocialInteractionModel(
         response.data.userId,
         response.data.eventId,
@@ -42,7 +41,7 @@ export class SocialInteractionModel {
       );
     } catch (error) {
       console.error("Error in likeEvent:", error);
-      throw error; 
+      throw new Error("Failed to like event.");
     }
   }
 }

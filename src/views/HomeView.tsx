@@ -32,22 +32,21 @@ export function HomeView() {
   
 
   const fetchComments = async (eventId: string) => {
+    if(session){
     try {
-     
-      if(session){
-        const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
-        return comments;
-      }      
-    } catch (error) {
-      console.error("Error fetching comments for event:", eventId, error);
-      return []; 
-    }
+        return await CommentEventController.getEventComments(session?.access_token, eventId)
+      } catch (error) {
+        console.error("Error fetching comments for event:", eventId, error);
+        Alert.alert("Error", (error as Error).message);
+        return []; 
+      }
+    }      
   };
 
   const onComment = async (eventId: string, comment: string) => {
     if(session && user){
       try {
-        const result = await CommentEventController.createComment(session?.access_token, eventId, {
+        await CommentEventController.createComment(session?.access_token, eventId, {
           userId: user?.id, 
           text: comment
         })
@@ -71,7 +70,7 @@ export function HomeView() {
         console.log(result)
       } catch (error) {
         console.error("Error adding comment", error);
-        Alert.alert("Error adding comment");
+        Alert.alert("Error", (error as Error).message);
       }
     }    
   }
@@ -119,7 +118,7 @@ export function HomeView() {
         
       } catch (error) {
         console.error("Error handling like:", error);
-        Alert.alert("Error updating like status");
+        Alert.alert("Error", (error as Error).message);
       }
     }
   };
@@ -136,6 +135,7 @@ export function HomeView() {
             setIsLoading(false)
           } catch (error) {
             console.error("Error fetching events", error);
+            Alert.alert("Error", (error as Error).message);
             setIsLoading(false)
           }
         }            

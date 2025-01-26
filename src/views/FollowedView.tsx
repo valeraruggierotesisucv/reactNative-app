@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView, StyleSheet } from "react-native";
+import { Alert, ScrollView, StyleSheet } from "react-native";
 import { ProfileStackNavigationProp } from "../navigators/ProfileStack";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,7 +24,8 @@ export function FollowedView() {
       const response: { followedId: string, followedName: string, followedProfileImage: string, followed: boolean }[] = await ListUsersController.getFollowed(session?.access_token, user!.id);
       setFollowed(response);
     } catch (error) {
-      console.error(error);
+      console.error("Error in getFollowed:", error);
+      Alert.alert("Error", (error as Error).message);
     }
   };
 
@@ -38,14 +39,18 @@ export function FollowedView() {
 
   const handleUnfollow = async (userId: string) => {
     if (!session) return
-    const response = await FollowUserController.unfollowUser(session?.access_token, user!.id, userId);
-    if(response.success){
-      getFollowed();
+    try{
+      const response = await FollowUserController.unfollowUser(session?.access_token, user!.id, userId);
+      if(response.success){
+        getFollowed();
+      }
+    }catch(error){
+      console.error("Error in handleUnfollow:", error);
+      Alert.alert("Error", (error as Error).message);
     }
   };
 
   const filteredFollowed = followed?.filter((follow) => {
-    console.log(follow)
     return follow.followedName.toLowerCase().includes(search.toLowerCase())
   });
 

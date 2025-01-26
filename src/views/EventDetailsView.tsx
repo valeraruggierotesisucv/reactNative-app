@@ -34,63 +34,78 @@ export function EventDetailsView() {
   const route = useRoute<EventDetailsRouteProp>();
   const canEdit = route.params?.canEdit || false;
   const [isLoading, setIsLoading] = useState(true);
-  const [ userComment, setUserComment] = useState<{username: string, profileImage:string}>({ "username": "", "profileImage": IMAGE_PLACEHOLDER}); 
+  const [userComment, setUserComment] = useState<{ username: string, profileImage: string }>({ "username": "", "profileImage": IMAGE_PLACEHOLDER });
 
   const fetchComments = async (eventId: string) => {
     try {
-      if(session){
+      if (session) {
         const comments = await CommentEventController.getEventComments(session?.access_token, eventId)
         return comments;
-      }      
+      }
     } catch (error) {
       console.error("Error fetching comments for event:", eventId, error);
-      return []; 
+      Alert.alert("Error", (error as Error).message);
+      return [];
     }
   };
 
   const onComment = async (eventId: string, comment: string) => {
-    if(session && user){
-      const result = await CommentEventController.createComment(session?.access_token, eventId, {
-        userId: user?.id, 
-        text: comment
-      })
-      const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
-      console.log("toUserId-->", toUserId); 
-
-      // Send notification      
-      const notificationData = {
-        fromUserId: user.id, 
-        toUserId: toUserId.data,  
-        type:  NotificationType.COMMENT_EVENT, 
-        message: t("notifications.COMMENT")
+    if (session && user) {
+      try{
+        await CommentEventController.createComment(session?.access_token, eventId, {
+          userId: user?.id,
+          text: comment
+        })
+        const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
+        console.log("toUserId-->", toUserId); 
+  
+        // Send notification      
+        const notificationData = {
+          fromUserId: user.id, 
+          toUserId: toUserId.data,  
+          type:  NotificationType.COMMENT_EVENT, 
+          message: t("notifications.COMMENT")
+        }
+  
+        if(session){
+          const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
+          console.log("Notificación enviada: " , notificationResult);
+        } 
+      }catch(error){
+        console.error("Error in onComment:", error);
+        Alert.alert("Error", (error as Error).message);
       }
-
-      if(session){
-        const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
-        console.log("Notificación enviada: " , notificationResult);
-      } 
-      
-      console.log(result)
-    }    
+    }
   }
 
   useEffect(() => {
-    async function fetchEventDetails(){
-      if(session && user){
-        setIsLoading(true); 
-        const result = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId, user.id); 
-        setEvent(result)
-        setIsLoading(false); 
+    async function fetchEventDetails() {
+      if (session && user) {
+        setIsLoading(true);
+        try {
+          const result = await EventDetailsController.getEventDetails(session.access_token, route.params?.eventId, user.id);
+          setEvent(result);
+        } catch (error) {
+          console.error("Error fetching event details:", error);
+          Alert.alert("Error", (error as Error).message);
+        } finally {
+          setIsLoading(false);
+        }
       }
     }
 
-    async function fetchProfile(){
-      if(!session) return
-      const profile = await ProfileController.getProfile(session?.access_token, user?.id || "");
-      setUserComment({
-        "username": profile.username, 
-        "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
-      })
+    async function fetchProfile() {
+      if (!session) return
+      try{
+        const profile = await ProfileController.getProfile(session?.access_token, user?.id || "");
+        setUserComment({
+          "username": profile.username,
+          "profileImage": profile.profileImage || IMAGE_PLACEHOLDER
+        })
+      }catch(error){
+        console.error("Error fetching profile:", error);
+        Alert.alert("Error", (error as Error).message);
+      }
     }
 
     fetchEventDetails()
@@ -123,7 +138,7 @@ export function EventDetailsView() {
         
       } catch (error) {
         console.error("Error handling like:", error);
-        Alert.alert("Error updating like status");
+        Alert.alert("Error", (error as Error).message);
       }
     }
   };

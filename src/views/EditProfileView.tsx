@@ -45,7 +45,8 @@ export function EditProfileView() {
           setBiography(response.biography || "");
           setIsLoading(false);
         } catch (error) {
-          console.error(error);
+          console.error("Error in EditProfileView:", error);
+          Alert.alert("Error", (error as Error).message);
         }
       }
     };
@@ -55,24 +56,24 @@ export function EditProfileView() {
 
 
   const handleSubmit = async (values: {fullName: string, biography: string, image: string| null}) => {
-    try {
-      if (user && session) {
-        let imageUrl: string | undefined = undefined;
-        if(imageUri && originalImage){
-            await FileController.deleteFile(originalImage, FileTypeEnum.IMAGE);
-            imageUrl = await FileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
+    if (user && session) {
+        try {
+          let imageUrl: string | undefined = undefined;
+          if(imageUri && originalImage){
+              await FileController.deleteFile(originalImage, FileTypeEnum.IMAGE);
+              imageUrl = await FileController.uploadFile(imageUri, FileTypeEnum.IMAGE); 
+          }
+          await EditProfileController.updateProfile(session?.access_token, user.id, {
+            fullName: values.fullName,
+            profileImage: imageUrl,
+            biography: values.biography,
+          });
+          setSuccessModalVisible(true);
+        } catch (error) {
+          console.error("Error in EditProfileView:", error);
+          Alert.alert("Error", (error as Error).message);
         }
-        await EditProfileController.updateProfile(session?.access_token, user.id, {
-          fullName: values.fullName,
-          profileImage: imageUrl,
-          biography: values.biography,
-        });
-        setSuccessModalVisible(true);
       }
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Error", "Failed to update profile");
-    }
   };
 
   return (

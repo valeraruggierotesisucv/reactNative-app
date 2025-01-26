@@ -1,4 +1,4 @@
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { NotificationItem } from "../components/NotificationItem/NotificationItem";
@@ -21,10 +21,15 @@ export function NotificationsView() {
       useCallback(() => {
         async function fetchNotifications (){
           if(session && user){
-            setIsLoading(true); 
-            const result = await NotificationsController.getNotifications(session?.access_token, user?.id); 
-            setNotifications(result); 
-            setIsLoading(false); 
+            try{
+              setIsLoading(true); 
+              const result = await NotificationsController.getNotifications(session?.access_token, user?.id); 
+              setNotifications(result); 
+              setIsLoading(false); 
+            }catch(error){
+              console.error("Error in fetchNotifications:", error);
+              Alert.alert("Error", (error as Error).message);
+            }
           }          
         }
   

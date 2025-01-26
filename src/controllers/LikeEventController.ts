@@ -1,15 +1,12 @@
-// SocialInteractionModel.likeEvent 
-
 import { SocialInteractionModel } from "../models/SocialInteractionModel";
-
+import { t } from "i18next";
 export class LikeEventController {
     static async likeEvent(token: string, eventId: string, userId: string) {
         try {
-            const response = await SocialInteractionModel.likeEvent(token, eventId, userId);
-            return response;
+            return await SocialInteractionModel.likeEvent(token, eventId, userId);
         } catch (error) {
-            console.error("Error in likeEvent:", error);
-            throw error;
+            console.error("Error in LikeEventController:", error);
+            throw new Error(t("error.error_liking_event"));
         }
     }
 }

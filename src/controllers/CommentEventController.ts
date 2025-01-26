@@ -1,5 +1,5 @@
 import { CommentModel } from "../models/CommentModel";
-
+import { t } from "i18next";
 export class CommentEventController{
 
     static async createComment(token: string, eventId: string, data: {
@@ -9,8 +9,8 @@ export class CommentEventController{
         try {
             return await CommentModel.createComment(token, eventId, data); 
         } catch (error) {
-            console.error("Error creating comment", error);
-            throw error;
+            console.error("Error in CommentEventController:", error);
+            throw new Error(t("error.error_creating_comment"));
         }
     }
 
@@ -18,8 +18,8 @@ export class CommentEventController{
         try {
             return await CommentModel.getEventComments(token, eventId); 
         } catch (error) {
-            console.error("Error getting event comments", error);
-            throw error;
+            console.error("Error in CommentEventController:", error);
+            throw new Error(t("error.error_fetching_comments"));
         }
     }
 }

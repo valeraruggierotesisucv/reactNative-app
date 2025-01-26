@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { ScrollView, StyleSheet, View, Text, Alert } from "react-native";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -36,18 +36,23 @@ export function ProfileDetailsView() {
     setIsLoading(true);
     const fetchProfile = async () => {
       if (!session) return
-      const user = await ProfileController.getProfile(
-        session?.access_token, 
-        userId
-      );
-      
-      setUser(user) ;
-      const events = await ProfileController.getUserEvents(session?.access_token, userId);      
-      const followResponse = await FollowUserController.isFollowing(session?.access_token, authUser!.id, userId);
+      try{
+        const user = await ProfileController.getProfile(
+          session?.access_token, 
+          userId
+        );
+        
+        setUser(user) ;
+        const events = await ProfileController.getUserEvents(session?.access_token, userId);      
+        const followResponse = await FollowUserController.isFollowing(session?.access_token, authUser!.id, userId);
 
-      setIsFollowing(followResponse.isFollowing);
-      setEvents(events);
-      setIsLoading(false);
+        setIsFollowing(followResponse.isFollowing);
+        setEvents(events);
+        setIsLoading(false);
+      }catch(error){
+        console.error("Error in fetchProfile:", error);
+        Alert.alert("Error", (error as Error).message);
+      }
     };
 
     fetchProfile();
@@ -58,6 +63,7 @@ export function ProfileDetailsView() {
     setIsFollowingLoading(true);
     try{
       if (!session) return
+
       const response = await FollowUserController.followUser(session?.access_token, authUser!.id, userId);
       if(response.success){
         setIsFollowing(true);
@@ -74,12 +80,12 @@ export function ProfileDetailsView() {
       }
 
       if(session){
-        const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
-        console.log("Notificación enviada: " , notificationResult);
+        await NotificationsController.createNotification(session?.access_token, notificationData); 
       }       
 
     }catch(error){
-      console.log("Error al seguir al usuario", error);
+      console.error("Error in handleFollow:", error);
+      Alert.alert("Error", (error as Error).message);
     }finally{
       setIsFollowingLoading(false);
     }
@@ -94,7 +100,8 @@ export function ProfileDetailsView() {
         setIsFollowing(false);
       }
     }catch(error){
-      console.log("Error al dejar de seguir al usuario", error);
+      console.error("Error in handleUnfollow:", error);
+      Alert.alert("Error", (error as Error).message);
     }finally{
       setIsFollowingLoading(false);
     }

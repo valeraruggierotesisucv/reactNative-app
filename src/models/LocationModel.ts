@@ -13,22 +13,32 @@ export class LocationModel {
 
     // POST api/locations
     static async createLocation(token: string, location: object){
-        const { data } = await apiRequest(
-            "locations", 
-            "POST", 
-            location, 
-            token
-        )
+        try {
+            const { data } = await apiRequest(
+                "locations", 
+                "POST", 
+                location, 
+                token
+            )
 
-        return data.locationId
+            return data.locationId
+        } catch (error) {
+            console.error("Error creating location: ", error);
+            throw new Error("Failed to create location.");
+        }
     }
 
     static async deleteLocation(token: string, locationId: string){
-        await apiRequest(
-            `locations/${locationId}`, 
-            "DELETE", 
-            undefined, 
-            token
-        )
+        try {
+            await apiRequest(
+                `locations/${locationId}`, 
+                "DELETE", 
+                undefined, 
+                token
+            )
+        } catch (error) {
+            console.error("Error deleting location: ", error);
+            throw new Error("Failed to delete location.");
+        }
     }
 }
