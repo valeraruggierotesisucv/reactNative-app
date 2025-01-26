@@ -532,6 +532,9 @@ app.get("/api/users/:userId/notifications", authenticateUser , async(req, res) =
       where: {
         toUserId: userId
       },
+      orderBy: {
+        createdAt: "desc"
+      }
     })
 
     const notificationsWithUser = await Promise.all(notifications.map(async (notification) => {
@@ -748,25 +751,8 @@ app.get("/api/home/:userId/events", authenticateUser , async (req, res) => {
       }
     } else {
       try {
-        const likedCategories = await db.user.findUnique({
-          where: { userId },
-          select: { likedCategories: { select: { categoryId: true } } },
-        });
-
-        const categoryIds = likedCategories.likedCategories.map(c => c.categoryId);
-        
         events = await db.event.findMany({
-          where: { categoryId: { in: categoryIds } },
-          orderBy: { createdAt: "desc" },
-          include:{
-            user: {
-             select:{
-               username: true, 
-               profileImage: true,
-               userId: true
-             }
-            }
-         }
+          take: 10
         });
       } catch (error) {
         console.error("Error fetching events from liked categories:", error);
@@ -816,10 +802,8 @@ app.post("/api/events/:eventId/comment", authenticateUser , async (req, res) => 
 });
 
 
-
-
 // getCommentsByPostId
-app.get("/api/events/:eventId/comments", authenticateUser , async (req, res) => {
+app.get("/api/comments/events/:eventId", authenticateUser , async (req, res) => {
   const { eventId } = req.params;
 
   try {
@@ -978,6 +962,25 @@ app.put("/api/users/:userId/notifications/:notificationToken", async(req, res) =
   }catch(error){
     console.error(error);
     res.status(500).json({ error: "Failed to send notification" });
+  }
+})
+
+app.get("/api/user-event/:eventId", async(req, res) => {
+  try{
+    const { eventId } = req.params; 
+    const event = await db.event.findFirst({
+      where: {
+        eventId: eventId
+      }, 
+    })
+    console.log("to-->", event.userId)
+    res.status(200).json({ 
+      data: event.userId, 
+      success: true
+    })
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: "Failed to get UserId" });
   }
 })
 

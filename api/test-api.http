@@ -195,3 +195,6 @@ GET http://localhost:500/api/help
 
 ###
 GET http://localhost:5000/api/users/9ae5ed3c-76c3-4b34-8e6e-6619d538e8d7/push-notification
+
+###
+GET http://localhost:5000/api/user-event/cm65ap3bu0002tykktfdx8htm

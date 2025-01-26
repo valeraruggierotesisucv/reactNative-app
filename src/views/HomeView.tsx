@@ -17,6 +17,9 @@ import { IMAGE_PLACEHOLDER } from "../../utils/consts";
 import { LikeEventController } from "../controllers/LikeEventController";
 import { ShareEventController } from "../controllers/ShareEventController";
 import { useNotification } from "../contexts/PushNotificationsContext";
+import { NotificationType } from "../components/NotificationItem/NotificationItem";
+import { NotificationsController } from "../controllers/NotificationsController";
+import { EventDetailsController } from "../controllers/EventDetailsController";
 
 
 export function HomeView() {
@@ -48,6 +51,23 @@ export function HomeView() {
           userId: user?.id, 
           text: comment
         })
+
+        const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
+        console.log("toUserId-->", toUserId); 
+
+        // Send notification      
+        const notificationData = {
+          fromUserId: user.id, 
+          toUserId: toUserId.data,  
+          type:  NotificationType.COMMENT_EVENT, 
+          message: t("notifications.COMMENT")
+        }
+  
+        if(session){
+          const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
+          console.log("Notificación enviada: " , notificationResult);
+        } 
+
         console.log(result)
       } catch (error) {
         console.error("Error adding comment", error);
@@ -69,7 +89,22 @@ export function HomeView() {
           return newEvents;
         });
         const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
-        
+        console.log("finding this event-->", eventId)
+        const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
+        console.log("toUserId-->", toUserId); 
+
+        // Send notification      
+        const notificationData = {
+          fromUserId: user.id, 
+          toUserId: toUserId.data,  
+          type:  NotificationType.LIKE_EVENT, 
+          message: t("notifications.LIKE")
+        }
+  
+        if(session){
+          const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
+          console.log("Notificación enviada: " , notificationResult);
+        } 
         
         if(result.isActive){
           setEvents(currentEvents => {
