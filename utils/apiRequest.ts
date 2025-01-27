@@ -7,7 +7,8 @@ export async function apiRequest(
     token?: string
 ){
     const server = getServer(); 
-    const url = `http://${server}/api/${endpoint}`; 
+    const url = `https://${server}/api/${endpoint}`; 
+    console.log(url)
 
     const headers = {
         "Content-Type": "application/json",
