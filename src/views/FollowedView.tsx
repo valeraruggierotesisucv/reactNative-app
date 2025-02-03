@@ -50,9 +50,10 @@ export function FollowedView() {
     }
   };
 
-  const filteredFollowed = followed?.filter((follow) => {
-    return follow.followedName.toLowerCase().includes(search.toLowerCase())
-  });
+  const filteredFollowed = followed?.filter((follow) => 
+    follow.followedName.toLowerCase().includes(search.toLowerCase())
+  );
+
 
   return (
     <SafeAreaView style={styles.container}>
