@@ -1,4 +1,4 @@
-import { Audio } from "expo-av";
+import { Audio, InterruptionModeAndroid } from "expo-av";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import Slider from "@react-native-community/slider";
@@ -18,7 +18,12 @@ export function AudioPlayer({ uri }: AudioPlayerProps) {
   useEffect(() => {
     const loadAudio = async () => {
       try {
-        await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+        await Audio.setAudioModeAsync({ 
+          playsInSilentModeIOS: true,
+          staysActiveInBackground: false,
+          interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+          shouldDuckAndroid: false,
+        });
         const { sound } = await Audio.Sound.createAsync(
           { uri },
           { shouldPlay: false }

@@ -14,6 +14,7 @@ import { useImagePicker } from "../hooks/useImagePicker";
 import { useMusicPicker } from "../hooks/useMusicPicker";
 import React from "react";
 import { theme } from "../../utils/theme";
+import { useAudioRecorder } from "../hooks/useAudioRecorder";
 
 export enum StepsEnum {
   DEFAULT = "default",
@@ -74,7 +75,14 @@ export function AddDefaultView({
 }: AddDefaultViewProps) {
   const { t } = useTranslation();
   const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
-  const { musicFileUri, pickMusicFile } = useMusicPicker(); 
+  const { musicFileUri, pickMusicFile } = useMusicPicker();
+  const { audioFileUri, startRecording, stopRecording, isRecording } = useAudioRecorder();
+  const [isAudioModalVisible, setAudioModalVisible] = useState(false);
+
+  const handleStopRecording = () => {
+    stopRecording();
+    setAudioModalVisible(false);
+  };
 
   const DatePills = () => {
     if (startsAt === null || endsAt === null || date === null) return;
@@ -197,6 +205,12 @@ export function AddDefaultView({
     }
   }, [musicFileUri])
 
+  useEffect(() => {
+    if (audioFileUri) {
+      setMusicFile(audioFileUri);
+    }
+  }, [audioFileUri]);
+
   return (
     <>
       {/* Imagen */}
@@ -274,7 +288,7 @@ export function AddDefaultView({
                 label={t("addEvent.music").toUpperCase()}
                 placeholder={t("addEvent.add_music")}
                 variant={InputVariant.ARROW}
-                onPress={pickMusicFile}
+                onPress={() => setAudioModalVisible(true)}
             />
         }
         
@@ -323,6 +337,29 @@ export function AddDefaultView({
               onPress={() => setModalVisible(false)}
               style={styles.modalButton}
             >
+              <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isAudioModalVisible}
+        onRequestClose={() => setAudioModalVisible(false)}
+      >
+        <View style={styles.modalView}>
+          <View style={styles.modalButtonsContainer}>
+            <TouchableOpacity onPress={pickMusicFile} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>{t("addEvent.choose_from_files")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={isRecording ? handleStopRecording : startRecording} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>
+                {isRecording ? t("addEvent.stop_recording") : t("addEvent.record_audio")}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setAudioModalVisible(false)} style={styles.modalButton}>
               <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
             </TouchableOpacity>
           </View>
