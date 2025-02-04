@@ -10,6 +10,7 @@ import { CommentsSection } from "../CommentsSection/CommentsSection";
 import { Comment } from "../CommentsSection/CommentsSection";
 import { AudioPlayer } from "../AudioPlayer/AudioPlayer";
 import React from "react";
+import { truncateString } from "../../../utils/formatString";
 
 export enum EventCardVariant {
   DEFAULT = "default",
@@ -203,7 +204,7 @@ export function EventCard({
         onShare={onShare}
       />
       <View style={styles.header}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>{truncateString(title, 25)}</Text>
         {variant === EventCardVariant.DEFAULT ? (
           <View style={styles.chipContainer}>
             <Chip label={date} variant={ChipVariant.LIGHT} />
