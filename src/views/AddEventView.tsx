@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet } from "react-native";
+import { Alert, ScrollView, StyleSheet, Image, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
@@ -12,10 +12,7 @@ import { LatLng } from "react-native-maps";
 import { AddLocationView } from "./AddLocationView";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { useTranslation } from "react-i18next";
-import { Image, Text } from "react-native";
 import { Modal } from "../components/Modal/Modal";
-import { useCurrentLocation } from "../hooks/useCurrentLocation";
-import React from "react";
 import { theme } from "../../utils/theme";
 import { FileTypeEnum } from "../services/storage";
 import { AddEventController } from "../controllers/AddEventController";
@@ -23,6 +20,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "react-native-toast-notifications";
 import { LocationController } from "../controllers/LocationController";
 import { FileController } from "../controllers/FileController";
+import React from "react";
 
 export function AddEventView() {
   const { t } = useTranslation();
@@ -30,7 +28,6 @@ export function AddEventView() {
   const { session, user } = useAuth(); 
   const navigation = useNavigation<AddStackNavigationProp>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { location: origin } = useCurrentLocation();
 
   const [title, setTitle] = useState<string| null>(null); 
   const [description, setDescription] = useState<string | null>(null);
@@ -173,17 +170,7 @@ export function AddEventView() {
             setCategoryId={setCategoryId}
           />
         )}
-
-        {step === StepsEnum.LOCATION && (
-          <>
-            <AddLocationView
-              origin={origin}
-              location={location}
-              setLocation={setLocation}
-              setStep={setStep}
-            />
-          </>
-        )}
+        
       </ScrollView>
 
       <Modal 

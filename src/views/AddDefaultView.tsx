@@ -15,6 +15,7 @@ import { useMusicPicker } from "../hooks/useMusicPicker";
 import React from "react";
 import { theme } from "../../utils/theme";
 import { useAudioRecorder } from "../hooks/useAudioRecorder";
+import { useCurrentLocation } from "../hooks/useCurrentLocation";
 
 export enum StepsEnum {
   DEFAULT = "default",
@@ -76,13 +77,26 @@ export function AddDefaultView({
   const { t } = useTranslation();
   const { isModalVisible, imageUri, openCamera, openGallery, setModalVisible } = useImagePicker();
   const { musicFileUri, pickMusicFile } = useMusicPicker();
+  const { location : origin, getCurrentLocation } = useCurrentLocation(); 
   const { audioFileUri, startRecording, stopRecording, isRecording } = useAudioRecorder();
   const [isAudioModalVisible, setAudioModalVisible] = useState(false);
+  const [isLocationModalVisible, setLocationModalVisible] = useState(false);
+  
 
   const handleStopRecording = () => {
     stopRecording();
     setAudioModalVisible(false);
   };
+
+  const handleCurrentLocation = () => {
+    if(origin){
+      setLocation({
+        latitude: origin.coords.latitude,
+        longitude: origin.coords.longitude,
+      })
+      setLocationModalVisible(false)
+    }
+  }
 
   const DatePills = () => {
     if (startsAt === null || endsAt === null || date === null) return;
@@ -203,7 +217,8 @@ export function AddDefaultView({
     if(musicFileUri){
       setMusicFile(musicFileUri)
     }
-  }, [musicFileUri])
+
+  }, [musicFileUri]); 
 
   useEffect(() => {
     if (audioFileUri) {
@@ -304,7 +319,7 @@ export function AddDefaultView({
           label={t("addEvent.location").toUpperCase()}
           placeholder={t("addEvent.add_location")}
           variant={InputVariant.ARROW}
-          onPress={() => setStep(StepsEnum.LOCATION)}
+          onPress={() => setLocationModalVisible(true)}
         />
       )}
 
@@ -365,6 +380,24 @@ export function AddDefaultView({
           </View>
         </View>
       </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isLocationModalVisible}
+        onRequestClose={() => setLocationModalVisible(false)}
+      >
+        <View style={styles.modalView}>
+          <View style={styles.modalButtonsContainer}>
+            <TouchableOpacity onPress={handleCurrentLocation} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>{t("addEvent.add_current_location")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setLocationModalVisible(false)} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
@@ -372,8 +405,9 @@ export function AddDefaultView({
 const styles = StyleSheet.create({
   imageContainer: {
     width: "100%",
+    height: 250, 
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   placeholder: {
     width: "100%",
@@ -390,8 +424,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   image: {
-    height: 250,
     width: "100%",
+    height: 250, 
     resizeMode: "cover",
   },
   footer: {

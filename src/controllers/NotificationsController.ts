@@ -16,7 +16,7 @@ export class NotificationsController{
         try{
             const toNotificationToken = await NotificationModel.getNotificationToken(token, data.toUserId); 
             const fromUserProfile = await UserModel.getUserById(token, data.fromUserId); 
-            
+
             // send push notification
             if(toNotificationToken){
                 const result = await NotificationModel.sendNotification(token, toNotificationToken.data, {

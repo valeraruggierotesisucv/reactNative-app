@@ -11,7 +11,7 @@ interface SearchBarProps {
 export function SearchBar({ onChangeText, value }: SearchBarProps) {
   const { t } = useTranslation();
   return (
-    <View style={[styles.container, Platform.OS === "ios" && styles.containerIOS]}>
+    <View style={styles.container}>
       <AntDesign name="search1" size={20} color="gray" style={styles.icon} />
       <TextInput
         style={styles.input}
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#E0E0E0",
     borderRadius: 10,
     paddingHorizontal: 10,
+    paddingVertical: 2, 
     marginVertical: 10,
     width: "100%",
   },

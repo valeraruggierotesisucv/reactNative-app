@@ -86,7 +86,7 @@ import { NotificationsController } from "../controllers/NotificationsController"
       if(user){
         updateToken(user.id)
       }
-    }, [expoPushToken])
+    }, [expoPushToken, user])
   
     return (
       <NotificationContext.Provider

@@ -76,6 +76,7 @@
         "add_music": "Agrega música",
         "location": "Ubicación",
         "add_location": "Agrega ubicación",
+        "add_current_location": "Agrega tu ubicación", 
         "publish": "Publicar",
         "date": "Fecha y hora",
         "add_date": "Agrega fecha y hora",

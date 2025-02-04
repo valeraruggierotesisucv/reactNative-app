@@ -36,7 +36,7 @@
     "extra": {
       "storybookEnabled": false,
       "eas": {
-        "projectId": "07074cd2-a55c-41e9-ae23-a06dd30dd963"
+        "projectId": "9aec6c0e-8e1a-4960-a9fb-3cd320f26c3a"
       }
     },
     "plugins": [
@@ -73,6 +73,6 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "owner": "tesis"
+    "owner": "rneventify"
   }
 }

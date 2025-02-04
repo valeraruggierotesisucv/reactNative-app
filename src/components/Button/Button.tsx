@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   extraSmall: {
     borderRadius: 5,
-    width: 72,
+    width: 140,
     height: 36,
   },
   small: {
