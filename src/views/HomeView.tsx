@@ -70,7 +70,7 @@ export function HomeView() {
     }    
   }
 
-  const handleLike = async (eventId: string, eventImage:string, toUserId:string ) => {
+  const handleLike = async (eventId: string, eventImage:string, toUserId:string, isLike: boolean ) => {
     if (session && user) {
       try {
         setEvents(currentEvents => {
@@ -93,7 +93,7 @@ export function HomeView() {
           eventImage: eventImage
         }
   
-        if(session){
+        if(session && !isLike){
           await NotificationsController.createNotification(session?.access_token, notificationData); 
         } 
         
@@ -168,7 +168,7 @@ export function HomeView() {
                     title={item.title}
                     description={item.description}
                     isLiked={item.isLiked}
-                    handleLike={() => handleLike(item.eventId, item.eventImage, item.userId)}
+                    handleLike={() => handleLike(item.eventId, item.eventImage, item.userId, item.isLiked)}
                     date={item.date}
                     onPressUser={() =>{
                       navigation.navigate(HomeRoutes.ProfileDetails, {

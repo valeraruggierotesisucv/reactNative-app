@@ -112,7 +112,7 @@ export function EventDetailsView() {
     fetchProfile()
   }, [])
 
-  const handleLike = async (eventId: string, eventImage: string, toUserId: string) => {
+  const handleLike = async (eventId: string, eventImage: string, toUserId: string, isLiked: boolean) => {
     if (session && user) {
       try {
         setEvent(prevEvent => prevEvent ? { ...prevEvent, isLiked: !prevEvent.isLiked } : prevEvent);
@@ -127,7 +127,7 @@ export function EventDetailsView() {
           eventImage: eventImage
         }
   
-        if(session){
+        if(session && !isLiked){
           const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
           console.log("Notificación enviada: " , notificationResult);
         } 
@@ -157,7 +157,7 @@ export function EventDetailsView() {
                 title={event?.title || t("common.not_available")}
                 description={event?.description || t("common.not_available")}
                 isLiked={event?.isLiked || false}
-                handleLike={() => handleLike(event?.eventId || "", event?.eventImage || IMAGE_PLACEHOLDER, event?.userId || "")}
+                handleLike={() => handleLike(event?.eventId || "", event?.eventImage || IMAGE_PLACEHOLDER, event?.userId || "", event?.isLiked || false)}
                 date={event?.date || t("common.not_available")}
                 variant={EventCardVariant.DETAILS}
                 latitude={event?.latitude}
