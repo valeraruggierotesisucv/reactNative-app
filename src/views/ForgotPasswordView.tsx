@@ -29,21 +29,21 @@ export function ForgotPasswordView() {
             <View style={styles.card}>
                 <AppHeader goBack={() => navigation.goBack()}/>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{t("forgotPassword")}</Text>                    
+                    <Text style={styles.title}>{t("auth.forgotPassword")}</Text>                    
                 </View>
                 <View style={{ alignItems: "center"}}>
                     <Image source={require("../../assets/images/ForgotPassword.png")} style={styles.image} />
                 </View>
                 <View style={styles.descriptionContainer}>
-                    <Text style={styles.description}>{t("forgot_password_text")}</Text>                    
+                    <Text style={styles.description}>{t("auth.forgot_password_text")}</Text>                    
                 </View>
             </View>
             <View style={styles.email}>
                 <InputField
-                    label={t("email")}
+                    label={t("auth.email")}
                     value={email}
                     onChangeText={setEmail}
-                    placeholder={t("email_placeholder")}
+                    placeholder={t("auth.email_placeholder")}
                     icon="email"
                     iconColor={theme.colors['primary']}
                     style={{ marginBottom: 24 }}
@@ -52,7 +52,7 @@ export function ForgotPasswordView() {
             
             <View style={styles.footer}>
                 <Button 
-                    label={t("send_link")}
+                    label={t("common.send")}
                     onPress={handleSendEmail}
                 />
             </View>

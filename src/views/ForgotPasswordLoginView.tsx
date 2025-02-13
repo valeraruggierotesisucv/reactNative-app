@@ -18,20 +18,20 @@ export function ForgotPasswordLoginView() {
             
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 150}}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{t("send_link_success")}</Text>                    
+                    <Text style={styles.title}>{t("auth.send_link_success")}</Text>                    
                 </View>
                 <View style={{ alignItems: "center"}}>
                     <Image source={require("../../assets/images/SuccessEmail.png")} style={styles.image} />
                 </View>
                 <View style={styles.descriptionContainer}>
-                    <Text style={styles.description}>{t("succes_email_text")}</Text>                    
+                    <Text style={styles.description}>{t("auth.success_email_text")}</Text>                    
                 </View> 
             </View>
                      
             
             <View style={styles.footer}>
                 <Button 
-                    label={t("login")}
+                    label={t("auth.login")}
                     onPress={() => navigation.navigate(AuthRoutes.Auth)}
                 />
             </View>            
