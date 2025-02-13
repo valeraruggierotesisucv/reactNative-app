@@ -49,7 +49,7 @@ export function EventDetailsView() {
     }
   };
 
-  const onComment = async (eventId: string, comment: string) => {
+  const onComment = async (eventId: string, comment: string, eventImage:string) => {
     if (session && user) {
       try{
         await CommentEventController.createComment(session?.access_token, eventId, {
@@ -63,7 +63,8 @@ export function EventDetailsView() {
           fromUserId: user.id, 
           toUserId: toUserId.data,  
           type:  NotificationType.COMMENT_EVENT, 
-          message: t("notifications.COMMENT")
+          message: t("notifications.COMMENT"),
+          eventImage: eventImage
         }
   
         if(session){
@@ -111,20 +112,19 @@ export function EventDetailsView() {
     fetchProfile()
   }, [])
 
-  const handleLike = async (eventId: string) => {
+  const handleLike = async (eventId: string, eventImage: string, toUserId: string) => {
     if (session && user) {
       try {
         setEvent(prevEvent => prevEvent ? { ...prevEvent, isLiked: !prevEvent.isLiked } : prevEvent);
-        const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
-        const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
-        console.log("toUserId-->", toUserId); 
+        const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);        
 
         // Send notification      
         const notificationData = {
           fromUserId: user.id, 
-          toUserId: toUserId.data,  
+          toUserId: toUserId,  
           type:  NotificationType.LIKE_EVENT, 
-          message: t("notifications.LIKE")
+          message: t("notifications.LIKE"), 
+          eventImage: eventImage
         }
   
         if(session){
@@ -157,7 +157,7 @@ export function EventDetailsView() {
                 title={event?.title || t("common.not_available")}
                 description={event?.description || t("common.not_available")}
                 isLiked={event?.isLiked || false}
-                handleLike={() => handleLike(event?.eventId || "")}
+                handleLike={() => handleLike(event?.eventId || "", event?.eventImage || IMAGE_PLACEHOLDER, event?.userId || "")}
                 date={event?.date || t("common.not_available")}
                 variant={EventCardVariant.DETAILS}
                 latitude={event?.latitude}

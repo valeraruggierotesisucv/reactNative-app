@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { Button, ButtonSize } from "../components/Button/Button";
 import { useTranslation } from "react-i18next";
 import React from "react";
+
 interface AddLocationViewProps {
   origin: Location.LocationObject | null;
   location: LatLng | null;
@@ -51,7 +52,6 @@ export function AddLocationView({
           title={t("addLocation.marker")}
           onDragEnd={(direction) => {
             setLocation(direction.nativeEvent.coordinate);
-            console.log("Location: ", direction.nativeEvent.coordinate);
           }}
         />
       </MapView>

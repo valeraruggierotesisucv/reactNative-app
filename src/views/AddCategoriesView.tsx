@@ -10,6 +10,7 @@ import { AuthRoutes } from "../../utils/routes";
 import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
 import React from "react";
+
 interface ChooseCategoryProps {
   step?: StepsEnum;
   setStep?: (step: StepsEnum) => void;
@@ -73,7 +74,6 @@ export function ChooseCategoriesView({
     }
   }
   return (
-    //TODO: falta agregar mensaje de error
     <>
       <Text>{t("categories.description")}</Text>
       <View style={styles.grid}>
