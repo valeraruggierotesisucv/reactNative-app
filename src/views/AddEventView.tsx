@@ -9,7 +9,6 @@ import { ChooseCategoriesView } from "./ChooseCategoriesView";
 import { AddDefaultView } from "./AddDefaultView";
 import { StepsEnum } from "./AddDefaultView";
 import { LatLng } from "react-native-maps";
-import { AddLocationView } from "./AddLocationView";
 import { AppHeader } from "../components/AppHeader/AppHeader";
 import { useTranslation } from "react-i18next";
 import { Modal } from "../components/Modal/Modal";
@@ -61,12 +60,12 @@ export function AddEventView() {
           title: title,
           description: description,
           date: date.toISOString(),
-          startsAt: startTime.toISOString(),              // TODO: validar endsAt > startsAt
+          startsAt: startTime.toISOString(),              
           endsAt: endTime.toISOString(), 
           eventImage: imageUrl,
           eventMusic: musicUrl, 
           categoryId: categoryId,                                
-            locationId: locationId      
+          locationId: locationId      
         }
         
         await AddEventController.postEvent(session?.access_token, eventData); 

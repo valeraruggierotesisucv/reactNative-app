@@ -6,6 +6,7 @@ import { StepsEnum } from "./AddDefaultView";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { theme } from "../../utils/theme";
+
 interface AddDateViewProps {
   step: StepsEnum, 
   setStep: (step: StepsEnum) => void, 

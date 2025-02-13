@@ -111,7 +111,7 @@ export function SearchView() {
     }
   }
 
-  const handleLike = async (eventId: string) => {
+  const handleLike = async (eventId: string, eventImage: string, toUserId: string, isLiked: boolean) => {
     if (session && user) {
       try {
         setEvents(currentEvents => {
@@ -125,18 +125,17 @@ export function SearchView() {
           return newEvents;
         });
         const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
-        
-        const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
 
         // Send notification      
         const notificationData = {
           fromUserId: user.id, 
-          toUserId: toUserId.data,  
+          toUserId: toUserId,  
           type:  NotificationType.LIKE_EVENT, 
-          message: t("notifications.LIKE")
+          message: t("notifications.LIKE"), 
+          eventImage: eventImage
         }
   
-        if(session){
+        if(session && !isLiked){
           const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
           console.log("Notificación enviada: " , notificationResult);
         } 
@@ -202,7 +201,7 @@ export function SearchView() {
     }
   };
 
-  const onComment = async (eventId: string, comment: string) => {
+  const onComment = async (eventId: string, comment: string, eventImage: string) => {
     if(session && user){
       try {
         await CommentEventController.createComment(session?.access_token, eventId, {
@@ -216,7 +215,8 @@ export function SearchView() {
           fromUserId: user.id, 
           toUserId: toUserId.data,  
           type:  NotificationType.COMMENT_EVENT, 
-          message: t("notifications.COMMENT")
+          message: t("notifications.COMMENT"), 
+          eventImage: eventImage
         }
   
         if(session){
@@ -338,10 +338,9 @@ export function SearchView() {
                           title={item.title}
                           description={item.description}
                           isLiked={item.isLiked}
-                          handleLike={() => handleLike(item.eventId)}
+                          handleLike={() => handleLike(item.eventId, item.eventImage, item.userId, item.isLiked)}
                           date={item.date}
                           onPressUser={() => {
-                            console.log("item", item.userId);
                             navigation.navigate(SearchRoutes.ProfileDetails, {
                               userId: item.userId,
                             })

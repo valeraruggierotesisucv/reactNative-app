@@ -48,7 +48,7 @@ interface EventCardProps extends DisplayEventProps {
   variant?: EventCardVariant;
   musicUrl?: string;
   onPressUser: () => void;
-  onComment: (eventId: string, comment: string) => Promise<void>;
+  onComment: (eventId: string, comment: string, eventImage: string) => Promise<void>;
   userComment: { username: string, profileImage: string}; 
   onShare: () => void;
   onMoreDetails?: () => void;
@@ -153,7 +153,7 @@ export function EventCard({
 
   const handleAddComment = async (comment: string) => {
     try {
-      await onComment(eventId, comment);
+      await onComment(eventId, comment, eventImage);
       setComments([
         ...comments,
         {

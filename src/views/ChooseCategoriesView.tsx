@@ -10,6 +10,7 @@ import { theme } from "../../utils/theme";
 import { useTranslation } from "react-i18next";
 import { CategoriesEnum } from "../../utils/shareEnums";
 import React from "react";
+
 interface ChooseCategoryProps {
   step?: StepsEnum;
   setStep?: (step: StepsEnum) => void;

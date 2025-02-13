@@ -87,7 +87,7 @@ export function EditEventView() {
               setEndTime(formattedEndsAt); 
               setCategory(event.category as CategoriesEnum); 
               setCategoryId(parseInt(event.categoryId)); 
-              setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  /* TODO: falta guardar nombre del file */
+              setMusicFile( { nameFile: truncateString(event.musicUrl, 20), uri: event.musicUrl});  
               setImage(event.eventImage); 
               setLocation({ latitude: parseFloat(event.latitude), longitude: parseFloat(event.longitude)})
               setLocationId(event.locationId)

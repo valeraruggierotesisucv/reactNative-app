@@ -12,10 +12,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { truncateString } from "../../utils/formatString";
 import { useImagePicker } from "../hooks/useImagePicker";
 import { useMusicPicker } from "../hooks/useMusicPicker";
-import React from "react";
 import { theme } from "../../utils/theme";
 import { useAudioRecorder } from "../hooks/useAudioRecorder";
 import { useCurrentLocation } from "../hooks/useCurrentLocation";
+import React from "react";
 
 export enum StepsEnum {
   DEFAULT = "default",

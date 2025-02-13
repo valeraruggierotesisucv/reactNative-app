@@ -54,8 +54,7 @@ export function NotificationsView() {
                       timestamp={item.timestamp}
                       userAvatar={item.userAvatar}
                       type={item.type}
-                      eventImage={item.eventImage}    
-                      onFollow={() => console.log("FOLLOW")}
+                      eventImage={item.eventImage ?? "https://crnarpvpafbywvdzfukp.supabase.co/storage/v1/object/public/DONT%20DELETE//defaultImage.jpg"}
                     />
                   )
                 }}
