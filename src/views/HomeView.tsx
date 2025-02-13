@@ -40,7 +40,7 @@ export function HomeView() {
     }      
   };
 
-  const onComment = async (eventId: string, comment: string) => {
+  const onComment = async (eventId: string, comment: string, eventImage:string) => {
     if(session && user){
       try {
         await CommentEventController.createComment(session?.access_token, eventId, {
@@ -55,12 +55,12 @@ export function HomeView() {
           fromUserId: user.id, 
           toUserId: toUserId.data,  
           type:  NotificationType.COMMENT_EVENT, 
-          message: t("notifications.COMMENT")
+          message: t("notifications.COMMENT"), 
+          eventImage: eventImage
         }
   
         if(session){
-          const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
-          console.log("Notificación enviada: " , notificationResult);
+          await NotificationsController.createNotification(session?.access_token, notificationData); 
         } 
 
       } catch (error) {
@@ -70,7 +70,7 @@ export function HomeView() {
     }    
   }
 
-  const handleLike = async (eventId: string) => {
+  const handleLike = async (eventId: string, eventImage:string, toUserId:string ) => {
     if (session && user) {
       try {
         setEvents(currentEvents => {
@@ -82,22 +82,19 @@ export function HomeView() {
           
           return newEvents;
         });
-        const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);
-        console.log("finding this event-->", eventId)
-        const toUserId = await ProfileController.getUserId(session.access_token, eventId); 
-        console.log("toUserId-->", toUserId); 
+        const result = await LikeEventController.likeEvent(session.access_token, eventId, user.id);     
 
         // Send notification      
         const notificationData = {
           fromUserId: user.id, 
-          toUserId: toUserId.data,  
+          toUserId: toUserId,  
           type:  NotificationType.LIKE_EVENT, 
-          message: t("notifications.LIKE")
+          message: t("notifications.LIKE"), 
+          eventImage: eventImage
         }
   
         if(session){
-          const notificationResult = await NotificationsController.createNotification(session?.access_token, notificationData); 
-          console.log("Notificación enviada: " , notificationResult);
+          await NotificationsController.createNotification(session?.access_token, notificationData); 
         } 
         
         if(result.isActive){
@@ -171,7 +168,7 @@ export function HomeView() {
                     title={item.title}
                     description={item.description}
                     isLiked={item.isLiked}
-                    handleLike={() => handleLike(item.eventId)}
+                    handleLike={() => handleLike(item.eventId, item.eventImage, item.userId)}
                     date={item.date}
                     onPressUser={() =>{
                       navigation.navigate(HomeRoutes.ProfileDetails, {
