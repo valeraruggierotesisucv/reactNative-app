@@ -30,11 +30,16 @@ reactNative-app/
 │   │   └── useMusicPicker.tsx      # Hook para música
 │   ├── lib/             # Bibliotecas y configuraciones
 │   │   └── supabase.ts  # Configuración de Supabase
+│   ├── navigators/      # Configuración de navegación
+│   │   └── AppNavigator.tsx       # Navegador principal de la aplicación
+│   │   └── AuthNavigator.tsx      # Navegador para flujo de autenticación
+│   │   └── TabNavigator.tsx       # Navegador de pestañas
 │   ├── services/        # Servicios
 │   │   └── storage.ts   # Servicio de Almacenamiento
 │   ├── models/          # Modelos
 │   ├── views/           # Pantallas (vistas)
 │   ├── controllers/     # Controllers
+├── i18n/               # Configuración y archivos de internacionalización
 ├── __tests__/          # Pruebas de la aplicación
 ├── App.tsx             # Punto de entrada de la aplicación
 ├── package.json        # Dependencias y scripts
