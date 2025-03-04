@@ -59,8 +59,12 @@
         "confirm_password_placeholder": "Confirm Password",
         "check_inbox_for_verification": "Please check your inbox for email verification!",
         "forgot_password": "Forgot Password?",
-        "loading": "Loading..."
-    },
+        "loading": "Loading...", 
+        "forgot_password_text": "Enter your email address to request a password reset.", 
+        "send_link_success": "Mail sent successfully!", 
+        "success_email_text": "Check your inbox and follow the link to change your password. Don't forget to check your spam folder if you can't find it."
+
+    }, 
     "addEvent": {
         "new_event": "New Event",
         "description": "Description",
