@@ -1,4 +1,4 @@
-# Aplicación de Eventos en React Native
+# Eventify - React Native
 
 ## Descripción
 
