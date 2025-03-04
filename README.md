@@ -115,7 +115,6 @@ Para generar archivos de instalación:
 
 ```bash
 expo build:android  # Para Android (APK)
-expo build:ios      # Para iOS (IPA)
 ```
 
 ## Contacto
