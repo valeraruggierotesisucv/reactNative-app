@@ -20,8 +20,6 @@ Eventify es una plataforma móvil diseñada para la gestión de eventos e intera
 reactNative-app/
 ├── src/
 │   ├── components/      # Componentes reutilizables
-│   │   ├── Input/       # Componente de entrada de texto
-│   │   └── Modal/       # Componente de modal
 │   ├── contexts/        # Contextos de React
 │   │   └── AuthContext.tsx  # Contexto de autenticación
 │   ├── hooks/           # Hooks personalizados
