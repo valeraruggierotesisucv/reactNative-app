@@ -104,7 +104,7 @@ npm test -- --testNamePattern="nombre_del_test"
 
 ## Despliegue
 
-### Generación de APK/IPA
+### Generación de APK
 
 Para generar archivos de instalación:
 
