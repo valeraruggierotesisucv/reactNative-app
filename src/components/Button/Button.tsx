@@ -21,6 +21,7 @@ interface ButtonProps {
   style?: ViewStyle;
   fontSize?: number;
   disabled?: boolean;
+  testID?: string;
 }
 
 export function Button({
@@ -31,12 +32,14 @@ export function Button({
   fontSize = 17,
   style,
   disabled = false,
+  testID,
 }: ButtonProps) {
   return (
     <TouchableOpacity
       style={[styles.container, styles[size], styles[variant], style, disabled && styles.disabled]}
       onPress={onPress}
       disabled={disabled}
+      testID={testID}
     >
       <Text style={[styles.label, { fontSize }, disabled && styles.disabledLabel]}>{label}</Text>
     </TouchableOpacity>

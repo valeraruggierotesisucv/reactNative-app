@@ -15,7 +15,8 @@ interface InputProps {
   required?: boolean; 
   onPress?: () => void;
   value?: string, 
-  onChangeValue?: (data: string) => void
+  onChangeValue?: (data: string) => void;
+  testID?: string;
 }
 
 export function Input({
@@ -26,10 +27,11 @@ export function Input({
   required = true, 
   onPress,
   value, 
-  onChangeValue
+  onChangeValue,
+  testID
 }: InputProps) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <TouchableOpacity testID={testID} onPress={onPress} style={styles.container}>
       <Text style={[styles.label, { flex: placeholder ? 0.45 : 1 }]}>
         {label}{" "}
         {required && <Text style={styles.required}>*</Text>}
@@ -44,6 +46,7 @@ export function Input({
             onChange={onPress}
             value={value}
             onChangeText={onChangeValue}
+            testID={testID ? `${testID}-input` : undefined}
        />)
        : (placeholder && <Text style={styles.placeholder}>{placeholder}</Text>)
       }
