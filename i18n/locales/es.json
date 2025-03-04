@@ -58,7 +58,10 @@
         "confirm_password": "Confirmar contraseña",
         "confirm_password_placeholder": "Confirmar contraseña",
         "check_inbox_for_verification": "¡Por favor, revisa tu bandeja de entrada para la verificación por correo electrónico!",
-        "forgot_password": "¿Olvidaste tu contraseña?"
+        "forgot_password": "¿Olvidaste tu contraseña?", 
+        "forgot_password_text": "Introduce tu dirección de Correo Electrónico para solicitar el reestablecimiento de tu contraseña", 
+        "send_link_success": "¡Correo enviado con éxito!", 
+        "success_email_text": "Verifica tu bandeja de entrada y sigue el enlace para cambiar tu contraseña. No olvides revisar la carpeta de spam si no lo encuentras."
     },
     "eventDetails": {
         "title": "Detalles",
