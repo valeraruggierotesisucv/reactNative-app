@@ -2,15 +2,7 @@
 
 ## Descripción
 
-Esta aplicación móvil desarrollada con React Native permite a los usuarios gestionar eventos, utilizando autenticación segura, geolocalización y una interfaz de usuario intuitiva. La aplicación está diseñada para proporcionar una experiencia fluida tanto en dispositivos Android como iOS.
-
-## Características Principales
-
-- **Autenticación de Usuarios**: Sistema completo de registro, inicio de sesión y gestión de sesiones utilizando Supabase.
-- **Gestión de Eventos**: Creación, visualización yedición de eventos.
-- **Geolocalización**: Integración con servicios de ubicación para asociar eventos a lugares específicos.
-- **Internacionalización**: Soporte para múltiples idiomas mediante react-i18next.
-- **Navegación Intuitiva**: Sistema de navegación fluido utilizando React Navigation.
+Eventify es una plataforma móvil diseñada para la gestión de eventos e interacción entre usuarios. Incluye funcionalidades esenciales como la administración de eventos, la conexión entre usuarios y características sociales, tales como seguidores, notificaciones y comentarios.
 
 ## Tecnologías Utilizadas
 
