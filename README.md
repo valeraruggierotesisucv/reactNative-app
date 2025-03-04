@@ -7,10 +7,9 @@ Esta aplicación móvil desarrollada con React Native permite a los usuarios ges
 ## Características Principales
 
 - **Autenticación de Usuarios**: Sistema completo de registro, inicio de sesión y gestión de sesiones utilizando Supabase.
-- **Gestión de Eventos**: Creación, visualización, edición y eliminación de eventos.
+- **Gestión de Eventos**: Creación, visualización yedición de eventos.
 - **Geolocalización**: Integración con servicios de ubicación para asociar eventos a lugares específicos.
-- **Interfaz Adaptativa**: Diseño responsive que se adapta a diferentes tamaños de pantalla.
-- **Internacionalización**: Soporte para múltiples idiomas mediante i18next.
+- **Internacionalización**: Soporte para múltiples idiomas mediante react-i18next.
 - **Navegación Intuitiva**: Sistema de navegación fluido utilizando React Navigation.
 
 ## Tecnologías Utilizadas
@@ -20,7 +19,7 @@ Esta aplicación móvil desarrollada con React Native permite a los usuarios ges
 - **Supabase**: Plataforma de backend como servicio (BaaS) para autenticación y base de datos.
 - **React Navigation**: Biblioteca para la navegación entre pantallas.
 - **Expo**: Plataforma para simplificar el desarrollo de aplicaciones React Native.
-- **i18next**: Solución de internacionalización.
+- **react-i18next**: Solución de internacionalización.
 - **Jest & Testing Library**: Herramientas para pruebas unitarias e integración.
 
 ## Estructura del Proyecto
