@@ -7,10 +7,10 @@ Eventify es una plataforma móvil diseñada para la gestión de eventos e intera
 ## Tecnologías Utilizadas
 
 - **React Native**: Framework principal para el desarrollo de la aplicación móvil.
-- **TypeScript**: Lenguaje de programación que añade tipado estático a JavaScript.
-- **Supabase**: Plataforma de backend como servicio (BaaS) para autenticación y base de datos.
-- **React Navigation**: Biblioteca para la navegación entre pantallas.
 - **Expo**: Plataforma para simplificar el desarrollo de aplicaciones React Native.
+- **TypeScript**: Lenguaje de programación que añade tipado estático a JavaScript.
+- **Supabase**: Plataforma de backend como servicio (BaaS) para autenticación, base de datos y almacenamiento.
+- **React Navigation**: Biblioteca para la navegación entre pantallas.
 - **react-i18next**: Solución de internacionalización.
 - **Jest & Testing Library**: Herramientas para pruebas unitarias e integración.
 
@@ -21,14 +21,20 @@ reactNative-app/
 ├── src/
 │   ├── components/      # Componentes reutilizables
 │   ├── contexts/        # Contextos de React
-│   │   └── AuthContext.tsx  # Contexto de autenticación
+│   │   └── AuthContext.tsx        # Contexto de autenticación
+│   │   └── PushNotifications.tsx  # Contexto de notificaciones push
 │   ├── hooks/           # Hooks personalizados
+│   │   └── useAudioRecoder.tsx     # Hook para manejar audio
 │   │   └── useCurrentLocation.tsx  # Hook para geolocalización
+│   │   └── useImagePicker.tsx      # Hook para cámara y galería
+│   │   └── useMusicPicker.tsx      # Hook para música
 │   ├── lib/             # Bibliotecas y configuraciones
 │   │   └── supabase.ts  # Configuración de Supabase
-│   ├── views/           # Pantallas de la aplicación
-│   │   ├── AddEventView.tsx  # Vista para añadir eventos
-│   │   └── AddDefaultView.tsx  # Vista predeterminada
+│   ├── services/        # Servicios
+│   │   └── storage.ts   # Servicio de Almacenamiento
+│   ├── models/          # Modelos
+│   ├── views/           # Pantallas (vistas)
+│   ├── controllers/     # Controllers
 ├── __tests__/          # Pruebas de la aplicación
 ├── App.tsx             # Punto de entrada de la aplicación
 ├── package.json        # Dependencias y scripts
