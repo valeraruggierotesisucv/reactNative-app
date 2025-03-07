@@ -325,7 +325,7 @@ export function AddDefaultView({
 
       <View style={styles.footer}>
         <Button
-          label={ edit ? t("editEvent.publish") : t("addEvent.publish")+"xd"}
+          label={ edit ? t("editEvent.publish") : t("addEvent.publish")}
           size={ButtonSize.MEDIUM}
           onPress={onAddEvent}
           disabled={disable}

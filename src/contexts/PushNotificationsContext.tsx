@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
 import * as Notifications from "expo-notifications";
- // import { Subscription } from "expo-modules-core";
 import { registerForPushNotificationsAsync } from "../../utils/registerPushNotification";
 import { useAuth } from "./AuthContext";
 import { NotificationsController } from "../controllers/NotificationsController";
@@ -43,10 +42,7 @@ import { NotificationsController } from "../controllers/NotificationsController"
     
     async function updateToken(userId: string){
       if (!user || !session || !expoPushToken) return
-      console.log("Actualizando user token de -->", userId);
-      console.log("Token-->", expoPushToken)
-      const result = await NotificationsController.updateNotificationToken(session.access_token, userId, expoPushToken); 
-      console.log(result)
+        await NotificationsController.updateNotificationToken(session.access_token, userId, expoPushToken); 
     }
     useEffect(() => {
       registerForPushNotificationsAsync().then(

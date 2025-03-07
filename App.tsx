@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navigation } from "./RootNavigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
-import Constants from "expo-constants";
 import i18n from "./i18n";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PortalProvider } from "@gorhom/portal";
